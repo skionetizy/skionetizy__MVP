@@ -1,1 +1,1 @@
-"# skionetizy__MVP" 
+# skionetizy MVP
