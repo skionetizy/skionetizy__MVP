@@ -42,7 +42,7 @@ class AuthorizeSignup(Resource):
         newUser.hash_password()
         newUser.save()
 
-        return make_response(jsonify(newUser['emailID'],{"status":200}))
+        return make_response(jsonify({"emailID": newUser['emailID'],"status":200}))
         # except Exception as e:
         #     print(e.message)
 
