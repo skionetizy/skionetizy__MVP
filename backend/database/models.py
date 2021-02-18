@@ -23,3 +23,7 @@ class User(db.Document):
             'emailID':self.emailID
         }
         return jwt.encode(payload,'SECRET_KEY',algorithm='HS256')
+    
+    # def decode_auth_token(auth_token):
+    #     payload = jwt.decode(auth_token,'SECRET_KEY')
+    #     return payload['emailID']
