@@ -2,6 +2,7 @@ import { React, useEffect, useState } from "react";
 import Signupvec from "../Assets/signupvec.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+
 import bgsignup from "../Assets/bgsignup.svg";
 
 import {
@@ -58,11 +59,11 @@ function Signup() {
 
   return (
     <div>
-      <img
+      {/* <img
         src={bgsignup}
         style={{ position: "relative", left: "-60px", top: "-400px" }}
-      />
-      <img src={Signupvec} alt="image" className="signvec" />
+      /> */}
+      <img src={bgsignup} alt="image" className="signvec"  />
       <div className="signin">
         <h1 style={{ textAlign: "center", position: "relative", top: "50px" }}>
           <u>Signup</u>
@@ -141,7 +142,7 @@ function Signup() {
           Already have an account ?{" "}
           <span>
             <p>
-              Login
+        <Link to="/login">Login</Link>
             </p>
           </span>
         </p>

@@ -30,16 +30,29 @@ body {
   border-radius: 10px;
 }
 .signvec {
-  transform: scale(0.9);
+  transform: scale(1);
   position: relative;
-  margin-top: -70px;
-  left: -20px;
+  margin-top: 50px;
+  right: -60px;
+}
+.nav ul {
+  position: relative;
+  margin-left: 60%;
+  margin-top: 30px;
+}
+.nav ul li,
+nav ul li h3 {
+  display: inline;
+  padding: 30px;
+  color: #3498db;
+  font-size: 20px;
 }
 .signin {
   position: relative;
-  top: -40px;
-  margin-right: 80px;
-  float: right;
+  top: 70px;
+  margin-left: 80px;
+  padding-bottom: 20px;
+  float: left;
   width: 580px;
   height: 700px;
   background-color: #3498db;

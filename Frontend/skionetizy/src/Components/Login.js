@@ -12,7 +12,7 @@ import Vector from "../Assets/bro.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 
-const url = "http://127.0.0.1:5000/api/login"; //add url here
+const url = ""; //add url here
 function Login(props) {
   const [details, setDetails] = useState({
     emailID: "",
@@ -26,11 +26,7 @@ function Login(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(details);
-    // const config = {
-    //   headers: {
-    //     "Access-Control-Allow-Origin": "*",
-    //   },
-    // };
+  
   }
 
 
@@ -83,7 +79,7 @@ function Login(props) {
           <span>
             {" "}
             <p>
-              Signup
+            <Link to="/">Signup</Link>
             </p>
           </span>
         </p>
