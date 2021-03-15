@@ -7,12 +7,12 @@ import {
   Redirect,
 } from "react-router-dom";
 
-
+import axios from "axios";
 import Vector from "../Assets/bro.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 
-const url = ""; //add url here
+const url = "http://127.0.0.1:5000/login"; //add url here
 function Login(props) {
   const [details, setDetails] = useState({
     emailID: "",
@@ -26,9 +26,22 @@ function Login(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(details);
-  
-  }
 
+    const url = "http://127.0.0.1:5000/login";
+
+    axios.post(`${url}`, details).then((res) => {
+      onLogin(details.emailID);
+    });
+
+    const onLogin = (emailID) => {
+      props.onLogin(emailID);
+    };
+
+    setDetails({
+      emailID: "",
+      password: "",
+    });
+  };
 
   return (
     <div className="mainlogin">
@@ -79,7 +92,7 @@ function Login(props) {
           <span>
             {" "}
             <p>
-            <Link to="/">Signup</Link>
+              <Link to="/">Signup</Link>
             </p>
           </span>
         </p>
@@ -101,4 +114,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default Login
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -44,7 +44,7 @@ class AuthorizeSignup(Resource):
 
         auth_token = newUser.encode_auth_token()
 
-        redirect_url = f'http://127.0.0.1:5000/api/emailConfirmation/{auth_token}'
+        redirect_url = f'http://127.0.0.1:5000/emailConfirmation/{auth_token}'
 
         message = Mail(
             from_email='skionetizyofficial@gmail.com',

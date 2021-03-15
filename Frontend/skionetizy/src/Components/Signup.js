@@ -13,7 +13,6 @@ import {
   Redirect,
 } from "react-router-dom";
 
-
 function Signup() {
   const [values, setValues] = useState({
     firstName: "",
@@ -44,18 +43,19 @@ function Signup() {
       return;
     }
     // console.log(values);
+    const url = "http://127.0.0.1:5000/signup";
 
-  //   axios.post(`${url}`, values).then((res) => {
-  //     console.log(res.data);
-  //   });
-  //   setValues({
-  //     firstName: "",
-  //     lastName: "",
-  //     emailID: "",
-  //     password: "",
-  //     confirmPassword: "",
-  //   });
-   };
+    axios.post(`${url}`, values).then((res) => {
+      console.log(res.data);
+    });
+    setValues({
+      firstName: "",
+      lastName: "",
+      emailID: "",
+      password: "",
+      confirmPassword: "",
+    });
+  };
 
   return (
     <div>
@@ -63,7 +63,7 @@ function Signup() {
         src={bgsignup}
         style={{ position: "relative", left: "-60px", top: "-400px" }}
       /> */}
-      <img src={bgsignup} alt="image" className="signvec"  />
+      <img src={bgsignup} alt="image" className="signvec" />
       <div className="signin">
         <h1 style={{ textAlign: "center", position: "relative", top: "50px" }}>
           <u>Signup</u>
@@ -142,7 +142,7 @@ function Signup() {
           Already have an account ?{" "}
           <span>
             <p>
-        <Link to="/login">Login</Link>
+              <Link to="/login">Login</Link>
             </p>
           </span>
         </p>
