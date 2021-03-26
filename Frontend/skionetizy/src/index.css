@@ -20,7 +20,7 @@ body {
 }
 .login {
   position: relative;
-  top: 150px;
+  top: 100px;
   margin-right: 200px;
   float: right;
   width: 480px;
@@ -30,7 +30,7 @@ body {
   border-radius: 10px;
 }
 .signvec {
-  transform: scale(1);
+  transform: scale(0.9);
   position: relative;
   margin-top: 50px;
   right: -60px;
@@ -39,6 +39,8 @@ body {
   position: relative;
   margin-left: 60%;
   margin-top: 30px;
+  text-decoration: none;
+  color: #3498db;
 }
 .nav ul li,
 nav ul li h3 {
@@ -49,7 +51,7 @@ nav ul li h3 {
 }
 .signin {
   position: relative;
-  top: 70px;
+  top: 40px;
   margin-left: 80px;
   padding-bottom: 20px;
   float: left;
@@ -72,7 +74,7 @@ nav ul li h3 {
 }
 
 .vec1 {
-  transform: scale(1.01);
+  transform: scale(0.9);
   position: absolute;
   top: 100px;
   left: 100px;

@@ -2,6 +2,8 @@ import { React, useEffect, useState } from "react";
 import Signupvec from "../Assets/signupvec.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import axios from 'axios'
+import {} from 'axios'
 
 import bgsignup from "../Assets/bgsignup.svg";
 

@@ -1,0 +1,13 @@
+.textarea {
+  position: relative;
+  margin-top: 10%;
+  left: 5%;
+}
+.markdown {
+  position: relative;
+  margin-top: 10%;
+  left: 15%;
+}
+.mainmark {
+  color: #3498db;
+}
