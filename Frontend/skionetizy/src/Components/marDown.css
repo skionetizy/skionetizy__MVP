@@ -1,13 +1,25 @@
 .textarea {
   position: relative;
   margin-top: 10%;
+  padding: 10px;
+  border: 2px solid transparent;
   left: 5%;
+  outline: none;
+  resize: none;
 }
 .markdown {
   position: relative;
-  margin-top: 10%;
-  left: 15%;
+  margin-top: -44%;
+  padding: 10px;
+  height: 100vh;
+  word-wrap: break-word;
+  margin-left: 50%;
+  width: 44%;
+  background-color: white;
 }
 .mainmark {
   color: #3498db;
+}
+.bg {
+  background-color: transparent;
 }
