@@ -30,7 +30,9 @@ function MarkDown() {
           setInput(e.target.value);
         }}
       />
+      <div>
       <ReactMarkdown source={input} className="markdown" />
+      </div>
     </div>
   );
 }
