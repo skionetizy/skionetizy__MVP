@@ -4,6 +4,7 @@ import Nav from './Components/Nav'
 import MarkDown from './Components/markDown'
 import { BrowserRouter as Router , Link, Switch, Route} from 'react-router-dom'
 import Upload from './Components/uploadImage'
+import { FinalPage } from './Components/finalPage'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
     <Route exact path="/" component={Signup}/>
     <Route exact path="/mark" component={MarkDown}/>
     <Route exact path="/upload" component={Upload}/>
+    <Route exact path="/final" component={FinalPage}/>
       
       </Switch>
     </div>
