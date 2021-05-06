@@ -1,4 +1,5 @@
 import jwt
+from mongoengine.fields import ReferenceField
 from flask_bcrypt import generate_password_hash, check_password_hash
 
 from .db import db
@@ -33,5 +34,6 @@ class Blog(db.Document):
     blogDescription=db.StringField(required=True,min_length=200)
     imageURL=db.StringField(required=False)
     timestamp=db.StringField(required=False)
+    userID= ReferenceField(User)
 
     

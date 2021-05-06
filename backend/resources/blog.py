@@ -16,7 +16,8 @@ class AddBlogDescriptionAndText(Resource):
 
         newBlog= Blog(
             blogTitle=body["blogTitle"],
-            blogDescription=body["blogDescription"]
+            blogDescription=body["blogDescription"],
+            userID=body["userID"]
         )
 
         newBlog.save()

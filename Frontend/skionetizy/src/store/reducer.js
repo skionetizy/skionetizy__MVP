@@ -1,15 +1,22 @@
 const initialState = {
-  UserEmailID: "",
+  userID: "",
   isLogin: false,
+  blogID: "",
 };
 
 const AuthReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "ON_LOGIN":
+    case "SAVE_USER_ID":
+      console.log({ userIDFromReducer: action.userID });
       return {
-        ...initialState,
-        UserEmailID: action.emailID,
+        ...state,
+        userID: action.userID,
         isLogin: true,
+      };
+    case "SAVE_BLOG_ID":
+      return {
+        ...state,
+        blogID: action.blogID,
       };
     default:
       return state;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import ReactMarkdown from "react-markdown";
 import axios from "axios";
@@ -7,7 +8,7 @@ import axios from "axios";
 import "./marDown.css";
 import useDebounce from "../hooks/useDebounce";
 
-function MarkDown() {
+function MarkDown(props) {
   const [data, setData] = useState({
     blogDescription: "",
     blogTitle: "",
@@ -43,15 +44,19 @@ function MarkDown() {
   };
 
   const handleAPI = () => {
+    console.log({ userID: props.userID });
     var blogID;
     axios
       .post(url, {
         ...data,
+        // userID: props.userID,
+        userID: JSON.parse(localStorage.getItem("userID")),
       })
       .then((res) => {
         console.log(res.data);
         blogID = res.data.blog._id;
-        localStorage.setItem("blogID", JSON.stringify(blogID));
+        localStorage.setItem("blogID", JSON.stringify(blogID.$oid));
+        // props.saveBlogID(blogID);
       })
       .catch((err) => console.log(err));
   };
@@ -141,4 +146,17 @@ function MarkDown() {
   );
 }
 
-export default MarkDown;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    userID: state.userID,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveBlogID: (blogID) => dispatch({ type: "SAVE_BLOG_ID", blogID: blogID }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MarkDown);

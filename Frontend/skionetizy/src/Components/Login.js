@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {connect} from 'react-redux'
+import { connect } from "react-redux";
 import {
   Link,
   BrowserRouter as Router,
@@ -31,11 +31,18 @@ function Login(props) {
     const url = "http://127.0.0.1:5000/login";
 
     axios.post(`${url}`, details).then((res) => {
-      onLogin(details.emailID);
+      console.log(res.data);
+      if (res.data && res.data.user) {
+        // onLogin(res.data.user._id.$oid);
+        localStorage.setItem("userID", JSON.stringify(res.data.user._id.$oid));
+      }
+
+      // console.log({ userID: res.data.userID });
+      // console.log(res.data.user._id);
     });
 
-    const onLogin = (emailID) => {
-      props.onLogin(emailID);
+    const onLogin = (userID) => {
+      props.onLogin(userID);
     };
 
     setDetails({
@@ -104,14 +111,14 @@ function Login(props) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLogin: (emailID) => dispatch({ type: "ON_LOGIN", emailID: emailID }),
+    onLogin: (userID) => dispatch({ type: "SAVE_USER_ID", userID: userID }),
   };
 };
 
 const mapStateToProps = (state) => {
   return {
     isLogin: state.isLogin,
-    UserEmailID: state.UserEmailID,
+    userID: state.userID,
   };
 };
 
