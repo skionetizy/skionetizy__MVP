@@ -1,13 +1,15 @@
 from flask import Flask
 from flask_restful import Api
+from flask_cors import CORS
 
 from resources.routes import initialize_routes
 from database.db import initialize_db
 
 
 app = Flask(__name__)
-
+CORS(app)
 api = Api(app)
+
 
 DB_URI='mongodb+srv://rohandevaki:1YoBOdLHY3xm6Jqt@cluster0.gnqpe.mongodb.net/skionetizymvp?retryWrites=true&w=majority'
 

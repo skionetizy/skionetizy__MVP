@@ -7,6 +7,7 @@ from database.models import Blog
 class AddBlogDescriptionAndText(Resource):
     def post(self):
         body = request.get_json()
+        # print(body)
 
         if len(body["blogTitle"])<=6:
             return make_response(jsonify({"message":"blog title must be more than 6 characters long","statusCode":500}))
