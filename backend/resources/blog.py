@@ -1,8 +1,18 @@
 from flask import make_response,jsonify
 from flask.globals import request
 from flask_restful import Resource
+from bson.objectid import ObjectId
+
+from cloudinary.uploader import upload
+from cloudinary.utils import cloudinary_url
 
 from database.models import Blog
+
+from datetime import datetime
+from key_generator.key_generator import generate
+
+key = generate(seed = 101)
+
 
 class AddBlogDescriptionAndText(Resource):
     def post(self):
@@ -14,7 +24,11 @@ class AddBlogDescriptionAndText(Resource):
         elif len(body["blogDescription"])<=200:
             return make_response(jsonify({"message":"blog description must be more than 200 characters long","statusCode":500}))
 
+        
+
+
         newBlog= Blog(
+            blogID = key.get_key(),
             blogTitle=body["blogTitle"],
             blogDescription=body["blogDescription"],
             userID=body["userID"]
@@ -26,7 +40,43 @@ class AddBlogDescriptionAndText(Resource):
     
 class AddBlogImage(Resource):
     def patch(self):
-        body = request.get_json()
-        blog = Blog.objects.get(_id=body["blogID"])
+        print("entered")
+        # body = request["bodyID"]
+        # body = print(request.form)
+        # blogID = request.form["blogID"]
+        # # print(body["blogID"])
+        # blog = Blog.objects.get(_id=blogID)
+        # print(request.form['blogID'])
+        # print(request.files)
+        # print(blog)
+        blogID = request.form['blogID']
+        # print(blogID)
+        # newBlogId = f"ObjectID('${blogID}')"
+        # blogID = str(blogID)
+        blog = Blog.objects.get(blogID= blogID)
+        # blog = Blog.objects.find_one({"_id":ObjectId(blogID)})
+        # blog  = Blog.find_one({"_id":blogID})
+        photo = request.files["file"]
+
+        print(blog)
+
+        upload_result = upload(photo)
+        photo_url,options=cloudinary_url(
+            upload_result['public_id']
+        )
+
+        current_datetime = datetime.now()
+        print(type(photo_url))
+        print(photo_url)
+        print(current_datetime)
+        
+
+
+        blog.update(
+            imageURL=photo_url,
+            timestamp= current_datetime
+        )
+        # return make_response(jsonify(upload_result,photo_url,options))
+        return make_response(jsonify({"blog":blog,"statusCode":200}))
 
         

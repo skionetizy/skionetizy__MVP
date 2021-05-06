@@ -6,7 +6,20 @@ from resources.routes import initialize_routes
 from database.db import initialize_db
 
 
+#cloudinary
+# from cloudinary.uploader import upload
+# from cloudinary.utils import cloudinary_url
+import cloudinary
+
+
 app = Flask(__name__)
+
+cloudinary.config (
+    cloud_name="dd8470vy4",
+    api_key= "847441215945183",
+    api_secret="Aco4ou_V27HzreqOitABk0EMjpQ"
+)
+
 CORS(app)
 api = Api(app)
 
