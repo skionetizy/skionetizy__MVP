@@ -13,7 +13,7 @@ function MarkDown() {
     blogTitle: "",
   });
 
-  const debounceData = useDebounce(data, 5000);
+  const debounceData = useDebounce(data, 300000); //5min is 300000 ms
   const url = "http://127.0.0.1:5000/addBlogDescriptionAndText";
 
   const handleUpload = (e) => {
@@ -74,6 +74,7 @@ function MarkDown() {
         //     blogID = res.data.blog._id;
         //   })
         //   .catch((err) => console.log(err));
+        handleAPI();
       }
     }
   }, [debounceData.blogTitle, debounceData.blogDescription]);
