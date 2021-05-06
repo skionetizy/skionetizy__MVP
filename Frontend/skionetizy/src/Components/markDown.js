@@ -33,37 +33,49 @@ function MarkDown() {
   };
 
   return (
-    <div className="mainmark">
-      <div style={{ position: "absolute", left: "5%", top: "14%" }}>
-        <p onChange={handleChange("blogTitle")}>Enter Blog Title</p>
-        <br />
-        <input
-          style={{
-            backgroundColor: "#3498db",
-            color: "white",
-            padding: "5px",
-            border: "1px solid transparent",
-            outline: "none",
-            borderRadius: "5px",
-            width: "110%",
-          }}
+    <div>
+      <div className="mainmark">
+        <div style={{ position: "relative", marginLeft: "5%", top: "14%" }}>
+          <h3 onChange={handleChange("blogTitle")}>Enter Blog Title</h3>
+          <br />
+          <input
+            style={{
+              backgroundColor: "#3498db",
+              color: "white",
+              padding: "5px",
+              border: "1px solid transparent",
+              outline: "none",
+              borderRadius: "5px",
+              width: "40%",
+              
+            }}
+          />
+        </div>
+        <textarea
+          autoFocus
+          rows="40"
+          cols="85"
+          className="textarea"
+          fixed
+          onChange={handleChange("blogDescription")}
         />
+        <div className="pos">
+      
+          <button onSubmit={handleSubmit} className="upload">
+          Upload
+        </button>
+        <button className="upload">
+          <Link to="/upload" style={{ textDecoration: "none", color: "white" }}>
+            Next
+          </Link>
+        </button>
       </div>
-      <textarea
-        autoFocus
-        rows="40"
-        cols="85"
-        className="textarea"
-        fixed
-        onChange={handleChange("blogDescription")}
-      />
-      <div>
-        <ReactMarkdown source={data.blogDescription} className="markdown" />
+        <h2 style={{position:'relative',marginTop:'-54%',marginLeft:'68%'}} >Preview</h2>
+        <div>
+          <ReactMarkdown source={data.blogDescription} className="markdown" />
+        </div>
       </div>
-      <button onSubmit={handleSubmit}>Upload</button>
-      <button>
-        <Link to="/upload">Next</Link>
-      </button>
+      
     </div>
   );
 }
