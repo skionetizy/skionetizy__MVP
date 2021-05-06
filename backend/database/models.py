@@ -27,3 +27,11 @@ class User(db.Document):
     # def decode_auth_token(auth_token):
     #     payload = jwt.decode(auth_token,'SECRET_KEY')
     #     return payload['emailID']
+
+class Blog(db.Document):
+    blogTitle=db.StringField(required=True,min_length=6)
+    blogDescription=db.StringField(required=True,min_length=200)
+    imageURL=db.StringField(required=False)
+    timestamp=db.StringField(required=False)
+
+    
