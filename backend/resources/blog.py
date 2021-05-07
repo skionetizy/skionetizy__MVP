@@ -90,6 +90,6 @@ class AddBlogImage(Resource):
             timestamp= current_datetime
         )
         # return make_response(jsonify(upload_result,photo_url,options))
-        return make_response(jsonify({"blog":blog,"statusCode":201}))
+        return make_response(jsonify({"blog":blog,"statusCode":200}))
 
         
