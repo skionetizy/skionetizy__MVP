@@ -9,12 +9,9 @@ from cloudinary.utils import cloudinary_url
 from database.models import Blog
 
 from datetime import datetime
-from key_generator.key_generator import generate
+import uuid
 
-key = generate(seed = 101)
-
-
-class AddBlogDescriptionAndText(Resource):
+class AddBlogDescriptionAndTitle(Resource):
     def post(self):
         body = request.get_json()
         # print(body)
@@ -28,7 +25,7 @@ class AddBlogDescriptionAndText(Resource):
 
 
         newBlog= Blog(
-            blogID = key.get_key(),
+            blogID = uuid.uuid4(),
             blogTitle=body["blogTitle"],
             blogDescription=body["blogDescription"],
             userID=body["userID"]
@@ -36,7 +33,23 @@ class AddBlogDescriptionAndText(Resource):
 
         newBlog.save()
 
-        return make_response(jsonify({"blog":newBlog,"statusCode":200}))
+        return make_response(jsonify({"blog":newBlog,"statusCode":201}))
+
+class updateBlogDescriptionAndText(Resource):
+    def patch(self):
+        body = request.get_json()
+        blogID = body["blogID"]
+        print(blogID)
+        print(type(blogID))
+        blog = Blog.objects.get(blogID=blogID)
+        print(blog)
+        blog.update(
+            blogTitle=body["blogTitle"],
+            blogDescription=body["blogDescription"]
+        )
+        blog.save()
+
+        return make_response(jsonify({"blog":blog,"statusCode":200}))
     
 class AddBlogImage(Resource):
     def patch(self):
@@ -77,6 +90,6 @@ class AddBlogImage(Resource):
             timestamp= current_datetime
         )
         # return make_response(jsonify(upload_result,photo_url,options))
-        return make_response(jsonify({"blog":blog,"statusCode":200}))
+        return make_response(jsonify({"blog":blog,"statusCode":201}))
 
         

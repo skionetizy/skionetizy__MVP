@@ -12,7 +12,9 @@ from database.db import initialize_db
 import cloudinary
 
 
+
 app = Flask(__name__)
+
 
 cloudinary.config (
     cloud_name="dd8470vy4",

@@ -11,10 +11,7 @@ from sendgrid.helpers.mail import Mail
 #jwt
 import jwt
 
-from key_generator.key_generator import generate
-
-key = generate(seed = 101)
-
+import uuid
 
 class AuthorizeSignup(Resource):
     def post(self):
@@ -38,7 +35,7 @@ class AuthorizeSignup(Resource):
             return make_response(jsonify({"message":"passwords doesnt match,please check","statusCode":500}))
 
         newUser = User(
-            userID= key.get_key(),
+            userID= uuid.uuid4(),
             firstName=body['firstName'],
             lastName=body['lastName'],
             emailID=body['emailID'],
@@ -67,7 +64,7 @@ class AuthorizeSignup(Resource):
         newUser.hash_password()
         newUser.save()
 
-        return make_response(jsonify({"userID": newUser['_id'],"statusCode":200}))
+        return make_response(jsonify({"userID": newUser['_id'],"emailID":newUser["emailID"],"statusCode":200}))
         # except Exception as e:
         #     print(e.message)
 
