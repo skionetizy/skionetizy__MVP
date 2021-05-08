@@ -1,5 +1,5 @@
 import jwt
-from mongoengine.fields import ReferenceField
+from mongoengine.fields import EmbeddedDocumentField, ReferenceField
 from flask_bcrypt import generate_password_hash, check_password_hash
 
 from .db import db
@@ -30,6 +30,12 @@ class User(db.Document):
     #     payload = jwt.decode(auth_token,'SECRET_KEY')
     #     return payload['emailID']
 
+class Comment(db.EmbeddedDocument):
+    commentID=db.UUIDField(required=True)
+    userID=db.UUIDField(required=True)
+    blogID=db.UUIDField(required=True)
+    commentDescription=db.StringField(required=True,min_length=6,max_length=500)
+
 class Blog(db.Document):
     blogID = db.UUIDField(required=True)
     blogTitle=db.StringField(required=True,min_length=6)
@@ -37,5 +43,10 @@ class Blog(db.Document):
     imageURL=db.URLField(required=False)
     timestamp=db.DateTimeField(required=False)
     userID= db.StringField(required=True)
-
-    
+    likesCount= db.IntField(required=False,default=0)
+    # likedByUsersList =db.ListField(EmbeddedDocumentField(User['userID']),required=False,default=[])
+    # likedByUsersList =db.ListField(EmbeddedDocumentField(User),required=False,default=[])
+    likedByUsersList =db.ListField(db.UUIDField(required=True),required=False,default=[])
+    sampleList=db.ListField(db.StringField(required=True),required=False)
+    # comments =db.ListField(EmbeddedDocumentField(Comment['commentID']),required=False,default=[])
+    comments =db.ListField(db.EmbeddedDocumentField(Comment),required=False,default=[])

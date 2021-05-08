@@ -1,12 +1,12 @@
 from flask import make_response,jsonify
 from flask.globals import request
 from flask_restful import Resource
-from bson.objectid import ObjectId
+
 
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 
-from database.models import Blog
+from database.models import Blog,Comment
 
 from datetime import datetime
 import uuid
@@ -35,14 +35,19 @@ class AddBlogDescriptionAndTitle(Resource):
 
         return make_response(jsonify({"blog":newBlog,"statusCode":201}))
 
-class updateBlogDescriptionAndText(Resource):
+class UpdateBlogDescriptionAndText(Resource):
     def patch(self):
         body = request.get_json()
+
         blogID = body["blogID"]
-        print(blogID)
-        print(type(blogID))
+        # print(blogID)
+        # print(type(blogID))
         blog = Blog.objects.get(blogID=blogID)
-        print(blog)
+        # print(blog)
+        userID=body['userID']
+        # if(userID!= blog['userID']):
+        #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
+
         blog.update(
             blogTitle=body["blogTitle"],
             blogDescription=body["blogDescription"]
@@ -53,25 +58,24 @@ class updateBlogDescriptionAndText(Resource):
     
 class AddBlogImage(Resource):
     def patch(self):
-        print("entered")
-        # body = request["bodyID"]
+        # print("entered")
         # body = print(request.form)
         # blogID = request.form["blogID"]
-        # # print(body["blogID"])
         # blog = Blog.objects.get(_id=blogID)
         # print(request.form['blogID'])
         # print(request.files)
         # print(blog)
+        
         blogID = request.form['blogID']
+        userID=request.form['userID']
         # print(blogID)
-        # newBlogId = f"ObjectID('${blogID}')"
-        # blogID = str(blogID)
         blog = Blog.objects.get(blogID= blogID)
-        # blog = Blog.objects.find_one({"_id":ObjectId(blogID)})
-        # blog  = Blog.find_one({"_id":blogID})
         photo = request.files["file"]
+        # if(userID!= blog['userID']):
+        #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
+            
 
-        print(blog)
+        # print(blog)s
 
         upload_result = upload(photo)
         photo_url,options=cloudinary_url(
@@ -93,3 +97,141 @@ class AddBlogImage(Resource):
         return make_response(jsonify({"blog":blog,"statusCode":200}))
 
         
+class LikeBlog(Resource):
+    def patch(self):
+        body = request.get_json()
+        userID=body["userID"]
+        blogID=body["blogID"]
+        print(blogID)
+        blog=Blog.objects.get(blogID=blogID)
+        
+
+        
+
+        # if(userID!= blog['userID']):
+        #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
+        
+        if(len(blog['likedByUsersList'])==0):
+            blog.update(
+                likedByUsersList=[]
+            )
+        
+        # print(blog['likesCount'])
+        newLikesCount=blog['likesCount']+1
+        # print(newLikesCount)
+        newUserWhoLiked  = body['userID']
+        newLikedByUsersList= blog['likedByUsersList'].append(newUserWhoLiked)
+        blog.update(
+            likesCount= newLikesCount,
+            likedByUsersList=newLikedByUsersList
+        )
+        blog.save()
+        # sampleListItem="hello"
+        # sampleList=blog['sampleList'].append(sampleListItem)
+        # blog.update(
+        #     sampleList=sampleList
+        # )
+        # blog.save()
+        
+        return make_response(jsonify({"message":"you have successfully liked the blog","statusCode":"200","blog":blog}))
+
+
+def changeUUIDtoString(uuidVar):
+    newUUIDVar=uuidVar.hex
+    return newUUIDVar
+    
+
+class DisLikeBlog(Resource):
+    def patch(self):
+        body=request.get_json()
+        blogID = body['blogID']
+        userID=body['userID']
+        blog =Blog.objects.get(blogID=blogID)
+
+        likedByUsersList = blog['likedByUsersList']
+        # print(likedByUsersList)
+        for user in likedByUsersList:
+            newUser = changeUUIDtoString(user)
+            # print(f"user : {user}" )
+            # print(f"userID :{userID}")
+            # print(f"user type: {type(user)}")
+            # print(f"userID type: {type(userID)}")
+            if(newUser == userID):
+                # print("entered")
+                # print(user)
+                likedByUsersList.remove(user)
+                blog.update(
+                    likesCount=blog['likesCount']-1
+                )
+        
+        blog.save()
+                
+
+        
+        return make_response(jsonify({"message":"you have successfully dis liked the blog","statusCode":"200","blog":blog}))
+
+
+
+
+class AddCommentToBlog(Resource):
+    def patch(self):
+        body=request.get_json()
+        commentID=uuid.uuid4()
+        userID=body['userID']
+        blogID=body['blogID']
+        commentDescription=body['commentDescription']
+
+        blog=Blog.objects.get(blogID=blogID)
+
+        # if(userID!= blog['userID']):
+        #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
+
+       
+
+        if(len(commentDescription)>=300 or len(commentDescription)<6):
+            return make_response(jsonify({"message":"comment must be more than 6 characters and less than 300 characters"}))
+        
+        comment=Comment(
+            commentID=commentID,
+            userID=userID,
+            blogID=blogID,
+            commentDescription=commentDescription
+        )
+        # comment.save()
+        
+        comments=blog['comments']
+        
+        newComments=comments.append(comment)
+
+        blog.update(
+            comments=newComments
+        )
+        blog.save()
+        return make_response(jsonify({"message":"you have successfully added comment on the    blog","statusCode":"200","blog":blog}))
+
+class RemoveCommentonBlog(Resource):
+    def patch(self):
+        body=request.get_json()
+        commentID=body['commentID']
+        userID=body['userID']
+        blogID=body['blogID']
+        
+
+        blog=Blog.objects.get(blogID=blogID)
+
+        # if(userID!= blog['userID']):
+        #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
+
+        # comment.save()
+        
+        comments=blog['comments']
+        
+        for comment in comments:
+            print(comment)
+            newComment = changeUUIDtoString(comment['commentID'])
+            if(commentID == newComment):
+                comments.remove(comment)
+            
+
+        blog.save()
+        return make_response(jsonify({"message":"you have successfully added comment on the    blog","statusCode":"200","blog":blog}))
