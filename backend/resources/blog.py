@@ -97,16 +97,13 @@ class AddBlogImage(Resource):
         return make_response(jsonify({"blog":blog,"statusCode":200}))
 
         
-class LikeBlog(Resource):
+class LikeOnBlog(Resource):
     def patch(self):
         body = request.get_json()
         userID=body["userID"]
         blogID=body["blogID"]
-        print(blogID)
+        # print(blogID)
         blog=Blog.objects.get(blogID=blogID)
-        
-
-        
 
         # if(userID!= blog['userID']):
         #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
@@ -141,7 +138,7 @@ def changeUUIDtoString(uuidVar):
     return newUUIDVar
     
 
-class DisLikeBlog(Resource):
+class RemoveLikeOnBlog(Resource):
     def patch(self):
         body=request.get_json()
         blogID = body['blogID']
@@ -165,13 +162,71 @@ class DisLikeBlog(Resource):
                 )
         
         blog.save()
-                
+        
+        return make_response(jsonify({"message":"you have successfully removed your  like on the blog","statusCode":"200","blog":blog}))
 
+
+class DislikeOnBlog(Resource):
+    def patch(self):
+        body = request.get_json()
+        userID=body["userID"]
+        blogID=body["blogID"]
+        # print(blogID)
+        blog=Blog.objects.get(blogID=blogID)
+
+        # if(userID!= blog['userID']):
+        #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
+        
+        if(len(blog['dislikedByUsersList'])==0):
+            blog.update(
+                dislikedByUsersList=[]
+            )
+        
+        # print(blog['likesCount'])
+        newDislikesCount=blog['dislikesCount']+1
+        # print(newLikesCount)
+        newUserWhoDisliked  = body['userID']
+        newDislikedByUsersList= blog['dislikedByUsersList'].append(newUserWhoDisliked)
+        blog.update(
+            dislikesCount= newDislikesCount,
+            dislikedByUsersList=newDislikedByUsersList
+        )
+        blog.save()
+        # sampleListItem="hello"
+        # sampleList=blog['sampleList'].append(sampleListItem)
+        # blog.update(
+        #     sampleList=sampleList
+        # )
+        # blog.save()
         
         return make_response(jsonify({"message":"you have successfully dis liked the blog","statusCode":"200","blog":blog}))
 
+class RemoveDislikeOnBlog(Resource):
+    def patch(self):
+        body=request.get_json()
+        blogID = body['blogID']
+        userID=body['userID']
+        blog =Blog.objects.get(blogID=blogID)
 
-
+        dislikedByUsersList = blog['dislikedByUsersList']
+        # print(likedByUsersList)
+        for user in dislikedByUsersList:
+            newUser = changeUUIDtoString(user)
+            # print(f"user : {user}" )
+            # print(f"userID :{userID}")
+            # print(f"user type: {type(user)}")
+            # print(f"userID type: {type(userID)}")
+            if(newUser == userID):
+                # print("entered")
+                # print(user)
+                dislikedByUsersList.remove(user)
+                blog.update(
+                    dislikesCount=blog['dislikesCount']-1
+                )
+        
+        blog.save()
+        
+        return make_response(jsonify({"message":"you have successfully removed your dis like on the blog","statusCode":"200","blog":blog}))
 
 class AddCommentToBlog(Resource):
     def patch(self):
@@ -193,8 +248,6 @@ class AddCommentToBlog(Resource):
         
         comment=Comment(
             commentID=commentID,
-            userID=userID,
-            blogID=blogID,
             commentDescription=commentDescription
         )
         # comment.save()
