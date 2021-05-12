@@ -4,7 +4,7 @@ const initialState = {
   blogID: "",
 };
 
-const AuthReducer = (state = initialState, action) => {
+const Reducer = (state = initialState, action) => {
   switch (action.type) {
     case "SAVE_USER_ID":
       // console.log({ userIDFromReducer: action.userID });
@@ -23,4 +23,4 @@ const AuthReducer = (state = initialState, action) => {
   }
 };
 
-export default AuthReducer;
+export default Reducer;
