@@ -43,6 +43,7 @@ function Upload() {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("blogID", JSON.parse(localStorage.getItem("blogID")));
+        formData.append("userID", JSON.parse(localStorage.getItem("userID")));
         setFormData(formData);
         console.log(formData);
       }

@@ -34,7 +34,7 @@ function Login(props) {
       console.log(res.data);
       if (res.data && res.data.user) {
         // onLogin(res.data.user._id.$oid);
-        localStorage.setItem("userID", JSON.stringify(res.data.user._id.$oid));
+        localStorage.setItem("userID", JSON.stringify(res.data.userID));
       }
 
       // console.log({ userID: res.data.userID });

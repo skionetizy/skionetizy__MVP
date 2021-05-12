@@ -5,9 +5,9 @@ import App from "./App";
 
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import AuthReducer from "./store/reducer";
+import Reducer from "./store/reducer";
 
-const store = createStore(AuthReducer);
+const store = createStore(Reducer);
 
 ReactDOM.render(
   <React.StrictMode>

@@ -14,7 +14,6 @@ import uuid
 class AddBlogDescriptionAndTitle(Resource):
     def post(self):
         body = request.get_json()
-        # print(body)
 
         if len(body["blogTitle"])<=6:
             return make_response(jsonify({"message":"blog title must be more than 6 characters long","statusCode":500}))
@@ -40,10 +39,9 @@ class UpdateBlogDescriptionAndText(Resource):
         body = request.get_json()
 
         blogID = body["blogID"]
-        # print(blogID)
-        # print(type(blogID))
+        
         blog = Blog.objects.get(blogID=blogID)
-        # print(blog)
+       
         userID=body['userID']
         # if(userID!= blog['userID']):
         #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
@@ -58,13 +56,7 @@ class UpdateBlogDescriptionAndText(Resource):
     
 class AddBlogImage(Resource):
     def patch(self):
-        # print("entered")
-        # body = print(request.form)
-        # blogID = request.form["blogID"]
-        # blog = Blog.objects.get(_id=blogID)
-        # print(request.form['blogID'])
-        # print(request.files)
-        # print(blog)
+        
         
         blogID = request.form['blogID']
         userID=request.form['userID']
@@ -74,8 +66,6 @@ class AddBlogImage(Resource):
         # if(userID!= blog['userID']):
         #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
             
-
-        # print(blog)s
 
         upload_result = upload(photo)
         photo_url,options=cloudinary_url(
@@ -123,12 +113,6 @@ class LikeOnBlog(Resource):
             likedByUsersList=newLikedByUsersList
         )
         blog.save()
-        # sampleListItem="hello"
-        # sampleList=blog['sampleList'].append(sampleListItem)
-        # blog.update(
-        #     sampleList=sampleList
-        # )
-        # blog.save()
         
         return make_response(jsonify({"message":"you have successfully liked the blog","statusCode":"200","blog":blog}))
 
@@ -288,3 +272,16 @@ class RemoveCommentonBlog(Resource):
 
         blog.save()
         return make_response(jsonify({"message":"you have successfully added comment on the    blog","statusCode":"200","blog":blog}))
+
+class GetBlogs(Resource):
+    def get(self):
+        blogs=Blog.objects()
+        # print(blogs)
+        return make_response(jsonify({"blogs":blogs}))
+
+class GetBlog(Resource):
+    def get(self):
+        body=request.get_json()
+        blog = Blog.objects.get(blogID=body["blogID"])
+        return make_response(jsonify({"blog":blog,"statusCode":200}))
+
