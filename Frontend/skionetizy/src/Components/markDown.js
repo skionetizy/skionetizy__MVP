@@ -15,8 +15,10 @@ function MarkDown(props) {
   });
 
   const debounceData = useDebounce(data, 300000); //5min is 300000 ms
-  const url = "http://127.0.0.1:5000/addBlogDescriptionAndText";
-
+  const addBlogDescriptionAndTitleURL =
+    "http://127.0.0.1:5000/addBlogDescriptionAndTitle";
+  const UpdateBlogDescriptionAndTitleURL =
+    "http://127.0.0.1:5000/updateBlogDescriptionAndTitle";
   const handleUpload = (e) => {
     if (e) {
       e.preventDefault();
@@ -39,15 +41,27 @@ function MarkDown(props) {
       //     localStorage.setItem("blogID", JSON.stringify(blogID));
       //   })
       //   .catch((err) => console.log(err));
-      handleAPI();
+      var blogID = null;
+      if (!blogID) {
+        blogID = addBlogDescriptionAndTitleAPI();
+      } else {
+        updateBlogDescriptionAndTitleAPI(blogID);
+      }
     }
   };
 
-  const handleAPI = () => {
-    console.log({ userID: props.userID });
+  const updateBlogDescriptionAndTitleAPI = (blogID) => {
+    axios.patch(UpdateBlogDescriptionAndTitleURL, {
+      ...data,
+      userID: JSON.parse(localStorage.getItem("userID")),
+    });
+  };
+
+  const addBlogDescriptionAndTitleAPI = () => {
+    // console.log({ userID: props.userID });
     var blogID;
     axios
-      .post(url, {
+      .post(addBlogDescriptionAndTitleURL, {
         ...data,
         // userID: props.userID,
         userID: JSON.parse(localStorage.getItem("userID")),
@@ -55,10 +69,12 @@ function MarkDown(props) {
       .then((res) => {
         console.log(res.data);
         blogID = res.data.blog._id;
-        localStorage.setItem("blogID", JSON.stringify(blogID.$oid));
+        localStorage.setItem("blogID", JSON.stringify(blogID.$uuid));
         // props.saveBlogID(blogID);
       })
       .catch((err) => console.log(err));
+
+    return blogID;
   };
 
   useEffect(() => {
@@ -79,7 +95,12 @@ function MarkDown(props) {
         //     blogID = res.data.blog._id;
         //   })
         //   .catch((err) => console.log(err));
-        handleAPI();
+        var blogID = null;
+        if (!blogID) {
+          blogID = addBlogDescriptionAndTitleAPI();
+        } else {
+          updateBlogDescriptionAndTitleAPI(blogID);
+        }
       }
     }
   }, [debounceData.blogTitle, debounceData.blogDescription]);

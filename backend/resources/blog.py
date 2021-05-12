@@ -288,3 +288,10 @@ class RemoveCommentonBlog(Resource):
 
         blog.save()
         return make_response(jsonify({"message":"you have successfully added comment on the    blog","statusCode":"200","blog":blog}))
+
+class GetBlogs(Resource):
+    def get(self):
+        blogs=Blog.objects()
+        # print(blogs)
+        return make_response(jsonify({"blogs":blogs}))
+
