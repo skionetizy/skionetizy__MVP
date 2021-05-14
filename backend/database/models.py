@@ -1,3 +1,4 @@
+from enum import unique
 import jwt
 from mongoengine.fields import EmbeddedDocumentField, ReferenceField
 from flask_bcrypt import generate_password_hash, check_password_hash
@@ -38,9 +39,9 @@ class Blog(db.Document):
     blogID = db.UUIDField(required=True,binary=False)
     blogTitle=db.StringField(required=True,min_length=6)
     blogDescription=db.StringField(required=True,min_length=200)
-    imageURL=db.URLField(required=False)
+    blogImageURL=db.URLField(required=False)
     timestamp=db.DateTimeField(required=False)
-    userID= db.StringField(required=True)
+    userID= db.UUIDField(required=True,binary=False)
     likesCount= db.IntField(required=False,default=0)
     dislikesCount=db.IntField(required=False,default=0)
     # likedByUsersList =db.ListField(EmbeddedDocumentField(User),required=False,default=[])
@@ -49,6 +50,21 @@ class Blog(db.Document):
     # sampleList=db.ListField(db.StringField(required=True),required=False)
     comments =db.ListField(db.EmbeddedDocumentField(Comment),required=False,default=[])
 
+# class Follower(db.Document):
+#     userID=db.UUIDField(required=True,binary=False)
+
 class Profile(db.Document):
     profileID=db.UUIDField(required=True,binary=False)
-    # profi
+    userID=db.UUIDField(required=True,binary=False)
+    profilePicImageURL=db.URLField(required=False)
+    profileBannerImageURL=db.URLField(required=False)
+    profileName=db.StringField(required=True,max_length=50)
+    profileUserName=db.StringField(required=True,unique=True)
+    profileBio=db.StringField(required=True,max_length=200)
+    Followers=db.ListField(db.UUIDField(required=True,binary=False),required=False,default=[])
+    Following=db.ListField(db.UUIDField(required=True,binary=False),required=False,default=[])
+    FollowersCount=db.IntField(required=True)
+    FollowingCount=db.IntField(required=True)
+    # getBlogs from blog api
+    profileWebsiteURL=db.URLField(required=False)
+    

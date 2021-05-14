@@ -80,7 +80,7 @@ class AddBlogImage(Resource):
 
 
         blog.update(
-            imageURL=photo_url,
+            blogImageURL=photo_url,
             timestamp= current_datetime
         )
         # return make_response(jsonify(upload_result,photo_url,options))
@@ -88,10 +88,10 @@ class AddBlogImage(Resource):
 
         
 class LikeOnBlog(Resource):
-    def patch(self):
+    def patch(self,blogID):
         body = request.get_json()
         userID=body["userID"]
-        blogID=body["blogID"]
+        # blogID=body["blogID"]
         # print(blogID)
         blog=Blog.objects.get(blogID=blogID)
 
@@ -123,9 +123,9 @@ def changeUUIDtoString(uuidVar):
     
 
 class RemoveLikeOnBlog(Resource):
-    def patch(self):
+    def patch(self,blogID):
         body=request.get_json()
-        blogID = body['blogID']
+        # blogID = body['blogID']
         userID=body['userID']
         blog =Blog.objects.get(blogID=blogID)
 
@@ -151,10 +151,10 @@ class RemoveLikeOnBlog(Resource):
 
 
 class DislikeOnBlog(Resource):
-    def patch(self):
+    def patch(self,blogID):
         body = request.get_json()
         userID=body["userID"]
-        blogID=body["blogID"]
+        # blogID=body["blogID"]
         # print(blogID)
         blog=Blog.objects.get(blogID=blogID)
 
@@ -186,23 +186,19 @@ class DislikeOnBlog(Resource):
         return make_response(jsonify({"message":"you have successfully dis liked the blog","statusCode":"200","blog":blog}))
 
 class RemoveDislikeOnBlog(Resource):
-    def patch(self):
+    def patch(self,blogID):
         body=request.get_json()
-        blogID = body['blogID']
+        # blogID = body['blogID']
         userID=body['userID']
         blog =Blog.objects.get(blogID=blogID)
 
         dislikedByUsersList = blog['dislikedByUsersList']
-        # print(likedByUsersList)
+       
         for user in dislikedByUsersList:
             newUser = changeUUIDtoString(user)
-            # print(f"user : {user}" )
-            # print(f"userID :{userID}")
-            # print(f"user type: {type(user)}")
-            # print(f"userID type: {type(userID)}")
+            
             if(newUser == userID):
-                # print("entered")
-                # print(user)
+            
                 dislikedByUsersList.remove(user)
                 blog.update(
                     dislikesCount=blog['dislikesCount']-1
@@ -213,11 +209,11 @@ class RemoveDislikeOnBlog(Resource):
         return make_response(jsonify({"message":"you have successfully removed your dis like on the blog","statusCode":"200","blog":blog}))
 
 class AddCommentToBlog(Resource):
-    def patch(self):
+    def patch(self,blogID):
         body=request.get_json()
         commentID=uuid.uuid4()
         userID=body['userID']
-        blogID=body['blogID']
+        # blogID=body['blogID']
         commentDescription=body['commentDescription']
 
         blog=Blog.objects.get(blogID=blogID)
@@ -247,11 +243,11 @@ class AddCommentToBlog(Resource):
         return make_response(jsonify({"message":"you have successfully added comment on the    blog","statusCode":"200","blog":blog}))
 
 class RemoveCommentonBlog(Resource):
-    def patch(self):
+    def patch(self,blogID):
         body=request.get_json()
         commentID=body['commentID']
         userID=body['userID']
-        blogID=body['blogID']
+        # blogID=body['blogID']
         
 
         blog=Blog.objects.get(blogID=blogID)
