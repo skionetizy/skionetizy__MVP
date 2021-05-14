@@ -279,6 +279,13 @@ class GetBlogs(Resource):
         # print(blogs)
         return make_response(jsonify({"blogs":blogs}))
 
+class GetBlogsByUser(Resource):
+    def get(self):
+        body=request.get_json()
+        userID=body['userID']
+        blogsByUser=Blog.objects(userID=userID)
+        return make_response(jsonify({"blogsByUser":blogsByUser,"statusCode":200}))
+
 class GetBlog(Resource):
     def get(self):
         body=request.get_json()

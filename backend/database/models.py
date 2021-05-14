@@ -48,3 +48,7 @@ class Blog(db.Document):
     dislikedByUsersList=db.ListField(db.UUIDField(required=True,binary=False),required=False,default=[])
     # sampleList=db.ListField(db.StringField(required=True),required=False)
     comments =db.ListField(db.EmbeddedDocumentField(Comment),required=False,default=[])
+
+class Profile(db.Document):
+    profileID=db.UUIDField(required=True,binary=False)
+    # profi
