@@ -6,17 +6,26 @@ import { BrowserRouter as Router , Link, Switch, Route} from 'react-router-dom'
 import Upload from './Components/uploadImage'
 import { FinalPage } from './Components/finalPage'
 import ExploreBlogs from './Pages/ExploreBlogs'
+import MyBlogs from './Pages/ExploreBlogs'
 function App() {
   return (
      <Router>
     <div >
-      <Nav/>
+      <Switch>
+      <Nav exact path="/login" component={Login}/>
+      <Nav exact path="/" component={Signup}/>
+      <Nav exact path="/mark" component={MarkDown}/>
+      <Nav exact path="/upload" component={Upload}/>
+      <Nav exact path="/final" component={FinalPage}/>
+
+      </Switch>
       <Switch>
     <Route exact path="/login" component={Login}/>
     <Route exact path="/" component={Signup}/>
     <Route exact path="/mark" component={MarkDown}/>
     <Route exact path="/upload" component={Upload}/>
     <Route exact path="/final" component={FinalPage}/>
+
     <Route exact path="/explore-Blogs" component={ExploreBlogs}/>
     
       </Switch>
