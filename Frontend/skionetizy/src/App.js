@@ -6,7 +6,7 @@ import { BrowserRouter as Router , Link, Switch, Route} from 'react-router-dom'
 import Upload from './Components/uploadImage'
 import { FinalPage } from './Components/finalPage'
 import ExploreBlogs from './Pages/ExploreBlogs'
-import MyBlogs from './Pages/ExploreBlogs'
+
 function App() {
   return (
      <Router>

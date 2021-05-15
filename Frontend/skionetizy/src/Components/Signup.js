@@ -82,7 +82,7 @@ function Signup() {
         </p>
 
         <form className="inputs signinp" onSubmit={handleSubmit}>
-          <div>
+          <div className="flname">
             <input
               type="text"
               name="firstName"
