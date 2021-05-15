@@ -34,7 +34,10 @@ input[type="text"] {
   width: 400px;
   border-radius: 8px;
   margin: 0 250px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
 }
+
 .search {
   color: white;
   position: absolute;
@@ -50,6 +53,9 @@ input[type="text"] {
   padding: 0 40px;
   color: #3598db;
   text-decoration: none;
+}
+.header .nav a:hover{
+  text-decoration: underline;
 }
 .header .nav a:active {
   text-decoration: underline;
@@ -99,6 +105,7 @@ input[type="text"] {
   font-size: 30px;
   font-weight: bold;
   font-family: "Montserrat", sans-serif;
+  margin-bottom: 10px;
 }
 .name {
   display: inline-flex;
@@ -125,6 +132,16 @@ input[type="text"] {
   margin-right: 200px;
   margin-left: 10px;
 }
+.card-box .footer .like{
+  display: inline-flex;
+}
+.card-box .footer .like p{
+  margin: 0 8px;
+}
+/* To change the colour of like and dislike button use this css
+.thmbicon{
+  color:#142850;
+} */
 
 /* page number */
 .page-num {
@@ -135,6 +152,7 @@ input[type="text"] {
   left: 550px;
   
 }
+
 .page-num .icon,.page-num div {
   width: 46px;
   height: 44px;

@@ -8,7 +8,7 @@ function blogCard() {
         <div>
             {/* card section is here */}
             <div className="main">
-                {/* Card-1 is here  */}
+                {/* Card is here  */}
                 <div className="card-box">
                     <div className="card-image">
                     </div>
@@ -23,7 +23,7 @@ function blogCard() {
                             april 2
                         </div>
                         <div className="like">
-                          512 <ThumbUpAltIcon /> 184 <ThumbDownIcon/>
+                          <p>512</p> <ThumbUpAltIcon className="thmbicon"/> <p>184</p> <ThumbDownIcon  className="thmbicon"/>
                         </div>
                     </div>
 

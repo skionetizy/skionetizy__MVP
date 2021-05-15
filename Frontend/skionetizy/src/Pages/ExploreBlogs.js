@@ -1,9 +1,8 @@
-
 import React from 'react';
-import "./ExploreBlogs.css";
-import NavExploreBlogs from './NavExploreBlogs';
-import BlogCard from './BlogCard';
-import BlogPages from './BlogPages';
+import "../Components/ExploreBlogs.css";
+import NavExploreBlogs from '../Components/NavExploreBlogs';
+import BlogCard from '../Components/BlogCard';
+import BlogPages from '../Components/BlogPages';
 function MyBlogs() {
     return (
         <div>
