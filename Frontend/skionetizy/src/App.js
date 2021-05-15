@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import Login from './Components/Login'
 import Signup from './Components/Signup'
 import Nav from './Components/Nav'
@@ -8,17 +8,8 @@ import Upload from './Components/uploadImage'
 import { FinalPage } from './Components/finalPage'
 import ExploreBlogs from './Pages/ExploreBlogs'
 
-=======
-import Login from "./Components/Login";
-import Signup from "./Components/Signup";
-import Nav from "./Components/Nav";
-import MarkDown from "./Components/markDown";
-import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
-import Upload from "./Components/uploadImage";
-import { FinalPage } from "./Components/finalPage";
-import ExploreBlogs from "./Pages/ExploreBlogs";
-import MyBlogs from "./Pages/ExploreBlogs";
->>>>>>> b0dfa0cddf652308d18b4c047a9c61f896616460
+
+
 function App() {
   return (
     <Router>
