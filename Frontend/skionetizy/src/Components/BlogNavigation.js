@@ -4,11 +4,13 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 
 function BlogNavigation({ blogsPerPage, blogsLength, setCurrentBlog }) {
+  console.log({ blogsPerPage, blogsLength });
   const buttonsLength = blogsLength / blogsPerPage;
   const buttons = [];
   for (var i = 0; i < buttonsLength; i++) {
     buttons.push(i);
   }
+  console.log({ buttons });
 
   const currWindow = 5;
   const [leftPointer, setLeftPointer] = useState(0);
@@ -17,7 +19,11 @@ function BlogNavigation({ blogsPerPage, blogsLength, setCurrentBlog }) {
   const [hasPrev, setHasPrev] = useState(false);
   const initialPaginatedButtons = buttons.slice(leftPointer, rightPointer);
 
-  const [PaginatedButtons, setPaginatedButtons] = useState(buttons.slice(0, 5));
+  const [PaginatedButtons, setPaginatedButtons] = useState(
+    initialPaginatedButtons
+  );
+
+  console.log({ PaginatedButtons });
 
   const handlePaginatedButtons = () => {
     if (rightPointer < buttonsLength) {

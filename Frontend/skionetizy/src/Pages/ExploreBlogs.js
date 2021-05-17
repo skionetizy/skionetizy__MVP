@@ -6,7 +6,7 @@ import BlogNavigation from "../Components/BlogNavigation";
 import axios from "axios";
 
 function MyBlogs() {
-  const [blogsPerPage, setBlogsPerPage] = useState(10);
+  const [blogsPerPage, setBlogsPerPage] = useState(9);
   const [blogs, setBlogs] = useState([]);
   const [currentBlog, setCurrentBlog] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -27,10 +27,10 @@ function MyBlogs() {
         .get(url)
         .then((res) => {
           setLoading(false);
-          console.log(res.data);
-          //   setBlogs(res.data);
-          setBlogs(Object.values(res.data));
-          //   console.log(blogs);
+
+          // console.log(Object.values(res.data.blogs);
+
+          setBlogs(Object.values(res.data.blogs));
         })
         .catch((err) => {
           console.log(err);
@@ -41,11 +41,13 @@ function MyBlogs() {
   }, []);
 
   const slicedBlogs = blogs.slice(startingIndex, endingIndex);
+  console.log(slicedBlogs);
 
   return (
     <div>
       <NavExploreBlogs />
       <div className="blogcard-main">
+        {loading && <p>loading..</p>}
         {/* <BlogCard />
         <BlogCard />
         <BlogCard />

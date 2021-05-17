@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import ReactMarkdown from "react-markdown";
 import axios from "axios";
 
-import "./marDown.css";
+import "./markDown.css";
 import useDebounce from "../hooks/useDebounce";
 
 function MarkDown(props) {
