@@ -7,7 +7,14 @@ import axios from "axios";
 
 function MyBlogs() {
   const [blogsPerPage, setBlogsPerPage] = useState(9);
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState([
+    {
+      blogID: "blogID",
+      blogTitle: "blogTitle",
+      likesCount: "likesCount",
+      dislikesCount: "dislikesCount",
+    },
+  ]);
   const [currentBlog, setCurrentBlog] = useState(0);
   const [loading, setLoading] = useState(false);
 
