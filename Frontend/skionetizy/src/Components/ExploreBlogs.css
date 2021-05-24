@@ -1,186 +1,181 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  overflow-x: hidden;
+/* * {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	overflow-x: hidden;
+} */
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
 }
+
+body {
+	font-family: sans-serif;
+	background-color: #142850;
+	font-family: 'Montserrat', sans-serif;
+}
+
 /* Blog card in explore blog section */
-.blogcard-main{
-  height: auto;
-  width: 100vw;
-  display: flex;
-  padding: 20px;
-  flex-wrap: wrap;
-  overflow: hidden;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
+.blogcard-main {
+	height: auto;
+	width: 100vw;
+	display: flex;
+	padding: 20px;
+	flex-wrap: wrap;
+	overflow: hidden;
+	align-items: center;
+	justify-content: center;
+	margin: auto;
 }
 
 /* Nav section starts here */
 .header {
-  display: inline-flex;
-  overflow: hidden;
-  color: #3598db;
-  margin-top: 20px;
-  flex-wrap: wrap;
+	display: inline-flex;
+	overflow: hidden;
+	color: #3598db;
+	margin-top: 20px;
+	flex-wrap: wrap;
 }
 
 input[type="text"] {
-  background: #3598db;
-  color: #fff;
-  height: 35px;
-  width: 400px;
-  border-radius: 8px;
-  margin: 0 250px;
-  -webkit-transition: width 0.4s ease-in-out;
-  transition: width 0.4s ease-in-out;
+	background: #3598db;
+	color: #fff;
+	height: 35px;
+	width: 400px;
+	border-radius: 8px;
+	margin: 0 250px;
+	-webkit-transition: width 0.4s ease-in-out;
+	transition: width 0.4s ease-in-out;
 }
 
 .search {
-  color: white;
-  position: absolute;
-  left: 700px;
-  font-size: small;
-  margin-top: 6px;
+	color: white;
+	position: absolute;
+	left: 700px;
+	font-size: small;
+	margin-top: 6px;
 }
 
 .header .nav {
-  font-size: 20px;
+	font-size: 20px;
 }
 .header .nav a {
-  padding: 0 40px;
-  color: #3598db;
-  text-decoration: none;
+	padding: 0 40px;
+	color: #3598db;
+	text-decoration: none;
 }
-.header .nav a:hover{
-  text-decoration: underline;
+.header .nav a:hover {
+	text-decoration: underline;
 }
 .header .nav a:active {
-  text-decoration: underline;
+	text-decoration: underline;
 }
-/* card section starts here */
-.main {
-  /* height: auto;
-  width: 100vw;
-  display: flex;
-  padding: 20px;
-  flex-wrap: wrap;
-  overflow: hidden;
-  align-items: center;
-  justify-content: center;
-  margin: auto; */
+
+/* updated css */
+.push-right {
+	margin-left: auto;
 }
-/* card section */
+p + p {
+	padding-left: 1em;
+}
+.blog-cover {
+	border-top-left-radius: 0.5em;
+	border-top-right-radius: 0.5em;
+	height: 10em;
+	object-fit: cover;
+}
 .card-box {
-  width: 415px;
-  height: 339px;
-  background-color: #3598db;
-  border-radius: 18px;
-  margin: 10px;
-  box-shadow: 5px 5px 5px rgba(10, 88, 124, 0.9);
-  text-align: left;
-  justify-content: center;
-  transition: all 1s ease;
-  color: #fff;
-  overflow-y: hidden;
-  cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	background-color: #3498db;
+	color: #fff;
+	border-top-left-radius: 0.5em;
+	border-top-right-radius: 0.5em;
+	border-bottom-left-radius: 0.5em;
+	border-bottom-right-radius: 0.5em;
+	width: 15%;
+	min-width: 280px;
 }
-.card-box:hover {
-  transform: scale(1.025);
+.author-name {
+	font-size: 0.8rem;
+	font-weight: 700;
 }
-.card-image {
-  height: 200px;
-  background: url("../Assets/card_image.jpg");
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  background-size: cover;
+
+.text {
+	padding: 1em 1em;
 }
-.avtar {
-  margin-left: 10px;
-  text-align: left;
+.move {
+	margin-top: 0.6em;
 }
-.title {
-  font-size: 30px;
-  font-weight: bold;
-  font-family: "Montserrat", sans-serif;
-  margin-bottom: 10px;
+.meta-content {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
 }
-.name {
-  display: inline-flex;
-  font-family: "Montserrat", sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 20px;
-  margin-bottom: 31px;
+
+.author {
+	display: flex;
+	align-items: center;
+	gap: 0.6em;
 }
-.name .avtar {
-  border-radius: 50%;
-  margin-right: 20px;
-  height: 35px;
-  width: 35px;
-  background: url("../Assets/avtar.png");
+
+.thumb-up {
+	position: relative;
+	top: 5px;
 }
-.name h3 {
-  padding-top: 7px;
+.thumb-down {
+	position: relative;
+	top: 5px;
 }
-.card-box .footer {
-  display: inline-flex;
+.avatar {
+	border-radius: 2em;
 }
-.card-box .footer .date {
-  margin-right: 200px;
-  margin-left: 10px;
-}
-.card-box .footer .like{
-  display: inline-flex;
-}
-.card-box .footer .like p{
-  margin: 0 8px;
-}
-/* To change the colour of like and dislike button use this css
-.thmbicon{
+
+/* To change the colour of like and dislike button use this css */
+/* .thmbicon{
   color:#142850;
-} */
+}  */
 
 /* page number */
 .page-num {
-  align-items: center;
-  display: inline-flex;
-  text-align: center;
-  position: absolute;
-  left: 550px;
-  
+	align-items: center;
+	display: inline-flex;
+	text-align: center;
+	position: absolute;
+	left: 550px;
 }
 
-.page-num .icon,.page-num div {
-  width: 46px;
-  height: 44px;
-  background: #3598db;
-  margin: 0 10px;
-  padding-top: 13px;
-  font-size: large;
-  font-weight: bold;
-  color: white;
-  border-radius: 2px;
-  cursor: pointer;
-  margin: 20px 30px 30px 0;
-  
+.page-num .icon,
+.page-num div {
+	width: 46px;
+	height: 44px;
+	background: #3598db;
+	margin: 0 10px;
+	padding-top: 13px;
+	font-size: large;
+	font-weight: bold;
+	color: white;
+	border-radius: 2px;
+	cursor: pointer;
+	margin: 20px 30px 30px 0;
 }
-.page-num .icon:hover,.page-num div:hover{
-  background-color: #106096;
+.page-num .icon:hover,
+.page-num div:hover {
+	background-color: #106096;
 }
 
-/* scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
+scrollbar ::-webkit-scrollbar {
+	width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #142850;
+	background: #142850;
 }
 ::-webkit-scrollbar-thumb {
-  background: #3598db;
+	background: #3598db;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+	background: #555;
 }

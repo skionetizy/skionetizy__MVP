@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../Components/ExploreBlogs.css";
 import NavExploreBlogs from "../Components/NavExploreBlogs";
-import BlogCard from "../Components/BlogCard";
+// import BlogCard from "../Components/BlogCard";
+import BlogCard1 from '../Components/BlogCard1';
 import BlogNavigation from "../Components/BlogNavigation";
 import axios from "axios";
 
@@ -66,7 +67,7 @@ function MyBlogs() {
         <BlogCard /> */}
         {slicedBlogs &&
           slicedBlogs.map((blog) => {
-            return <BlogCard blog={blog} />;
+            return <BlogCard1 blog={blog} />;
           })}
       </div>
       <BlogNavigation

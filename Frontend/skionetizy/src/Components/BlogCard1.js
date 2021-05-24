@@ -1,0 +1,38 @@
+import React from 'react';
+import './ExploreBlogs.css';
+
+const BlogCard1 = ({ blog }) => {
+	return (
+		<div>
+			<div className="main">
+				<div className="card-box">
+					<img
+						className="blog-cover"
+						src="https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+						alt=""
+					/>
+					<div className="text">
+						<h3>How to write a blog</h3>
+						<div className="author move">
+							<img className="avatar" src="//unsplash.it/40/40" alt="" />
+							<small className="author-name">Rahul gupta</small>
+						</div>
+						<div className="push">
+							<div className="meta-content">
+								<h4 class="date">May 4</h4>
+								<p className="push-right">
+									241 <i class="thumb-up material-icons">thumb_up_alt</i>
+								</p>
+								<p>
+									10 <i class="thumb-down material-icons">thumb_down_alt</i>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};
+
+export default BlogCard1;
