@@ -7,6 +7,7 @@ import { BrowserRouter as Router , Link, Switch, Route} from 'react-router-dom'
 import Upload from './Components/uploadImage'
 import { FinalPage } from './Components/finalPage'
 import ExploreBlogs from './Pages/ExploreBlogs'
+import ViewBlog from './Pages/ViewBlog'
 
 
 
@@ -27,7 +28,7 @@ function App() {
           <Route exact path="/mark" component={MarkDown} />
           <Route exact path="/upload" component={Upload} />
           <Route exact path="/final" component={FinalPage} />
-
+          <Route exact path="/view-blog" component={ViewBlog} />
           <Route exact path="/explore-blogs" component={ExploreBlogs} />
         </Switch>
       </div>

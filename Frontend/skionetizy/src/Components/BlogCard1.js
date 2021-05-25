@@ -13,18 +13,18 @@ const BlogCard1 = ({ blog }) => {
 					/>
 					<div className="text">
 						<h3>How to write a blog</h3>
-						<div className="author move">
+						<div className="author">
 							<img className="avatar" src="//unsplash.it/40/40" alt="" />
 							<small className="author-name">Rahul gupta</small>
 						</div>
-						<div className="push">
-							<div className="meta-content">
+						<div>
+							<div className="day-likes-dislikes">
 								<h4 class="date">May 4</h4>
 								<p className="push-right">
-									241 <i class="thumb-up material-icons">thumb_up_alt</i>
+									241 <i class="thumb-up-alt material-icons">thumb_up_alt</i>
 								</p>
 								<p>
-									10 <i class="thumb-down material-icons">thumb_down_alt</i>
+									10 <i class="thumb-down-alt material-icons">thumb_down_alt</i>
 								</p>
 							</div>
 						</div>

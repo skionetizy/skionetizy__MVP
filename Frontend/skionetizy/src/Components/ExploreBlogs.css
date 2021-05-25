@@ -77,9 +77,6 @@ input[type="text"] {
 .push-right {
 	margin-left: auto;
 }
-p + p {
-	padding-left: 1em;
-}
 .blog-cover {
 	border-top-left-radius: 0.5em;
 	border-top-right-radius: 0.5em;
@@ -96,7 +93,7 @@ p + p {
 	border-top-right-radius: 0.5em;
 	border-bottom-left-radius: 0.5em;
 	border-bottom-right-radius: 0.5em;
-	width: 15%;
+	width: 25%;
 	min-width: 280px;
 }
 .author-name {
@@ -105,28 +102,28 @@ p + p {
 }
 
 .text {
-	padding: 1em 1em;
+	padding: 0 1em;
 }
-.move {
+/* .move {
 	margin-top: 0.6em;
-}
-.meta-content {
+} */
+.day-likes-dislikes{
 	display: flex;
 	justify-content: space-between;
 	align-items: baseline;
 }
-
+ 
 .author {
 	display: flex;
 	align-items: center;
 	gap: 0.6em;
 }
 
-.thumb-up {
+.thumb-up-alt {
 	position: relative;
 	top: 5px;
 }
-.thumb-down {
+.thumb-down-alt {
 	position: relative;
 	top: 5px;
 }
