@@ -75,7 +75,7 @@ input[type="text"] {
 
 /* updated css */
 .push-right {
-	margin-left: auto;
+	margin-left: 70px;
 }
 .blog-cover {
 	border-top-left-radius: 0.5em;
@@ -102,17 +102,19 @@ input[type="text"] {
 }
 
 .text {
+	margin-top: 0.8em;
 	padding: 0 1em;
 }
-/* .move {
+.move {
 	margin-top: 0.6em;
-} */
-.day-likes-dislikes{
+}
+.day-likes-dislikes {
 	display: flex;
 	justify-content: space-between;
 	align-items: baseline;
+	margin-bottom: 1em;
 }
- 
+
 .author {
 	display: flex;
 	align-items: center;

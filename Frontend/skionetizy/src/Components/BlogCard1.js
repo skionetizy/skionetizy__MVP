@@ -13,7 +13,7 @@ const BlogCard1 = ({ blog }) => {
 					/>
 					<div className="text">
 						<h3>How to write a blog</h3>
-						<div className="author">
+						<div className="author move">
 							<img className="avatar" src="//unsplash.it/40/40" alt="" />
 							<small className="author-name">Rahul gupta</small>
 						</div>
