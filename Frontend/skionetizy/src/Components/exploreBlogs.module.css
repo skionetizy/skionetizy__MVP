@@ -1,0 +1,369 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap');
+
+:root {
+	--primary-blue: #3498db;
+	--dark-blue: #142850;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: sans-serif;
+	background-color: var(--dark-blue);
+	font-family: 'Montserrat', sans-serif;
+}
+
+.container {
+	width: 80%;
+	max-width: 1400px;
+	margin: 0 auto;
+}
+.nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+
+
+.logo {
+	font-size: 3rem;
+	color: var(--primary-blue);
+	/* width: 20%; */
+}
+
+
+.search {
+	display: flex;
+	align-items: center;
+	justify-self: flex-start;
+	/* margin-left: -10em; */
+}
+
+.searchBar {
+	background-color: var(--primary-blue);
+	border: none;
+	height: 2.7em;
+	border-radius: 0.5em;
+	color: #fff;
+	padding: 0 1em;
+}
+
+/* @media (max-width: 1400px) {
+  .search{
+    
+  }
+} */
+
+.searchIcon {
+	width: 30%;
+	margin-left: -1.4em;
+	color: #fff;
+}
+.searchIcon:hover {
+	cursor: pointer;
+}
+
+
+
+.links {
+	list-style-type: none;
+	display: flex;
+	gap: 4em;
+}
+
+.navToggle {
+	display: none;
+}
+.hamburger {
+	display: none;
+}
+
+
+
+
+.navLink {
+	text-decoration: none;
+	font-size: 1.3rem;
+	color: var(--primary-blue);
+	font-weight: 700;
+}
+.navLink:hover {
+	text-decoration: underline;
+	-webkit-text-underline-position: under;
+	-ms-text-underline-position: below;
+	text-underline-position: under;
+	text-underline-offset: 6px;
+	text-decoration-thickness: 3px;
+}
+
+
+.blogCardContainer {
+	margin-top: 5em;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 2em;
+}
+
+
+
+.blogCover {
+	border-top-left-radius: 0.5em;
+	border-top-right-radius: 0.5em;
+	height: 8em;
+	object-fit: cover;
+}
+.cardBox {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	background-color: #3498db;
+	color: #fff;
+	border-top-left-radius: 0.5em;
+	border-top-right-radius: 0.5em;
+	border-bottom-left-radius: 0.5em;
+	border-bottom-right-radius: 0.5em;
+	width: fit-content;
+}
+.authorName {
+	font-size: 0.8rem;
+	font-weight: 700;
+}
+.text {
+	padding: 0 2em;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+.title {
+	margin-top: -0.6em;
+}
+
+.dayLikesDislikes {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	margin-top: -0.5em;
+	margin-bottom: -0.5em;
+	gap: 2.3em;
+}
+
+.author {
+	display: flex;
+	align-items: center;
+	gap: 0.6em;
+	margin-top: -0.5em;
+}
+
+.pushRight {
+	position: relative;
+	left: 30px;
+	display: flex;
+	align-items: flex-end;
+	gap: 0.4em;
+}
+.thumbDown {
+	display: flex;
+	align-items: flex-end;
+	gap: 0.4em;
+}
+
+.thumbUpAlt {
+	position: relative;
+	top: 5px;
+}
+.thumbDownAlt {
+	position: relative;
+	top: 5px;
+}
+
+
+
+.avatar {
+	border-radius: 2em;
+}
+
+/* To change the colour of like and dislike button use this css */
+/* .thmbicon{
+  color:#142850;
+}  */
+
+/* page number */
+.pageNum {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+
+.pageNum .icon,
+.pageNum div {
+	width: 46px;
+	height: 44px;
+	background: #3598db;
+	margin: 0 10px;
+	padding-top: 13px;
+	font-size: large;
+	font-weight: bold;
+	color: white;
+	border-radius: 2px;
+	cursor: pointer;
+	margin: 20px 30px 30px 0;
+}
+.pageNum .icon:hover,
+.pageNum div:hover {
+	background-color: #106096;
+}
+
+@media (max-width: 600px) {
+	.pageNum {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+}
+
+
+
+@media (max-width: 1100px) {
+	.nav {
+		display: flex;
+		justify-content: flex-start;
+	}
+}
+
+@media (max-width: 600px) {
+	.nav {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}
+@media (max-width: 600px) {
+	.logo {
+		align-self: center;
+	}
+}
+
+@media (max-width: 600px) {
+	.pageLinks {
+		width: fit-content;
+	}
+}
+@media (max-width: 1100px) {
+	.nav {
+		display: flex;
+		justify-content: center;
+		justify-content: space-around;
+	}
+
+	.links {
+		display: none;
+	}
+	.hamburger {
+		display: block;
+		width: fit-content;
+	}
+
+	.hamburgerIcon {
+		color: var(--primary-blue);
+		font-size: 2rem;
+		/* position: relative;
+		left: 6.5em;
+		bottom: 1em; */
+	}
+	.hamburgerIcon:hover {
+		cursor: pointer;
+	}
+	.navToggle:checked ~ .links {
+		display: flex;
+		flex-direction: column;
+		font-size: 0.5rem;
+		padding: 0;
+		gap: 2em;
+		/* margin-top: -1.3em; */
+	}
+}
+
+@media (max-width: 600px) {
+	.nav {
+		display: flex;
+		flex-direction: column;
+		align-content: center;
+		align-items: stretch;
+	}
+
+	.links {
+		display: none;
+	}
+	.hamburger {
+		display: block;
+		width: fit-content;
+	}
+
+	.hamburgerIcon {
+		color: var(--primary-blue);
+		font-size: 2rem;
+		position: relative;
+		left: 7em;
+		bottom: 1em;
+	}
+	.hamburgerIcon:hover {
+		cursor: pointer;
+	}
+	.navToggle:checked ~ .links {
+		display: flex;
+		flex-direction: column;
+		font-size: 0.5rem;
+		padding: 0;
+		gap: 2em;
+		margin-top: -1.3em;
+	}
+}
+
+
+@media (max-width: 600px) {
+	.navLink:hover {
+		text-decoration: none;
+	}
+}
+
+
+@media (max-width: 600px) {
+	.blogCardContainer {
+		margin-top: 1em;
+	}
+}
+
+@media (max-width: 600px) {
+	.dayLikesDislikes {
+		display: flex;
+		gap: 0.9em;
+	}
+	.pushRight {
+		position: relative;
+		left: 8px;
+		display: flex;
+		align-items: flex-end;
+		gap: 0.4em;
+	}
+}
+
+
+scrollbar ::-webkit-scrollbar {
+	width: 10px;
+}
+::-webkit-scrollbar-track {
+	background: #142850;
+}
+::-webkit-scrollbar-thumb {
+	background: #3598db;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}

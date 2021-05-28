@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './ExploreBlogs.css';
+import style from './exploreBlogs.module.css';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import PaginatedButton from './PaginatedButton';
@@ -54,14 +54,14 @@ function BlogNavigation({ blogsPerPage, blogsLength, setCurrentBlog }) {
 
 	return (
 		<div>
-			<div className="page-num">
-				{hasPrev && <ArrowBackIosIcon className="icon" onClick={handlePrev} />}
+			<div className={style.pageNum}>
+				{hasPrev && <ArrowBackIosIcon className={style.icon} onClick={handlePrev} />}
 				{/* <div>1</div> <div>2</div>{" "}
         <div>3</div> <div>4</div> <div>5</div>{" "} */}
 				{PaginatedButtons.map((button, index) => {
 					return <PaginatedButton index={index} button={button} setCurrentBlog={setCurrentBlog} />;
 				})}
-				{hasNext && <ArrowForwardIosIcon className="icon" onClick={handleNext} />}
+				{hasNext && <ArrowForwardIosIcon className={style.icon} onClick={handleNext} />}
 			</div>
 		</div>
 	);

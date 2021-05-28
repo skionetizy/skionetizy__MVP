@@ -5,7 +5,6 @@ import ThumbUp from '@material-ui/icons/ThumbUp';
 import ThumbDown from '@material-ui/icons/ThumbDown';
 import MenuIcon from '@material-ui/icons/Menu';
 import VisibilityIcon from '@material-ui/icons/Visibility';
-import { ThumbUpTwoTone } from '@material-ui/icons';
 
 const ViewBlog = () => {
 	return (
