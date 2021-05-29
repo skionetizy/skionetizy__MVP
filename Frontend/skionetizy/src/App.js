@@ -26,6 +26,7 @@ function App() {
           <Route exact path="/upload" component={Upload} />
           <Route exact path="/final" component={FinalPage} />
           <Route exact path="/view-blog/:blogID" component={ViewBlog} />
+          {/* <Route exact path="/view-blog/" component={ViewBlog} /> */}
           <Route exact path="/explore-blogs" component={ExploreBlogs} />
         </Switch>
       </div>
