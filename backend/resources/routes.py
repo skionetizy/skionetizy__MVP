@@ -1,4 +1,4 @@
-from .authorize import AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup
+from .authorize import AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails#getUserFirstName
 from .blog import AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByUser, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogs,GetBlog
 
 def initialize_routes(api):
@@ -6,6 +6,8 @@ def initialize_routes(api):
     api.add_resource(AuthorizeSignup,'/signup')
     api.add_resource(AuthorizeEmailVerification,'/emailVerification/<token>')
     api.add_resource(AuthorizeLogin,'/login')
+    # api.add_resource(getUserFirstName,'/user/getUserFirstName/<userID>')
+    api.add_resource(getUserDetails,'/user/getUserDetails/<userID>')
     #blog
     #post
     api.add_resource(AddBlogDescriptionAndTitle,'/blog/addBlogDescriptionAndTitle')

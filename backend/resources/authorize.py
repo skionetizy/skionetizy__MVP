@@ -101,5 +101,23 @@ class AuthorizeLogin(Resource):
         
         return make_response({"user":user,"message":"Logged in Successfully","status":200})
 
+# class getUserFirstName(Resource):
+#     def get(self,userID):
+#         # body=request.get_json()
+
+#         print(f"userID:{userID}")
+#         user = User.objects.get(userID=userID).only("firstName")
+
+#         return make_response({"user":user,"message":"fetched user details  Successfully","status":200})
+
+class getUserDetails(Resource):
+    def get(self,userID):
+        # body=request.get_json()
+
+        print(f"userID:{userID}")
+        user = User.objects.get(userID=userID)
+
+        return make_response({"user":user,"message":"fetched user details  Successfully","status":200})
+
 
         

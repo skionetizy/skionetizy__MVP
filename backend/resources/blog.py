@@ -271,7 +271,7 @@ class RemoveCommentonBlog(Resource):
 
 class GetBlogs(Resource):
     def get(self):
-        blogs=Blog.objects()
+        blogs=Blog.objects().exclude("blogDescription","comments","likedByUsersList","dislikedByUsersList")
         # print(blogs)
         return make_response(jsonify({"blogs":blogs}))
 
