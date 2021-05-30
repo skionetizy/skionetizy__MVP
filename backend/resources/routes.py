@@ -1,5 +1,5 @@
 from .authorize import AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails#getUserFirstName
-from .blog import AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByUser, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogs,GetBlog
+from .blog import AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByUser, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogs,GetBlogByBlogID
 
 def initialize_routes(api):
     #authorisation
@@ -22,5 +22,5 @@ def initialize_routes(api):
     api.add_resource(RemoveCommentonBlog,'/blog/removeCommentOnBlog/<blogID>')
     #get
     api.add_resource(GetBlogs,'/blog/getBlogs')
-    api.add_resource(GetBlog,'/blog/getBlog/<blogID>')
+    api.add_resource(GetBlogByBlogID,'/blog/getBlogByBlogID/<blogID>')
     api.add_resource(GetBlogsByUser,'/blog/getBlogsByUser')

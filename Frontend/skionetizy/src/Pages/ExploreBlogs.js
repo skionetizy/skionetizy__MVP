@@ -48,7 +48,7 @@ function MyBlogs() {
   }, []);
 
   const slicedBlogs = blogs.slice(startingIndex, endingIndex);
-  console.log(slicedBlogs);
+  // console.log(slicedBlogs);
 
   return (
     <div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import ThumbDownAltIcon from "@material-ui/icons/ThumbDownAlt";
@@ -13,6 +13,7 @@ const BlogCard = ({ blog }) => {
   const [authorName, setAuthorName] = useState("");
 
   useEffect(() => {
+    console.log({ blogIDinBlogCard: blog.blogID, blog });
     axios
       .get(`${baseURL}/user/getUserDetails/${blog.userID}`)
       .then((res) => setAuthorName(res.data.user.firstName))
@@ -21,13 +22,13 @@ const BlogCard = ({ blog }) => {
   }, []);
   return (
     <div>
-      <Link to={`/view-blog/ ${blog.blogID}`}>
+      <Link to={`/view-blog/${blog.blogID}/${blog.userID}`}>
         <div className={style.main}>
           <div className={style.cardBox}>
             <img
               className={style.blogCover}
               // src="https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-              src={`${blog.imageURL}`}
+              src={`${blog.blogImageURL}`}
               alt=""
             />
             <div className={style.blogDetails}>

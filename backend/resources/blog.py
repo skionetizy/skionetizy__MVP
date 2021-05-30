@@ -21,8 +21,6 @@ class AddBlogDescriptionAndTitle(Resource):
             return make_response(jsonify({"message":"blog description must be more than 200 characters long","statusCode":500}))
 
         
-
-
         newBlog= Blog(
             blogID = uuid.uuid4(),
             blogTitle=body["blogTitle"],
@@ -57,7 +55,6 @@ class UpdateBlogDescriptionAndText(Resource):
 class AddBlogImage(Resource):
     def patch(self):
         
-        
         blogID = request.form['blogID']
         userID=request.form['userID']
         # print(blogID)
@@ -65,7 +62,6 @@ class AddBlogImage(Resource):
         photo = request.files["file"]
         # if(userID!= blog['userID']):
         #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
-            
 
         upload_result = upload(photo)
         photo_url,options=cloudinary_url(
@@ -77,8 +73,6 @@ class AddBlogImage(Resource):
         print(photo_url)
         print(current_datetime)
         
-
-
         blog.update(
             blogImageURL=photo_url,
             timestamp= current_datetime
@@ -121,7 +115,6 @@ def changeUUIDtoString(uuidVar):
     newUUIDVar=uuidVar.hex
     return newUUIDVar
     
-
 class RemoveLikeOnBlog(Resource):
     def patch(self,blogID):
         body=request.get_json()
@@ -221,8 +214,6 @@ class AddCommentToBlog(Resource):
         # if(userID!= blog['userID']):
         #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
 
-       
-
         if(len(commentDescription)>=300 or len(commentDescription)<6):
             return make_response(jsonify({"message":"comment must be more than 6 characters and less than 300 characters"}))
         
@@ -248,8 +239,7 @@ class RemoveCommentonBlog(Resource):
         commentID=body['commentID']
         userID=body['userID']
         # blogID=body['blogID']
-        
-
+    
         blog=Blog.objects.get(blogID=blogID)
 
         # if(userID!= blog['userID']):
@@ -265,7 +255,6 @@ class RemoveCommentonBlog(Resource):
             if(commentID == newComment):
                 comments.remove(comment)
             
-
         blog.save()
         return make_response(jsonify({"message":"you have successfully added comment on the    blog","statusCode":"200","blog":blog}))
 
@@ -282,9 +271,9 @@ class GetBlogsByUser(Resource):
         blogsByUser=Blog.objects(userID=userID)
         return make_response(jsonify({"blogsByUser":blogsByUser,"statusCode":200}))
 
-class GetBlog(Resource):
-    def get(self):
-        body=request.get_json()
-        blog = Blog.objects.get(blogID=body["blogID"])
+class GetBlogByBlogID(Resource):
+    def get(self,blogID):
+        # body=request.get_json()
+        blog = Blog.objects.get(blogID=blogID)
         return make_response(jsonify({"blog":blog,"statusCode":200}))
 
