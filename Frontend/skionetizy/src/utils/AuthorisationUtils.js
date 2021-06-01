@@ -7,3 +7,8 @@ export const userRole = () => {
   const userRole = localStorage.getItem("userRole");
   return userRole;
 };
+
+export const getLoggedInUserID = () => {
+  const loggedInUser = JSON.parse(localStorage.getItem("userID"));
+  return loggedInUser;
+};

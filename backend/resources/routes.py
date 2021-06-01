@@ -14,12 +14,12 @@ def initialize_routes(api):
     api.add_resource(AddBlogImage,'/blog/addBlogImage')
     #patch
     api.add_resource(UpdateBlogDescriptionAndText,'/blog/updateBlogDescriptionAndTitle')
-    api.add_resource(LikeOnBlog,'/blog/likeOnBlog/<blogID>')
-    api.add_resource(RemoveLikeOnBlog,'/blog/removeLikeOnBlog/<blogID>')
-    api.add_resource(DislikeOnBlog,'/blog/dislikeBlog/<blogID>')
-    api.add_resource(RemoveDislikeOnBlog,'/blog/removeDislikeOnBlog/<blogID>')
-    api.add_resource(AddCommentToBlog,'/blog/addCommentToBlog/<blogID>')
-    api.add_resource(RemoveCommentonBlog,'/blog/removeCommentOnBlog/<blogID>')
+    api.add_resource(LikeOnBlog,'/blog/likeOnBlog/<userID>/<blogID>')
+    api.add_resource(RemoveLikeOnBlog,'/blog/removeLikeOnBlog/<userID>/<blogID>')
+    api.add_resource(DislikeOnBlog,'/blog/dislikeOnBlog/<userID>/<blogID>')
+    api.add_resource(RemoveDislikeOnBlog,'/blog/removeDislikeOnBlog/<userID>/<blogID>')
+    api.add_resource(AddCommentToBlog,'/blog/addCommentToBlog/<userID>/<blogID>')
+    api.add_resource(RemoveCommentonBlog,'/blog/removeCommentOnBlog/<userID>/<blogID>')
     #get
     api.add_resource(GetBlogs,'/blog/getBlogs')
     api.add_resource(GetBlogByBlogID,'/blog/getBlogByBlogID/<blogID>')
