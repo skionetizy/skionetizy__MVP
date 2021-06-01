@@ -2,6 +2,7 @@ from enum import unique
 import jwt
 from mongoengine.fields import EmbeddedDocumentField, ReferenceField
 from flask_bcrypt import generate_password_hash, check_password_hash
+import datetime
 
 from .db import db
 
@@ -40,7 +41,7 @@ class Blog(db.Document):
     blogTitle=db.StringField(required=True,min_length=6)
     blogDescription=db.StringField(required=True,min_length=200)
     blogImageURL=db.URLField(required=False)
-    timestamp=db.DateTimeField(required=False)
+    timestamp=db.DateTimeField(required=False,default=datetime.datetime.utcnow)
     userID= db.UUIDField(required=True,binary=False)
     likesCount= db.IntField(required=False,default=0)
     dislikesCount=db.IntField(required=False,default=0)
