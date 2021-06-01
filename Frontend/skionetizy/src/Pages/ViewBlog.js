@@ -59,7 +59,10 @@ const ViewBlog = () => {
       </nav>
       <div className={style.blogHeader}>
         {/* <h1 className={style.title}>How to write a blog</h1> */}
-        <h1 className={style.title}>{blog.blogTitle}</h1>
+        <div className={style.head}>
+          <h1 className={style.title}>{blog.blogTitle}</h1>
+          <button className={style.follow}>Follow</button>
+        </div>
         <div className={style.author}>
           <img className={style.avatar} src="//unsplash.it/50/50" alt=" " />
           {/* <small className={style.authorName}>Rahul gupta</small> */}
@@ -145,18 +148,18 @@ const ViewBlog = () => {
       <div className={style.meta}>
         <div className={style.metaContent}>
           <div className={style.views}>
-            <span>250</span>
+            <span>250 </span>
             {/* <span>{blog.views}</span>{" "}  this vairable is not yet defined, dont uncomment it*/}
             <VisibilityIcon fontSize="large" className={style.viewIcon} />
           </div>
           <div className={`${style.pushRight} ${style.likes}`}>
-            {/* <span>241</span>{" "} */}
-            <span>{blog.likesCount}</span>
+            <span>241</span>{" "}
+            {/* <span>{blog.likesCount} </span> */}
             <ThumbUp fontSize="large" className={style.thumbUp} />
           </div>
           <div className={style.dislikes}>
-            {/* <span>100</span>{" "} */}
-            <span>{blog.dislikesCount}</span>
+            <span>100</span>{" "}
+            {/* <span>{blog.dislikesCount} </span> */}
             <ThumbDown fontSize="large" className={style.thumbDown} />
           </div>
         </div>
