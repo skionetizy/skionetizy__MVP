@@ -56,7 +56,12 @@
 .author {
 	display: flex;
 	align-items: center;
-	gap: 0.6em;
+	justify-content: space-between;
+}
+.authorContents {
+	display: flex;
+	align-items: center;
+	gap: 0.7em;
 }
 .authorName {
 	color: #fff;
@@ -67,10 +72,41 @@
 .avatar {
 	border-radius: 2em;
 }
-.head {
+
+.published {
 	display: flex;
-	justify-content: space-between;
+	flex-direction: column;
+	gap: 0.5em;
+	color: #fff;
+	font-size: medium;
+}
+.buttons {
+	display: flex;
+	gap: 2em;
+}
+
+.button {
+	background: transparent;
+	border: none;
+	color: #fff;
+	background-color: var(--primary-blue);
+	padding: 0.7em 1.5em;
+	border-radius: 0.6em;
+	cursor: pointer;
+}
+
+.followButton {
+	padding-left: 2.2em;
+	padding-right: 2.2em;
+}
+
+.shareButton {
+	background-color: var(--dark-blue);
+	border: 1px solid var(--primary-blue);
+	color: var(--primary-blue);
+	display: flex;
 	align-items: center;
+	gap: 0.5em;
 }
 
 .blogArea {
@@ -80,16 +116,6 @@
 .blogContent {
 	margin-top: 4em;
 	color: #fff;
-}
-
-.follow {
-	background: transparent;
-	border: none;
-	color: #fff;
-	background-color: var(--primary-blue);
-	padding: 0.75em 1em;
-	border-radius: 0.6em;
-	cursor: pointer;
 }
 
 .meta {

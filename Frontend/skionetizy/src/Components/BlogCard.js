@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import ThumbDownAltIcon from "@material-ui/icons/ThumbDownAlt";
 import axios from "axios";
-import moment from "moment"; // uninstall this later
-import Moment from "react-moment";
+// import moment from "moment"; // uninstall this later
+// import Moment from "react-moment";
 
 import baseURL from "../utils/baseURL";
 import style from "./exploreBlogs.module.css";
@@ -48,13 +48,14 @@ const BlogCard = ({ blog }) => {
                     src="//unsplash.it/40/40"
                     alt=""
                   />
-                  {/* <small className={style.authorName}>Rahul gupta</small> */}
-                  <small className={style.authorName}>{authorName}</small>
+                  <small className={style.authorName}>Rahul gupta</small>
+                  {/* <small className={style.authorName}>{authorName}</small> */}
                 </div>
                 <div>
                   <div className={style.dayLikesDislikes}>
                     {/* <h4 class={style.date}>May 4</h4> */}
                     <h4 class={style.date}>
+                      4th June, 2021
                       {/* {moment(`${blog.timestamp}.split("T")[0]`).format(
                         "MMMM Do YYYY"
                       )} */}
@@ -62,13 +63,13 @@ const BlogCard = ({ blog }) => {
                       {/* <Moment>{blog.timestamp}</Moment> */}
                     </h4>
                     <div className={style.pushRight}>
-                      {/* <span>241</span> */}
-                      <span>{blog.likesCount}</span>
+                      <span>241</span>
+                      {/* <span>{blog.likesCount}</span> */}
                       <ThumbUpAltIcon className={style.ThumbUpAlt} />
                     </div>
                     <div className={style.thumbDown}>
-                      {/* <span>10</span> */}
-                      <span>{blog.dislikesCount}</span>
+                      <span>10</span>
+                      {/* <span>{blog.dislikesCount}</span> */}
                       <ThumbDownAltIcon className={style.ThumbDownAlt} />
                     </div>
                   </div>
