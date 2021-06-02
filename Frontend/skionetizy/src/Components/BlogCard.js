@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import ThumbDownAltIcon from "@material-ui/icons/ThumbDownAlt";
-
 import axios from "axios";
+import moment from "moment"; // uninstall this later
+import Moment from "react-moment";
 
 import baseURL from "../utils/baseURL";
-
 import style from "./exploreBlogs.module.css";
 
 const BlogCard = ({ blog }) => {
@@ -18,8 +19,12 @@ const BlogCard = ({ blog }) => {
       .get(`${baseURL}/user/getUserDetails/${blog.userID}`)
       .then((res) => setAuthorName(res.data.user.firstName))
       .catch((err) => console.log(err));
+
+    console.log({ blog });
     // console.log({ userDetails: user });
-  }, [blog]);
+  }, []);
+
+  // const date = blog.timestamp.split("T")[0];
   return (
     <div>
       <Link style={{textDecoration:"none"}} to={`/view-blog/${blog.blogID}/${blog.userID}`}>
@@ -48,7 +53,14 @@ const BlogCard = ({ blog }) => {
                 </div>
                 <div>
                   <div className={style.dayLikesDislikes}>
-                    <h4 class={style.date}>May 4, 2021</h4>
+                    {/* <h4 class={style.date}>May 4</h4> */}
+                    <h4 class={style.date}>
+                      {/* {moment(`${blog.timestamp}.split("T")[0]`).format(
+                        "MMMM Do YYYY"
+                      )} */}
+                      {/* {moment(date).format("MMMM Do YYYY")} */}
+                      {/* <Moment>{blog.timestamp}</Moment> */}
+                    </h4>
                     <div className={style.pushRight}>
                       {/* <span>241</span> */}
                       <span>{blog.likesCount}</span>

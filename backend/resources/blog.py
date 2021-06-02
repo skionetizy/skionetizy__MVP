@@ -82,9 +82,9 @@ class AddBlogImage(Resource):
 
         
 class LikeOnBlog(Resource):
-    def patch(self,blogID):
-        body = request.get_json()
-        userID=body["userID"]
+    def patch(self,blogID,userID):
+        # body = request.get_json()
+        # userID=body["userID"]
         # blogID=body["blogID"]
         # print(blogID)
         blog=Blog.objects.get(blogID=blogID)
@@ -100,7 +100,8 @@ class LikeOnBlog(Resource):
         # print(blog['likesCount'])
         newLikesCount=blog['likesCount']+1
         # print(newLikesCount)
-        newUserWhoLiked  = body['userID']
+        # newUserWhoLiked  = body['userID']
+        newUserWhoLiked  = userID
         newLikedByUsersList= blog['likedByUsersList'].append(newUserWhoLiked)
         blog.update(
             likesCount= newLikesCount,

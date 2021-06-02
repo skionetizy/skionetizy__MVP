@@ -6,17 +6,18 @@ import BlogNavigation from '../Components/BlogNavigation';
 import axios from 'axios';
 
 function MyBlogs() {
-	const [ blogsPerPage, setBlogsPerPage ] = useState(12);
-	const [ blogs, setBlogs ] = useState([
-		{
-			blogID: 'blogID',
-			blogTitle: 'blogTitle',
-			likesCount: '20',
-			dislikesCount: '10'
-		}
-	]);
-	const [ currentBlog, setCurrentBlog ] = useState(0);
-	const [ loading, setLoading ] = useState(false);
+  const [blogsPerPage, setBlogsPerPage] = useState(12);
+  // const [blogs, setBlogs] = useState([
+  //   {
+  //     blogID: "blogID",
+  //     blogTitle: "blogTitle",
+  //     likesCount: "likesCount",
+  //     dislikesCount: "dislikesCount",
+  //   },
+  // ]);
+  const [blogs, setBlogs] = useState([]);
+  const [currentBlog, setCurrentBlog] = useState(0);
+  const [loading, setLoading] = useState(false);
 
 	const startingIndex = currentBlog * blogsPerPage;
 	const endingIndex = startingIndex + blogsPerPage;
