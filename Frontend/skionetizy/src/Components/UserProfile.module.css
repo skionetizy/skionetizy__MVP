@@ -49,6 +49,7 @@
 	align-items: center;
 	gap: 1em;
 	margin-top: -1.2em;
+	width: max-content;
 }
 
 .breakLine {
@@ -65,39 +66,63 @@
 	display: flex;
 	justify-content: space-between;
 }
+.bio {
+	width: 150%;
+}
 
-.buttons_followButton,
-.buttons_editProfile,
 .deleteBlog,
 .editBlog {
 	background: transparent;
 	border: none;
 	background-color: var(--primary-blue);
-	padding: 0.75em 1em;
+	padding: 0.5em 1.2em;
 	color: #fff;
-	border-radius: 0.7em;
+	border-radius: 0.3em;
 	cursor: pointer;
 }
+.buttons_followButton {
+	background: transparent;
+	border: none;
+	background-color: var(--primary-blue);
+	padding: 0.5em 1.2em;
+	width: max-content;
+	color: #fff;
+	border-radius: 0.3em;
+	cursor: pointer;
+	margin-top: -4em;
+}
+
+.buttons_editProfile {
+	background: transparent;
+	border: none;
+	background-color: var(--primary-blue);
+	padding: 0.6em 1.2em;
+	width: max-content;
+	color: #fff;
+	border-radius: 0.3em;
+	cursor: pointer;
+	margin-top: -4em;
+}
+
 .secondaryButton {
 	background-color: white;
 	border: 1px solid var(--primary-blue);
 	color: var(--primary-blue);
-  padding: 0.65em 1em;
+	padding: 0.5em 1.3em;
 }
 
-/* .profileDescription {
-  display: flex;
-  justify-content: space-between;
-  gap: 3em;
-  align-items: center;
-  text-align: justify;
-} */
-
-.buttons_followButton{
-  align-self: center;
+.profileDescription {
+	display: flex;
+	justify-content: space-between;
+	gap: 3em;
+	text-align: justify;
 }
-.buttons_editProfile{
-  align-self: center;
+
+.buttons_followButton {
+	align-self: flex-start;
+}
+.buttons_editProfile {
+	align-self: flex-start;
 }
 
 .divider {
@@ -107,22 +132,22 @@
 }
 
 .divider ::before {
-  content: "";
-  height: 3px;
-  background-color: black;
-  width: 20%;
-  position: absolute;
-  left: 10%;
-  margin-top: 0.5em;
+	content: "";
+	height: 3px;
+	background-color: black;
+	width: 20%;
+	position: absolute;
+	left: 10%;
+	margin-top: 0.5em;
 }
 .divider ::after {
-  content: "";
-  height: 3px;
-  background-color: black;
-  width: 20%;
-  position: absolute;
-  right: 10%;
-  margin-top: 0.5em;
+	content: "";
+	height: 3px;
+	background-color: black;
+	width: 20%;
+	position: absolute;
+	right: 10%;
+	margin-top: 0.5em;
 }
 
 .blogImage {
@@ -150,7 +175,7 @@
 
 .pushRight {
 	position: relative;
-	left: 30px;
+	left: 25px;
 	display: flex;
 	align-items: flex-end;
 	gap: 0.4em;
@@ -192,7 +217,6 @@
 		align-items: center;
 		text-align: justify;
 	}
-
 	.bioDescription {
 		width: 20%;
 	}
@@ -238,22 +262,22 @@
 		align-self: center;
 	}
 
-  .divider ::before {
-    content: "";
-    height: 3px;
-    background-color: black;
-    width: 35%;
-    position: absolute;
-    left: 10%;
-    margin-top: 0.5em;
-  }
-  .divider ::after {
-    content: "";
-    height: 3px;
-    background-color: black;
-    width: 35%;
-    position: absolute;
-    right: 10%;
-    margin-top: 0.5em;
-  }
+	.divider ::before {
+		content: "";
+		height: 3px;
+		background-color: black;
+		width: 35%;
+		position: absolute;
+		left: 10%;
+		margin-top: 0.5em;
+	}
+	.divider ::after {
+		content: "";
+		height: 3px;
+		background-color: black;
+		width: 35%;
+		position: absolute;
+		right: 10%;
+		margin-top: 0.5em;
+	}
 }

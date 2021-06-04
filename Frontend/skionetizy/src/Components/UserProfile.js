@@ -39,7 +39,7 @@ const UserProfile = () => {
 							</div>
 						</div>
 						<div className={style.buttons}>
-							<button className={`${style.buttons_followButton} ${style.secondaryButton}`}>Follow</button>
+							{/* <button className={`${style.buttons_followButton} ${style.secondaryButton}`}>Follow</button> */}
 							<button className={style.buttons_editProfile}>Edit profile</button>
 						</div>
 					</div>

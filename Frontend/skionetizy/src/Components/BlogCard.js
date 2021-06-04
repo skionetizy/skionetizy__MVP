@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
 import axios from 'axios';
-import moment from 'moment'; // uninstall this later
-import Moment from 'react-moment';
+// import moment from 'moment'; // uninstall this later
+// import Moment from 'react-moment';
 import baseURL from '../utils/baseURL';
 import style from './exploreBlogs.module.css';
 

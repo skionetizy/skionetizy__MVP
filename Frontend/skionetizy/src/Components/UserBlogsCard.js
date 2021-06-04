@@ -14,7 +14,7 @@ const UserBlogsCard = () => {
 				<div className={style.blogInfo}>
 					<div className={style.blogTitle}>How to write a blog</div>
 					<div className={style.dayLikesDislikes}>
-						<h4 class={style.date}>May 4, 2021</h4>
+						<h4 className={style.date}>May 4, 2021</h4>
 						<div className={style.pushRight}>
 							{/* <span>241</span> */}
 							<span>128</span>
