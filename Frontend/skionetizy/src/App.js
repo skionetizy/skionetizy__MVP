@@ -19,6 +19,7 @@ function App() {
           <Nav exact path="/mark" component={MarkDown} />
           <Nav exact path="/upload" component={Upload} />
           <Nav exact path="/final" component={FinalPage} />
+          <Nav exact path="/view-blog/:blogID/:userID" component={ViewBlog} />
         </Switch>
         <Switch>
           <Route exact path="/login" component={Login} />

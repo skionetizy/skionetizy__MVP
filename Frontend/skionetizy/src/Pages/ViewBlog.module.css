@@ -14,42 +14,6 @@
 	max-width: 1400px;
 	margin: 0 auto;
 }
-
-.nav {
-	padding: 1em 0;
-}
-
-.flex {
-	display: flex;
-	justify-content: space-between;
-}
-
-.links {
-	margin-left: 45em;
-	list-style-type: none;
-}
-
-.navToggle {
-	display: none;
-}
-.hamburger {
-	display: none;
-}
-
-.navLink {
-	text-decoration: none;
-	color: var(--primary-blue);
-	font-weight: 700;
-	font-size: 1.3rem;
-}
-.navLink:hover {
-	text-decoration: underline;
-	-webkit-text-underline-position: under;
-	-ms-text-underline-position: below;
-	text-underline-position: under;
-	text-underline-offset: 6px;
-	text-decoration-thickness: 3px;
-}
 .title {
 	color: var(--primary-blue);
 }
@@ -149,47 +113,7 @@
 	font-weight: bold;
 	color: var(--primary-blue);
 }
-
-@media (max-width: 1500px) {
-	.links {
-		margin-left: 0;
-	}
-	.flex {
-		display: flex;
-		justify-content: flex-end;
-		gap: 3em;
-	}
-}
-
 @media (max-width: 600px) {
-	.links {
-		display: none;
-	}
-	.hamburger {
-		display: block;
-		width: fit-content;
-	}
-
-	.hamburgerIcon {
-		color: var(--primary-blue);
-		font-size: 2rem;
-	}
-	.hamburgerIcon:hover {
-		cursor: pointer;
-	}
-	.navToggle:checked ~ .links {
-		display: flex;
-		flex-direction: column;
-		font-size: 0.5rem;
-		padding: 0;
-		gap: 2em;
-	}
-}
-@media (max-width: 600px) {
-	.navLink :hover {
-		text-decoration: none;
-	}
-
 	.blogImage {
 		width: 100%;
 		height: 12em;
