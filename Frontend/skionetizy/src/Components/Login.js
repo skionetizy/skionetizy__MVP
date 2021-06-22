@@ -86,7 +86,8 @@ function Login(props) {
               />
             </div>
             <button className={style.signupButton} type="submit">
-              Login <FontAwesomeIcon icon={faSignInAlt} />
+              Login{" "}
+              <FontAwesomeIcon icon={faSignInAlt} onSubmit={handleSubmit} />
             </button>
           </form>
           <div className={style.signupLink}>
