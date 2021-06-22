@@ -86,11 +86,16 @@ class LikeOnBlog(Resource):
         # body = request.get_json()
         # userID=body["userID"]
         # blogID=body["blogID"]
-        # print(blogID)
+        print(f"blogID : {blogID}")
+        print(f"userID: {userID}")
+
+        
         blog=Blog.objects.get(blogID=blogID)
 
         # if(userID!= blog['userID']):
         #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
+
+        # print(blog["likedByUsersList"])
         
         if(len(blog['likedByUsersList'])==0):
             blog.update(

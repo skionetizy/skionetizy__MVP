@@ -13,7 +13,9 @@ import Vector from "../Assets/bro.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 
-const url = "http://127.0.0.1:5000/login"; //add url here
+import baseURL from "../utils/baseURL";
+
+// const url = "http://127.0.0.1:5000/login"; //add url here
 function Login(props) {
   const [details, setDetails] = useState({
     emailID: "",
@@ -28,13 +30,13 @@ function Login(props) {
     e.preventDefault();
     // console.log(details);
 
-    const url = "http://127.0.0.1:5000/login";
+    // const url = "http://127.0.0.1:5000/login";
 
-    axios.post(`${url}`, details).then((res) => {
+    axios.post(`${baseURL}/login`, details).then((res) => {
       console.log(res.data);
       if (res.data && res.data.user) {
         // onLogin(res.data.user._id.$oid);
-        localStorage.setItem("userID", JSON.stringify(res.data.userID));
+        localStorage.setItem("userID", JSON.stringify(res.data.user.userID));
       }
 
       // console.log({ userID: res.data.userID });

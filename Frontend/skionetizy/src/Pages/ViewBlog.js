@@ -6,6 +6,12 @@ import moment from "moment";
 
 import baseURL from "../utils/baseURL";
 import { getLoggedInUserID } from "../utils/AuthorisationUtils";
+import {
+  likeOnBlogAPIHandler,
+  dislikeOnBlogAPIHandler,
+  removeLikeOnBlogAPIHandler,
+  removeDislikeOnBlogAPIHandler,
+} from "../API/blogAPIHandler";
 
 import style from "./ViewBlog.module.css";
 import ThumbUp from "@material-ui/icons/ThumbUp";
@@ -18,13 +24,13 @@ const ViewBlog = () => {
 
   const [blog, setBlog] = useState({});
   const [authorName, setAuthorName] = useState("");
-  const [hasliked, setHasliked] = useState(false);
+  const [hasLiked, setHasLiked] = useState(false);
   const [hasDisliked, setHasDisliked] = useState(false);
 
   const promise1 = axios.get(`${baseURL}/blog/getBlogByBlogID/${blogID}`);
   const promise2 = axios.get(`${baseURL}/user/getUserDetails/${userID}`);
 
-  console.log({ promise1, promise2 });
+  // console.log({ promise1, promise2 });
 
   useEffect(() => {
     axios.all([promise1, promise2]).then(
@@ -44,88 +50,82 @@ const ViewBlog = () => {
   }, []);
 
   const handleLike = () => {
-    const loggedInUser = getLoggedInUserID();
-    if (hasliked === false && hasDisliked === false) {
-      setHasliked((previousHasLiked) => !previousHasLiked);
-      axios
-        .patch(`${baseURL}/blog/likeOnBlog/${loggedInUser}/${blogID}`)
-        .then((res) => {
-          console.log(res.data);
-          // setHasliked((previousHasLiked) => !previousHasLiked);
-          // return true;
-        })
-        .catch((err) => {
-          console.log(err);
-          // return false;
-        });
-    } else if (hasliked === true && hasDisliked === false) {
-      setHasliked((previousHasLiked) => !previousHasLiked);
-      axios
-        .patch(`${baseURL}/blog/removeLikeOnBlog/${loggedInUser}/${blogID}`)
-        .then((res) => {
-          console.log(res.data);
-          // setHasliked((previousHasLiked) => !previousHasLiked);
-        })
-        .catch((err) => console.log(err));
-    } else if (hasliked === false && hasDisliked === true) {
-      setHasliked((previousHasLiked) => !previousHasLiked);
-      setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-      axios
-        .patch(`${baseURL}/blog/likeOnBlog/${loggedInUser}/${blogID}`)
-        .then((res) => {
-          console.log(res.data);
-          // setHasliked((previousHasLiked) => !previousHasLiked);
-        })
-        .catch((err) => console.log(err));
-      axios
-        .patch(`${baseURL}/blog/removeDislikeOnBlog/${loggedInUser}/${blogID}`)
-        .then((res) => {
-          console.log(res.data);
-          // setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-        })
-        .catch((err) => console.log(err));
+    // const loggedInUser = getLoggedInUserID();
+    console.log("clicked");
+    //handling loggedInUser , also handle not logged in User
+    if (hasLiked === false && hasDisliked === false) {
+      if (likeOnBlogAPIHandler(blogID)) {
+        setHasLiked((previousHasLiked) => !previousHasLiked);
+      }
+    } else if (hasLiked === true && hasDisliked === false) {
+      if (removeLikeOnBlogAPIHandler(blogID)) {
+        setHasLiked((previousHasLiked) => !previousHasLiked);
+      }
+    } else if (hasLiked === false && hasDisliked === true) {
+      // setHasLiked((previousHasLiked) => !previousHasLiked);
+      // setHasDisliked((previousHasDisliked) => !previousHasDisliked);
+      if (likeOnBlogAPIHandler(blogID)) {
+        setHasLiked((previousHasLiked) => !previousHasLiked);
+      }
+      // axios
+      //   .patch(`${baseURL}/blog/removeDislikeOnBlog/${loggedInUser}/${blogID}`)
+      //   .then((res) => {
+      //     console.log(res.data);
+      //     setHasDisliked((previousHasDisliked) => !previousHasDisliked);
+      //   })
+      //   .catch((err) => console.log(err));
+      if (removeDislikeOnBlogAPIHandler(blogID)) {
+        setHasDisliked((previousHasDisliked) => !previousHasDisliked);
+      }
     }
+
+    console.log({ hasLiked, hasDisliked });
   };
 
   const handleDislike = () => {
     console.log({ hasDisliked });
-    const loggedInUser = getLoggedInUserID();
+    //handling loggedInUser , also handle not logged in User
 
-    if (hasDisliked === false && hasliked === false) {
-      setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-      axios
-        .patch(`${baseURL}/blog/dislikeOnBlog/${loggedInUser}/${blogID}`)
-        .then((res) => {
-          console.log(res.data);
-          // setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-        })
-        .catch((err) => console.log(err));
-    } else if (hasDisliked === true && hasliked === false) {
-      setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-      axios
-        .patch(`${baseURL}/blog/removeDislikeOnBlog/${loggedInUser}/${blogID}`)
-        .then((res) => {
-          console.log(res.data);
-          // setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-        })
-        .catch((err) => console.log(err));
-    } else if (hasDisliked === false && hasliked === true) {
-      setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-      setHasliked((previousHasLiked) => !previousHasLiked);
-      axios
-        .patch(`${baseURL}/blog/dislikeOnBlog/${loggedInUser}/${blogID}`)
-        .then((res) => {
-          console.log(res.data);
-          // setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-        })
-        .catch((err) => console.log(err));
-      axios
-        .patch(`${baseURL}/blog/removeLikeOnBlog/${loggedInUser}/${blogID}`)
-        .then((res) => {
-          console.log(res.data);
-          // setHasliked((previousHasLiked) => !previousHasLiked);
-        })
-        .catch((err) => console.log(err));
+    if (hasDisliked === false && hasLiked === false) {
+      // setHasDisliked((previousHasDisliked) => !previousHasDisliked);
+      // axios
+      //   .patch(`${baseURL}/blog/dislikeOnBlog/${loggedInUser}/${blogID}`)
+      //   .then((res) => {
+      //     console.log(res.data);
+      //     setHasDisliked((previousHasDisliked) => !previousHasDisliked);
+      //   })
+      //   .catch((err) => console.log(err));
+
+      if (dislikeOnBlogAPIHandler(blogID)) {
+        setHasDisliked((previousHasDisliked) => !previousHasDisliked);
+      }
+    } else if (hasDisliked === true && hasLiked === false) {
+      // setHasDisliked((previousHasDisliked) => !previousHasDisliked);
+      // axios
+      //   .patch(`${baseURL}/blog/removeDislikeOnBlog/${loggedInUser}/${blogID}`)
+      //   .then((res) => {
+      //     console.log(res.data);
+      //     setHasDisliked((previousHasDisliked) => !previousHasDisliked);
+      //   })
+      //   .catch((err) => console.log(err));
+      if (removeDislikeOnBlogAPIHandler(blogID)) {
+        setHasDisliked((previousHasDisliked) => !previousHasDisliked);
+      }
+    } else if (hasDisliked === false && hasLiked === true) {
+      // setHasDisliked((previousHasDisliked) => !previousHasDisliked);
+      if (likeOnBlogAPIHandler(blogID)) {
+        setHasLiked((previousHasLiked) => !previousHasLiked);
+      }
+      // axios
+      //   .patch(`${baseURL}/blog/dislikeOnBlog/${loggedInUser}/${blogID}`)
+      //   .then((res) => {
+      //     console.log(res.data);
+      //     setHasDisliked((previousHasDisliked) => !previousHasDisliked);
+      //   })
+      //   .catch((err) => console.log(err));
+      if (dislikeOnBlogAPIHandler(blogID)) {
+        setHasDisliked((previousHasDisliked) => !previousHasDisliked);
+      }
     }
   };
 
@@ -242,15 +242,27 @@ const ViewBlog = () => {
           </div>
           <div className={`${style.pushRight} ${style.likes}`}>
             {/* <span>241</span>{" "} */}
-            <span onClick={handleLike}>{blog.likesCount}</span>
+            <span>{blog.likesCount}</span>
             {/* use the above state of hasLiked and add the css or remove the css on the like button*/}
-            <ThumbUp fontSize="large" className={style.thumbUp} />
+            <ThumbUp
+              fontSize="large"
+              className={style.thumbUp}
+              onClick={handleLike}
+            />
           </div>
           <div className={style.dislikes}>
             {/* <span>100</span>{" "} */}
-            <span onClick={handleDislike}>{blog.dislikesCount}</span>
+            <span>{blog.dislikesCount}</span>
             {/* use the above state of hasDisliked and add the css or remove the css on the dislike button*/}
-            <ThumbDown fontSize="large" className={style.thumbDown} />
+            <ThumbDown
+              fontSize="large"
+              className={style.thumbDown}
+              onClick={handleDislike}
+            />
+            {console.log({
+              intheAppLiked: hasLiked,
+              intheAppDiskLiked: hasDisliked,
+            })}
           </div>
         </div>
       </div>
