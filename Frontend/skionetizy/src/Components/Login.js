@@ -7,7 +7,7 @@ import {
   Switch,
   Redirect,
 } from "react-router-dom";
-
+import style from "../index.module.css";
 import axios from "axios";
 import Vector from "../Assets/bro.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -54,58 +54,48 @@ function Login(props) {
   };
 
   return (
-    <div className="mainlogin">
-      <img src={Vector} alt="image" className="vec1" />
-      <div className="login">
-        <h1 style={{ textAlign: "center", position: "relative", top: "50px" }}>
-          <u>Login</u>
-        </h1>
-        <p
-          style={{
-            textAlign: "center",
-            position: "relative",
-            top: "70px",
-            fontWeight: "600",
-          }}
-        >
-          Login to your account
-        </p>
-        <form className="inputs" onSubmit={handleSubmit}>
-          <input
-            type="email"
-            name="emailID"
-            placeholder="Email"
-            onChange={handleChange}
-            value={details.emailID}
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            onChange={handleChange}
-            required
-            value={details.password}
-          />
-          <button className="buttons btnsgn" type="submit">
-            Login <FontAwesomeIcon icon={faSignInAlt} />
-          </button>
-        </form>
-        <p
-          style={{
-            textAlign: "center",
-            position: "relative",
-            bottom: "-150px",
-          }}
-        >
-          Don't have an account ?{" "}
-          <span>
-            {" "}
-            <p>
+    <div className={`${style.container} ${style.cover_login}`}>
+      <div className={style.coverImage_login}>
+        <img src={Vector} alt="" className={style.coverImage_svgLogin} />
+      </div>
+      <div className={`${style.container} ${style.signin}`}>
+        <div className={style.header}>
+          <h1 className={style.header_heading}>Login</h1>
+          <p className={style.header_text}>Login to your account</p>
+        </div>
+        <div className={style.signin_container}>
+          <form className={style.signin_form}>
+            <div className={style.email_password}>
+              <input
+                type="email"
+                name="emailID"
+                placeholder=" Email"
+                onChange={handleChange}
+                value={details.emailID}
+                className={style.email}
+                required
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder=" Password"
+                onChange={handleChange}
+                value={details.password}
+                className={style.password}
+                required
+              />
+            </div>
+            <button className={style.signupButton} type="submit">
+              Login <FontAwesomeIcon icon={faSignInAlt} />
+            </button>
+          </form>
+          <div className={style.signupLink}>
+            <p>Don't have an account?</p>
+            <span>
               <Link to="/">Signup</Link>
-            </p>
-          </span>
-        </p>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );

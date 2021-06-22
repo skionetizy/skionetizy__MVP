@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios'
 import {} from 'axios'
-
+import style from '../index.module.css'
 import bgsignup from "../Assets/bgsignup.svg";
 
 import {
@@ -60,95 +60,66 @@ function Signup() {
   };
 
   return (
-    <div>
-      {/* <img
-        src={bgsignup}
-        style={{ position: "relative", left: "-60px", top: "-400px" }}
-      /> */}
-      <img src={bgsignup} alt="image" className="signvec" />
-      <div className="signin">
-        <h1 style={{ textAlign: "center", position: "relative", top: "50px" }}>
-          <u>Signup</u>
-        </h1>
-        <p
-          style={{
-            textAlign: "center",
-            position: "relative",
-            top: "70px",
-            fontWeight: "600",
-          }}
-        >
-          Enter your details to create a free account
-        </p>
-
-        <form className="inputs signinp" onSubmit={handleSubmit}>
-          <div className="flname">
-            <input
-              type="text"
-              name="firstName"
-              placeholder=" First Name"
-              onChange={handleChange}
-              value={values.firstName}
-              required
-            />
-            <input
-              type="text"
-              name="lastName"
-              placeholder=" Last Name"
-              onChange={handleChange}
-              value={values.lastName}
-              required
-            />
-          </div>
-
-          <input
-            type="email"
-            name="emailID"
-            placeholder=" Email"
-            style={{ width: "425px" }}
-            onChange={handleChange}
-            value={values.emailID}
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder=" Password"
-            style={{ width: "425px" }}
-            onChange={handleChange}
-            value={values.password}
-            required
-          />
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder=" Confirm Password"
-            style={{ width: "425px" }}
-            onChange={handleChange}
-            value={values.confirmPassword}
-            required
-          />
-
-          <button className="buttons btnsgn" type="submit">
-            Sign up <FontAwesomeIcon icon={faSignInAlt} />
-          </button>
-        </form>
-
-        <p
-          style={{
-            textAlign: "center",
-            position: "relative",
-            bottom: "-150px",
-          }}
-        >
-          Already have an account ?{" "}
-          <span>
-            <p>
+    <div className={`${style.container} ${style.cover}`}>
+      <div className={`${style.container} ${style.signup}`}>
+        <div className={style.header}>
+          <h1 className={style.header_heading}>Sign up</h1>
+          <p className={style.header_text}>Enter your details to create a free account</p>
+        </div>
+        <div className={style.signup_container}>
+          <form className={style.signup_form}>
+            <div className={style.name}>
+              <input
+                type="text"
+                className={style.name_firstName}
+                name="firstName"
+                placeholder=" First Name"
+                required
+              />
+              <input
+                type="text"
+                className={style.name_lastName}
+                name="lastName"
+                placeholder=" Last Name"
+                required
+              />
+            </div>
+            <div className={style.email_password}>
+              <input
+                type="email"
+                name="emailID"
+                placeholder=" Email"
+                className={style.email}
+                required
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder=" Password"
+                className={style.password}
+                required
+              />
+              <input
+                type="password"
+                name="confirmPassword"
+                placeholder=" Confirm Password"
+                className={style.confirmPassword}
+                required
+              />
+            </div>
+            <button className={style.signinButton} type="submit">
+              Sign up <FontAwesomeIcon icon={faSignInAlt} />
+            </button>
+          </form>
+          <div className={style.loginLink}>
+            <p>Already have an account?</p>
+            <span>
               <Link to="/login">Login</Link>
-            </p>
-          </span>
-        </p>
+            </span>
+          </div>
+        </div>
       </div>
+      <div className={style.coverImage}><img src={bgsignup} alt="image" className={style.coverImage_svg} /></div>
     </div>
   );
 }

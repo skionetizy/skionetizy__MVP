@@ -7,6 +7,7 @@ import Upload from "./Components/uploadImage";
 import { FinalPage } from "./Components/finalPage";
 import ExploreBlogs from "./Pages/ExploreBlogs";
 import ViewBlog from "./Pages/ViewBlog";
+import UserProfile from "./Components/UserProfile";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Nav exact path="/mark" component={MarkDown} />
           <Nav exact path="/upload" component={Upload} />
           <Nav exact path="/final" component={FinalPage} />
+          <Nav exact path="/view-blog/:blogID/:userID" component={ViewBlog} />
         </Switch>
         <Switch>
           <Route exact path="/login" component={Login} />
@@ -26,7 +28,7 @@ function App() {
           <Route exact path="/upload" component={Upload} />
           <Route exact path="/final" component={FinalPage} />
           <Route exact path="/view-blog/:blogID/:userID" component={ViewBlog} />
-          {/* <Route exact path="/view-blog/" component={ViewBlog} /> */}
+          <Route exact path="/user-profile/" component={UserProfile} />
           <Route exact path="/explore-blogs" component={ExploreBlogs} />
         </Switch>
       </div>

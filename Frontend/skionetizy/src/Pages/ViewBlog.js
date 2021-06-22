@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import axios from "axios";
-import moment from "moment";
+// import moment from "moment";
 
 import baseURL from "../utils/baseURL";
-import { getLoggedInUserID } from "../utils/AuthorisationUtils";
 import {
   likeOnBlogAPIHandler,
   dislikeOnBlogAPIHandler,
@@ -18,6 +17,7 @@ import ThumbUp from "@material-ui/icons/ThumbUp";
 import ThumbDown from "@material-ui/icons/ThumbDown";
 import MenuIcon from "@material-ui/icons/Menu";
 import VisibilityIcon from "@material-ui/icons/Visibility";
+import ShareIcon from "@material-ui/icons/Share";
 
 const ViewBlog = () => {
   const { blogID, userID } = useParams();
@@ -131,30 +131,26 @@ const ViewBlog = () => {
 
   return (
     <div className={`${style.main} ${style.container}`}>
-      <nav className={style.nav}>
-        <input type="checkbox" id="nav-toggle" className={style.navToggle} />
-        <label className={style.hamburger} htmlFor="nav-toggle">
-          <MenuIcon fontSize="large" className={style.hamburgerIcon} />
-        </label>
-        <ul className={`${style.links} ${style.flex}`}>
-          <Link className={style.navLink} to="#">
-            <li className={style.link}>About us</li>
-          </Link>
-          <Link className={style.navLink} to="#">
-            <li className={style.link}>Contact us</li>
-          </Link>
-          <Link className={style.navLink} to="#">
-            <li className={style.link}>Get Started</li>
-          </Link>
-        </ul>
-      </nav>
       <div className={style.blogHeader}>
         {/* <h1 className={style.title}>How to write a blog</h1> */}
         <h1 className={style.title}>{blog.blogTitle}</h1>
         <div className={style.author}>
           <img className={style.avatar} src="//unsplash.it/50/50" alt=" " />
           {/* <small className={style.authorName}>Rahul gupta</small> */}
-          <small className={style.authorName}>{authorName}</small>
+          <div className={style.published}>
+            <small className={style.authorName}>Rahul gupta</small>
+            <small className={style.publishedDate}>
+              Published on <small>May 29, 2022</small>
+            </small>
+          </div>
+        </div>
+        <div className={style.buttons}>
+          <button className={`${style.button} ${style.followButton}`}>
+            Follow
+          </button>
+          <button className={`${style.button} ${style.shareButton}`}>
+            Share <ShareIcon fontSize="small" />
+          </button>
         </div>
       </div>
       <div className={style.blogArea}>
