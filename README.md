@@ -14,3 +14,7 @@
 - activate it and then
 
 - enter this `pip install -r requirements.txt` to install all the required modules
+
+## to deactivate the VENV
+
+- run `deactivate`
