@@ -11,6 +11,7 @@ import {
   removeLikeOnBlogAPIHandler,
   removeDislikeOnBlogAPIHandler,
 } from "../API/blogAPIHandler";
+import { getLoggedInUserID } from "../utils/AuthorisationUtils";
 
 import style from "./ViewBlog.module.css";
 import ThumbUp from "@material-ui/icons/ThumbUp";
@@ -21,7 +22,7 @@ import ShareIcon from "@material-ui/icons/Share";
 
 const ViewBlog = () => {
   const { blogID, userID } = useParams();
-
+  const loggedInUser = getLoggedInUserID();
   const [blog, setBlog] = useState({});
   const [authorName, setAuthorName] = useState("");
   const [hasLiked, setHasLiked] = useState(false);
@@ -54,17 +55,17 @@ const ViewBlog = () => {
     console.log("clicked");
     //handling loggedInUser , also handle not logged in User
     if (hasLiked === false && hasDisliked === false) {
-      if (likeOnBlogAPIHandler(blogID)) {
+      if (likeOnBlogAPIHandler(blogID, loggedInUser)) {
         setHasLiked((previousHasLiked) => !previousHasLiked);
       }
     } else if (hasLiked === true && hasDisliked === false) {
-      if (removeLikeOnBlogAPIHandler(blogID)) {
+      if (removeLikeOnBlogAPIHandler(blogID, loggedInUser)) {
         setHasLiked((previousHasLiked) => !previousHasLiked);
       }
     } else if (hasLiked === false && hasDisliked === true) {
       // setHasLiked((previousHasLiked) => !previousHasLiked);
       // setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-      if (likeOnBlogAPIHandler(blogID)) {
+      if (likeOnBlogAPIHandler(blogID, loggedInUser)) {
         setHasLiked((previousHasLiked) => !previousHasLiked);
       }
       // axios
@@ -74,7 +75,7 @@ const ViewBlog = () => {
       //     setHasDisliked((previousHasDisliked) => !previousHasDisliked);
       //   })
       //   .catch((err) => console.log(err));
-      if (removeDislikeOnBlogAPIHandler(blogID)) {
+      if (removeDislikeOnBlogAPIHandler(blogID, loggedInUser)) {
         setHasDisliked((previousHasDisliked) => !previousHasDisliked);
       }
     }
@@ -96,7 +97,7 @@ const ViewBlog = () => {
       //   })
       //   .catch((err) => console.log(err));
 
-      if (dislikeOnBlogAPIHandler(blogID)) {
+      if (dislikeOnBlogAPIHandler(blogID, loggedInUser)) {
         setHasDisliked((previousHasDisliked) => !previousHasDisliked);
       }
     } else if (hasDisliked === true && hasLiked === false) {
@@ -108,12 +109,12 @@ const ViewBlog = () => {
       //     setHasDisliked((previousHasDisliked) => !previousHasDisliked);
       //   })
       //   .catch((err) => console.log(err));
-      if (removeDislikeOnBlogAPIHandler(blogID)) {
+      if (removeDislikeOnBlogAPIHandler(blogID, loggedInUser)) {
         setHasDisliked((previousHasDisliked) => !previousHasDisliked);
       }
     } else if (hasDisliked === false && hasLiked === true) {
       // setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-      if (likeOnBlogAPIHandler(blogID)) {
+      if (likeOnBlogAPIHandler(blogID, loggedInUser)) {
         setHasLiked((previousHasLiked) => !previousHasLiked);
       }
       // axios
@@ -123,7 +124,7 @@ const ViewBlog = () => {
       //     setHasDisliked((previousHasDisliked) => !previousHasDisliked);
       //   })
       //   .catch((err) => console.log(err));
-      if (dislikeOnBlogAPIHandler(blogID)) {
+      if (dislikeOnBlogAPIHandler(blogID, loggedInUser)) {
         setHasDisliked((previousHasDisliked) => !previousHasDisliked);
       }
     }
@@ -134,7 +135,7 @@ const ViewBlog = () => {
       <div className={style.blogHeader}>
         <h1 className={style.title}>How to write a blog</h1>
         {/* <h1 className={style.title}>{blog.blogTitle}</h1> */}
-        <div className = {style.author}>
+        <div className={style.author}>
           <div className={style.authorContents}>
             <img className={style.avatar} src="//unsplash.it/50/50" alt=" " />
             {/* <small className={style.authorName}>Rahul gupta</small> */}

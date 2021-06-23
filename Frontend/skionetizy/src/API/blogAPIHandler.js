@@ -2,11 +2,7 @@ import axios from "axios";
 
 import baseURL from "../utils/baseURL";
 
-import { getLoggedInUserID } from "../utils/AuthorisationUtils";
-
-const loggedInUser = getLoggedInUserID();
-
-export const likeOnBlogAPIHandler = (blogID) => {
+export const likeOnBlogAPIHandler = (blogID, loggedInUser) => {
   // const loggedInUser = getLoggedInUserID();
   console.log({ loggedInUser });
   axios
@@ -22,7 +18,7 @@ export const likeOnBlogAPIHandler = (blogID) => {
     });
 };
 
-export const removeLikeOnBlogAPIHandler = (blogID) => {
+export const removeLikeOnBlogAPIHandler = (blogID, loggedInUser) => {
   axios
     .patch(`${baseURL}/blog/removeLikeOnBlog/${loggedInUser}/${blogID}`)
     .then((res) => {
@@ -35,7 +31,7 @@ export const removeLikeOnBlogAPIHandler = (blogID) => {
     });
 };
 
-export const dislikeOnBlogAPIHandler = (blogID) => {
+export const dislikeOnBlogAPIHandler = (blogID, loggedInUser) => {
   axios
     .patch(`${baseURL}/blog/dislikeOnBlog/${loggedInUser}/${blogID}`)
     .then((res) => {
@@ -48,7 +44,7 @@ export const dislikeOnBlogAPIHandler = (blogID) => {
     });
 };
 
-export const removeDislikeOnBlogAPIHandler = (blogID) => {
+export const removeDislikeOnBlogAPIHandler = (blogID, loggedInUser) => {
   axios
     .patch(`${baseURL}/blog/removeDislikeOnBlog/${loggedInUser}/${blogID}`)
     .then((res) => {
