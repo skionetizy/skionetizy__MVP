@@ -36,6 +36,10 @@
 .avatar {
 	border-radius: 2em;
 }
+.buttons {
+	display: flex;
+	gap: 2em;
+}
 
 .published {
 	display: flex;
@@ -44,9 +48,18 @@
 	color: #fff;
 	font-size: medium;
 }
-.buttons {
-	display: flex;
-	gap: 2em;
+
+.blogArea {
+	margin-top: 2em;
+}
+
+.blogContent {
+	margin-top: 4em;
+	color: #fff;
+}
+
+.meta {
+	margin-bottom: 2em;
 }
 
 .button {
@@ -73,19 +86,6 @@
 	gap: 0.5em;
 }
 
-.blogArea {
-	margin-top: 2em;
-}
-
-.blogContent {
-	margin-top: 4em;
-	color: #fff;
-}
-
-.meta {
-	margin-bottom: 2em;
-}
-
 .metaContent {
 	display: flex;
 	justify-content: space-between;
@@ -95,13 +95,16 @@
 .thumbUp,
 .thumbDown {
 	color: var(--primary-blue);
+	font-size: 2.5em;
 	position: relative;
-	top: 6px;
+	top: 10px;
 }
 .viewIcon {
 	color: var(--primary-blue);
+	font-size: 2.5em;
 	position: relative;
 	top: 11px;
+	left: 5px;
 }
 .pushRight {
 	margin-left: 60em;

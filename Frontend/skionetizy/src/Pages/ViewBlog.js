@@ -132,25 +132,27 @@ const ViewBlog = () => {
   return (
     <div className={`${style.main} ${style.container}`}>
       <div className={style.blogHeader}>
-        {/* <h1 className={style.title}>How to write a blog</h1> */}
-        <h1 className={style.title}>{blog.blogTitle}</h1>
-        <div className={style.author}>
-          <img className={style.avatar} src="//unsplash.it/50/50" alt=" " />
-          {/* <small className={style.authorName}>Rahul gupta</small> */}
-          <div className={style.published}>
-            <small className={style.authorName}>Rahul gupta</small>
-            <small className={style.publishedDate}>
-              Published on <small>May 29, 2022</small>
-            </small>
+        <h1 className={style.title}>How to write a blog</h1>
+        {/* <h1 className={style.title}>{blog.blogTitle}</h1> */}
+        <div className = {style.author}>
+          <div className={style.authorContents}>
+            <img className={style.avatar} src="//unsplash.it/50/50" alt=" " />
+            {/* <small className={style.authorName}>Rahul gupta</small> */}
+            <div className={style.published}>
+              <small className={style.authorName}>Rahul gupta</small>
+              <small className={style.publishedDate}>
+                Published on <small>May 29, 2022</small>
+              </small>
+            </div>
           </div>
-        </div>
-        <div className={style.buttons}>
-          <button className={`${style.button} ${style.followButton}`}>
-            Follow
-          </button>
-          <button className={`${style.button} ${style.shareButton}`}>
-            Share <ShareIcon fontSize="small" />
-          </button>
+          <div className={style.buttons}>
+            <button className={`${style.button} ${style.followButton}`}>
+              Follow
+            </button>
+            <button className={`${style.button} ${style.shareButton}`}>
+              Share <ShareIcon fontSize="small" />
+            </button>
+          </div>
         </div>
       </div>
       <div className={style.blogArea}>
