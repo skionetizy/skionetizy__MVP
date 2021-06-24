@@ -98,13 +98,12 @@
 	font-size: 2.5em;
 	position: relative;
 	top: 10px;
+	cursor: pointer;
 }
-.viewIcon {
-	color: var(--primary-blue);
-	font-size: 2.5em;
-	position: relative;
-	top: 11px;
-	left: 5px;
+.thumbUp:active,
+.thumbDown:active
+ {
+	color: #162f63;
 }
 .pushRight {
 	margin-left: 60em;
