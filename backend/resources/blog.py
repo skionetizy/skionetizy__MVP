@@ -150,9 +150,9 @@ class RemoveLikeOnBlog(Resource):
 
 
 class DislikeOnBlog(Resource):
-    def patch(self,blogID):
+    def patch(self,blogID,userID):
         body = request.get_json()
-        userID=body["userID"]
+        # userID=body["userID"]
         # blogID=body["blogID"]
         # print(blogID)
         blog=Blog.objects.get(blogID=blogID)
@@ -168,7 +168,8 @@ class DislikeOnBlog(Resource):
         # print(blog['likesCount'])
         newDislikesCount=blog['dislikesCount']+1
         # print(newLikesCount)
-        newUserWhoDisliked  = body['userID']
+        # newUserWhoDisliked  = body['userID']
+        newUserWhoDisliked = userID
         newDislikedByUsersList= blog['dislikedByUsersList'].append(newUserWhoDisliked)
         blog.update(
             dislikesCount= newDislikesCount,
@@ -185,10 +186,10 @@ class DislikeOnBlog(Resource):
         return make_response(jsonify({"message":"you have successfully dis liked the blog","statusCode":"200","blog":blog}))
 
 class RemoveDislikeOnBlog(Resource):
-    def patch(self,blogID):
+    def patch(self,blogID,userID):
         body=request.get_json()
         # blogID = body['blogID']
-        userID=body['userID']
+        # userID=body['userID']
         blog =Blog.objects.get(blogID=blogID)
 
         dislikedByUsersList = blog['dislikedByUsersList']
@@ -208,10 +209,10 @@ class RemoveDislikeOnBlog(Resource):
         return make_response(jsonify({"message":"you have successfully removed your dis like on the blog","statusCode":"200","blog":blog}))
 
 class AddCommentToBlog(Resource):
-    def patch(self,blogID):
+    def patch(self,blogID,userID):
         body=request.get_json()
         commentID=uuid.uuid4()
-        userID=body['userID']
+        # userID=body['userID']
         # blogID=body['blogID']
         commentDescription=body['commentDescription']
 
@@ -240,10 +241,10 @@ class AddCommentToBlog(Resource):
         return make_response(jsonify({"message":"you have successfully added comment on the    blog","statusCode":"200","blog":blog}))
 
 class RemoveCommentonBlog(Resource):
-    def patch(self,blogID):
+    def patch(self,blogID,userID):
         body=request.get_json()
         commentID=body['commentID']
-        userID=body['userID']
+        # userID=body['userID']
         # blogID=body['blogID']
     
         blog=Blog.objects.get(blogID=blogID)

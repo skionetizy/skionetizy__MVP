@@ -48,33 +48,27 @@ const ViewBlog = () => {
         // });
       })
     );
-  }, []);
+  }, [blog.likesCount, blog.dislikesCount]);
 
   const handleLike = () => {
     // const loggedInUser = getLoggedInUserID();
     console.log("clicked");
     //handling loggedInUser , also handle not logged in User
     if (hasLiked === false && hasDisliked === false) {
-      if (likeOnBlogAPIHandler(blogID, loggedInUser)) {
-        setHasLiked((previousHasLiked) => !previousHasLiked);
-      }
+      const output = likeOnBlogAPIHandler(blogID, loggedInUser);
+      console.log(output);
+      // if (likeOnBlogAPIHandler(blogID, loggedInUser)) {
+      //   setHasLiked((previousHasLiked) => !previousHasLiked);
+      // }
     } else if (hasLiked === true && hasDisliked === false) {
       if (removeLikeOnBlogAPIHandler(blogID, loggedInUser)) {
         setHasLiked((previousHasLiked) => !previousHasLiked);
       }
     } else if (hasLiked === false && hasDisliked === true) {
-      // setHasLiked((previousHasLiked) => !previousHasLiked);
-      // setHasDisliked((previousHasDisliked) => !previousHasDisliked);
       if (likeOnBlogAPIHandler(blogID, loggedInUser)) {
         setHasLiked((previousHasLiked) => !previousHasLiked);
       }
-      // axios
-      //   .patch(`${baseURL}/blog/removeDislikeOnBlog/${loggedInUser}/${blogID}`)
-      //   .then((res) => {
-      //     console.log(res.data);
-      //     setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-      //   })
-      //   .catch((err) => console.log(err));
+
       if (removeDislikeOnBlogAPIHandler(blogID, loggedInUser)) {
         setHasDisliked((previousHasDisliked) => !previousHasDisliked);
       }
@@ -84,63 +78,38 @@ const ViewBlog = () => {
   };
 
   const handleDislike = () => {
-    console.log({ hasDisliked });
+    console.log("disliked");
     //handling loggedInUser , also handle not logged in User
 
     if (hasDisliked === false && hasLiked === false) {
-      // setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-      // axios
-      //   .patch(`${baseURL}/blog/dislikeOnBlog/${loggedInUser}/${blogID}`)
-      //   .then((res) => {
-      //     console.log(res.data);
-      //     setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-      //   })
-      //   .catch((err) => console.log(err));
-
       if (dislikeOnBlogAPIHandler(blogID, loggedInUser)) {
         setHasDisliked((previousHasDisliked) => !previousHasDisliked);
       }
     } else if (hasDisliked === true && hasLiked === false) {
-      // setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-      // axios
-      //   .patch(`${baseURL}/blog/removeDislikeOnBlog/${loggedInUser}/${blogID}`)
-      //   .then((res) => {
-      //     console.log(res.data);
-      //     setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-      //   })
-      //   .catch((err) => console.log(err));
       if (removeDislikeOnBlogAPIHandler(blogID, loggedInUser)) {
         setHasDisliked((previousHasDisliked) => !previousHasDisliked);
       }
     } else if (hasDisliked === false && hasLiked === true) {
-      // setHasDisliked((previousHasDisliked) => !previousHasDisliked);
       if (likeOnBlogAPIHandler(blogID, loggedInUser)) {
         setHasLiked((previousHasLiked) => !previousHasLiked);
       }
-      // axios
-      //   .patch(`${baseURL}/blog/dislikeOnBlog/${loggedInUser}/${blogID}`)
-      //   .then((res) => {
-      //     console.log(res.data);
-      //     setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-      //   })
-      //   .catch((err) => console.log(err));
+
       if (dislikeOnBlogAPIHandler(blogID, loggedInUser)) {
         setHasDisliked((previousHasDisliked) => !previousHasDisliked);
       }
     }
+    console.log({ hasLiked, hasDisliked });
   };
 
   return (
     <div className={`${style.main} ${style.container}`}>
       <div className={style.blogHeader}>
-        <h1 className={style.title}>How to write a blog</h1>
-        {/* <h1 className={style.title}>{blog.blogTitle}</h1> */}
+        <h1 className={style.title}>{blog.blogTitle}</h1>
         <div className={style.author}>
           <div className={style.authorContents}>
             <img className={style.avatar} src="//unsplash.it/50/50" alt=" " />
-            {/* <small className={style.authorName}>Rahul gupta</small> */}
             <div className={style.published}>
-              <small className={style.authorName}>Rahul gupta</small>
+              <small className={style.authorName}>{authorName}</small>
               <small className={style.publishedDate}>
                 Published on <small>May 29, 2022</small>
               </small>
@@ -158,11 +127,6 @@ const ViewBlog = () => {
       </div>
       <div className={style.blogArea}>
         <div className={style.blogCoverImage}>
-          {/* <img
-            className={style.blogImage}
-            src="https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-            alt=" "
-          /> */}
           <img
             className={style.blogImage}
             src={`${blog.blogImageURL}`}
@@ -170,77 +134,17 @@ const ViewBlog = () => {
           />
         </div>
         <div className={style.blogContent}>
-          <article>
-            {/* <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia,
-              consequatur deserunt at iure magni eaque repudiandae in
-              accusantium voluptatum. Placeat necessitatibus blanditiis nisi
-              iusto? Animi fugiat blanditiis, asperiores aperiam natus
-              exercitationem quae deserunt doloribus quis rem quibusdam eius
-              repellendus incidunt sint! Porro ea cumque, illo vero reiciendis
-              earum molestiae dignissimos nobis voluptates itaque recusandae
-              accusantium laboriosam consequuntur sint. Quia natus tempora
-              possimus saepe nam non, iure, libero veritatis excepturi nemo
-              placeat? Quaerat cupiditate fugiat delectus! Perspiciatis quo
-              facilis eum, quas aut rerum! Assumenda atque sint natus, quidem
-              hic laudantium facere quis rem ad magni maiores architecto vitae
-              officiis tempore corrupti?
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit
-              dolore maiores rem quaerat libero doloribus fuga magni adipisci
-              excepturi culpa nulla, assumenda dolorem, nobis expedita sunt.
-              Error repellat nulla corporis obcaecati, ducimus enim iste,
-              mollitia, tempora ullam ad explicabo maiores blanditiis animi
-              quaerat fugiat voluptatem facere? Tenetur dolore fugiat accusamus,
-              minus labore rerum in soluta cumque, voluptate corrupti sint velit
-              praesentium quis quibusdam. Voluptatibus odio nam ad sapiente
-              nostrum nesciunt architecto dolorem dolor porro voluptas modi
-              excepturi, voluptatum, reprehenderit culpa, fugit perspiciatis
-              eveniet quasi nulla in aliquam tenetur doloribus ea adipisci id.
-              Libero ratione harum officia nulla excepturi labore quae!
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit
-              dolore maiores rem quaerat libero doloribus fuga magni adipisci
-              excepturi culpa nulla, assumenda dolorem, nobis expedita sunt.
-              Error repellat nulla corporis obcaecati, ducimus enim iste,
-              mollitia, tempora ullam ad explicabo maiores blanditiis animi
-              quaerat fugiat voluptatem facere? Tenetur dolore fugiat accusamus,
-              minus labore rerum in soluta cumque, voluptate corrupti sint velit
-              praesentium quis quibusdam. Voluptatibus odio nam ad sapiente
-              nostrum nesciunt architecto dolorem dolor porro voluptas modi
-              excepturi, voluptatum, reprehenderit culpa, fugit perspiciatis
-              eveniet quasi nulla in aliquam tenetur doloribus ea adipisci id.
-              Libero ratione harum officia nulla excepturi labore quae!
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit
-              dolore maiores rem quaerat libero doloribus fuga magni adipisci
-              excepturi culpa nulla, assumenda dolorem, nobis expedita sunt.
-              Error repellat nulla corporis obcaecati, ducimus enim iste,
-              mollitia, tempora ullam ad explicabo maiores blanditiis animi
-              quaerat fugiat voluptatem facere? Tenetur dolore fugiat accusamus,
-              minus labore rerum in soluta cumque, voluptate corrupti sint velit
-              praesentium quis quibusdam. Voluptatibus odio nam ad sapiente
-              nostrum nesciunt architecto dolorem dolor porro voluptas modi
-              excepturi, voluptatum, reprehenderit culpa, fugit perspiciatis
-              eveniet quasi nulla in aliquam tenetur doloribus ea adipisci id.
-              Libero ratione harum officia nulla excepturi labore quae!
-            </p> */}
-            {blog.blogDescription}
-          </article>
+          <article>{blog.blogDescription}</article>
         </div>
       </div>
       <div className={style.meta}>
         <div className={style.metaContent}>
           <div className={style.views}>
             <span>250</span>
-            {/* <span>{blog.views}</span>{" "}  this vairable is not yet defined, dont uncomment it*/}
+
             <VisibilityIcon fontSize="large" className={style.viewIcon} />
           </div>
           <div className={`${style.pushRight} ${style.likes}`}>
-            {/* <span>241</span>{" "} */}
             <span>{blog.likesCount}</span>
             {/* use the above state of hasLiked and add the css or remove the css on the like button*/}
             <ThumbUp
@@ -250,7 +154,6 @@ const ViewBlog = () => {
             />
           </div>
           <div className={style.dislikes}>
-            {/* <span>100</span>{" "} */}
             <span>{blog.dislikesCount}</span>
             {/* use the above state of hasDisliked and add the css or remove the css on the dislike button*/}
             <ThumbDown
@@ -261,6 +164,8 @@ const ViewBlog = () => {
             {console.log({
               intheAppLiked: hasLiked,
               intheAppDiskLiked: hasDisliked,
+              inTheAppBlogLikesCount: blog.likesCount,
+              intheAppBlogDislikes: blog.dislikesCount,
             })}
           </div>
         </div>
