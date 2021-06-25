@@ -5,64 +5,57 @@ import baseURL from "../utils/baseURL";
 export const likeOnBlogAPIHandler = (blogID, loggedInUser) => {
   // const loggedInUser = getLoggedInUserID();
   console.log({ loggedInUser });
-  let result;
-  axios
+  return axios
     .patch(`${baseURL}/blog/likeOnBlog/${loggedInUser}/${blogID}`)
     .then((res) => {
       console.log(res.data);
       // setHasliked((previousHasLiked) => !previousHasLiked);
-      result = true;
+      return res.data.success;
     })
-    .catch((err) => {
-      console.log(err);
-      result = false;
+    .catch((res) => {
+      console.log(res);
+      return res;
     });
-  return result;
 };
 
 export const removeLikeOnBlogAPIHandler = (blogID, loggedInUser) => {
-  let result;
-  axios
+  return axios
     .patch(`${baseURL}/blog/removeLikeOnBlog/${loggedInUser}/${blogID}`)
     .then((res) => {
       console.log(res.data);
-      result = true;
+      return res.data.success;
     })
-    .catch((err) => {
-      console.log(err);
-      result = false;
+    .catch((res) => {
+      console.log(res);
+      return res;
     });
-  return result;
 };
 
 export const dislikeOnBlogAPIHandler = (blogID, loggedInUser) => {
-  let result;
-  axios
+  return axios
     .patch(`${baseURL}/blog/dislikeOnBlog/${loggedInUser}/${blogID}`)
     .then((res) => {
       console.log(res.data);
-      result = true;
+      // console.log({result});
+      return res.data.success;
     })
-    .catch((err) => {
-      console.log(err);
-      result = false;
+    .catch((res) => {
+      console.log(res);
+      return res;
     });
-  return result;
 };
 
 export const removeDislikeOnBlogAPIHandler = (blogID, loggedInUser) => {
-  let result;
-  axios
+  return axios
     .patch(`${baseURL}/blog/removeDislikeOnBlog/${loggedInUser}/${blogID}`)
     .then((res) => {
       console.log(res.data);
-      result = true;
+      return res.data.success;
     })
-    .catch((err) => {
-      console.log(err);
-      result = false;
+    .catch((res) => {
+      console.log(res);
+      return res;
     });
-  return result;
 };
 
 // export const dislikeBlog

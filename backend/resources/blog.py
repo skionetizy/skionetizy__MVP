@@ -16,9 +16,9 @@ class AddBlogDescriptionAndTitle(Resource):
         body = request.get_json()
 
         if len(body["blogTitle"])<=6:
-            return make_response(jsonify({"message":"blog title must be more than 6 characters long","statusCode":500}))
+            return make_response(jsonify({"message":"blog title must be more than 6 characters long","statusCode":500,"success":False}))
         elif len(body["blogDescription"])<=200:
-            return make_response(jsonify({"message":"blog description must be more than 200 characters long","statusCode":500}))
+            return make_response(jsonify({"message":"blog description must be more than 200 characters long","statusCode":500,"success":False}))
 
         
         newBlog= Blog(
@@ -30,7 +30,7 @@ class AddBlogDescriptionAndTitle(Resource):
 
         newBlog.save()
 
-        return make_response(jsonify({"blog":newBlog,"statusCode":201}))
+        return make_response(jsonify({"blog":newBlog,"statusCode":201,"success":True}))
 
 class UpdateBlogDescriptionAndText(Resource):
     def patch(self):
@@ -50,7 +50,7 @@ class UpdateBlogDescriptionAndText(Resource):
         )
         blog.save()
 
-        return make_response(jsonify({"blog":blog,"statusCode":200}))
+        return make_response(jsonify({"blog":blog,"statusCode":200,"success":True}))
     
 class AddBlogImage(Resource):
     def patch(self):
@@ -78,7 +78,7 @@ class AddBlogImage(Resource):
             timestamp= current_datetime
         )
         # return make_response(jsonify(upload_result,photo_url,options))
-        return make_response(jsonify({"blog":blog,"statusCode":200}))
+        return make_response(jsonify({"blog":blog,"statusCode":200,"success":True}))
 
         
 class LikeOnBlog(Resource):
@@ -114,7 +114,7 @@ class LikeOnBlog(Resource):
         )
         blog.save()
         
-        return make_response(jsonify({"message":"you have successfully liked the blog","statusCode":"200","blog":blog}))
+        return make_response(jsonify({"message":"you have successfully liked the blog","statusCode":"200","blog":blog,"success":True}))
 
 
 def changeUUIDtoString(uuidVar):
@@ -146,7 +146,7 @@ class RemoveLikeOnBlog(Resource):
         
         blog.save()
         
-        return make_response(jsonify({"message":"you have successfully removed your  like on the blog","statusCode":"200","blog":blog}))
+        return make_response(jsonify({"message":"you have successfully removed your  like on the blog","statusCode":"200","blog":blog,"success":True}))
 
 
 class DislikeOnBlog(Resource):
@@ -183,7 +183,7 @@ class DislikeOnBlog(Resource):
         # )
         # blog.save()
         
-        return make_response(jsonify({"message":"you have successfully dis liked the blog","statusCode":"200","blog":blog}))
+        return make_response(jsonify({"message":"you have successfully dis liked the blog","statusCode":"200","blog":blog,"success":True}))
 
 class RemoveDislikeOnBlog(Resource):
     def patch(self,blogID,userID):
@@ -206,7 +206,7 @@ class RemoveDislikeOnBlog(Resource):
         
         blog.save()
         
-        return make_response(jsonify({"message":"you have successfully removed your dis like on the blog","statusCode":"200","blog":blog}))
+        return make_response(jsonify({"message":"you have successfully removed your dis like on the blog","statusCode":"200","blog":blog,"success":True}))
 
 class AddCommentToBlog(Resource):
     def patch(self,blogID,userID):
@@ -238,7 +238,7 @@ class AddCommentToBlog(Resource):
             comments=newComments
         )
         blog.save()
-        return make_response(jsonify({"message":"you have successfully added comment on the    blog","statusCode":"200","blog":blog}))
+        return make_response(jsonify({"message":"you have successfully added comment on the    blog","statusCode":"200","blog":blog,"success":True}))
 
 class RemoveCommentonBlog(Resource):
     def patch(self,blogID,userID):
@@ -263,24 +263,24 @@ class RemoveCommentonBlog(Resource):
                 comments.remove(comment)
             
         blog.save()
-        return make_response(jsonify({"message":"you have successfully added comment on the    blog","statusCode":"200","blog":blog}))
+        return make_response(jsonify({"message":"you have successfully added comment on the    blog","statusCode":"200","blog":blog,"success":True}))
 
 class GetBlogs(Resource):
     def get(self):
         blogs=Blog.objects().exclude("blogDescription","comments","likedByUsersList","dislikedByUsersList")
         # print(blogs)
-        return make_response(jsonify({"blogs":blogs}))
+        return make_response(jsonify({"blogs":blogs,"success":True}))
 
 class GetBlogsByUser(Resource):
     def get(self):
         body=request.get_json()
         userID=body['userID']
         blogsByUser=Blog.objects(userID=userID)
-        return make_response(jsonify({"blogsByUser":blogsByUser,"statusCode":200}))
+        return make_response(jsonify({"blogsByUser":blogsByUser,"statusCode":200,"success":True}))
 
 class GetBlogByBlogID(Resource):
     def get(self,blogID):
         # body=request.get_json()
         blog = Blog.objects.get(blogID=blogID)
-        return make_response(jsonify({"blog":blog,"statusCode":200}))
+        return make_response(jsonify({"blog":blog,"statusCode":200,"success":True}))
 

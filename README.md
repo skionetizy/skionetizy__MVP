@@ -15,6 +15,8 @@
 
 - enter this `pip install -r requirements.txt` to install all the required modules
 
+- if there are no errors while installation , then you can proceed by running the backend by `python app.py`
+
 ## to deactivate the VENV
 
 - run `deactivate`

@@ -55,11 +55,9 @@ const ViewBlog = () => {
     console.log("clicked");
     //handling loggedInUser , also handle not logged in User
     if (hasLiked === false && hasDisliked === false) {
-      const output = likeOnBlogAPIHandler(blogID, loggedInUser);
-      console.log(output);
-      // if (likeOnBlogAPIHandler(blogID, loggedInUser)) {
-      //   setHasLiked((previousHasLiked) => !previousHasLiked);
-      // }
+      if (likeOnBlogAPIHandler(blogID, loggedInUser)) {
+        setHasLiked((previousHasLiked) => !previousHasLiked);
+      }
     } else if (hasLiked === true && hasDisliked === false) {
       if (removeLikeOnBlogAPIHandler(blogID, loggedInUser)) {
         setHasLiked((previousHasLiked) => !previousHasLiked);
