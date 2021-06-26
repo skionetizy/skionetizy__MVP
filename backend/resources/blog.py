@@ -120,25 +120,32 @@ class LikeOnBlog(Resource):
 def changeUUIDtoString(uuidVar):
     newUUIDVar=uuidVar.hex
     return newUUIDVar
+
+def changeUUIDtoString2(uuidVar):
+    newUUIDStr = str(uuidVar)
+    return newUUIDStr
+
     
 class RemoveLikeOnBlog(Resource):
-    def patch(self,blogID):
-        body=request.get_json()
+    def patch(self,blogID,userID):
+        # body=request.get_json()
         # blogID = body['blogID']
-        userID=body['userID']
+        # userID=body['userID']
         blog =Blog.objects.get(blogID=blogID)
 
         likedByUsersList = blog['likedByUsersList']
         # print(likedByUsersList)
         for user in likedByUsersList:
-            newUser = changeUUIDtoString(user)
+            # newUser = changeUUIDtoString(user)
+            newUser = changeUUIDtoString2(user)
+
             # print(f"user : {user}" )
             # print(f"userID :{userID}")
             # print(f"user type: {type(user)}")
             # print(f"userID type: {type(userID)}")
             if(newUser == userID):
                 # print("entered")
-                # print(user)
+                print(newUser)
                 likedByUsersList.remove(user)
                 blog.update(
                     likesCount=blog['likesCount']-1
@@ -171,11 +178,13 @@ class DislikeOnBlog(Resource):
         # newUserWhoDisliked  = body['userID']
         newUserWhoDisliked = userID
         newDislikedByUsersList= blog['dislikedByUsersList'].append(newUserWhoDisliked)
-        blog.update(
+        output1= blog.update(
             dislikesCount= newDislikesCount,
             dislikedByUsersList=newDislikedByUsersList
         )
-        blog.save()
+        print(f"output1 : {output1}")
+        output2= blog.save()
+        print(f"output2 : {output2}")
         # sampleListItem="hello"
         # sampleList=blog['sampleList'].append(sampleListItem)
         # blog.update(
@@ -187,19 +196,25 @@ class DislikeOnBlog(Resource):
 
 class RemoveDislikeOnBlog(Resource):
     def patch(self,blogID,userID):
-        body=request.get_json()
+        # body=request.get_json()
         # blogID = body['blogID']
         # userID=body['userID']
         blog =Blog.objects.get(blogID=blogID)
+        print(f"blog {blog}")
 
         dislikedByUsersList = blog['dislikedByUsersList']
-       
+        print(f"dislikedByUsersList {dislikedByUsersList}")
         for user in dislikedByUsersList:
-            newUser = changeUUIDtoString(user)
-            
+            newUser = changeUUIDtoString2(user)
+            # print(f"user {user}")
+            # print(f"newUser {newUser}")
+            # print(f"userID {userID}")
+            # print(type(newUser))
+            # print(type(userID))
             if(newUser == userID):
-            
+                print(f"newUser {newUser}")
                 dislikedByUsersList.remove(user)
+                print(f"dislikedByUsersList after removing {dislikedByUsersList} ")
                 blog.update(
                     dislikesCount=blog['dislikesCount']-1
                 )
@@ -258,7 +273,8 @@ class RemoveCommentonBlog(Resource):
         
         for comment in comments:
             print(comment)
-            newComment = changeUUIDtoString(comment['commentID'])
+            # newComment = changeUUIDtoString(comment['commentID'])
+            newComment = changeUUIDtoString2(comment['commentID'])
             if(commentID == newComment):
                 comments.remove(comment)
             

@@ -10,6 +10,7 @@ import {
   dislikeOnBlogAPIHandler,
   removeLikeOnBlogAPIHandler,
   removeDislikeOnBlogAPIHandler,
+  getBlogAPIHandler,
 } from "../API/blogAPIHandler";
 import { getLoggedInUserID } from "../utils/AuthorisationUtils";
 
@@ -51,25 +52,64 @@ const ViewBlog = () => {
   }, [blog.likesCount, blog.dislikesCount]);
 
   const handleLike = () => {
-    // const loggedInUser = getLoggedInUserID();
     console.log("clicked");
     //handling loggedInUser , also handle not logged in User
     if (hasLiked === false && hasDisliked === false) {
-      if (likeOnBlogAPIHandler(blogID, loggedInUser)) {
+      // if (likeOnBlogAPIHandler(blogID, loggedInUser)) {
+      //   setHasLiked((previousHasLiked) => !previousHasLiked);
+      // }
+      likeOnBlogAPIHandler(blogID, loggedInUser).then((res) => {
+        const blogResponse = res.blog;
+        blogResponse &&
+          setBlog((prevBlog) => ({
+            ...prevBlog,
+            likesCount: blogResponse.likesCount + 1,
+          }));
         setHasLiked((previousHasLiked) => !previousHasLiked);
-      }
+      });
     } else if (hasLiked === true && hasDisliked === false) {
-      if (removeLikeOnBlogAPIHandler(blogID, loggedInUser)) {
+      // if (removeLikeOnBlogAPIHandler(blogID, loggedInUser)) {
+      //   setHasLiked((previousHasLiked) => !previousHasLiked);
+      // }
+      removeLikeOnBlogAPIHandler(blogID, loggedInUser).then((res) => {
+        const blogResponse = res.blog;
+        blogResponse &&
+          setBlog((prevBlog) => ({
+            ...prevBlog,
+            likesCount: blogResponse.likesCount - 1,
+          }));
         setHasLiked((previousHasLiked) => !previousHasLiked);
-      }
+      });
     } else if (hasLiked === false && hasDisliked === true) {
-      if (likeOnBlogAPIHandler(blogID, loggedInUser)) {
-        setHasLiked((previousHasLiked) => !previousHasLiked);
-      }
+      // if (likeOnBlogAPIHandler(blogID, loggedInUser)) {
+      //   setHasLiked((previousHasLiked) => !previousHasLiked);
+      // }
+      likeOnBlogAPIHandler(blogID, loggedInUser)
+        .then((res) => {
+          const blogResponse = res.blog;
+          blogResponse &&
+            setBlog((prevBlog) => ({
+              ...prevBlog,
+              likesCount: blogResponse.likesCount + 1,
+            }));
+          setHasLiked((previousHasLiked) => !previousHasLiked);
+        })
+        .catch((err) => console.log(err));
 
-      if (removeDislikeOnBlogAPIHandler(blogID, loggedInUser)) {
-        setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-      }
+      // if (removeDislikeOnBlogAPIHandler(blogID, loggedInUser)) {
+      //   setHasDisliked((previousHasDisliked) => !previousHasDisliked);
+      // }
+      removeDislikeOnBlogAPIHandler(blogID, loggedInUser)
+        .then((res) => {
+          const blogResponse = res.blog;
+          blogResponse &&
+            setBlog((prevBlog) => ({
+              ...prevBlog,
+              dislikesCount: blogResponse.dislikesCount - 1,
+            }));
+          setHasDisliked((previousHasDisliked) => !previousHasDisliked);
+        })
+        .catch((err) => console.log(err));
     }
 
     console.log({ hasLiked, hasDisliked });
@@ -80,21 +120,64 @@ const ViewBlog = () => {
     //handling loggedInUser , also handle not logged in User
 
     if (hasDisliked === false && hasLiked === false) {
-      if (dislikeOnBlogAPIHandler(blogID, loggedInUser)) {
-        setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-      }
+      dislikeOnBlogAPIHandler(blogID, loggedInUser)
+        .then((res) => {
+          const blogResponse = res.blog;
+          blogResponse &&
+            setBlog((prevBlog) => ({
+              ...prevBlog,
+              dislikesCount: blogResponse.dislikesCount + 1,
+            }));
+          setHasDisliked((previousHasDisliked) => !previousHasDisliked);
+        })
+        .catch((err) => console.log(err));
     } else if (hasDisliked === true && hasLiked === false) {
-      if (removeDislikeOnBlogAPIHandler(blogID, loggedInUser)) {
-        setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-      }
-    } else if (hasDisliked === false && hasLiked === true) {
-      if (likeOnBlogAPIHandler(blogID, loggedInUser)) {
-        setHasLiked((previousHasLiked) => !previousHasLiked);
-      }
+      // if (removeDislikeOnBlogAPIHandler(blogID, loggedInUser)) {
+      //   setHasDisliked((previousHasDisliked) => !previousHasDisliked);
+      // }
+      removeDislikeOnBlogAPIHandler(blogID, loggedInUser)
+        .then((res) => {
+          const blogResponse = res.blog;
+          blogResponse &&
+            setBlog((prevBlog) => ({
+              ...prevBlog,
+              dislikesCount: blogResponse.dislikesCount - 1,
+            }));
+          console.log({ resInRemoveDisLike: blogResponse.dislikesCount });
 
-      if (dislikeOnBlogAPIHandler(blogID, loggedInUser)) {
-        setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-      }
+          setHasDisliked((previousHasDisliked) => !previousHasDisliked);
+        })
+        .catch((err) => console.log(err));
+    } else if (hasDisliked === false && hasLiked === true) {
+      // if (removeLikeOnBlogAPIHandler(blogID, loggedInUser)) {
+      //   setHasLiked((previousHasLiked) => !previousHasLiked);
+      // }
+      removeLikeOnBlogAPIHandler(blogID, loggedInUser)
+        .then((res) => {
+          const blogResponse = res.blog;
+          blogResponse &&
+            setBlog((prevBlog) => ({
+              ...prevBlog,
+              likesCount: blogResponse.likesCount - 1,
+            }));
+          setHasLiked((previousHasLiked) => !previousHasLiked);
+        })
+        .catch((err) => console.log(err));
+
+      // if (dislikeOnBlogAPIHandler(blogID, loggedInUser)) {
+      //   setHasDisliked((previousHasDisliked) => !previousHasDisliked);
+      // }
+      dislikeOnBlogAPIHandler(blogID, loggedInUser)
+        .then((res) => {
+          const blogResponse = res.blog;
+          blogResponse &&
+            setBlog((prevBlog) => ({
+              ...prevBlog,
+              dislikesCount: blogResponse.dislikesCount + 1,
+            }));
+          setHasDisliked((previousHasDisliked) => !previousHasDisliked);
+        })
+        .catch((err) => console.log(err));
     }
     console.log({ hasLiked, hasDisliked });
   };

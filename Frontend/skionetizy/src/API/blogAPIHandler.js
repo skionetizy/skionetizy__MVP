@@ -10,7 +10,8 @@ export const likeOnBlogAPIHandler = (blogID, loggedInUser) => {
     .then((res) => {
       console.log(res.data);
       // setHasliked((previousHasLiked) => !previousHasLiked);
-      return res.data.success;
+      // return res.data.success;
+      return res.data;
     })
     .catch((res) => {
       console.log(res);
@@ -23,7 +24,8 @@ export const removeLikeOnBlogAPIHandler = (blogID, loggedInUser) => {
     .patch(`${baseURL}/blog/removeLikeOnBlog/${loggedInUser}/${blogID}`)
     .then((res) => {
       console.log(res.data);
-      return res.data.success;
+      // return res.data.success;
+      return res.data;
     })
     .catch((res) => {
       console.log(res);
@@ -37,7 +39,8 @@ export const dislikeOnBlogAPIHandler = (blogID, loggedInUser) => {
     .then((res) => {
       console.log(res.data);
       // console.log({result});
-      return res.data.success;
+      // return res.data.success;
+      return res.data;
     })
     .catch((res) => {
       console.log(res);
@@ -50,7 +53,8 @@ export const removeDislikeOnBlogAPIHandler = (blogID, loggedInUser) => {
     .patch(`${baseURL}/blog/removeDislikeOnBlog/${loggedInUser}/${blogID}`)
     .then((res) => {
       console.log(res.data);
-      return res.data.success;
+      // return res.data.success;
+      return res.data;
     })
     .catch((res) => {
       console.log(res);
@@ -58,4 +62,12 @@ export const removeDislikeOnBlogAPIHandler = (blogID, loggedInUser) => {
     });
 };
 
-// export const dislikeBlog
+export const getBlogAPIHandler = (blogID) => {
+  return axios
+    .get(`${baseURL}/blog/getBlogByBlogID/${blogID}`)
+    .then((res) => {
+      console.log({ blogDataAPIHandler: res.data });
+      return res.data;
+    })
+    .catch((err) => console.log(err));
+};
