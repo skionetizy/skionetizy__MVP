@@ -95,25 +95,41 @@
 .thumbUp,
 .thumbDown {
 	color: var(--primary-blue);
-	font-size: 2.5em;
+	/* font-size: 2.5em;
 	position: relative;
-	top: 10px;
+	top: 10px; */
 	cursor: pointer;
 }
-.thumbUp:active,
+/* .thumbUp:active,
 .thumbDown:active
  {
 	color: #162f63;
-}
+} */
 .pushRight {
 	margin-left: 60em;
 }
+
+.viewCount,
+.likesCount,
+.dislikesCount{
+	font-size: larger;
+}
+.likesCount{
+	position: relative;
+	top: 2px;
+}
+
+
 .views,
 .likes,
 .dislikes {
 	font-size: 1rem;
 	font-weight: bold;
 	color: var(--primary-blue);
+	display: flex;
+	margin-top: 2em;
+	align-items: center;
+	gap: 0.4em;
 }
 @media (max-width: 600px) {
 	.blogImage {
