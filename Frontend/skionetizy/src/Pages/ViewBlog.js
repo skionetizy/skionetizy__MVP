@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import Moment from "react-moment";
 
 import axios from "axios";
 // import moment from "moment";
@@ -21,6 +22,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import ShareIcon from "@material-ui/icons/Share";
 
+Moment.globalFormat = " MMM D, YYYY";
+
 const ViewBlog = () => {
   const { blogID, userID } = useParams();
   const loggedInUser = getLoggedInUserID();
@@ -28,6 +31,7 @@ const ViewBlog = () => {
   const [authorName, setAuthorName] = useState("");
   const [hasLiked, setHasLiked] = useState(false);
   const [hasDisliked, setHasDisliked] = useState(false);
+  const [dateString, setDateString] = useState("");
 
   const promise1 = axios.get(`${baseURL}/blog/getBlogByBlogID/${blogID}`);
   const promise2 = axios.get(`${baseURL}/user/getUserDetails/${userID}`);
@@ -40,6 +44,12 @@ const ViewBlog = () => {
         const response1 = responses[0];
         setBlog(response1.data.blog);
 
+        console.log({ blogInUseEffect: blog });
+        // const formattedDate = formatTimestampToDate(blog.timestamp.date);
+        const formattedDate = response1.data.blog.timestamp.$date;
+        console.log({ formattedDateInUseEffect: formattedDate });
+        setDateString(formattedDate);
+
         const response2 = responses[1];
         setAuthorName(response2.data.user.firstName);
 
@@ -50,14 +60,12 @@ const ViewBlog = () => {
       })
     );
   }, [blog.likesCount, blog.dislikesCount]);
+  //are the dependencies necessary?
 
   const handleLike = () => {
     console.log("clicked");
     //handling loggedInUser , also handle not logged in User
     if (hasLiked === false && hasDisliked === false) {
-      // if (likeOnBlogAPIHandler(blogID, loggedInUser)) {
-      //   setHasLiked((previousHasLiked) => !previousHasLiked);
-      // }
       likeOnBlogAPIHandler(blogID, loggedInUser).then((res) => {
         const blogResponse = res.blog;
         blogResponse &&
@@ -68,9 +76,6 @@ const ViewBlog = () => {
         setHasLiked((previousHasLiked) => !previousHasLiked);
       });
     } else if (hasLiked === true && hasDisliked === false) {
-      // if (removeLikeOnBlogAPIHandler(blogID, loggedInUser)) {
-      //   setHasLiked((previousHasLiked) => !previousHasLiked);
-      // }
       removeLikeOnBlogAPIHandler(blogID, loggedInUser).then((res) => {
         const blogResponse = res.blog;
         blogResponse &&
@@ -81,9 +86,6 @@ const ViewBlog = () => {
         setHasLiked((previousHasLiked) => !previousHasLiked);
       });
     } else if (hasLiked === false && hasDisliked === true) {
-      // if (likeOnBlogAPIHandler(blogID, loggedInUser)) {
-      //   setHasLiked((previousHasLiked) => !previousHasLiked);
-      // }
       likeOnBlogAPIHandler(blogID, loggedInUser)
         .then((res) => {
           const blogResponse = res.blog;
@@ -96,9 +98,6 @@ const ViewBlog = () => {
         })
         .catch((err) => console.log(err));
 
-      // if (removeDislikeOnBlogAPIHandler(blogID, loggedInUser)) {
-      //   setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-      // }
       removeDislikeOnBlogAPIHandler(blogID, loggedInUser)
         .then((res) => {
           const blogResponse = res.blog;
@@ -132,9 +131,6 @@ const ViewBlog = () => {
         })
         .catch((err) => console.log(err));
     } else if (hasDisliked === true && hasLiked === false) {
-      // if (removeDislikeOnBlogAPIHandler(blogID, loggedInUser)) {
-      //   setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-      // }
       removeDislikeOnBlogAPIHandler(blogID, loggedInUser)
         .then((res) => {
           const blogResponse = res.blog;
@@ -164,9 +160,6 @@ const ViewBlog = () => {
         })
         .catch((err) => console.log(err));
 
-      // if (dislikeOnBlogAPIHandler(blogID, loggedInUser)) {
-      //   setHasDisliked((previousHasDisliked) => !previousHasDisliked);
-      // }
       dislikeOnBlogAPIHandler(blogID, loggedInUser)
         .then((res) => {
           const blogResponse = res.blog;
@@ -182,6 +175,15 @@ const ViewBlog = () => {
     console.log({ hasLiked, hasDisliked });
   };
 
+  // const formatTimestampToDate = (inputTimestamp) => {
+  //   var t = new Date(inputTimestamp);
+  //   console.log({ inputTimestamp });
+  //   // var formattedDate = t.format(" mm dd ,yyy ");
+
+  //   console.log({ formattedDateInsideFunction: formattedDate });
+  //   return formattedDate;
+  // };
+
   return (
     <div className={`${style.main} ${style.container}`}>
       <div className={style.blogHeader}>
@@ -192,7 +194,13 @@ const ViewBlog = () => {
             <div className={style.published}>
               <small className={style.authorName}>{authorName}</small>
               <small className={style.publishedDate}>
-                Published on <small>May 29, 2022</small>
+                {/* Published on <small>May 29, 2022</small> */}
+                Published on{" "}
+                <small>
+                  <Moment>{dateString}</Moment>
+                </small>
+                {/* Published on <small>{blog.timestamp}</small>
+                {console.log({ blogDate: blog.timestamp })} */}
               </small>
             </div>
           </div>
@@ -227,7 +235,7 @@ const ViewBlog = () => {
           </div>
           <div className={`${style.pushRight} ${style.likes}`}>
             <span>{blog.likesCount}</span>
-            {/* use the above state of hasLiked and add the css or remove the css on the like button*/}
+
             <ThumbUp
               fontSize="large"
               className={style.thumbUp}
@@ -236,7 +244,7 @@ const ViewBlog = () => {
           </div>
           <div className={style.dislikes}>
             <span>{blog.dislikesCount}</span>
-            {/* use the above state of hasDisliked and add the css or remove the css on the dislike button*/}
+
             <ThumbDown
               fontSize="large"
               className={style.thumbDown}
@@ -247,6 +255,7 @@ const ViewBlog = () => {
               intheAppDiskLiked: hasDisliked,
               inTheAppBlogLikesCount: blog.likesCount,
               intheAppBlogDislikes: blog.dislikesCount,
+              blogDetails: blog,
             })}
           </div>
         </div>
