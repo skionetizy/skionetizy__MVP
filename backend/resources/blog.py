@@ -111,7 +111,7 @@ class LikeOnBlog(Resource):
         blog.update(
             likesCount= newLikesCount,
             likedByUsersList=newLikedByUsersList,
-            hasLiked = True
+            # hasLiked = True
         )
         blog.save()
         
@@ -150,7 +150,7 @@ class RemoveLikeOnBlog(Resource):
                 likedByUsersList.remove(user)
                 blog.update(
                     likesCount=blog['likesCount']-1,
-                    hasLiked = False
+                    # hasLiked = False
                 )
         
         blog.save()
@@ -183,7 +183,7 @@ class DislikeOnBlog(Resource):
         output1= blog.update(
             dislikesCount= newDislikesCount,
             dislikedByUsersList=newDislikedByUsersList,
-            hasDisliked = True
+            # hasDisliked = True
         )
         print(f"output1 : {output1}")
         output2= blog.save()
@@ -220,7 +220,7 @@ class RemoveDislikeOnBlog(Resource):
                 print(f"dislikedByUsersList after removing {dislikedByUsersList} ")
                 blog.update(
                     dislikesCount=blog['dislikesCount']-1,
-                    hasDisliked = False
+                    # hasDisliked = False
                 )
         
         blog.save()

@@ -45,19 +45,45 @@ const ViewBlog = () => {
 
   // console.log({ promise1, promise2 });
 
+  const findUserHasLiked = (likedUsersArray, userID) => {
+    const result = !!likedUsersArray.find(
+      (userInArray) => userInArray === userID
+    );
+    console.log({ resultInfindUserHasLiked: result });
+    return !!likedUsersArray.find((userInArray) => userInArray === userID);
+  };
+  const findUserHasDisliked = (DislikedUsersArray, userID) => {
+    const result = !!DislikedUsersArray.find(
+      (userInArray) => userInArray === userID
+    );
+    console.log({ resultInfindUserHasDisLiked: result });
+    return !!DislikedUsersArray.find((userInArray) => userInArray === userID);
+  };
+
   useEffect(() => {
     axios.all([promise1, promise2]).then(
       axios.spread((...responses) => {
         const response1 = responses[0];
         console.log({ blogInUseEffect: response1.data.blog });
         setBlog(response1.data.blog);
-        setHasLiked(response1.data.blog.hasLiked);
-        setHasDisliked(response1.data.blog.hasDisliked);
 
-        response1.data.blog.hasLiked
+        // setHasLiked(response1.data.blog.hasLiked);
+        // setHasDisliked(response1.data.blog.hasDisliked);
+        const resultHasLiked = findUserHasLiked(
+          response1.data.blog.likedByUsersList,
+          userID
+        );
+        const resultHasDisliked = findUserHasDisliked(
+          response1.data.blog.dislikedByUsersList,
+          userID
+        );
+        setHasLiked(resultHasLiked);
+        setHasDisliked(resultHasDisliked);
+
+        resultHasLiked
           ? setHasLikedIcon(<ThumbUp fontSize="large" />)
           : setHasLikedIcon(<ThumbUpOutlined fontSize="large" />);
-        response1.data.blog.hasDisliked
+        resultHasDisliked
           ? setHasDislikedIcon(<ThumbDown fontSize="large" />)
           : setHasDislikedIcon(<ThumbDownOutlined fontSize="large" />);
 
