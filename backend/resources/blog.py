@@ -110,7 +110,8 @@ class LikeOnBlog(Resource):
         newLikedByUsersList= blog['likedByUsersList'].append(newUserWhoLiked)
         blog.update(
             likesCount= newLikesCount,
-            likedByUsersList=newLikedByUsersList
+            likedByUsersList=newLikedByUsersList,
+            hasLiked = True
         )
         blog.save()
         
@@ -148,7 +149,8 @@ class RemoveLikeOnBlog(Resource):
                 print(newUser)
                 likedByUsersList.remove(user)
                 blog.update(
-                    likesCount=blog['likesCount']-1
+                    likesCount=blog['likesCount']-1,
+                    hasLiked = False
                 )
         
         blog.save()
@@ -158,7 +160,7 @@ class RemoveLikeOnBlog(Resource):
 
 class DislikeOnBlog(Resource):
     def patch(self,blogID,userID):
-        body = request.get_json()
+        # body = request.get_json()
         # userID=body["userID"]
         # blogID=body["blogID"]
         # print(blogID)
@@ -180,7 +182,8 @@ class DislikeOnBlog(Resource):
         newDislikedByUsersList= blog['dislikedByUsersList'].append(newUserWhoDisliked)
         output1= blog.update(
             dislikesCount= newDislikesCount,
-            dislikedByUsersList=newDislikedByUsersList
+            dislikedByUsersList=newDislikedByUsersList,
+            hasDisliked = True
         )
         print(f"output1 : {output1}")
         output2= blog.save()
@@ -216,7 +219,8 @@ class RemoveDislikeOnBlog(Resource):
                 dislikedByUsersList.remove(user)
                 print(f"dislikedByUsersList after removing {dislikedByUsersList} ")
                 blog.update(
-                    dislikesCount=blog['dislikesCount']-1
+                    dislikesCount=blog['dislikesCount']-1,
+                    hasDisliked = False
                 )
         
         blog.save()
