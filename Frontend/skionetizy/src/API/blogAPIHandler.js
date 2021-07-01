@@ -71,3 +71,13 @@ export const getBlogAPIHandler = (blogID) => {
     })
     .catch((err) => console.log(err));
 };
+
+export const getAllBlogsByUserAPIHandler = (userID) =>{
+  return axios
+  .get(`${baseURL}/blog/getBlogsByUser/${userID}`)
+  .then((res)=>{
+    console.log({ blogDataAPIHandler: res.data });
+      return res.data;
+  })
+  .catch((err) => console.log(err));
+}

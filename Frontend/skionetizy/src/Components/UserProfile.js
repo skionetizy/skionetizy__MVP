@@ -1,10 +1,21 @@
+import React, { useState } from "react";
+
 import style from "./UserProfile.module.css";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import UserBlogsCard from "./UserBlogsCard";
-import React, { useState } from "react";
+
+import { getAllBlogsByUserAPIHandler } from "../API/blogAPIHandler";
+
+import { getLoggedInUserID } from "../utils/AuthorisationUtils";
+
+import axios from "axios";
 
 const UserProfile = () => {
   const [author, setAuthorName] = useState("");
+
+  const userID = getLoggedInUserID();
+
+  const promise1 = getAllBlogsByUserAPIHandler(userID);
 
   // useEffect(() => {
   // 	effect

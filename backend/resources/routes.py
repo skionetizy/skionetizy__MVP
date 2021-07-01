@@ -23,4 +23,4 @@ def initialize_routes(api):
     #get
     api.add_resource(GetBlogs,'/blog/getBlogs')
     api.add_resource(GetBlogByBlogID,'/blog/getBlogByBlogID/<blogID>')
-    api.add_resource(GetBlogsByUser,'/blog/getBlogsByUser')
+    api.add_resource(GetBlogsByUser,'/blog/getBlogsByUser/<userID>')
