@@ -69,9 +69,9 @@ class AddBlogImage(Resource):
         )
 
         current_datetime = datetime.now()
-        print(type(photo_url))
-        print(photo_url)
-        print(current_datetime)
+        # print(type(photo_url))
+        # print(photo_url)
+        # print(current_datetime)
         
         blog.update(
             blogImageURL=photo_url,

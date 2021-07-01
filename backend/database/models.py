@@ -61,13 +61,13 @@ class Profile(db.Document):
     userID=db.UUIDField(required=True,binary=False)
     profilePicImageURL=db.URLField(required=False)
     profileBannerImageURL=db.URLField(required=False)
-    profileName=db.StringField(required=True,max_length=50)
-    profileUserName=db.StringField(required=True,unique=True)
-    profileBio=db.StringField(required=True,max_length=200)
+    profileName=db.StringField(required=True,max_length=100)
+    profileUserName=db.StringField(required=True,unique=True,max_lenght=15)
+    profileBio=db.StringField(required=True,max_length=300)
     Followers=db.ListField(db.UUIDField(required=True,binary=False),required=False,default=[])
     Following=db.ListField(db.UUIDField(required=True,binary=False),required=False,default=[])
-    FollowersCount=db.IntField(required=True)
-    FollowingCount=db.IntField(required=True)
+    FollowersCount=db.IntField(required=False,default=0)
+    FollowingCount=db.IntField(required=False,default=0)
     # getBlogs from blog api
     profileWebsiteURL=db.URLField(required=False)
     
