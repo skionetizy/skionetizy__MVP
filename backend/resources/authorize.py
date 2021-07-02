@@ -22,7 +22,7 @@ class AuthorizeSignup(Resource):
             return make_response(jsonify({"message":"all fields are required","statusCode":500}))
             # raise FieldsEmpty
 
-        existingUser = User.objects(emailID = body['emailID'])
+        existingUser = User.objects.get(emailID = body['emailID'])
         if(existingUser):
             return make_response(jsonify({"message":"user already exists, try to login","statusCode":500}))
             # raise UserAlreadyExist

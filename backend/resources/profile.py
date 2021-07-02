@@ -1,6 +1,6 @@
 from flask import make_response,jsonify
 from flask.globals import request
-from flask_restful
+from flask_restful import Resource
 
 import uuid 
 
@@ -15,17 +15,23 @@ class AddProfileDescriptionTitleAndUsername(Resource):
     def post(self):
         body = request.get_json()
 
-        if len(body["profileBio"]>300):
+        if len(body["profileBio"])>300:
             return make_response(jsonify({"message":"Profile Bio must be less than 300 characters","success":False}))
-        if len(body["profileUserName"]>15):
+        if len(body["profileUserName"])>15:
             return make_response(jsonify({"message":"Profile Username must be less than 15 characters","success":False}))
+
+        tempProfileUserName =  body["profileUserName"]
+        isProfileExisting = Profile.objects.get(profileUserName=tempProfileUserName)
+        if(isProfileExisting):
+            return make_response(jsonify({"message":"username already exists, try another username","statusCode":500}))
 
         tempProfileName = body["firstName"]+ " " + body["lastName"]
         newProfile = Profile(
             profileID = uuid.uuid4(),
             userID = body["userID"],
             profileName = tempProfileName,
-            profileUserName = body["profileUserName"]
+            profileUserName = tempProfileUserName,
+            profileBio= body["profileBio"]
         )
         
         newProfile.save()

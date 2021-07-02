@@ -1,14 +1,14 @@
 from .authorize import AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails#getUserFirstName
 from .blog import AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByUser, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogs,GetBlogByBlogID
-
+from .profile import AddProfileDescriptionTitleAndUsername
 def initialize_routes(api):
-    #authorisation
+    #_____authorisation-routes________
     api.add_resource(AuthorizeSignup,'/signup')
     api.add_resource(AuthorizeEmailVerification,'/emailVerification/<token>')
     api.add_resource(AuthorizeLogin,'/login')
     # api.add_resource(getUserFirstName,'/user/getUserFirstName/<userID>')
     api.add_resource(getUserDetails,'/user/getUserDetails/<userID>')
-    #blog
+    #______blog-routes________
     #post
     api.add_resource(AddBlogDescriptionAndTitle,'/blog/addBlogDescriptionAndTitle')
     api.add_resource(AddBlogImage,'/blog/addBlogImage')
@@ -24,3 +24,6 @@ def initialize_routes(api):
     api.add_resource(GetBlogs,'/blog/getBlogs')
     api.add_resource(GetBlogByBlogID,'/blog/getBlogByBlogID/<blogID>')
     api.add_resource(GetBlogsByUser,'/blog/getBlogsByUser/<userID>')
+    #_______profile-routes_____
+    #post
+    api.add_resource(AddProfileDescriptionTitleAndUsername,'/profile/addProfileDescriptionTitleAndUsername/')
