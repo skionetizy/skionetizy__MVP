@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import style from "./UserProfile.module.css";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
@@ -12,17 +12,25 @@ import axios from "axios";
 
 const UserProfile = () => {
   const [author, setAuthorName] = useState("");
+  const [blogs, setBlogs] = useState([]);
 
   const userID = getLoggedInUserID();
 
   const promise1 = getAllBlogsByUserAPIHandler(userID);
+  // const promise2 = axios.get(`${baseURL}/user/getUserDetails/${userID}`);
 
-  // useEffect(() => {
-  // 	effect
-  // 	return () => {
-  // 		cleanup
-  // 	}
-  // }, [input])
+  useEffect(() => {
+    axios.all([promise1]).then(
+      axios.spread((...responses) => {
+        const response1 = responses[0];
+        // console.log({ blogsInUserProfile: response1 });
+        setBlogs(response1.blogs);
+
+        // const response2 = responses[0];
+        // setAuthorName(response2.data.user.firstName);
+      })
+    );
+  }, []);
   return (
     <div className={style.main}>
       <div className={style.body}>
@@ -78,11 +86,15 @@ const UserProfile = () => {
             <h2>My blogs</h2>
           </div>
           <div className={style.userBlogs}>
+            {blogs &&
+              blogs.map((blog, index) => (
+                <UserBlogsCard key={index} blog={blog} />
+              ))}
+
+            {/* <UserBlogsCard />
             <UserBlogsCard />
             <UserBlogsCard />
-            <UserBlogsCard />
-            <UserBlogsCard />
-            <UserBlogsCard />
+            <UserBlogsCard /> */}
           </div>
         </div>
       </div>
