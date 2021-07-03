@@ -13,6 +13,7 @@ function MarkDown(props) {
     blogDescription: "",
     blogTitle: "",
   });
+  const [charactersRemaining, setCharactersRemaining] = useState(5000);
 
   const debounceData = useDebounce(data, 300000); //5min is 300000 ms
   const addBlogDescriptionAndTitleURL =
@@ -112,6 +113,8 @@ function MarkDown(props) {
       [name]: e.target.value,
     });
     console.log({ name });
+    name === "blogDescription" &&
+      setCharactersRemaining(5000 - data.blogDescription.length);
   };
 
   return (
@@ -162,6 +165,7 @@ function MarkDown(props) {
         <div>
           <ReactMarkdown source={data.blogDescription} className="markdown" />
         </div>
+        <div>characters Remaining {charactersRemaining}</div>
       </div>
     </div>
   );

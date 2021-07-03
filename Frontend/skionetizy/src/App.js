@@ -24,7 +24,7 @@ function App() {
       <Switch>
         <Route exact path="/login" component={Login} />
         <Route exact path="/" component={Signup} />
-        <Route exact path="/mark" component={MarkDown} />
+        <Route exact path="/markdown" component={MarkDown} />
         <Route exact path="/upload" component={Upload} />
         <Route exact path="/final" component={FinalPage} />
         <Route exact path="/view-blog/:blogID/:userID" component={ViewBlog} />
