@@ -1,0 +1,138 @@
+.container {
+	width: 80%;
+	max-width: 1400px;
+	margin: 0 auto;
+}
+.signin {
+	font-family: 'Montserrat', sans-serif;
+	background-color: var(--primary-blue);
+	padding: 1em 1em;
+	display: block;
+	text-align: center;
+	/* height: 90vh; */
+	border-radius: 0.5em;
+	width: 100%;
+}
+.header {
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 2em;
+}
+.header_text {
+	max-width: 70%;
+	text-align: center;
+	margin: 0;
+}
+.signin_form {
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
+.cover_login {
+	display: flex;
+	margin-top: 4em;
+}
+
+.coverImage_login {
+	/* width: 100%; */
+	display: none;
+}
+/* .name {
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+} */
+
+.email,
+.password {
+	padding: 0.75em 0.85em;
+	font-family: 'Montserrat', sans-serif;
+	border: none;
+	outline: none;
+	border-radius: 1em;
+	line-height: 2;
+	letter-spacing: 0.08rem;
+	font-weight: 700;
+	height: 5em;
+	font-size: 1rem;
+}
+
+.email_password {
+	display: flex;
+	flex-direction: column;
+	gap: 2em;
+}
+.signinButton {
+	align-self: center;
+	border: none;
+	background: transparent;
+	font-family: 'Montserrat', sans-serif;
+	background-color: var(--dark-blue);
+	color: white;
+	padding: 0.85em 1.2em;
+	padding: 1rem 2rem;
+	cursor: pointer;
+	font-weight: 700;
+	letter-spacing: 0.09rem;
+	outline: none;
+	border-radius: 0.6em;
+}
+.signupLink {
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+}
+
+@media (min-width: 700px) {
+	.signin {
+		font-family: 'Montserrat', sans-serif;
+		background-color: var(--primary-blue);
+		padding: 2em;
+		height: fit-content;
+		display: flex;
+		flex-direction: column;
+		border-radius: 0.5em;
+		margin-bottom: 3em;
+	}
+
+	.signin_form {
+		display: flex;
+		flex-direction: column;
+		gap: 3.5em;
+	}
+
+	.email_password {
+		display: flex;
+		flex-direction: column;
+		gap: 2.5em;
+	}
+}
+
+@media (min-width: 1200px) {
+	.cover_login {
+		display: flex;
+		align-items: center;
+	}
+
+	.signin {
+		width: 50%;
+		height: 40em;
+		text-align: center;
+		padding: 2em 5em;
+	}
+	.email_password {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.coverImage_login {
+		display: flex;
+		width: 60%;
+	}
+
+	.coverImage_svgLogin {
+		height: 40em;
+	}
+}

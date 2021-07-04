@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import style from "./exploreBlogs.module.css";
+import style from "../Pages/exploreBlogs.module.css";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import PaginatedButton from "./PaginatedButton";

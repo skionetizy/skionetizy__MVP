@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import {} from 'axios';
-import style from '../index.module.css';
+import style from '../Pages/signup.module.css';
 import bgsignup from '../Assets/bgsignup.svg';
 
 import { Link, BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
@@ -106,7 +106,7 @@ function Signup() {
 								required
 							/>
 						</div>
-						<button className={style.signinButton} type="submit">
+						<button className={style.signupButton} type="submit">
 							Sign up <FontAwesomeIcon icon={faSignInAlt} onSubmit={handleSubmit} />
 						</button>
 					</form>

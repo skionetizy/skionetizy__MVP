@@ -1,6 +1,6 @@
 import React from "react";
 
-import style from "./UserProfile.module.css";
+import style from "../Pages/UserProfile.module.css";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import ThumbDownAltIcon from "@material-ui/icons/ThumbDownAlt";
 

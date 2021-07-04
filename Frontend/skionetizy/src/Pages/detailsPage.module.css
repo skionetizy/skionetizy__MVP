@@ -1,0 +1,164 @@
+.container {
+	width: 80%;
+	max-width: 1400px;
+	margin: 0 auto;
+}
+.details{
+	font-family: 'Montserrat', sans-serif;
+	background-color: var(--primary-blue);
+	padding: 1em 1em;
+	display: block;
+	text-align: center;
+	/* height: 90vh; */
+	border-radius: 0.5em;
+  width: 100%;
+  margin-bottom: 3em;
+}
+
+.header {
+	color: #fff;
+	display: flex;
+	align-items: center;
+	margin-bottom: 1em;
+}
+.header_text {
+	max-width: 70%;
+	text-align: center;
+	margin: 0;
+}
+
+.details_form {
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
+.cover_details {
+	display: flex;
+	margin-top: 4em;
+}
+.coverImage_login{
+	/* width: 100%; */
+	display: none;
+}
+/* .name {
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+} */
+
+
+.username{
+	padding: 0.75em 0.85em;
+	font-family: 'Montserrat', sans-serif;
+	border: none;
+	outline: none;
+	border-radius: 1em;
+	line-height: 2;
+	letter-spacing: 0.08rem;
+	font-weight: 700;
+  height: 5em;
+  font-size: 1rem;
+}
+
+.bio{
+  padding: 0.75em 0.85em;
+	font-family: 'Montserrat', sans-serif;
+	border: none;
+	outline: none;
+	border-radius: 1em;
+	line-height: 2;
+	letter-spacing: 0.08rem;
+	font-weight: 700;
+  font-size: 1rem;
+}
+
+
+.username_bio {
+	display: flex;
+	flex-direction: column;
+	gap: 3em;
+}
+.nextButton {
+	align-self: center;
+	border: none;
+	background: transparent;
+	font-family: 'Montserrat', sans-serif;
+	background-color: var(--dark-blue);
+	color: white;
+	padding: 0.85em 1.2em;
+	padding: 1rem 2rem;
+	cursor: pointer;
+	font-weight: 700;
+	letter-spacing: 0.09rem;
+	outline: none;
+	border-radius: 0.6em;
+}
+
+
+.details_text{
+  color: #fff;
+  text-align: justify;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+
+
+@media (min-width: 700px) {
+
+	.details {
+		font-family: 'Montserrat', sans-serif;
+		background-color: var(--primary-blue);
+		padding: 2em;
+		height: fit-content;
+		display: flex;
+		flex-direction: column;
+		border-radius: 0.5em;
+	}
+
+	.details_form {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.username_bio {
+		display: flex;
+		flex-direction: column;
+		/* gap: 1em; */
+	}
+}
+@media (min-width: 1200px) {
+
+  .cover_details{
+    display: flex;
+    align-items: center;
+  }
+
+	.details {
+		width: 50%;
+    height: 40em;
+    text-align: center;
+    padding: 2em 5em;
+	}
+
+  .username_bio{
+    display: flex;
+    flex-direction: column;
+  }
+
+	.coverImage_login {
+		display: flex;
+		/* width: 60%; */
+    width: 60%
+	}
+
+	.coverImage_svgLogin{
+		height: 40em;
+	}
+
+  .bio{
+    height: 10em;
+  }
+
+ 
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './exploreBlogs.module.css';
+import style from '../Pages/exploreBlogs.module.css';
 import SearchIcon from '@material-ui/icons/Search';
 import { Link } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';

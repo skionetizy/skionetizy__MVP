@@ -1,13 +1,14 @@
-import Login from "./Components/Login";
-import Signup from "./Components/Signup";
+import Login from "./Pages/Login";
+import Signup from "./Pages/Signup";
 import Nav from "./Components/Nav";
 import MarkDown from "./Components/markDown";
 import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
 import Upload from "./Components/uploadImage";
-import { FinalPage } from "./Components/finalPage";
+import { FinalPage } from "./Pages/finalPage";
 import ExploreBlogs from "./Pages/ExploreBlogs";
 import ViewBlog from "./Pages/ViewBlog";
-import UserProfile from "./Components/UserProfile";
+import UserProfile from "./Pages/UserProfile";
+import DetailsPage from "./Pages/detailsPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Nav exact path="/upload" component={Upload} />
         <Nav exact path="/final" component={FinalPage} />
         <Nav exact path="/view-blog/:blogID/:userID" component={ViewBlog} />
+        <Nav exact path="/details" component ={DetailsPage} />
       </Switch>
       <Switch>
         <Route exact path="/login" component={Login} />
@@ -30,6 +32,7 @@ function App() {
         <Route exact path="/view-blog/:blogID/:userID" component={ViewBlog} />
         <Route exact path="/user-profile/" component={UserProfile} />
         <Route exact path="/explore-blogs" component={ExploreBlogs} />
+        <Route exact path="/details" component={DetailsPage} />
       </Switch>
       {/* </div> */}
     </Router>

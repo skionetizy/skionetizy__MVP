@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import style from "./UserProfile.module.css";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-import UserBlogsCard from "./UserBlogsCard";
+import UserBlogsCard from "../Components/UserBlogsCard";
 
 import { getAllBlogsByUserAPIHandler } from "../API/blogAPIHandler";
 

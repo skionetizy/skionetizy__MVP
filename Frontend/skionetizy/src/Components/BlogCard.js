@@ -7,7 +7,7 @@ import axios from "axios";
 // import moment from 'moment'; // uninstall this later
 // import Moment from 'react-moment';
 import baseURL from "../utils/baseURL";
-import style from "./exploreBlogs.module.css";
+import style from "../Pages/exploreBlogs.module.css";
 
 const BlogCard = ({ blog }) => {
   const [authorName, setAuthorName] = useState("");
