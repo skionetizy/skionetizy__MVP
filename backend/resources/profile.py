@@ -11,9 +11,12 @@ from database.models import Profile
 
 # from datetime import datetime
 
-class AddProfileDescriptionTitleAndUsername(Resource):
+class AddProfileUsernameBioUserDetails(Resource):
     def post(self):
         body = request.get_json()
+        # print(f"body: {body['userID']}")
+        profileBio=body
+        print(f"profileBio: {profileBio}")
 
         if len(body["profileBio"])>300:
             return make_response(jsonify({"message":"Profile Bio must be less than 300 characters","success":False}))
@@ -21,16 +24,16 @@ class AddProfileDescriptionTitleAndUsername(Resource):
             return make_response(jsonify({"message":"Profile Username must be less than 15 characters","success":False}))
 
         tempProfileUserName =  body["profileUserName"]
-        isProfileExisting = Profile.objects.get(profileUserName=tempProfileUserName)
-        if(isProfileExisting):
-            return make_response(jsonify({"message":"username already exists, try another username","statusCode":500}))
+        # isProfileExisting = Profile.objects.get(profileUserName=tempProfileUserName)
+        # if(isProfileExisting):
+        #     return make_response(jsonify({"message":"username already exists, try another username","statusCode":500}))
 
         tempProfileName = body["firstName"]+ " " + body["lastName"]
         newProfile = Profile(
             profileID = uuid.uuid4(),
             userID = body["userID"],
             profileName = tempProfileName,
-            profileUserName = tempProfileUserName,
+            profileUserName = body["profileUserName"],
             profileBio= body["profileBio"]
         )
         
