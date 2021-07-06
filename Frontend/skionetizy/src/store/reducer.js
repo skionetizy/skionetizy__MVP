@@ -1,7 +1,9 @@
 const initialState = {
-  userID: "",
+  userID: "ab304cc9-1849-48f8-86a0-0ac39ff9929d",
   isLogin: false,
   blogID: "",
+  firstName: "testFirst",
+  lastName: "testLast",
 };
 
 const Reducer = (state = initialState, action) => {
@@ -17,6 +19,15 @@ const Reducer = (state = initialState, action) => {
       return {
         ...state,
         blogID: action.blogID,
+      };
+    case "SAVE_USER_DETAILS_AFTER_SIGNUP":
+      const userDetails = { ...action.payload };
+      console.log({ userDetailsInReducer: userDetails });
+      return {
+        ...state,
+        userID: userDetails.userID,
+        firstName: userDetails.firstName,
+        lastName: userDetails.lastName,
       };
     default:
       return state;

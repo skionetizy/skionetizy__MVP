@@ -1,6 +1,6 @@
 from .authorize import AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails#getUserFirstName
 from .blog import AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByUser, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogs,GetBlogByBlogID
-from .profile import AddProfileDescriptionTitleAndUsername
+from .profile import AddProfileUsernameBioUserDetails
 def initialize_routes(api):
     #_____authorisation-routes________
     api.add_resource(AuthorizeSignup,'/signup')
@@ -26,4 +26,4 @@ def initialize_routes(api):
     api.add_resource(GetBlogsByUser,'/blog/getBlogsByUser/<userID>')
     #_______profile-routes_____
     #post
-    api.add_resource(AddProfileDescriptionTitleAndUsername,'/profile/addProfileDescriptionTitleAndUsername/')
+    api.add_resource(AddProfileUsernameBioUserDetails,'/profile/addProfileUsernameBioUserDetails/')

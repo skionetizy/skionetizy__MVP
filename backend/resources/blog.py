@@ -14,7 +14,7 @@ import uuid
 class AddBlogDescriptionAndTitle(Resource):
     def post(self):
         body = request.get_json()
-
+        print(f"body: {body}")
         if len(body["blogTitle"])<=6:
             return make_response(jsonify({"message":"blog title must be more than 6 characters long","statusCode":500,"success":False}))
         elif len(body["blogDescription"])<=200:
