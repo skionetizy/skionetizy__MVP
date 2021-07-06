@@ -111,14 +111,13 @@
 
 .viewCount,
 .likesCount,
-.dislikesCount{
+.dislikesCount {
 	font-size: larger;
 }
-.likesCount{
+.likesCount {
 	position: relative;
 	top: 2px;
 }
-
 
 .views,
 .likes,
@@ -139,6 +138,11 @@
 	.blogContent {
 		margin-top: 2em;
 	}
+	.author {
+		flex-direction: column;
+		gap: 2em;
+		align-items: flex-start;
+	}
 }
 
 @media (max-width: 1500px) {
@@ -146,3 +150,5 @@
 		margin-left: 0;
 	}
 }
+
+

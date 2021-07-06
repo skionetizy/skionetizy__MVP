@@ -20,7 +20,7 @@ function Signup() {
 	// const [formvalues,setformValues]=useState();
 
 	const handleChange = (e) => {
-		e.preverntDefault();
+		e.preventDefault();
 		const inpname = e.target.name;
 		const inpvalue = e.target.value;
 

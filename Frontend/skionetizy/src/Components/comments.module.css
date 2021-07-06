@@ -1,0 +1,53 @@
+:root {
+	--primary-blue: #3498db;
+	--dark-blue: #142850;
+}
+
+.comments_container {
+	background-color: var(--primary-blue);
+	padding: 0.5em;
+	border-radius: 0.3em;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
+
+.comment_count {
+	color: #fff;
+	font-size: 0.8rem;
+}
+
+@media (min-width: 1000px) {
+	.comment_count {
+		font-size: 1rem;
+	}
+}
+
+.userContents {
+	display: flex;
+	align-items: center;
+	gap: 0.7em;
+}
+
+/* .userContents ::after{
+	content: "";
+	height: 3px;
+	background-color: black;
+	width: 20%;
+	position: absolute;
+	right: 10%;
+} */
+.userName {
+	color: #fff;
+	font-size: 0.8rem;
+	font-weight: 700;
+}
+
+.user_avatar {
+	border-radius: 2em;
+}
+
+.comment_text {
+	color: #fff;
+	margin-left: 3em;
+}
