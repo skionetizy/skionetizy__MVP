@@ -22,8 +22,9 @@ const DetailsPage = (props) => {
     profileUserName: "",
     profileBio: "",
   });
-  console.log({ profileUserNameBeforeUseDebounce: details.profileUserName });
+  // console.log({ profileUserNameBeforeUseDebounce: details.profileUserName });
   const debounceData = useDebounceGeneral(details.profileUserName, 5000); //2seconds
+  console.log({ profileUserNameAfterUseDebounce: debounceData });
 
   useEffect(() => {
     console.log("entered debounce useEffect");
