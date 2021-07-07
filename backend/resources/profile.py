@@ -7,7 +7,7 @@ import uuid
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 
-from database.models import Profile 
+from database.models import Profile
 
 # from datetime import datetime
 
@@ -22,6 +22,8 @@ class AddProfileUsernameBioUserDetails(Resource):
             return make_response(jsonify({"message":"Profile Bio must be less than 300 characters","success":False}))
         if len(body["profileUserName"])>15:
             return make_response(jsonify({"message":"Profile Username must be less than 15 characters","success":False}))
+
+      
 
         tempProfileUserName =  body["profileUserName"]
         # isProfileExisting = Profile.objects.get(profileUserName=tempProfileUserName)
@@ -74,6 +76,26 @@ class UpdateProfile(Resource):
         )
 
         return make_response(jsonify({"profile":profile,"statusCode":200,"success":True}))
+
+class GetProfileDetails(Resource):
+    def get(self,profileID):
+        profile = Profile.objects.get(profileID=profileID)
+        return make_response(jsonify({"profile":profile,"statusCode":200,"success":True}))
+
+class CheckProfileUsernameIsAvailableAPIHandler(Resource):
+    def post(self):
+        body= request.get_json()
+        profileUserName=body["profileUserName"]
+        isProfileExisting =  Profile.objects(profileUserName=profileUserName) 
+        if(isProfileExisting):
+            return  make_response(jsonify({"message":f"profile User Name  {profileUserName}  already exists ,try again","statusCode":500,"success":False}))
+        else:
+            return make_response(jsonify({"message":f"profile user name {profileUserName} is available","statusCode":200,"success":True}))
+        
+
+
+
+
 
     
 

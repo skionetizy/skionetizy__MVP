@@ -21,18 +21,20 @@ function App() {
         <Nav exact path="/upload" component={Upload} />
         <Nav exact path="/final" component={FinalPage} />
         <Nav exact path="/view-blog/:blogID/:userID" component={ViewBlog} />
-        <Nav exact path="/details" component ={DetailsPage} />
+        <Nav exact path="/details" component={DetailsPage} />
       </Switch>
       <Switch>
-        <Route exact path="/login" component={Login} />
         <Route exact path="/" component={Signup} />
+        <Route exact path="/login" component={Login} />
         <Route exact path="/markdown" component={MarkDown} />
         <Route exact path="/upload" component={Upload} />
         <Route exact path="/final" component={FinalPage} />
         <Route exact path="/view-blog/:blogID/:userID" component={ViewBlog} />
-        <Route exact path="/user-profile/" component={UserProfile} />
+        {/* <Route exact path="/user-profile/" component={UserProfile} /> */}
+
         <Route exact path="/explore-blogs" component={ExploreBlogs} />
         <Route exact path="/details" component={DetailsPage} />
+        <Route exact path="/:profileID" component={UserProfile} />
       </Switch>
       {/* </div> */}
     </Router>

@@ -1,9 +1,9 @@
 const initialState = {
-  userID: "ab304cc9-1849-48f8-86a0-0ac39ff9929d",
+  userID: "",
   isLogin: false,
   blogID: "",
-  firstName: "testFirst",
-  lastName: "testLast",
+  firstName: "",
+  lastName: "",
 };
 
 const Reducer = (state = initialState, action) => {
