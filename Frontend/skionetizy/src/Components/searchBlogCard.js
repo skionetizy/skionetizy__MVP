@@ -12,7 +12,7 @@ const SearchBlogCard = () => {
 							<h3>How to write a blog</h3>
 							<h5>May 9</h5>
 						</div>
-						<div>
+						<div className={style.userContents_container}>
 							<div className={style.userContents}>
 								<img className={style.user_avatar} src="//unsplash.it/40/40" alt=" " />
 								<div className={style.published}>
@@ -31,6 +31,6 @@ const SearchBlogCard = () => {
 			</div>
 		</div>
 	);
-};
+}; 
 
 export default SearchBlogCard;

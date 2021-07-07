@@ -16,12 +16,6 @@ import {
 } from "react-router-dom";
 import { connect } from "react-redux";
 
-<<<<<<< HEAD
-	const handleChange = (e) => {
-		e.preventDefault();
-		const inpname = e.target.name;
-		const inpvalue = e.target.value;
-=======
 function Signup(props) {
   const [values, setValues] = useState({
     firstName: "",
@@ -31,7 +25,6 @@ function Signup(props) {
     confirmPassword: "",
   });
   // const [formvalues,setformValues]=useState();
->>>>>>> f1066034d379c157db4e05d6596c51d045389b0f
 
   const handleChange = (e) => {
     e.preventDefault();

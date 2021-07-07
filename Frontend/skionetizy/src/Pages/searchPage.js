@@ -9,7 +9,7 @@ const SearchPage = () => {
         <div className={style.result_count}>
           <h3><span>5 </span>results found</h3>
         </div>
-        <div>
+        <div className={style.blogs}>
           <SearchBlogCard />
         </div>
       </div>
