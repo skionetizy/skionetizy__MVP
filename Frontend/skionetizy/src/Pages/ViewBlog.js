@@ -13,6 +13,7 @@ import {
 import { getLoggedInUserID } from "../utils/AuthorisationUtils";
 
 import style from "./ViewBlog.module.css";
+import styles from "../Components/comments.module.css"
 import ThumbUp from "@material-ui/icons/ThumbUp";
 import ThumbUpOutlined from "@material-ui/icons/ThumbUpOutlined";
 import ThumbDown from "@material-ui/icons/ThumbDown";
@@ -21,6 +22,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import ShareIcon from "@material-ui/icons/Share";
 import Moment from "react-moment";
+import Comments from "../Components/comments";
 
 Moment.globalFormat = "MMM D , YYYY";
 
@@ -335,6 +337,17 @@ const ViewBlog = () => {
               intheAppBlogDislikes: blog.dislikesCount,
             })} */}
           </div>
+        </div>
+      </div>
+      <div className={styles.comments}>
+        <div className={styles.comment_count}>
+          <h3>
+            <span>45</span> Comments
+          </h3>
+        </div>
+        <div className={styles.comments_container}>
+          <Comments />
+          <Comments />
         </div>
       </div>
     </div>

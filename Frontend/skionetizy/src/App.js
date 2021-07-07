@@ -9,6 +9,7 @@ import ExploreBlogs from "./Pages/ExploreBlogs";
 import ViewBlog from "./Pages/ViewBlog";
 import UserProfile from "./Pages/UserProfile";
 import DetailsPage from "./Pages/detailsPage";
+import SearchPage from "./Pages/searchPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Nav exact path="/final" component={FinalPage} />
         <Nav exact path="/view-blog/:blogID/:userID" component={ViewBlog} />
         <Nav exact path="/details" component={DetailsPage} />
+        <Nav exact path="/searchpage" component={SearchPage} />
       </Switch>
       <Switch>
         <Route exact path="/" component={Signup} />
@@ -29,6 +31,7 @@ function App() {
         <Route exact path="/markdown" component={MarkDown} />
         <Route exact path="/upload" component={Upload} />
         <Route exact path="/final" component={FinalPage} />
+        <Nav exact path="/searchpage" component={SearchPage} />
         <Route exact path="/view-blog/:blogID/:userID" component={ViewBlog} />
         {/* <Route exact path="/user-profile/" component={UserProfile} /> */}
 
