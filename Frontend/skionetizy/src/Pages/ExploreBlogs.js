@@ -53,7 +53,7 @@ function MyBlogs() {
 
 	return (
 		<div>
-			<NavExploreBlogs />
+			{/* <NavExploreBlogs /> */}
 			<div className={`${style.blogCardContainer} ${style.container} ${style.body}`}>
 				{loading && <p>loading..</p>}
 				{/* <BlogCard />

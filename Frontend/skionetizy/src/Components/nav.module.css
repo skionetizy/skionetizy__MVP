@@ -59,7 +59,7 @@
 @media (min-width: 700px) {
 	.navToggle:checked ~ .links {
 		display: flex;
-		align-items: center;
+		/* align-items: center; */
 	}
 }
 

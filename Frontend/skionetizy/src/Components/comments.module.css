@@ -48,6 +48,7 @@
 }
 
 .comment_text {
-	color: #fff;
+	color: var(--dark-blue);
+	font-weight: 800;
 	margin-left: 3em;
 }

@@ -1,10 +1,12 @@
 import React from 'react';
 // import '../index.css'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 import style from '../Components/nav.module.css';
+import SearchBar from './searchBar';
 
 function Nav() {
+	const path = useLocation();
 	return (
 		<div className={style.container}>
 			<nav className={style.nav}>
@@ -15,6 +17,7 @@ function Nav() {
 				<label className={style.hamburger} htmlFor="nav-toggle">
 					<MenuIcon fontSize="large" className={style.hamburgerIcon} />
 				</label>
+				{path.pathname === '/explore-blogs' && <SearchBar />}
 				<ul className={style.links}>
 					<li className={style.link}>
 						<Link className={style.navLink} to="#">

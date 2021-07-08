@@ -24,6 +24,7 @@ function App() {
         <Nav exact path="/view-blog/:blogID/:userID" component={ViewBlog} />
         <Nav exact path="/details" component ={DetailsPage} />
         <Nav exact path="/searchpage" component={SearchPage} />
+        <Nav exact path="/explore-blogs" component={ExploreBlogs} />
       </Switch>
       <Switch>
         <Route exact path="/login" component={Login} />
