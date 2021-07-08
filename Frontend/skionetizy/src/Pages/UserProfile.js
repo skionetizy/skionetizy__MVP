@@ -17,17 +17,20 @@ import Moment from "react-moment";
 Moment.globalFormat = "MMM D , YYYY";
 
 const UserProfile = () => {
-  const { profileID } = useParams();
+  // const { profileID } = useParams();
+  const { profileUserName } = useParams();
   const [blogs, setBlogs] = useState([]);
 
   const [profile, setProfile] = useState({});
 
   const userID = getLoggedInUserID();
 
-  const promise1 = getAllBlogsByProfileAPIHandler(profileID);
+  // const promise1 = getAllBlogsByProfileAPIHandler(profileID);
+  const promise1 = getAllBlogsByProfileAPIHandler(profileUserName);
 
   // const promise2 = axios.get(`${baseURL}/user/getUserDetails/${userID}`);
-  const promise2 = getProfileDetailsAPIHandler(profileID);
+  // const promise2 = getProfileDetailsAPIHandler(profileID);
+  const promise2 = getProfileDetailsAPIHandler(profileUserName);
 
   const isAuthorisedUser = () => {
     return userID === profile.userID;

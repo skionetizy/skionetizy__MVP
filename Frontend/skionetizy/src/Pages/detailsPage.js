@@ -22,6 +22,8 @@ const DetailsPage = (props) => {
     profileUserName: "",
     profileBio: "",
   });
+  const [message, setMessage] = useState("");
+
   // console.log({ profileUserNameBeforeUseDebounce: details.profileUserName });
   const debounceData = useDebounceGeneral(details.profileUserName, 5000); //2seconds
   console.log({ profileUserNameAfterUseDebounce: debounceData });
@@ -37,7 +39,9 @@ const DetailsPage = (props) => {
       } else {
         checkProfileUsernameIsAvailableAPIHandler(debounceData)
           .then((res) => {
-            alert(`${res.data.message}`);
+            // alert(`${res.data.message}`);
+            console.log({ messageInUse: res.data.message });
+            setMessage(res.data.message);
             console.log(res.data);
           })
           .catch((error) => {
@@ -101,6 +105,7 @@ const DetailsPage = (props) => {
                 required
                 value={details.profileUserName}
               />
+              <p>{message}</p>
               <textarea
                 type="textarea"
                 name="bio"

@@ -23,7 +23,8 @@ def initialize_routes(api):
     #get
     api.add_resource(GetBlogs,'/blog/getBlogs')
     api.add_resource(GetBlogByBlogID,'/blog/getBlogByBlogID/<blogID>')
-    api.add_resource(GetBlogsByProfile,'/blog/getBlogsByProfile/<profileID>')
+    # api.add_resource(GetBlogsByProfile,'/blog/getBlogsByProfile/<profileID>')
+    api.add_resource(GetBlogsByProfile,'/blog/getBlogsByProfile/<profileUserName>')
     #_______profile-routes_____
     #post
     api.add_resource(AddProfileUsernameBioUserDetails,'/profile/addProfileUsernameBioUserDetails/')
@@ -31,5 +32,6 @@ def initialize_routes(api):
     #patch
     api.add_resource(UpdateProfile,'/profile/updateBlogDescriptionAndText/<profileID>')
     #get
-    api.add_resource(GetProfileDetails,'/profile/getProfileDetails/<profileID>')
+    # api.add_resource(GetProfileDetails,'/profile/getProfileDetails/<profileID>')
+    api.add_resource(GetProfileDetails,'/profile/getProfileDetails/<profileUserName>')
 

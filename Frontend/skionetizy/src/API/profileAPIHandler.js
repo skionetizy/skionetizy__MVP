@@ -9,10 +9,10 @@ export const addProfileUsernameBioUserDetailsAPIHandler = (data) => {
   });
 };
 
-export const getProfileDetailsAPIHandler = (profileID) => {
-  console.log({ profileIDinAPI: profileID });
+export const getProfileDetailsAPIHandler = (profileUserName) => {
+  console.log({ profileIDinAPI: profileUserName });
   return axios
-    .get(`${baseURL}/profile/getProfileDetails/${profileID}`)
+    .get(`${baseURL}/profile/getProfileDetails/${profileUserName}`)
     .then((res) => {
       console.log({ profileDetailsInAPIHandler: res.data });
       return res.data;

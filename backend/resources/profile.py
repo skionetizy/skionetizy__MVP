@@ -78,8 +78,10 @@ class UpdateProfile(Resource):
         return make_response(jsonify({"profile":profile,"statusCode":200,"success":True}))
 
 class GetProfileDetails(Resource):
-    def get(self,profileID):
-        profile = Profile.objects.get(profileID=profileID)
+    # def get(self,profileID):
+    def get(self,profileUserName):
+        # profile = Profile.objects.get(profileID=profileID)
+        profile = Profile.objects.get(profileUserName=profileUserName)
         return make_response(jsonify({"profile":profile,"statusCode":200,"success":True}))
 
 class CheckProfileUsernameIsAvailableAPIHandler(Resource):

@@ -37,7 +37,8 @@ function App() {
 
         <Route exact path="/explore-blogs" component={ExploreBlogs} />
         <Route exact path="/details" component={DetailsPage} />
-        <Route exact path="/:profileID" component={UserProfile} />
+        {/* <Route exact path="/:profileID" component={UserProfile} /> */}
+        <Route exact path="/:profileUserName" component={UserProfile} />
       </Switch>
       {/* </div> */}
     </Router>
