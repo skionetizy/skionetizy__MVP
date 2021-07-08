@@ -15,28 +15,33 @@ function App() {
   return (
     <Router>
       {/* <div> */}
-      <Switch>
+      {/* <Switch>
         <Nav exact path="/login" component={Login} />
         <Nav exact path="/" component={Signup} />
         <Nav exact path="/mark" component={MarkDown} />
         <Nav exact path="/upload" component={Upload} />
         <Nav exact path="/final" component={FinalPage} />
         <Nav exact path="/view-blog/:blogID/:userID" component={ViewBlog} />
-        <Nav exact path="/details" component ={DetailsPage} />
+        <Nav exact path="/details" component={DetailsPage} />
         <Nav exact path="/searchpage" component={SearchPage} />
-        <Nav exact path="/explore-blogs" component={ExploreBlogs} />
-      </Switch>
+      </Switch> */}
+      <Nav />
       <Switch>
-        <Route exact path="/login" component={Login} />
         <Route exact path="/" component={Signup} />
+        <Route exact path="/login" component={Login} />
         <Route exact path="/markdown" component={MarkDown} />
         <Route exact path="/upload" component={Upload} />
         <Route exact path="/final" component={FinalPage} />
+        <Nav exact path="/searchpage" component={SearchPage} />
         <Route exact path="/view-blog/:blogID/:userID" component={ViewBlog} />
-        <Route exact path="/user-profile/" component={UserProfile} />
+        {/* <Route exact path="/user-profile/" component={UserProfile} /> */}
+
         <Route exact path="/explore-blogs" component={ExploreBlogs} />
+
         <Route exact path="/details" component={DetailsPage} />
-        <Route exact path="/searchpage" component={SearchPage}/>
+        {/* <Route exact path="/:profileID" component={UserProfile} /> */}
+        {/* <Route exact path="/edit-profile/:profileID" component={EditUserProfile}/> */}
+        <Route exact path="/:profileUserName" component={UserProfile} />
       </Switch>
       {/* </div> */}
     </Router>

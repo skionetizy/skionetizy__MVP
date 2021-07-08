@@ -1,23 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 import style from "../Pages/detailsPage.module.css";
 import Vector from "../Assets/bro.svg";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 
 import axios from "axios";
 
-import { profileUserNameBioUserDetailsAPIHandler } from "../API/profileAPIHandler";
+import {
+  checkProfileUsernameIsAvailableAPIHandler,
+  addProfileUsernameBioUserDetailsAPIHandler,
+} from "../API/profileAPIHandler";
 import baseURL from "../utils/baseURL";
+import useDebounceGeneral from "../hooks/useDebounceGeneral";
 
 const DetailsPage = (props) => {
   const [details, setDetails] = useState({
-    profileUserName: "test1",
-    profileBio: "test1 bio",
+    profileUserName: "",
+    profileBio: "",
   });
+  const [message, setMessage] = useState("");
+
+  // console.log({ profileUserNameBeforeUseDebounce: details.profileUserName });
+  const debounceData = useDebounceGeneral(details.profileUserName, 5000); //2seconds
+  console.log({ profileUserNameAfterUseDebounce: debounceData });
+
+  useEffect(() => {
+    console.log("entered debounce useEffect");
+    console.log({ debounceDataOutUseEffect: debounceData });
+    if (debounceData) {
+      console.log({ debouncedDataInUseEffect: debounceData });
+
+      if (debounceData.length >= 15) {
+        alert("profile Username must be less than 15 characters");
+      } else {
+        checkProfileUsernameIsAvailableAPIHandler(debounceData)
+          .then((res) => {
+            // alert(`${res.data.message}`);
+            console.log({ messageInUse: res.data.message });
+            setMessage(res.data.message);
+            console.log(res.data);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+    }
+  }, [details.profileUserName]);
 
   const handleChange = (name) => (e) => {
     setDetails({
@@ -44,6 +76,7 @@ const DetailsPage = (props) => {
       })
       .then((res) => {
         console.log("Success:", res.data);
+        <Redirect to="/login" />;
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -72,6 +105,7 @@ const DetailsPage = (props) => {
                 required
                 value={details.profileUserName}
               />
+              <p>{message}</p>
               <textarea
                 type="textarea"
                 name="bio"

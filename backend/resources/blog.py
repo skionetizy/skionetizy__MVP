@@ -6,7 +6,7 @@ from flask_restful import Resource
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 
-from database.models import Blog,Comment
+from database.models import Blog,Comment,Profile
 
 from datetime import datetime
 import uuid
@@ -291,11 +291,15 @@ class GetBlogs(Resource):
         # print(blogs)
         return make_response(jsonify({"blogs":blogs,"success":True}))
 
-class GetBlogsByUser(Resource):
-    def get(self,userID):
+class GetBlogsByProfile(Resource):
+    # def get(self,profileID):
+    def get(self,profileUserName):
         # body=request.get_json()
         # userID=body['userID']
-        blogsByUser=Blog.objects(userID=userID)
+        # profile = Profile.objects.get(profileID=profileID)
+        profile = Profile.objects.get(profileUserName=profileUserName)
+        blogsByUser=Blog.objects(userID=profile["userID"])
+        # blogsByUser=Blog.objects(userID=userID)
         return make_response(jsonify({"blogs":blogsByUser,"statusCode":200,"success":True}))
 
 class GetBlogByBlogID(Resource):

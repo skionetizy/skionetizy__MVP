@@ -23,6 +23,7 @@ function Signup(props) {
     emailID: "",
     password: "",
     confirmPassword: "",
+    userID: "",
   });
   // const [formvalues,setformValues]=useState();
 
@@ -48,11 +49,22 @@ function Signup(props) {
     // console.log(values);
     const url = "http://127.0.0.1:5000/signup";
 
-    axios.post(`${url}`, values).then((res) => {
-      console.log(res.data);
-    });
+    axios
+      .post(`${url}`, values)
+      .then((res) => {
+        // console.log(res.data);
+        setValues({ ...values, userID: res.data.userID });
+      })
+      .catch((err) => console.log(err));
     props.saveUserDetails(values.userID, values.firstName, values.lastName);
+    // <Route exact path="/">
+    //   {loggedIn ? <Redirect to="/dashboard" /> : <PublicHomePage />}
+    // </Route>;
+
+    values.userID && <Redirect to="/details" />;
+
     setValues({
+      ...values,
       firstName: "",
       lastName: "",
       emailID: "",

@@ -8,9 +8,9 @@ import Moment from "react-moment";
 
 Moment.globalFormat = "MMM D , YYYY";
 
-const UserBlogsCard = (blogFromUserProfile) => {
+const UserBlogsCard = ({ blog, isAuthorisedUser }) => {
   // console.log({ blogInUserBlogsCard: blog });
-  const { blog } = blogFromUserProfile;
+
   return (
     <div className={style.container}>
       <div className={style.row}>
@@ -30,12 +30,16 @@ const UserBlogsCard = (blogFromUserProfile) => {
               <ThumbDownAltIcon className={style.ThumbDownAlt} />
             </div>
           </div>
-          <div className={style.actions}>
-            <button className={`${style.deleteBlog} ${style.secondaryButton}`}>
-              Delete
-            </button>
-            <button className={style.editBlog}>Edit Blog</button>
-          </div>
+          {isAuthorisedUser && (
+            <div className={style.actions}>
+              <button
+                className={`${style.deleteBlog} ${style.secondaryButton}`}
+              >
+                Delete
+              </button>
+              <button className={style.editBlog}>Edit Blog</button>
+            </div>
+          )}
         </div>
       </div>
       <hr />

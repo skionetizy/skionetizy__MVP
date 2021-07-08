@@ -1,6 +1,6 @@
 from .authorize import AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails#getUserFirstName
-from .blog import AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByUser, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogs,GetBlogByBlogID
-from .profile import AddProfileUsernameBioUserDetails
+from .blog import AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogs,GetBlogByBlogID
+from .profile import AddProfileUsernameBioUserDetails, UpdateProfile, CheckProfileUsernameIsAvailableAPIHandler, GetProfileDetails
 def initialize_routes(api):
     #_____authorisation-routes________
     api.add_resource(AuthorizeSignup,'/signup')
@@ -23,7 +23,15 @@ def initialize_routes(api):
     #get
     api.add_resource(GetBlogs,'/blog/getBlogs')
     api.add_resource(GetBlogByBlogID,'/blog/getBlogByBlogID/<blogID>')
-    api.add_resource(GetBlogsByUser,'/blog/getBlogsByUser/<userID>')
+    # api.add_resource(GetBlogsByProfile,'/blog/getBlogsByProfile/<profileID>')
+    api.add_resource(GetBlogsByProfile,'/blog/getBlogsByProfile/<profileUserName>')
     #_______profile-routes_____
     #post
     api.add_resource(AddProfileUsernameBioUserDetails,'/profile/addProfileUsernameBioUserDetails/')
+    api.add_resource(CheckProfileUsernameIsAvailableAPIHandler,'/profile/checkProfileUsernameIsAvailable')
+    #patch
+    api.add_resource(UpdateProfile,'/profile/updateBlogDescriptionAndText/<profileID>')
+    #get
+    # api.add_resource(GetProfileDetails,'/profile/getProfileDetails/<profileID>')
+    api.add_resource(GetProfileDetails,'/profile/getProfileDetails/<profileUserName>')
+

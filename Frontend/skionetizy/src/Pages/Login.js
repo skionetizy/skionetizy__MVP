@@ -15,7 +15,6 @@ import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 
 import baseURL from "../utils/baseURL";
 
-// const url = "http://127.0.0.1:5000/login"; //add url here
 function Login(props) {
   const [details, setDetails] = useState({
     emailID: "",
@@ -30,7 +29,9 @@ function Login(props) {
     e.preventDefault();
     // console.log(details);
 
-    // const url = "http://127.0.0.1:5000/login";
+    // const onLogin = (userID) => {
+    //   props.onLogin(userID);
+    // };
 
     axios.post(`${baseURL}/login`, details).then((res) => {
       console.log(res.data);
@@ -38,14 +39,12 @@ function Login(props) {
         // onLogin(res.data.user._id.$oid);
         localStorage.setItem("userID", JSON.stringify(res.data.user.userID));
       }
+      const userID = res.data.user.userID;
+      props.onLogin(userID);
 
       // console.log({ userID: res.data.userID });
       // console.log(res.data.user._id);
     });
-
-    const onLogin = (userID) => {
-      props.onLogin(userID);
-    };
 
     setDetails({
       emailID: "",
