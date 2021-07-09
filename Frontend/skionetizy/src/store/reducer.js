@@ -4,6 +4,7 @@ const initialState = {
   blogID: "",
   firstName: "",
   lastName: "",
+  slicedBlogs: [],
 };
 
 const Reducer = (state = initialState, action) => {
@@ -28,6 +29,13 @@ const Reducer = (state = initialState, action) => {
         userID: userDetails.userID,
         firstName: userDetails.firstName,
         lastName: userDetails.lastName,
+      };
+    case "SAVE_SLICED_BLOGS":
+      const slicedBlogs = action.payload;
+      console.log({ slicedBlogsInReducer: slicedBlogs });
+      return {
+        ...state,
+        slicedBlogs,
       };
     default:
       return state;

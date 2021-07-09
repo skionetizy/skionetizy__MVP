@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+
 import style from "../Pages/exploreBlogs.module.css";
+
 import NavExploreBlogs from "../Components/NavExploreBlogs";
 import BlogCard from "../Components/BlogCard";
 import BlogNavigation from "../Components/BlogNavigation";
+
 import axios from "axios";
 
-function MyBlogs() {
+function MyBlogs(props) {
   const [blogsPerPage, setBlogsPerPage] = useState(12);
   // const [blogs, setBlogs] = useState([
   //   {
@@ -49,16 +53,9 @@ function MyBlogs() {
   }, []);
 
   const slicedBlogs = blogs.slice(startingIndex, endingIndex);
+  props.saveSlicedBlogs(slicedBlogs);
   // console.log(slicedBlogs);
 
-<<<<<<< HEAD
-	return (
-		<div>
-			{/* <NavExploreBlogs /> */}
-			<div className={`${style.blogCardContainer} ${style.container} ${style.body}`}>
-				{loading && <p>loading..</p>}
-				{/* <BlogCard />
-=======
   return (
     <div>
       {/* <NavExploreBlogs /> */}
@@ -67,7 +64,6 @@ function MyBlogs() {
       >
         {loading && <p>loading..</p>}
         {/* <BlogCard />
->>>>>>> a4290c85730ced9be85f1aec4e41c0beb85561a5
 				<BlogCard />
 				<BlogCard />
 				<BlogCard />
@@ -90,4 +86,10 @@ function MyBlogs() {
   );
 }
 
-export default MyBlogs;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveSlicedBlogs: (blogs) =>
+      dispatch({ type: "SAVE_SLICED_BLOGS", payload: blogs }),
+  };
+};
+export default connect(null, mapDispatchToProps)(MyBlogs);
