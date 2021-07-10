@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 
 import style from "../Pages/exploreBlogs.module.css";
 
-import NavExploreBlogs from "../Components/NavExploreBlogs";
 import BlogCard from "../Components/BlogCard";
 import BlogNavigation from "../Components/BlogNavigation";
 
@@ -11,14 +10,7 @@ import axios from "axios";
 
 function MyBlogs(props) {
   const [blogsPerPage, setBlogsPerPage] = useState(12);
-  // const [blogs, setBlogs] = useState([
-  //   {
-  //     blogID: "blogID",
-  //     blogTitle: "blogTitle",
-  //     likesCount: "likesCount",
-  //     dislikesCount: "dislikesCount",
-  //   },
-  // ]);
+
   const [blogs, setBlogs] = useState([]);
   const [currentBlog, setCurrentBlog] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -58,7 +50,6 @@ function MyBlogs(props) {
 
   return (
     <div>
-      {/* <NavExploreBlogs /> */}
       <div
         className={`${style.blogCardContainer} ${style.container} ${style.body}`}
       >

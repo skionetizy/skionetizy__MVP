@@ -1,11 +1,14 @@
 import { react, useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import useDebounce from "../hooks/useDebounce";
+import useDebounceGeneral from "../hooks/useDebounceGeneral";
 
 import SearchIcon from "@material-ui/icons/Search";
 import style from "./searchBar.module.css";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
+import { Redirect } from "react-router-dom";
+
+import { withRouter } from "react-router";
 
 const SearchBar = (props) => {
   const [searchInput, setSearchInput] = useState("");
@@ -15,12 +18,25 @@ const SearchBar = (props) => {
     setSearchInput(e.target.value);
   };
 
-  const debouncedSearch = useDebounce(searchInput, 2000);
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    console.log("in handle search submit");
+    console.log({ filteredBlogsInHS: filteredBlogs });
+
+    props.saveFilteredBlogs(filteredBlogs);
+    // return <Redirect to="/searchpage" />;
+    props.history.push("/searchPage");
+  };
+
+  const debouncedSearch = useDebounceGeneral(searchInput, 2000);
+  console.log({ debouncedSearchAfterUseDebounceGeneral: debouncedSearch });
 
   useEffect(() => {
     if (debouncedSearch) {
       const loweredDebounceSearch = debouncedSearch.toLowerCase();
-      const filteredData = props.slicedBlogs((blog) => {
+      const slicedBlogs = props.slicedBlogs;
+      console.log({ slicedBlogsInUE: slicedBlogs });
+      const filteredData = slicedBlogs.filter((blog) => {
         return (
           blog.blogTitle.toLowerCase().includes(loweredDebounceSearch) ||
           blog.blogDescription
@@ -29,18 +45,24 @@ const SearchBar = (props) => {
             .includes(loweredDebounceSearch)
         );
       });
+      console.log({ filteredBlogsInUE: filteredData });
+      setFilteredBlogs(filteredData);
     }
   }, [debouncedSearch]);
 
   return (
     <div>
       <div className={style.search}>
-        <input
-          type="text"
-          className={style.searchBar}
-          onChange={handleSearchInput}
-        />
-        <SearchIcon className={style.searchIcon} />
+        <form onSubmit={handleSearchSubmit}>
+          <input
+            type="text"
+            className={style.searchBar}
+            onChange={handleSearchInput}
+          />
+          <button type="submit">
+            <SearchIcon className={style.searchIcon} />
+          </button>
+        </form>
       </div>
     </div>
   );
@@ -50,4 +72,13 @@ const mapStateToProps = (state) => {
     slicedBlogs: state.slicedBlogs,
   };
 };
-export default connect(mapStateToProps)(SearchBar);
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveFilteredBlogs: (filteredBlogs) =>
+      dispatch({ type: "SAVE_FILTERED_BLOGS", payload: filteredBlogs }),
+  };
+};
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(SearchBar)
+);
