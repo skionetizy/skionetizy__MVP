@@ -136,6 +136,7 @@ function MarkDown(props) {
             onChange={handleChange("blogTitle")}
           />
         </div>
+        <div>characters Remaining {charactersRemaining}</div>
         <textarea
           autoFocus
           rows="40"
@@ -165,7 +166,6 @@ function MarkDown(props) {
         <div>
           <ReactMarkdown source={data.blogDescription} className="markdown" />
         </div>
-        <div>characters Remaining {charactersRemaining}</div>
       </div>
     </div>
   );

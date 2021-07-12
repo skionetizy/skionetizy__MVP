@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import style from "../Pages/exploreBlogs.module.css";
-import NavExploreBlogs from "../Components/NavExploreBlogs";
 import BlogCard from "../Components/BlogCard";
 import BlogNavigation from "../Components/BlogNavigation";
 import axios from "axios";
@@ -51,14 +50,6 @@ function MyBlogs() {
   const slicedBlogs = blogs.slice(startingIndex, endingIndex);
   // console.log(slicedBlogs);
 
-<<<<<<< HEAD
-	return (
-		<div>
-			{/* <NavExploreBlogs /> */}
-			<div className={`${style.blogCardContainer} ${style.container} ${style.body}`}>
-				{loading && <p>loading..</p>}
-				{/* <BlogCard />
-=======
   return (
     <div>
       {/* <NavExploreBlogs /> */}
@@ -67,7 +58,6 @@ function MyBlogs() {
       >
         {loading && <p>loading..</p>}
         {/* <BlogCard />
->>>>>>> a4290c85730ced9be85f1aec4e41c0beb85561a5
 				<BlogCard />
 				<BlogCard />
 				<BlogCard />
