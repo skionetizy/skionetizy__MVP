@@ -228,11 +228,11 @@ class RemoveDislikeOnBlog(Resource):
         return make_response(jsonify({"message":"you have successfully removed your dis like on the blog","statusCode":"200","blog":blog,"success":True}))
 
 class AddCommentToBlog(Resource):
-    def patch(self,blogID,userID):
+    def patch(self):
         body=request.get_json()
         commentID=uuid.uuid4()
-        # userID=body['userID']
-        # blogID=body['blogID']
+        userID=body['userID']
+        blogID=body['blogID']
         commentDescription=body['commentDescription']
 
         blog=Blog.objects.get(blogID=blogID)
@@ -257,14 +257,15 @@ class AddCommentToBlog(Resource):
             comments=newComments
         )
         blog.save()
-        return make_response(jsonify({"message":"you have successfully added comment on the    blog","statusCode":"200","blog":blog,"success":True}))
+        return make_response(jsonify({"message":"you have successfully added comment on the    blog","statusCode":"200","comment":comment,"success":True}))
 
 class RemoveCommentonBlog(Resource):
-    def patch(self,blogID,userID):
+    def patch(self):
         body=request.get_json()
+        print(f"body {body}")
         commentID=body['commentID']
-        # userID=body['userID']
-        # blogID=body['blogID']
+        userID=body['userID']
+        blogID=body['blogID']
     
         blog=Blog.objects.get(blogID=blogID)
 

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getLoggedInUserID } from "../utils/AuthorisationUtils";
 
 import baseURL from "../utils/baseURL";
 
@@ -80,4 +81,14 @@ export const getAllBlogsByProfileAPIHandler = (profileUserName) => {
       return res.data;
     })
     .catch((err) => console.log(err));
+};
+
+export const deleteCommentAPIHandler = ({ comment, blogID }) => {
+  const userID = getLoggedInUserID();
+  console.log({ comment, blogID, userID });
+  return axios.patch(`${baseURL}/blog/removeCommentOnBlog`, {
+    commentID: comment.commentID,
+    userID: userID,
+    blogID: blogID,
+  });
 };

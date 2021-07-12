@@ -2,10 +2,6 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 import style from "../Pages/exploreBlogs.module.css";
-<<<<<<< HEAD
-=======
-
->>>>>>> 125ebd7cb1a1c5e054dc84c08c5446cf8654da49
 import BlogCard from "../Components/BlogCard";
 import BlogNavigation from "../Components/BlogNavigation";
 

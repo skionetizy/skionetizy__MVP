@@ -10,7 +10,9 @@ import {
   removeLikeOnBlogAPIHandler,
   removeDislikeOnBlogAPIHandler,
 } from "../API/blogAPIHandler";
+
 import { getLoggedInUserID } from "../utils/AuthorisationUtils";
+import { saveBlogIDUtil } from "../utils/blogUtil";
 
 import style from "./ViewBlog.module.css";
 import styles from "../Components/comments.module.css";
@@ -33,6 +35,7 @@ const ViewBlog = () => {
   const [authorName, setAuthorName] = useState("");
   const [hasLiked, setHasLiked] = useState(false);
   const [hasDisliked, setHasDisliked] = useState(false);
+  const [commentStatusMessage, setCommentStatusMessage] = useState("");
 
   const [hasLikedIcon, setHasLikedIcon] = useState(
     <ThumbUpOutlined fontSize="large" />
@@ -68,8 +71,6 @@ const ViewBlog = () => {
         console.log({ blogInUseEffect: response1.data.blog });
         setBlog(response1.data.blog);
 
-        // setHasLiked(response1.data.blog.hasLiked);
-        // setHasDisliked(response1.data.blog.hasDisliked);
         const resultHasLiked = findUserHasLiked(
           response1.data.blog.likedByUsersList,
           userID
@@ -91,19 +92,20 @@ const ViewBlog = () => {
         const response2 = responses[1];
         setAuthorName(response2.data.user.firstName);
 
-        // console.log({
-        //   response1Data: response1.data,
-        //   response2Data: response2.data,
-        // });
+        // localStorage.setItem("blogID",response1.data.blog.blogID)
+        // response1.data.blog.blogID
+        saveBlogIDUtil(response1.data.blog.blogID);
       })
     );
   }, []);
-
+  // useEffect(() => {}, [blog?.comments?.length]);
+  const updateCommentStatusMessageParent = (message) => {
+    setCommentStatusMessage(message);
+  };
   const handleLike = () => {
     console.log("clicked");
     //handling loggedInUser , also handle not logged in User
     if (hasLiked === false && hasDisliked === false) {
-      // if (blog.hasLiked === false && blog.hasDisliked === false) {
       likeOnBlogAPIHandler(blogID, loggedInUser).then((res) => {
         const blogResponse = res.blog;
         blogResponse &&
@@ -111,16 +113,11 @@ const ViewBlog = () => {
             ...prevBlog,
             likesCount: blogResponse.likesCount + 1,
           }));
-        //   setBlog((prevBlog) => ({
-        //     ...prevBlog,
-        //     likesCount: blogResponse.likesCount + 1,
-        //     hasLiked: !prevBlog.hasLiked,
-        //   }));
+
         setHasLiked((previousHasLiked) => !previousHasLiked);
         setHasLikedIcon(<ThumbUp fontSize="large" />);
       });
     } else if (hasLiked === true && hasDisliked === false) {
-      // } else if (blog.hasLiked === true && blog.hasDisliked === false) {
       removeLikeOnBlogAPIHandler(blogID, loggedInUser).then((res) => {
         const blogResponse = res.blog;
         blogResponse &&
@@ -128,16 +125,11 @@ const ViewBlog = () => {
             ...prevBlog,
             likesCount: blogResponse.likesCount - 1,
           }));
-        //   setBlog((prevBlog) => ({
-        //     ...prevBlog,
-        //     likesCount: blogResponse.likesCount - 1,
-        //     hasLiked: !prevBlog.hasLiked,
-        //   }));
+
         setHasLiked((previousHasLiked) => !previousHasLiked);
         setHasLikedIcon(<ThumbUpOutlined fontSize="large" />);
       });
     } else if (hasLiked === false && hasDisliked === true) {
-      // } else if (blog.hasLiked === false && blog.hasDisliked === true) {
       likeOnBlogAPIHandler(blogID, loggedInUser)
         .then((res) => {
           const blogResponse = res.blog;
@@ -146,11 +138,7 @@ const ViewBlog = () => {
               ...prevBlog,
               likesCount: blogResponse.likesCount + 1,
             }));
-          // setBlog((prevBlog) => ({
-          //   ...prevBlog,
-          //   likesCount: blogResponse.likesCount + 1,
-          //   hasLiked: !prevBlog.hasLiked,
-          // }));
+
           setHasLiked((previousHasLiked) => !previousHasLiked);
           setHasLikedIcon(<ThumbUp fontSize="large" />);
         })
@@ -164,11 +152,7 @@ const ViewBlog = () => {
               ...prevBlog,
               dislikesCount: blogResponse.dislikesCount - 1,
             }));
-          // setBlog((prevBlog) => ({
-          //   ...prevBlog,
-          //   dislikesCount: blogResponse.dislikesCount - 1,
-          //   hasDisliked: !prevBlog.hasDisliked,
-          // }));
+
           setHasDisliked((previousHasDisliked) => !previousHasDisliked);
           setHasDislikedIcon(<ThumbDownOutlined fontSize="large" />);
         })
@@ -176,15 +160,12 @@ const ViewBlog = () => {
     }
 
     console.log({ hasLiked, hasDisliked });
-    // console.log({ hasLiked: blog.hasLiked, hasDisliked: blog.hasDisliked });
   };
 
   const handleDislike = () => {
     console.log("disliked");
-    //handling loggedInUser , also handle not logged in User
 
     if (hasDisliked === false && hasLiked === false) {
-      // if (blog.hasDisliked === false && blog.hasLiked === false) {
       dislikeOnBlogAPIHandler(blogID, loggedInUser)
         .then((res) => {
           const blogResponse = res.blog;
@@ -193,17 +174,12 @@ const ViewBlog = () => {
               ...prevBlog,
               dislikesCount: blogResponse.dislikesCount + 1,
             }));
-          // setBlog((prevBlog) => ({
-          //   ...prevBlog,
-          //   dislikesCount: blogResponse.dislikesCount + 1,
-          //   hasDisliked: !prevBlog.hasDisliked,
-          // }));
+
           setHasDisliked((previousHasDisliked) => !previousHasDisliked);
           setHasDislikedIcon(<ThumbDown fontSize="large" />);
         })
         .catch((err) => console.log(err));
     } else if (hasDisliked === true && hasLiked === false) {
-      // } else if (blog.hasDisliked === true && blog.hasLiked === false) {
       removeDislikeOnBlogAPIHandler(blogID, loggedInUser)
         .then((res) => {
           const blogResponse = res.blog;
@@ -212,11 +188,7 @@ const ViewBlog = () => {
               ...prevBlog,
               dislikesCount: blogResponse.dislikesCount - 1,
             }));
-          // setBlog((prevBlog) => ({
-          //   ...prevBlog,
-          //   dislikesCount: blogResponse.dislikesCount - 1,
-          //   hasDisliked: !prevBlog.hasDisliked,
-          // }));
+
           console.log({ resInRemoveDisLike: blogResponse.dislikesCount });
 
           setHasDisliked((previousHasDisliked) => !previousHasDisliked);
@@ -224,7 +196,6 @@ const ViewBlog = () => {
         })
         .catch((err) => console.log(err));
     } else if (hasDisliked === false && hasLiked === true) {
-      // } else if (blog.hasDisliked === false && blog.hasLiked === true) {
       removeLikeOnBlogAPIHandler(blogID, loggedInUser)
         .then((res) => {
           const blogResponse = res.blog;
@@ -233,11 +204,7 @@ const ViewBlog = () => {
               ...prevBlog,
               likesCount: blogResponse.likesCount - 1,
             }));
-          // setBlog((prevBlog) => ({
-          //   ...prevBlog,
-          //   likesCount: blogResponse.likesCount - 1,
-          //   hasLiked: !prevBlog.hasLiked,
-          // }));
+
           setHasLiked((previousHasLiked) => !previousHasLiked);
           setHasLikedIcon(<ThumbUpOutlined fontSize="large" />);
         })
@@ -251,17 +218,13 @@ const ViewBlog = () => {
               ...prevBlog,
               dislikesCount: blogResponse.dislikesCount + 1,
             }));
-          // setBlog((prevBlog) => ({
-          //   ...prevBlog,
-          //   dislikesCount: blogResponse.dislikesCount + 1,
-          //   hasDisliked: !prevBlog.hasDisliked,
-          // }));
+
           setHasDisliked((previousHasDisliked) => !previousHasDisliked);
           setHasDislikedIcon(<ThumbDown fontSize="large" />);
         })
         .catch((err) => console.log(err));
     }
-    // console.log({ hasLiked: blog.hasLiked, hasDisliked: blog.hasDisliked });
+
     console.log({ hasLiked, hasDisliked });
   };
 
@@ -275,7 +238,6 @@ const ViewBlog = () => {
             <div className={style.published}>
               <small className={style.authorName}>{authorName}</small>
               <small className={style.publishedDate}>
-                {/* Published on <small>May 29, 2022</small> */}
                 Published on
                 <small>
                   <Moment>{blog?.timestamp?.$date}</Moment>
@@ -323,16 +285,10 @@ const ViewBlog = () => {
             <div className={style.thumbDown} onClick={handleDislike}>
               {hasDislikedIcon}
             </div>
-            {console.log({
+            {/* {console.log({
               intheAppLiked: hasLiked,
               intheAppDiskLiked: hasDisliked,
               blogInApp: blog,
-              inTheAppBlogLikesCount: blog.likesCount,
-              intheAppBlogDislikes: blog.dislikesCount,
-            })}
-            {/* {console.log({
-              intheAppLiked: blog.hasLiked,
-              intheAppDiskLiked: blog.hasDisliked,
               inTheAppBlogLikesCount: blog.likesCount,
               intheAppBlogDislikes: blog.dislikesCount,
             })} */}
@@ -342,12 +298,23 @@ const ViewBlog = () => {
       <div className={styles.comments}>
         <div className={styles.comment_count}>
           <h3>
-            <span>45</span> Comments
+            {/* <span>45</span> Comments */}
+            <span>{blog?.comments?.length}</span> Comments
+            {/* {console.log({ blogIDInComments: blogID })} */}
+            {console.log({ commentStatusMessage })}
+            {commentStatusMessage}
           </h3>
         </div>
         <div className={styles.comments_container}>
-          <Comments />
-          <Comments />
+          {blog?.comments?.map((comment, commentIndex) => (
+            <Comments
+              comment={comment}
+              key={commentIndex}
+              updateCommentStatusMessage={(commentStatusMessage) =>
+                updateCommentStatusMessageParent(commentStatusMessage)
+              }
+            />
+          ))}
         </div>
       </div>
     </div>
