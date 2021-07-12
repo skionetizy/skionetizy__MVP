@@ -116,6 +116,7 @@ class getUserDetails(Resource):
 
         print(f"userID:{userID}")
         user = User.objects.get(userID=userID)
+        # user = User.objects(userID=userID)
 
         return make_response({"user":user,"message":"fetched user details  Successfully","status":200})
 

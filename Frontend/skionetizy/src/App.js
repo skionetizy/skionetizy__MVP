@@ -32,7 +32,7 @@ function App() {
         <Route exact path="/markdown" component={MarkDown} />
         <Route exact path="/upload" component={Upload} />
         <Route exact path="/final" component={FinalPage} />
-        <Nav exact path="/searchpage" component={SearchPage} />
+        <Route exact path="/searchpage" component={SearchPage} />
         <Route exact path="/view-blog/:blogID/:userID" component={ViewBlog} />
         {/* <Route exact path="/user-profile/" component={UserProfile} /> */}
 

@@ -13,15 +13,16 @@ import {
 import { getLoggedInUserID } from "../utils/AuthorisationUtils";
 
 import style from "./ViewBlog.module.css";
-import styles from "../Components/comments.module.css"
+import styles from "../Components/comments.module.css";
 import ThumbUp from "@material-ui/icons/ThumbUp";
 import ThumbUpOutlined from "@material-ui/icons/ThumbUpOutlined";
 import ThumbDown from "@material-ui/icons/ThumbDown";
 import ThumbDownOutlined from "@material-ui/icons/ThumbDownOutlined";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import ShareIcon from "@material-ui/icons/Share";
-import Moment from "react-moment";
+
 import Comments from "../Components/comments";
+import Moment from "react-moment";
 
 Moment.globalFormat = "MMM D , YYYY";
 

@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+
 import style from "../Pages/exploreBlogs.module.css";
+<<<<<<< HEAD
+=======
+
+>>>>>>> 125ebd7cb1a1c5e054dc84c08c5446cf8654da49
 import BlogCard from "../Components/BlogCard";
 import BlogNavigation from "../Components/BlogNavigation";
+
 import axios from "axios";
 
-function MyBlogs() {
+function MyBlogs(props) {
   const [blogsPerPage, setBlogsPerPage] = useState(12);
-  // const [blogs, setBlogs] = useState([
-  //   {
-  //     blogID: "blogID",
-  //     blogTitle: "blogTitle",
-  //     likesCount: "likesCount",
-  //     dislikesCount: "dislikesCount",
-  //   },
-  // ]);
+
   const [blogs, setBlogs] = useState([]);
   const [currentBlog, setCurrentBlog] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -48,11 +48,11 @@ function MyBlogs() {
   }, []);
 
   const slicedBlogs = blogs.slice(startingIndex, endingIndex);
+  props.saveSlicedBlogs(slicedBlogs);
   // console.log(slicedBlogs);
 
   return (
     <div>
-      {/* <NavExploreBlogs /> */}
       <div
         className={`${style.blogCardContainer} ${style.container} ${style.body}`}
       >
@@ -80,4 +80,10 @@ function MyBlogs() {
   );
 }
 
-export default MyBlogs;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveSlicedBlogs: (blogs) =>
+      dispatch({ type: "SAVE_SLICED_BLOGS", payload: blogs }),
+  };
+};
+export default connect(null, mapDispatchToProps)(MyBlogs);

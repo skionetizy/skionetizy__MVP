@@ -8,6 +8,9 @@ import axios from "axios";
 // import Moment from 'react-moment';
 import baseURL from "../utils/baseURL";
 import style from "../Pages/exploreBlogs.module.css";
+import Moment from "react-moment";
+
+Moment.globalFormat = "MMM D , YYY ";
 
 const BlogCard = ({ blog }) => {
   const [authorName, setAuthorName] = useState("");
@@ -34,7 +37,6 @@ const BlogCard = ({ blog }) => {
           <div className={style.cardBox}>
             <img
               className={style.blogCover}
-              // src="https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
               src={`${blog.blogImageURL}`}
               alt=""
             />
@@ -56,11 +58,7 @@ const BlogCard = ({ blog }) => {
                   <div className={style.dayLikesDislikes}>
                     {/* <h4 class={style.date}>May 4</h4> */}
                     <h4 class={style.date}>
-                      {/* {moment(`${blog.timestamp}.split("T")[0]`).format(
-                        "MMMM Do YYYY"
-                      )} */}
-                      {/* {moment(date).format("MMMM Do YYYY")} */}
-                      {/* <Moment>{blog.timestamp}</Moment> */}
+                      <Moment>{blog?.timestamp?.$date}</Moment>
                     </h4>
                     <div className={style.pushRight}>
                       <span>{blog.likesCount}</span>
