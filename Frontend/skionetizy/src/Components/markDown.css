@@ -1,43 +1,48 @@
 .textarea {
-  position: relative;
-  margin-top: 10%;
-  padding: 10px;
-  border: 2px solid transparent;
-  left: 5%;
-  outline: none;
-  resize: none;
+	position: relative;
+	margin-top: 10%;
+	padding: 10px;
+	border: 2px solid transparent;
+	left: 5%;
+	outline: none;
+	resize: none;
 }
 .markdown {
-  position: relative;
-  margin-top: 4%;
-  padding: 10px;
-  height: auto;
-  word-wrap: break-word;
-  margin-left: 50%;
-  width: 44%;
-  background-color: white;
+	position: relative;
+	margin-top: 4%;
+	padding: 10px;
+	height: auto;
+	word-wrap: break-word;
+	margin-left: 50%;
+	width: 44%;
+	background-color: white;
 }
 .mainmark {
-  color: #3498db;
+	color: #3498db;
+}
+.characters {
+	margin-left: 30em;
+	position: absolute;
+	margin-top: 7em;
 }
 .bg {
-  background-color: transparent;
+	background-color: transparent;
 }
 .upload {
-  padding: 10px;
-  background-color: #3498db;
-  color: white;
-  padding: 0.5rem;
-  border-radius: 0.3rem;
-  border: transparent;
-  cursor: pointer;
-  margin: 0px 10px 20px 0;
-  text-decoration: none;
-  color: white;
+	padding: 10px;
+	background-color: #3498db;
+	color: white;
+	padding: 0.5rem;
+	border-radius: 0.3rem;
+	border: transparent;
+	cursor: pointer;
+	margin: 0px 10px 20px 0;
+	text-decoration: none;
+	color: white;
 }
 
 .pos {
-  position: relative;
-  margin-left: 20%;
-  margin-top: 10px;
+	position: relative;
+	margin-left: 20%;
+	margin-top: 10px;
 }

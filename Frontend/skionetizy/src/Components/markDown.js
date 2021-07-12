@@ -136,7 +136,7 @@ function MarkDown(props) {
             onChange={handleChange("blogTitle")}
           />
         </div>
-        <div>characters Remaining {charactersRemaining}</div>
+        <div className="characters">characters Remaining {charactersRemaining}</div>
         <textarea
           autoFocus
           rows="40"
