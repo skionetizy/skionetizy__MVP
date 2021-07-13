@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../Components/comments.module.css";
-
+import DeleteIcon from '@material-ui/icons/Delete';
 import { deleteCommentAPIHandler } from "../API/blogAPIHandler";
 
 import { getBlogIDUtil } from "../utils/blogUtil";
@@ -34,10 +34,12 @@ const Comments = (commentFromBlog, updateCommentStatusMessage) => {
           </div>
         </div>
         <div className={styles.comment_text}>
-          <p>{comment?.commentDescription}</p>
-          <button onClick={handleDelete}>Delete</button>
+          {/* <p>{comment?.commentDescription}</p> */}
+          <p>Hello</p>
+          <button className={styles.comment_delete} onClick={handleDelete}><DeleteIcon /></button>
         </div>
       </div>
+      <hr className={styles.break}/>
     </div>
   );
 };

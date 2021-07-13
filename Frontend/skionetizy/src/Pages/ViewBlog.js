@@ -315,6 +315,9 @@ const ViewBlog = () => {
               }
             />
           ))}
+          <Comments />
+          <Comments />
+
         </div>
       </div>
     </div>
