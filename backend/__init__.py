@@ -12,7 +12,7 @@ import os
 
 
 
-app = Flask(__name__,static_folder='../frontend/skionetizy/build',static_host='')
+app = Flask(__name__,static_folder='../Frontend/skionetizy/build',static_url_path='')
 
 
 cloudinary.config (
