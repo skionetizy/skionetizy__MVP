@@ -11,7 +11,7 @@
       
     },
     "scripts": {
-        "heroku-postbuild":"cd Frontend && cd skionetizy && npm install && npm run build"
+        "heroku-postbuild":"cd Frontend && cd skionetizy && yarn install && yarn run build"
     }
     
   }
