@@ -10,7 +10,7 @@
       
     },
     "scripts": {
-        "heroku-postbuild":"cd frontend && cd skionetizy && yarn install && yarn run build"
+        "heroku-postbuild":"cd Frontend && cd skionetizy && yarn install && yarn run build"
     }
     
   }
