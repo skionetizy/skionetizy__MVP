@@ -1,7 +1,7 @@
 from flask import json, make_response,jsonify,request
 from flask_restful import Resource
 
-from database.models import User
+from  backend.database.models import User
 
 #sendgrid
 import os

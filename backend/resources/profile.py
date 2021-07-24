@@ -7,7 +7,7 @@ import uuid
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 
-from database.models import Profile
+from backend.database.models import Profile
 
 # from datetime import datetime
 

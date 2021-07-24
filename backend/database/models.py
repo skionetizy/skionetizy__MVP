@@ -4,7 +4,7 @@ from mongoengine.fields import EmbeddedDocumentField, ReferenceField
 from flask_bcrypt import generate_password_hash, check_password_hash
 import datetime
 
-from .db import db
+from backend import db
 
 class User(db.Document):
     userID = db.UUIDField(required=True,binary=False)

@@ -6,7 +6,7 @@ from flask_restful import Resource
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 
-from database.models import Blog,Comment,Profile
+from backend.database.models import Blog,Comment,Profile
 
 from datetime import datetime
 import uuid
