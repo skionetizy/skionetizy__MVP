@@ -45,3 +45,6 @@ def initialize_db(app):
     db.init_app(app)
 
 
+initialize_db(app)
+
+from backend.resources import routes

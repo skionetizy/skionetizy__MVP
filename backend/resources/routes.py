@@ -2,14 +2,9 @@ from backend.resources.authorize import AuthorizeEmailVerification, AuthorizeLog
 from backend.resources.blog import AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogs,GetBlogByBlogID
 from backend.resources.profile import AddProfileUsernameBioUserDetails, UpdateProfile, CheckProfileUsernameIsAvailableAPIHandler, GetProfileDetails
 from flask import send_from_directory
-from backend import app
+from backend import app,api
 
 
-
-@app.errorhandler(404)
-def not_found(e):
-    return app.send_static_file('index.html')
-    
 def initialize_routes(api):
     #_____authorisation-routes________
     api.add_resource(AuthorizeSignup,'/signup')
@@ -45,7 +40,15 @@ def initialize_routes(api):
     api.add_resource(GetProfileDetails,'/profile/getProfileDetails/<profileUserName>')
 
 
+initialize_routes(api)
+
 @app.route('/')
 @app.route('/home',methods=['GET'])
 def home():
     return send_from_directory(app.static_folder,'index.html')
+
+
+@app.errorhandler(404)
+def not_found(e):
+    return app.send_static_file('index.html')
+    
