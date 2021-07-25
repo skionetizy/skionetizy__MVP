@@ -21,7 +21,7 @@ class AuthorizeSignup(Resource):
         if len(body['firstName'])== 0  or len(body['lastName']) == 0 or len(body['emailID'])==0 or len(body['password'] )== 0 or len(body['confirmPassword']) == 0 :
             return make_response(jsonify({"message":"all fields are required","statusCode":500}))
             # raise FieldsEmpty
-
+        print(body['firstName'])
         existingUser = User.objects.get(emailID = body['emailID'])
         if(existingUser):
             return make_response(jsonify({"message":"user already exists, try to login","statusCode":500}))
