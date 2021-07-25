@@ -4,10 +4,7 @@ from backend.resources.profile import AddProfileUsernameBioUserDetails, UpdatePr
 from flask import send_from_directory
 from backend import app
 
-@app.route('/')
-@app.route('/home',methods=['GET'])
-def home():
-    return send_from_directory(app.static_folder,'index.html')
+
 
 @app.errorhandler(404)
 def not_found(e):
@@ -48,3 +45,7 @@ def initialize_routes(api):
     api.add_resource(GetProfileDetails,'/profile/getProfileDetails/<profileUserName>')
 
 
+@app.route('/')
+@app.route('/home',methods=['GET'])
+def home():
+    return send_from_directory(app.static_folder,'index.html')
