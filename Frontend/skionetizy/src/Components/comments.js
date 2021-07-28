@@ -5,13 +5,13 @@ import { deleteCommentAPIHandler } from "../API/blogAPIHandler";
 
 import { getBlogIDUtil } from "../utils/blogUtil";
 
-const Comments = (commentFromBlog, updateCommentStatusMessage) => {
-  const { comment } = commentFromBlog;
+const Comments = ({commentFromBlog, updateCommentStatusMessage, newMessage}) => {
+  // const { comment } = commentFromBlog;
   //   console.log({ blogIDfromComments: blogID });
 
   const handleDelete = (e) => {
     deleteCommentAPIHandler({
-      comment,
+      commentFromBlog,
       blogID: getBlogIDUtil(),
     })
       .then((res) => {
@@ -35,7 +35,7 @@ const Comments = (commentFromBlog, updateCommentStatusMessage) => {
         </div>
         <div className={styles.comment_text}>
           {/* <p>{comment?.commentDescription}</p> */}
-          <p>Hello</p>
+          <p>{newMessage}</p>
           <button className={styles.comment_delete} onClick={handleDelete}><DeleteIcon /></button>
         </div>
       </div>

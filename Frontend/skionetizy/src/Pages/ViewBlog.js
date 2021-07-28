@@ -285,13 +285,13 @@ const ViewBlog = () => {
             <div className={style.thumbDown} onClick={handleDislike}>
               {hasDislikedIcon}
             </div>
-            {/* {console.log({
+            {console.log({
               intheAppLiked: hasLiked,
               intheAppDiskLiked: hasDisliked,
               blogInApp: blog,
               inTheAppBlogLikesCount: blog.likesCount,
               intheAppBlogDislikes: blog.dislikesCount,
-            })} */}
+            })}
           </div>
         </div>
       </div>
@@ -302,9 +302,20 @@ const ViewBlog = () => {
             <span>{blog?.comments?.length}</span> Comments
             {/* {console.log({ blogIDInComments: blogID })} */}
             {console.log({ commentStatusMessage })}
-            {commentStatusMessage}
+            {/* {commentStatusMessage} */}
           </h3>
         </div>
+
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          setCommentStatusMessage(e.target.elements.input.value)
+
+        }} className={styles.comment_text}>
+          <input name="input" type="text" placeholder="Enter comment.." ></input>
+          <button type="submit">Submit</button>
+        </form>
+        <br />
+
         <div className={styles.comments_container}>
           {blog?.comments?.map((comment, commentIndex) => (
             <Comments
@@ -316,7 +327,7 @@ const ViewBlog = () => {
             />
           ))}
           <Comments />
-          <Comments />
+
 
         </div>
       </div>
