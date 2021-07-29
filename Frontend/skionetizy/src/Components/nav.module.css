@@ -12,6 +12,10 @@
 
 .logo {
 	font-size: 3rem;
+}
+
+.logoLink{
+	text-decoration: none;
 	color: var(--primary-blue);
 }
 
