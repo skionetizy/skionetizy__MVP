@@ -306,26 +306,41 @@ const ViewBlog = () => {
           </h3>
         </div>
 
-        <form onSubmit={(e) => {
-          e.preventDefault();
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
 
-          axios.patch(`http://127.0.0.1:5000/blog/addCommentToBlog`, {
-            commentStatusMessage
-          })
-            .then(response => {
-              console.log(JSON.stringify(response));
-            })
-            .catch(error => {
-              console.log("It is not working");
-            })
-          setCommentStatusMessage(e.target.elements.input.value)
+            axios
+              .patch(`http://127.0.0.1:5000/blog/addCommentToBlog`, {
+                commentStatusMessage,
+              })
+              .then((response) => {
+                console.log(JSON.stringify(response));
+              })
+              .catch((error) => {
+                console.log("It is not working");
+              });
+            setCommentStatusMessage(e.target.elements.input.value);
+          }}
+          className={style.commentForm}
+        >
+          <input
+            className={style.commentInput}
+            name="input"
+            type="text"
+            placeholder="Add to the dicussion..."
+          ></input>
 
-        }} className={styles.comment_text}>
-          <input name="input" type="text" placeholder="Enter comment.." ></input>
-          <button type="submit">Submit</button>
+          <div>
+            <button className={style.button} type="submit">
+              Submit
+            </button>
+          </div>
         </form>
-        <p>{commentStatusMessage}</p>
-        <br />
+
+        {commentStatusMessage && (
+          <p className={style.commentStatus}>Status : {commentStatusMessage}</p>
+        )}
 
         <div className={styles.comments_container}>
           {blog?.comments?.map((comment, commentIndex) => (
@@ -338,8 +353,6 @@ const ViewBlog = () => {
             />
           ))}
           <Comments />
-
-
         </div>
       </div>
     </div>
