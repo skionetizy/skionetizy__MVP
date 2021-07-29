@@ -4,19 +4,28 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { deleteCommentAPIHandler } from "../API/blogAPIHandler";
 
 import { getBlogIDUtil } from "../utils/blogUtil";
+import { useParams } from "react-router-dom";
 
-const Comments = ({ comment, commentFromBlog, updateCommentStatusMessage }) => {
+const Comments = ({
+  comment,
+  updateCommentStatusMessage,
+  // default to no-operation function to prevent error: TypeError: onDelete is not a function
+  onDelete = () => {},
+}) => {
   // const { comment } = commentFromBlog;
   //   console.log({ blogIDfromComments: blogID });
+  const { blogID } = useParams();
+  console.log(comment, blogID);
 
   const handleDelete = (e) => {
     deleteCommentAPIHandler({
-      commentFromBlog,
-      blogID: getBlogIDUtil(),
+      comment,
+      blogID,
     })
       .then((res) => {
         console.log(res.data);
         updateCommentStatusMessage(res.data.message);
+        onDelete(res);
       })
       .catch((err) => console.log(err));
   };

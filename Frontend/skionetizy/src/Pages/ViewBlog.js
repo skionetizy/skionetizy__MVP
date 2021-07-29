@@ -9,6 +9,7 @@ import {
   dislikeOnBlogAPIHandler,
   removeLikeOnBlogAPIHandler,
   removeDislikeOnBlogAPIHandler,
+  addCommentAPIHandler,
 } from "../API/blogAPIHandler";
 
 import { getLoggedInUserID } from "../utils/AuthorisationUtils";
@@ -44,6 +45,8 @@ const ViewBlog = () => {
     <ThumbDownOutlined fontSize="large" />
   );
 
+  // fix this
+  // on every state update (rerender) requesting backend for blogs & user details
   const promise1 = axios.get(`${baseURL}/blog/getBlogByBlogID/${blogID}`);
   const promise2 = axios.get(`${baseURL}/user/getUserDetails/${userID}`);
 
@@ -65,11 +68,11 @@ const ViewBlog = () => {
   };
 
   // fetch again when comments to reflect changes
-  useEffect(() => {
+  function getBlogs() {
     axios.get(`${baseURL}/blog/getBlogByBlogID/${blogID}`).then((res) => {
       setBlog(res.data.blog);
     });
-  }, [blogID, commentStatusMessage]);
+  }
 
   useEffect(() => {
     axios.all([promise1, promise2]).then(
@@ -105,6 +108,19 @@ const ViewBlog = () => {
       })
     );
   }, []);
+
+  // whenever statusupdates and is not empty
+  useEffect(() => {
+    if (commentStatusMessage === "") return;
+    const timerID = setTimeout(
+      () => setCommentStatusMessage(""),
+      10000 /* 10 Seconds */
+    );
+
+    console.log("im runnning");
+    return () => clearTimeout(timerID);
+  }, [commentStatusMessage]);
+
   // useEffect(() => {}, [blog?.comments?.length]);
   const updateCommentStatusMessageParent = (message) => {
     setCommentStatusMessage(message);
@@ -319,15 +335,15 @@ const ViewBlog = () => {
 
             const commentDescription = e.target.elements.input.value;
 
-            axios
-              .patch(`/blog/addCommentToBlog`, {
-                commentDescription,
-                blogID,
-                userID,
-              })
+            addCommentAPIHandler({
+              commentDescription,
+              blogID,
+            })
               .then((response) => {
                 console.log(JSON.stringify(response));
-                setCommentStatusMessage("Comment Added!");
+                setCommentStatusMessage(response.data.message);
+                // re-fetch comments for blog when successful
+                if (response.data.success === true) getBlogs();
               })
               .catch((error) => {
                 console.log("It is not working");
@@ -350,14 +366,18 @@ const ViewBlog = () => {
         </form>
 
         {commentStatusMessage && (
-          <p className={style.commentStatus}>Status : {commentStatusMessage}</p>
+          <p className={style.commentStatus}>{commentStatusMessage}</p>
         )}
 
         <div className={styles.comments_container}>
-          {blog?.comments?.map((comment, commentIndex) => (
+          {blog?.comments?.map((comment) => (
             <Comments
               comment={comment}
-              key={commentIndex}
+              key={comment.commentID}
+              onDelete={(response) => {
+                // re-fetch comments for blog when successful
+                if (response.data.success === true) getBlogs();
+              }}
               updateCommentStatusMessage={(commentStatusMessage) =>
                 updateCommentStatusMessageParent(commentStatusMessage)
               }
