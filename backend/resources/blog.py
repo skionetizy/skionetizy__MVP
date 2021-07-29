@@ -234,25 +234,18 @@ class AddCommentToBlog(Resource):
         userID=body['userID']
         blogID=body['blogID']
         commentDescription=body['commentDescription']
-
         blog=Blog.objects.get(blogID=blogID)
-
         # if(userID!= blog['userID']):
         #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
-
         if(len(commentDescription)>=300 or len(commentDescription)<6):
             return make_response(jsonify({"message":"comment must be more than 6 characters and less than 300 characters"}))
-        
         comment=Comment(
             commentID=commentID,
             commentDescription=commentDescription
         )
         # comment.save()
-        
         comments=blog['comments']
-        
         newComments=comments.append(comment)
-
         blog.update(
             comments=newComments
         )
