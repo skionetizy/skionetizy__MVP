@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "../Components/comments.module.css";
-import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteIcon from "@material-ui/icons/Delete";
 import { deleteCommentAPIHandler } from "../API/blogAPIHandler";
 
 import { getBlogIDUtil } from "../utils/blogUtil";
 
-const Comments = ({commentFromBlog, updateCommentStatusMessage}) => {
+const Comments = ({ comment, commentFromBlog, updateCommentStatusMessage }) => {
   // const { comment } = commentFromBlog;
   //   console.log({ blogIDfromComments: blogID });
 
@@ -15,7 +15,7 @@ const Comments = ({commentFromBlog, updateCommentStatusMessage}) => {
       blogID: getBlogIDUtil(),
     })
       .then((res) => {
-        // console.log(res.data);
+        console.log(res.data);
         updateCommentStatusMessage(res.data.message);
       })
       .catch((err) => console.log(err));
@@ -34,12 +34,13 @@ const Comments = ({commentFromBlog, updateCommentStatusMessage}) => {
           </div>
         </div>
         <div className={styles.comment_text}>
-          {/* <p>{comment?.commentDescription}</p> */}
-          <p>hiii</p>
-          <button className={styles.comment_delete} onClick={handleDelete}><DeleteIcon /></button>
+          <p>{comment.commentDescription}</p>
+          <button className={styles.comment_delete} onClick={handleDelete}>
+            <DeleteIcon />
+          </button>
         </div>
       </div>
-      <hr className={styles.break}/>
+      <hr className={styles.break} />
     </div>
   );
 };

@@ -64,6 +64,13 @@ const ViewBlog = () => {
     return !!DislikedUsersArray.find((userInArray) => userInArray === userID);
   };
 
+  // fetch again when comments to reflect changes
+  useEffect(() => {
+    axios.get(`${baseURL}/blog/getBlogByBlogID/${blogID}`).then((res) => {
+      setBlog(res.data.blog);
+    });
+  }, [blogID, commentStatusMessage]);
+
   useEffect(() => {
     axios.all([promise1, promise2]).then(
       axios.spread((...responses) => {
@@ -310,17 +317,21 @@ const ViewBlog = () => {
           onSubmit={(e) => {
             e.preventDefault();
 
+            const commentDescription = e.target.elements.input.value;
+
             axios
-              .patch(`http://127.0.0.1:5000/blog/addCommentToBlog`, {
-                commentStatusMessage,
+              .patch(`/blog/addCommentToBlog`, {
+                commentDescription,
+                blogID,
+                userID,
               })
               .then((response) => {
                 console.log(JSON.stringify(response));
+                setCommentStatusMessage("Comment Added!");
               })
               .catch((error) => {
                 console.log("It is not working");
               });
-            setCommentStatusMessage(e.target.elements.input.value);
           }}
           className={style.commentForm}
         >
@@ -352,7 +363,6 @@ const ViewBlog = () => {
               }
             />
           ))}
-          <Comments />
         </div>
       </div>
     </div>
