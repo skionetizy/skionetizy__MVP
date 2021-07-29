@@ -308,12 +308,23 @@ const ViewBlog = () => {
 
         <form onSubmit={(e) => {
           e.preventDefault();
+
+          axios.patch(`http://127.0.0.1:5000/blog/addCommentToBlog`, {
+            commentStatusMessage
+          })
+            .then(response => {
+              console.log(JSON.stringify(response));
+            })
+            .catch(error => {
+              console.log("It is not working");
+            })
           setCommentStatusMessage(e.target.elements.input.value)
 
         }} className={styles.comment_text}>
           <input name="input" type="text" placeholder="Enter comment.." ></input>
           <button type="submit">Submit</button>
         </form>
+        <p>{commentStatusMessage}</p>
         <br />
 
         <div className={styles.comments_container}>
