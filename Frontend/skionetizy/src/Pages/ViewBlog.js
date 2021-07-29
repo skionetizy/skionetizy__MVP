@@ -114,7 +114,7 @@ const ViewBlog = () => {
     if (commentStatusMessage === "") return;
     const timerID = setTimeout(
       () => setCommentStatusMessage(""),
-      10000 /* 10 Seconds */
+      3000 /* 3 Seconds */
     );
 
     console.log("im runnning");
