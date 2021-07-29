@@ -59,7 +59,7 @@ const SearchBar = (props) => {
             className={style.searchBar}
             onChange={handleSearchInput}
           />
-          <button type="submit">
+          <button className={style.submitButton} type="submit">
             <SearchIcon className={style.searchIcon} />
           </button>
         </form>

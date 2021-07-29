@@ -7,20 +7,23 @@ import SearchBar from './searchBar';
 
 function Nav() {
 	const path = useLocation();
+
 	return (
 		<div className={style.container}>
 			<nav className={style.nav}>
 				<div className={style.header}>
-					<h1 className={style.logo}>Logo</h1>
+					<h1 className={style.logo}><Link className={style.logoLink} to="/">Logo</Link></h1>
 				</div>
 				<input type="checkbox" id="nav-toggle" className={style.navToggle} />
 				<label className={style.hamburger} htmlFor="nav-toggle">
 					<MenuIcon fontSize="large" className={style.hamburgerIcon} />
 				</label>
+
 				{path.pathname === '/explore-blogs' && <SearchBar />}
+
 				<ul className={style.links}>
 					<li className={style.link}>
-						<Link className={style.navLink} to="#">
+						<Link className={style.navLink} to="/explore-blogs">
 							Explore
 						</Link>
 					</li>
