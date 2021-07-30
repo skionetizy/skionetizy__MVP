@@ -29,16 +29,30 @@ export const checkProfileUsernameIsAvailableAPIHandler = (data) => {
 
 export const updateProfileDetails = (
   profileID,
-  { profileBio, profileWebsiteURL, profilePicImage, profileBannerImage }
+  { userID, profileBio, profileWebsiteURL, profilePicImage, profileBannerImage }
 ) => {
+  console.dir(
+    {
+      userID,
+      profileBio,
+      profileWebsiteURL,
+      profilePicImage,
+      profileBannerImage,
+    },
+    { depth: Infinity }
+  );
   const formData = new FormData();
-  formData.set("profileBio", profileBio);
-  formData.set("profileWebsiteURL", profileWebsiteURL);
-  formData.set("profilePicImage", profilePicImage);
-  formData.set("profileBannerImage", profileBannerImage);
+  formData.append("userID", userID);
+  formData.append("profileBio", profileBio);
+  formData.append("profileWebsiteURL", profileWebsiteURL);
+  formData.append("profilePicImage", profilePicImage);
+  formData.append("profileBannerImage", profileBannerImage);
 
   return fetch(`/profile/updateBlogDescriptionAndText/${profileID}`, {
     method: "patch",
     body: formData,
+    headers: {
+      "content-type": "multipart/form-data",
+    },
   });
 };
