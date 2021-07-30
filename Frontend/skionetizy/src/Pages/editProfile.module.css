@@ -20,7 +20,7 @@
   cursor: pointer;
   margin-bottom: 2em;
 }
-.profilePic {
+.profileImg {
   position: absolute;
   top: 20em;
   left: 5em;
@@ -28,7 +28,7 @@
 .img {
   width: fit-content;
 }
-.coverImage {
+.coverImg {
   position: relative;
   width: 94em;
   object-fit: cover;
@@ -36,27 +36,29 @@
   top: -8.3em;
 }
 
-img:hover {
+.coverImg:hover {
   opacity: 0.8;
 }
 
+.profileImg:hover{
+    opacity:0.8;
+}
 
 @media (max-width: 600px) {
-  .coverImage {
+  .coverImg {
     position: relative;
     width: 21.5em;
     object-fit: cover;
     height: 10em;
     top: -7em;
   }
-  .profilePic {
+  .profileImg {
     position: absolute;
-    top:15em;
+    top: 15em;
     left: 2em;
   }
 
-  input:nth-child(1){
-      display: none;
+  input:nth-child(1) {
+    display: none;
   }
-
 }

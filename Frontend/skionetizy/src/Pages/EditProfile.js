@@ -47,7 +47,7 @@ export default function EditProfile() {
 
                     <input type="file" name="profilePicImage" onChange={handleChange} />
                     <img
-                        className={style.coverImage}
+                        className={style.coverImg}
                         src="//unsplash.it/700/700"
                         alt=""
                     />
@@ -56,7 +56,7 @@ export default function EditProfile() {
 
             </div>
             {/* Profile image */}
-            <div class={style.profilePic}>
+            <div class={style.profileImg}>
                 <label>
                     
 
