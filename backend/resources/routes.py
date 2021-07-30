@@ -1,6 +1,7 @@
 from backend.resources.authorize import AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails#getUserFirstName
 from backend.resources.blog import AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogs,GetBlogByBlogID
 from backend.resources.profile import AddProfileUsernameBioUserDetails, UpdateProfile, CheckProfileUsernameIsAvailableAPIHandler, GetProfileDetails
+from backend.resources.ai_models import GrammarCheck
 from flask import send_from_directory
 from backend import app,api
 
@@ -38,8 +39,9 @@ def initialize_routes(api):
     #get
     # api.add_resource(GetProfileDetails,'/profile/getProfileDetails/<profileID>')
     api.add_resource(GetProfileDetails,'/profile/getProfileDetails/<profileUserName>')
-
-
+    #ML
+    api.add_resource(GrammarCheck,'/api/GrammarCheck')
+    
 initialize_routes(api)
 
 @app.route('/')

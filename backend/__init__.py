@@ -4,6 +4,7 @@ from flask_cors import CORS
 import config
 import cloudinary
 import os
+from gingerit.gingerit import GingerIt
 
 #cloudinary
 # from cloudinary.uploader import upload
@@ -46,5 +47,6 @@ def initialize_db(app):
 
 
 initialize_db(app)
+
 
 from backend.resources import routes

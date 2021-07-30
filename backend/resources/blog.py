@@ -54,7 +54,6 @@ class UpdateBlogDescriptionAndText(Resource):
     
 class AddBlogImage(Resource):
     def patch(self):
-        
         blogID = request.form['blogID']
         userID=request.form['userID']
         # print(blogID)
