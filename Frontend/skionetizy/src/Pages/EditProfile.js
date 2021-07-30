@@ -72,32 +72,36 @@ export default function EditProfile() {
     }, [profileUserName, setData]);
 
     return (
-        // remove this style tag
-        <div style={{ color: "white" }}>
-            <form onSubmit={handleSubmit}>
+
+        <div className={style.form}>
+            <form className={style.edit_form} onSubmit={handleSubmit}>
                 {/* Banner image input */}
                 <p>Banner</p>
-                <input
-                    // accept=".jpg,.jpeg,.png,.svg"
-                    type="file"
-                    name="profileBannerImage"
-                    onChange={handleImageChange}
-                />
                 {/* Preview Banner Image */}
+
                 <img
                     src={bannerImageSrc || profile.profileBannerImageURL}
                     alt=""
                     width="300"
                     height="300"
                 />
-
-                {/* Profile image input */}
-                <p>Profile</p>
                 <input
+                    // accept=".jpg,.jpeg,.png,.svg"
                     type="file"
-                    name="profilePicImage"
+                    name="profileBannerImage"
                     onChange={handleImageChange}
                 />
+
+
+
+                {/* Profile image input */}
+
+
+
+
+                <p>Profile</p>
+
+
                 {/* Preview Pic Image */}
                 <img
                     src={picImageSrc || profile.profilePicImageURL}
@@ -105,19 +109,30 @@ export default function EditProfile() {
                     width="300"
                     height="300"
                 />
-
-                {/* onChange & name is coming from getInputProps */}
-                <FormInput className="" label="Bio" {...getInputProps("profileBio")} />
-
-                <FormInput
-                    className=""
-                    label="Website URL"
-                    {...getInputProps("profileWebsiteURL")}
+                <input
+                    type="file"
+                    name="profilePicImage"
+                    onChange={handleImageChange}
                 />
 
-                <button disabled={status === "loading"} type="submit">
+
+
+                <div className={style.inputs}>
+
+                    {/* onChange & name is coming from getInputProps */}
+                    <FormInput className={style.bio} label="Bio" {...getInputProps("profileBio")} />
+
+                    <FormInput
+                        className={style.url}
+                        label="Website URL"
+                        {...getInputProps("profileWebsiteURL")}
+                    />
+                </div>
+
+                <button className={style.saveButton} disabled={status === "loading"} type="submit">
                     Save
                 </button>
+
             </form>
         </div>
     );
