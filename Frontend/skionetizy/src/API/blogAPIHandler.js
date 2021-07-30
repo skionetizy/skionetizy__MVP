@@ -92,3 +92,12 @@ export const deleteCommentAPIHandler = ({ comment, blogID }) => {
     blogID: blogID,
   });
 };
+
+export const addCommentAPIHandler = ({ commentDescription, blogID }) => {
+  const userID = getLoggedInUserID();
+  return axios.patch(`/blog/addCommentToBlog`, {
+    commentDescription,
+    blogID,
+    userID,
+  });
+};

@@ -1,22 +1,31 @@
 import React from "react";
 import styles from "../Components/comments.module.css";
-import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteIcon from "@material-ui/icons/Delete";
 import { deleteCommentAPIHandler } from "../API/blogAPIHandler";
 
 import { getBlogIDUtil } from "../utils/blogUtil";
+import { useParams } from "react-router-dom";
 
-const Comments = (commentFromBlog, updateCommentStatusMessage) => {
-  const { comment } = commentFromBlog;
+const Comments = ({
+  comment,
+  updateCommentStatusMessage,
+  // default to no-operation function to prevent error: TypeError: onDelete is not a function
+  onDelete = () => {},
+}) => {
+  // const { comment } = commentFromBlog;
   //   console.log({ blogIDfromComments: blogID });
+  const { blogID } = useParams();
+  console.log(comment, blogID);
 
   const handleDelete = (e) => {
     deleteCommentAPIHandler({
       comment,
-      blogID: getBlogIDUtil(),
+      blogID,
     })
       .then((res) => {
-        // console.log(res.data);
+        console.log(res.data);
         updateCommentStatusMessage(res.data.message);
+        onDelete(res);
       })
       .catch((err) => console.log(err));
   };
@@ -34,12 +43,13 @@ const Comments = (commentFromBlog, updateCommentStatusMessage) => {
           </div>
         </div>
         <div className={styles.comment_text}>
-          {/* <p>{comment?.commentDescription}</p> */}
-          <p>Hello</p>
-          <button className={styles.comment_delete} onClick={handleDelete}><DeleteIcon /></button>
+          <p>{comment.commentDescription}</p>
+          <button className={styles.comment_delete} onClick={handleDelete}>
+            <DeleteIcon />
+          </button>
         </div>
       </div>
-      <hr className={styles.break}/>
+      <hr className={styles.break} />
     </div>
   );
 };

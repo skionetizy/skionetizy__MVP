@@ -9,6 +9,7 @@ import {
   dislikeOnBlogAPIHandler,
   removeLikeOnBlogAPIHandler,
   removeDislikeOnBlogAPIHandler,
+  addCommentAPIHandler,
 } from "../API/blogAPIHandler";
 
 import { getLoggedInUserID } from "../utils/AuthorisationUtils";
@@ -44,6 +45,8 @@ const ViewBlog = () => {
     <ThumbDownOutlined fontSize="large" />
   );
 
+  // fix this
+  // on every state update (rerender) requesting backend for blogs & user details
   const promise1 = axios.get(`${baseURL}/blog/getBlogByBlogID/${blogID}`);
   const promise2 = axios.get(`${baseURL}/user/getUserDetails/${userID}`);
 
@@ -63,6 +66,13 @@ const ViewBlog = () => {
     console.log({ resultInfindUserHasDisLiked: result });
     return !!DislikedUsersArray.find((userInArray) => userInArray === userID);
   };
+
+  // fetch again when comments to reflect changes
+  function getBlogs() {
+    axios.get(`${baseURL}/blog/getBlogByBlogID/${blogID}`).then((res) => {
+      setBlog(res.data.blog);
+    });
+  }
 
   useEffect(() => {
     axios.all([promise1, promise2]).then(
@@ -98,6 +108,19 @@ const ViewBlog = () => {
       })
     );
   }, []);
+
+  // whenever statusupdates and is not empty
+  useEffect(() => {
+    if (commentStatusMessage === "") return;
+    const timerID = setTimeout(
+      () => setCommentStatusMessage(""),
+      3000 /* 3 Seconds */
+    );
+
+    console.log("im runnning");
+    return () => clearTimeout(timerID);
+  }, [commentStatusMessage]);
+
   // useEffect(() => {}, [blog?.comments?.length]);
   const updateCommentStatusMessageParent = (message) => {
     setCommentStatusMessage(message);
@@ -285,13 +308,13 @@ const ViewBlog = () => {
             <div className={style.thumbDown} onClick={handleDislike}>
               {hasDislikedIcon}
             </div>
-            {/* {console.log({
+            {console.log({
               intheAppLiked: hasLiked,
               intheAppDiskLiked: hasDisliked,
               blogInApp: blog,
               inTheAppBlogLikesCount: blog.likesCount,
               intheAppBlogDislikes: blog.dislikesCount,
-            })} */}
+            })}
           </div>
         </div>
       </div>
@@ -302,22 +325,64 @@ const ViewBlog = () => {
             <span>{blog?.comments?.length}</span> Comments
             {/* {console.log({ blogIDInComments: blogID })} */}
             {console.log({ commentStatusMessage })}
-            {commentStatusMessage}
+            {/* {commentStatusMessage} */}
           </h3>
         </div>
+
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+
+            const commentDescription = e.target.elements.input.value;
+
+            addCommentAPIHandler({
+              commentDescription,
+              blogID,
+            })
+              .then((response) => {
+                console.log(JSON.stringify(response));
+                setCommentStatusMessage(response.data.message);
+                // re-fetch comments for blog when successful
+                if (response.data.success === true) getBlogs();
+              })
+              .catch((error) => {
+                console.log("It is not working");
+              });
+          }}
+          className={style.commentForm}
+        >
+          <input
+            className={style.commentInput}
+            name="input"
+            type="text"
+            placeholder="Add to the dicussion..."
+          ></input>
+
+          <div>
+            <button className={style.button} type="submit">
+              Submit
+            </button>
+          </div>
+        </form>
+
+        {commentStatusMessage && (
+          <p className={style.commentStatus}>{commentStatusMessage}</p>
+        )}
+
         <div className={styles.comments_container}>
-          {blog?.comments?.map((comment, commentIndex) => (
+          {blog?.comments?.map((comment) => (
             <Comments
               comment={comment}
-              key={commentIndex}
+              key={comment.commentID}
+              onDelete={(response) => {
+                // re-fetch comments for blog when successful
+                if (response.data.success === true) getBlogs();
+              }}
               updateCommentStatusMessage={(commentStatusMessage) =>
                 updateCommentStatusMessageParent(commentStatusMessage)
               }
             />
           ))}
-          <Comments />
-          <Comments />
-
         </div>
       </div>
     </div>

@@ -73,3 +73,9 @@
 	font-weight: 800;
 	margin-left: 3em;
 }
+
+.comment_text  input{
+	width:50em;
+	height:3em;
+}
+
