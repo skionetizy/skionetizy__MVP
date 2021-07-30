@@ -61,7 +61,7 @@ function Upload() {
     //   blogID: JSON.parse(localStorage.getItem("blogID")),
     // };
     fetch(url, {
-      method: "POST",
+      method: "PATCH",
       body: formData,
     })
       .then((response) => {
