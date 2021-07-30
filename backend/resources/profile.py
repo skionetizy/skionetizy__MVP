@@ -54,7 +54,7 @@ class UpdateProfile(Resource):
         #### Had to use request.form instead of request.json for the profile data to be fetched
         ### Guess not possibleto send photo in json
         userID = body["userID"]
-
+        print(body)
         profile = Profile.objects.get(profileID = profileID)
         profilePicImage = request.files["profilePicImage"]
         profileBannerImage = request.files["profileBannerImage"]
