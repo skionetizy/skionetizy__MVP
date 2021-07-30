@@ -49,6 +49,7 @@ export default function useForm(initialData) {
 
   return {
     data,
+    errors,
     handleChange,
     getInputProps,
     setData,
