@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import style from "../Pages/editProfile.module.css";
 import { useParams } from "react-router-dom";
 import {
     getProfileDetailsAPIHandler,
@@ -10,6 +9,7 @@ import FormInput from "../Components/FormInput";
 import useForm from "../hooks/useForm";
 import { getLoggedInUserID } from "../utils/AuthorisationUtils";
 import usePreviewImage from "../hooks/usePreviewImage";
+import style from '../Pages/editProfile.module.css'
 
 const initailData = {
     profileBio: "",
@@ -18,80 +18,24 @@ const initailData = {
     rofileBannerImage: null,
 };
 
-export default function EditProfile() {
-    const { data, getInputProps, handleChange, setData } = useForm(initailData);
-    const [status, setStatus] = useState("idle");
-    const { profileUserName } = useParams();
+function validateImage(file, { maxWidth = 1920, maxHeight = 1080 } = {}) {
+    // const img = new Image();
+    // img.src = window.URL.createObjectURL(file);
+    const maxFileSize = 1024 * 1024; //1mb
+    // img.onload = () => {
+    const ext = [".jpg", ".jpeg", ".png", ".svg"];
+    const filename = file.name;
 
-    function handleSubmit(ev) {
-        ev.preventDefault();
-        setStatus("loading");
-        updateProfileDetails(data.profileID, data);
-        setStatus("success");
+    if (file.type.match("image.*") && file.size > maxFileSize) {
+        alert(
+            "The selected image file is too big. Please choose one that is smaller than 1 MB."
+        );
+    } else if (!ext.some((el) => filename.endsWith(el))) {
+        alert("only upload images of .jpg,.jpeg,.png,.svg");
+    } else {
+        return true;
     }
-
-    useEffect(() => {
-        getProfileDetailsAPIHandler(profileUserName).then((response) => {
-            setData(response.profile);
-        });
-    }, [profileUserName, setData]);
-
-    return (
-
-
-
-        <form className={style.edit_form} onSubmit={handleSubmit}>
-            {/* Banner image */}
-            {/* onChange & name is coming from getInputProps */}
-
-            <div className={style.banner}>
-                <label>
-
-                    <input type="file" name="profilePicImage" onChange={handleChange} />
-                    <img
-                        className={style.coverImg}
-                        src="//unsplash.it/700/700"
-                        alt=""
-                    />
-
-                </label>
-
-            </div>
-            {/* Profile image */}
-            <div class={style.profileImg}>
-                <label>
-
-
-                    <img
-                        src="//unsplash.it/120/120"
-                        alt=""
-                    />
-                    <input type="file" name="profilePicImage" onChange={handleChange} />
-                </label>
-            </div>
-            <div className={style.bio}>
-                <label>Bio</label>
-                <textarea className=""  {...getInputProps("profileBio")} />
-            </div>
-            <FormInput
-                className=""
-                label="Website URL"
-                {...getInputProps("profileWebsiteURL")}
-            />
-
-            <button className={style.saveButton} disabled={status === "loading"} type="submit">
-                Save
-            </button>
-        </form>
-
-
-    );
-} else if (!ext.some((el) => filename.endsWith(el))) {
-    alert("only upload images of .jpg,.jpeg,.png,.svg");
-} else {
-    return true;
-}
-  // };
+    // };
 }
 
 export default function EditProfile() {
