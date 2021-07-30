@@ -52,9 +52,6 @@ export const updateProfileDetails = (
     {
       method: "PATCH",
       body: formData,
-      headers: {
-        "content-type": "multipart/form-data",
-      },
     }
   );
 };
