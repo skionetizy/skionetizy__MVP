@@ -1,0 +1,55 @@
+.edit_form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  background-color: white;
+  height: 99vh;
+  width: auto;
+}
+
+.saveButton {
+  background: transparent;
+  border: none;
+  background-color: var(--primary-blue);
+  padding: 0.6em 1.2em;
+  width: max-content;
+  color: #fff;
+  border-radius: 0.3em;
+  cursor: pointer;
+  margin-bottom: 2em;
+}
+.profilePic {
+  position: absolute;
+  top: 20em;
+  left: 5em;
+}
+.img {
+  width: fit-content;
+}
+.coverImage {
+  position: relative;
+  width: 94em;
+  object-fit: cover;
+  height: 15em;
+  top: -8.3em;
+}
+
+img:hover {
+  opacity: 0.8;
+}
+
+form  input >:nth-child(2){
+    margin-top:20px;
+}
+
+@media (max-width: 600px) {
+  .coverImage {
+    position: relative;
+    width: 23em;
+    object-fit: cover;
+    height: 15em;
+    top: 1.6em;
+  }
+}
