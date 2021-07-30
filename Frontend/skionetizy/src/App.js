@@ -10,6 +10,7 @@ import ViewBlog from "./Pages/ViewBlog";
 import UserProfile from "./Pages/UserProfile";
 import DetailsPage from "./Pages/detailsPage";
 import SearchPage from "./Pages/searchPage";
+import EditProfile from "./Pages/EditProfile";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
         <Route exact path="/details" component={DetailsPage} />
         {/* <Route exact path="/:profileID" component={UserProfile} /> */}
         {/* <Route exact path="/edit-profile/:profileID" component={EditUserProfile}/> */}
+        <Route exact path="/edit/:profileUserName" component={EditProfile} />
         <Route exact path="/:profileUserName" component={UserProfile} />
       </Switch>
       {/* </div> */}

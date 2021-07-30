@@ -10,7 +10,7 @@ import { getProfileDetailsAPIHandler } from "../API/profileAPIHandler";
 import { getLoggedInUserID } from "../utils/AuthorisationUtils";
 
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 import Moment from "react-moment";
 
@@ -19,6 +19,7 @@ Moment.globalFormat = "MMM D , YYYY";
 const UserProfile = () => {
   // const { profileID } = useParams();
   const { profileUserName } = useParams();
+  const history = useHistory();
   const [blogs, setBlogs] = useState([]);
 
   const [profile, setProfile] = useState({});
@@ -26,17 +27,17 @@ const UserProfile = () => {
   const userID = getLoggedInUserID();
 
   // const promise1 = getAllBlogsByProfileAPIHandler(profileID);
-  const promise1 = getAllBlogsByProfileAPIHandler(profileUserName);
 
   // const promise2 = axios.get(`${baseURL}/user/getUserDetails/${userID}`);
   // const promise2 = getProfileDetailsAPIHandler(profileID);
-  const promise2 = getProfileDetailsAPIHandler(profileUserName);
 
   const isAuthorisedUser = () => {
     return userID === profile.userID;
   };
 
   useEffect(() => {
+    const promise1 = getAllBlogsByProfileAPIHandler(profileUserName);
+    const promise2 = getProfileDetailsAPIHandler(profileUserName);
     axios.all([promise1, promise2]).then(
       axios.spread((...responses) => {
         const response1 = responses[0];
@@ -51,6 +52,12 @@ const UserProfile = () => {
       })
     );
   }, []);
+
+  console.log(`userID`, userID);
+  console.log(`profile.userID`, profile.userID);
+  console.log(`profile`, profile);
+  console.log(`isAuthorisedUser()`, isAuthorisedUser());
+
   return (
     <div className={style.main}>
       <div className={style.body}>
@@ -129,7 +136,10 @@ const UserProfile = () => {
             {isAuthorisedUser() && (
               <div className={style.buttons}>
                 {/* <button className={`${style.buttons_followButton} ${style.secondaryButton}`}>Follow</button> */}
-                <button className={style.buttons_editProfile}>
+                <button
+                  className={style.buttons_editProfile}
+                  onClick={() => history.push(`/edit/${profileUserName}`)}
+                >
                   Edit profile
                 </button>
               </div>

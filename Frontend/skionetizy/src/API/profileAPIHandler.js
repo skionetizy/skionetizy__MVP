@@ -26,3 +26,19 @@ export const checkProfileUsernameIsAvailableAPIHandler = (data) => {
     profileUserName: data,
   });
 };
+
+export const updateProfileDetails = (
+  profileID,
+  { profileBio, profileWebsiteURL, profilePicImage, profileBannerImage }
+) => {
+  const formData = new FormData();
+  formData.set("profileBio", profileBio);
+  formData.set("profileWebsiteURL", profileWebsiteURL);
+  formData.set("profilePicImage", profilePicImage);
+  formData.set("profileBannerImage", profileBannerImage);
+
+  return fetch(`/profile/updateBlogDescriptionAndText/${profileID}`, {
+    method: "patch",
+    body: formData,
+  });
+};
