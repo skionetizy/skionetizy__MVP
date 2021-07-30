@@ -40,7 +40,7 @@ def initialize_routes(api):
     # api.add_resource(GetProfileDetails,'/profile/getProfileDetails/<profileID>')
     api.add_resource(GetProfileDetails,'/profile/getProfileDetails/<profileUserName>')
     #ML
-    api.add_resource(GrammarCheck,'/api/GrammarCheck')
+    api.add_resource(GrammarCheck,'/api/Grammar-Check')
     
 initialize_routes(api)
 
