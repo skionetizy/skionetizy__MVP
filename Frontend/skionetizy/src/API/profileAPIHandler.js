@@ -47,14 +47,12 @@ export const updateProfileDetails = (
   formData.append("profileWebsiteURL", profileWebsiteURL);
   formData.append("profilePicImage", profilePicImage);
   formData.append("profileBannerImage", profileBannerImage);
+  console.log({ formData });
   return fetch(
     `http://127.0.0.1:5000/profile/updateBlogDescriptionAndText/${profileID}`,
     {
       method: "PATCH",
       body: formData,
-      headers: {
-        "content-type": "multipart/form-data",
-      },
     }
   );
 };
