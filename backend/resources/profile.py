@@ -44,10 +44,10 @@ class AddProfileUsernameBioUserDetails(Resource):
         return make_response(jsonify({"profile":newProfile,"statusCode":201,"success":True}))
     
 class UpdateProfile(Resource):
-    def patch(self):
-        body = request.get_json()
-
-        profileID = body["profileID"]
+    def patch(self,profileID):
+        body = request.form
+        #### Had to use request.form instead of request.json for the profile data to be fetched
+        ### Guess not possibleto send photo in json
         userID = body["userID"]
 
         profile = Profile.objects.get(profileID = profileID)
@@ -57,15 +57,15 @@ class UpdateProfile(Resource):
         upload_result_profile_pic = upload(profilePicImage)
         upload_result_profile_banner = upload(profileBannerImage)
 
-        photo_url,options=cloudinary_url(
+        photo_url1,options=cloudinary_url(
             upload_result_profile_pic['public_id']
         )
-        profilePicImageURL=photo_url
+        profilePicImageURL=photo_url1
 
-        photo_url,options=cloudinary_url(
+        photo_url2,options=cloudinary_url(
             upload_result_profile_banner['public_id']
         )
-        profileBannerImageURL= photo_url
+        profileBannerImageURL= photo_url2
 
         profile.update(
             profileBannerImageURL=profileBannerImageURL,
