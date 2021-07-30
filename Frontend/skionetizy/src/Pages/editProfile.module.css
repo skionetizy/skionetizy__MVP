@@ -40,16 +40,23 @@ img:hover {
   opacity: 0.8;
 }
 
-form  input >:nth-child(2){
-    margin-top:20px;
-}
 
 @media (max-width: 600px) {
   .coverImage {
     position: relative;
-    width: 23em;
+    width: 21.5em;
     object-fit: cover;
-    height: 15em;
-    top: 1.6em;
+    height: 10em;
+    top: -7em;
   }
+  .profilePic {
+    position: absolute;
+    top:15em;
+    left: 2em;
+  }
+
+  input:nth-child(1){
+      display: none;
+  }
+
 }
