@@ -40,8 +40,8 @@
   opacity: 0.8;
 }
 
-.profileImg:hover{
-    opacity:0.8;
+.profileImg:hover {
+  opacity: 0.8;
 }
 
 @media (max-width: 600px) {
@@ -58,6 +58,7 @@
     left: 2em;
   }
 
+  /* this element selector styles are leaking out to others */
   input:nth-child(1) {
     display: none;
   }

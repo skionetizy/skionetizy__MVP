@@ -319,16 +319,6 @@ const ViewBlog = () => {
         </div>
       </div>
       <div className={styles.comments}>
-        <div className={styles.comment_count}>
-          <h3>
-            {/* <span>45</span> Comments */}
-            <span>{blog?.comments?.length}</span> Comments
-            {/* {console.log({ blogIDInComments: blogID })} */}
-            {console.log({ commentStatusMessage })}
-            {/* {commentStatusMessage} */}
-          </h3>
-        </div>
-
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -358,16 +348,24 @@ const ViewBlog = () => {
             placeholder="Add to the dicussion..."
           ></input>
 
-          <div>
-            <button className={style.button} type="submit">
-              Submit
-            </button>
-          </div>
+          <button className={style.commentBtn} type="submit">
+            Submit
+          </button>
         </form>
 
-        {commentStatusMessage && (
-          <p className={style.commentStatus}>{commentStatusMessage}</p>
-        )}
+        <p className={style.commentStatus}>
+          {commentStatusMessage || <>&nbsp;</>}
+        </p>
+
+        <div className={styles.comment_count}>
+          <h3>
+            {/* <span>45</span> Comments */}
+            <span>{blog?.comments?.length}</span> Comments
+            {/* {console.log({ blogIDInComments: blogID })} */}
+            {console.log({ commentStatusMessage })}
+            {/* {commentStatusMessage} */}
+          </h3>
+        </div>
 
         <div className={styles.comments_container}>
           {blog?.comments?.map((comment) => (
