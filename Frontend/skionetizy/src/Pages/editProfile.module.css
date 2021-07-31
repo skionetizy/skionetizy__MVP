@@ -3,14 +3,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 50px;
   background-color: white;
-  height: 99vh;
-  width: auto;
+  gap: 2em;
 }
 
 .saveButton {
-  background: transparent;
   border: none;
   background-color: var(--primary-blue);
   padding: 0.6em 1.2em;
@@ -18,48 +15,25 @@
   color: #fff;
   border-radius: 0.3em;
   cursor: pointer;
-  margin-bottom: 2em;
 }
-.profileImg {
-  position: absolute;
-  top: 20em;
-  left: 5em;
+
+.bio {
+  outline: none;
+  height: 2em;
+  padding: 1em;
+  border-radius: 10px;
 }
-.img {
-  width: fit-content;
+
+.url {
+  outline: none;
+  height: 2em;
+  padding: 1em;
+  border-radius: 10px;
 }
-.coverImg {
+
+.inputs {
+  display: inline-block;
   position: relative;
-  width: 94em;
-  object-fit: cover;
-  height: 15em;
-  top: -8.3em;
-}
-
-.coverImg:hover {
-  opacity: 0.8;
-}
-
-.profileImg:hover {
-  opacity: 0.8;
-}
-
-@media (max-width: 600px) {
-  .coverImg {
-    position: relative;
-    width: 21.5em;
-    object-fit: cover;
-    height: 10em;
-    top: -7em;
-  }
-  .profileImg {
-    position: absolute;
-    top: 15em;
-    left: 2em;
-  }
-
-  /* this element selector styles are leaking out to others */
-  input:nth-child(1) {
-    display: none;
-  }
+  text-align: right;
+  margin-top: 10px;
 }
