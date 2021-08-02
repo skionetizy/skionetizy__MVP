@@ -9,7 +9,7 @@ from backend import app,api
 def initialize_routes(api):
     #_____authorisation-routes________
     api.add_resource(AuthorizeSignup,'/signup')
-    api.add_resource(AuthorizeEmailVerification,'/emailVerification/<token>')
+    api.add_resource(AuthorizeEmailVerification,'/api/emailVerification/<token>')
     api.add_resource(AuthorizeLogin,'/login')
     # api.add_resource(getUserFirstName,'/user/getUserFirstName/<userID>')
     api.add_resource(getUserDetails,'/user/getUserDetails/<userID>')
