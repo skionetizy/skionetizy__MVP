@@ -1,8 +1,9 @@
 from flask import json, make_response,jsonify,request
 from flask_restful import Resource
-
+from flask_mail import Message
 from  backend.database.models import User
-
+from backend import mail,app
+from threading import Thread
 #sendgrid
 import os
 from sendgrid import SendGridAPIClient
@@ -13,6 +14,23 @@ import jwt
 
 import uuid
 
+#Async Mailing
+def send_async_email(app, msg):
+    with app.app_context():
+        mail.send(msg)
+
+#Mail Sending
+def send_email(subject, sender, recipients, html):
+    msg = Message(subject, sender=sender, recipients=recipients)
+    msg.html = html
+    thr = Thread(target=send_async_email, args=[app, msg])
+    thr.start()
+
+
+
+
+
+
 class AuthorizeSignup(Resource):
     def post(self):
 
@@ -22,7 +40,11 @@ class AuthorizeSignup(Resource):
             return make_response(jsonify({"message":"all fields are required","statusCode":500}))
             # raise FieldsEmpty
         print(body['firstName'])
-        existingUser = User.objects.get(emailID = body['emailID'])
+        existingUser=None
+        try:
+            existingUser = User.objects.get(emailID = body['emailID'])
+        except:
+            pass
         if(existingUser):
             return make_response(jsonify({"message":"user already exists, try to login","statusCode":500}))
             # raise UserAlreadyExist
@@ -49,17 +71,18 @@ class AuthorizeSignup(Resource):
 
         redirect_url = f'http://127.0.0.1:5000/emailConfirmation/{auth_token}'
 
-        message = Mail(
-            from_email='skionetizyofficial@gmail.com',
-            to_emails=emailID,
-            subject='Skionetizy Email Verification for creating account',
-            html_content=f"<a href={redirect_url}>and easy to do anywhere, even with Python</a>")
-        # try:
-        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-        response = sg.send(message)
-        # print(response.status_code)
-        # print(response.body)
-        # print(response.headers)
+        send_email("Skionetizy Email Verification for creating account",os.environ.get('MAIL_USERNAME'),recipients=[body["emailID"]],html=f"<a href={redirect_url}>and easy to do anywhere, even with Python</a>")
+        # message = Mail(
+        #     from_email='skionetizyofficial@gmail.com',
+        #     to_emails=emailID,
+        #     subject='Skionetizy Email Verification for creating account',
+        #     html_content=f"<a href={redirect_url}>and easy to do anywhere, even with Python</a>")
+        # # try:
+        # sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        # response = sg.send(message)
+        # # print(response.status_code)
+        # # print(response.body)
+        # # print(response.headers)
 
         newUser.hash_password()
         newUser.save()
@@ -72,7 +95,7 @@ class AuthorizeEmailVerification(Resource):
     def patch(self,token):
         payload = jwt.decode(token,'SECRET_KEY',algorithms='HS256')
         emailID =  payload['emailID']
-
+        print("Is Running")
         user= User.objects.get(emailID=emailID)
 
         if user:

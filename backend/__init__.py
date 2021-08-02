@@ -1,6 +1,7 @@
 from flask import Flask,send_from_directory
 from flask_restful import Api
 from flask_cors import CORS
+from flask_mail import Mail
 import config
 import cloudinary
 import os
@@ -31,9 +32,10 @@ cloudinary.config (
 CORS(app)
 api = Api(app)
 
+
 env_config = os.environ.get("APP_SETTINGS")
 app.config.from_object("config."+env_config)
-
+mail=Mail(app)
 DB_URI='mongodb+srv://rohandevaki:1YoBOdLHY3xm6Jqt@cluster0.gnqpe.mongodb.net/skionetizymvp?retryWrites=true&w=majority'
 
 app.config["MONGODB_HOST"]=DB_URI
