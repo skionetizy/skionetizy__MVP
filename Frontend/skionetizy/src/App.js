@@ -10,6 +10,7 @@ import ViewBlog from "./Pages/ViewBlog";
 import UserProfile from "./Pages/UserProfile";
 import DetailsPage from "./Pages/detailsPage";
 import SearchPage from "./Pages/searchPage";
+import EmailVerification from "./Pages/EmailVerification";
 import EditProfile from "./Pages/EditProfile";
 
 function App() {
@@ -31,6 +32,11 @@ function App() {
         <Route exact path="/details" component={DetailsPage} />
         {/* <Route exact path="/:profileID" component={UserProfile} /> */}
         {/* <Route exact path="/edit-profile/:profileID" component={EditUserProfile}/> */}
+        <Route
+          exact
+          path="/emailVerification/:token"
+          component={EmailVerification}
+        />
         <Route
           exact
           path="/edit-profile/:profileUserName"
