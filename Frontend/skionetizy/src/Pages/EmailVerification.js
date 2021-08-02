@@ -8,7 +8,7 @@ export default function EmailVerification() {
 
   function handleVerify() {
     axios
-      .patch(`/emailVerification/${token}`)
+      .patch(`/api/emailVerification/${token}`)
       .then(() => setStatus("verified"))
       .catch(() => setStatus("failure"));
   }
