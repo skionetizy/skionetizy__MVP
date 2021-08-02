@@ -10,6 +10,7 @@ import useForm from "../hooks/useForm";
 import { getLoggedInUserID } from "../utils/AuthorisationUtils";
 import usePreviewImage from "../hooks/usePreviewImage";
 import style from '../Pages/editProfile.module.css'
+import PublishIcon from '@material-ui/icons/Publish';
 
 const initailData = {
     profileBio: "",
@@ -79,41 +80,66 @@ export default function EditProfile() {
                 <p>Banner</p>
                 {/* Preview Banner Image */}
 
-                <img
-                    src={bannerImageSrc || profile.profileBannerImageURL}
-                    alt=""
-                    width="300"
-                    height="300"
-                />
-                <input
-                    // accept=".jpg,.jpeg,.png,.svg"
-                    type="file"
-                    name="profileBannerImage"
-                    onChange={handleImageChange}
-                />
+                <div class={style.container}>
+
+                    <div className={style.labelImg}>
+                        <label>
+                            <img
+                                className={style.bannerImg}
+                                src={bannerImageSrc || profile.profileBannerImageURL}
+                                alt=""
+                                width="300"
+                                height="300"
+                            />
+                            <div class={style.middle}>
+                                <div class={style.text}><PublishIcon fontSize="large" />
+                                    <p>Upload Image</p></div>
+                            </div>
+                            <input
+                                // accept=".jpg,.jpeg,.png,.svg"
+                                type="file"
+                                id={style.files}
+                                name="profileBannerImage"
+                                onChange={handleImageChange}
+
+
+                            />
+                        </label>
+                    </div>
+                </div>
 
 
 
                 {/* Profile image input */}
-
-
-
-
                 <p>Profile</p>
 
 
                 {/* Preview Pic Image */}
-                <img
-                    src={picImageSrc || profile.profilePicImageURL}
-                    alt=""
-                    width="300"
-                    height="300"
-                />
-                <input
-                    type="file"
-                    name="profilePicImage"
-                    onChange={handleImageChange}
-                />
+                <div class={style.container}>
+                    <label className={style.labelImg}>
+
+                        <img
+                            className="profile"
+                            src={picImageSrc || profile.profilePicImageURL}
+                            alt=""
+                            width="300"
+                            height="300"
+                        />
+
+                        {/* <div class={style.middle1}>
+                            <div class={style.text}><PublishIcon fontSize="large" /></div>
+                        </div> */}
+
+                        <input
+                            type="file"
+                            id={style.files}
+                            name="profilePicImage"
+                            onChange={handleImageChange}
+
+                        />
+
+                    </label>
+                </div>
 
 
 
