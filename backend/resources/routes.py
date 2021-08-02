@@ -41,8 +41,6 @@ def initialize_routes(api):
     api.add_resource(GetProfileDetails,'/profile/getProfileDetails/<profileUserName>')
     #ML
     api.add_resource(GrammarCheck,'/api/Grammar-Check')
-    
-initialize_routes(api)
 
 @app.route('/')
 @app.route('/home',methods=['GET'])
@@ -54,3 +52,6 @@ def home():
 def not_found(e):
     return app.send_static_file('index.html')
     
+
+initialize_routes(api)
+
