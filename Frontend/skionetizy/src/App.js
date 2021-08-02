@@ -15,17 +15,6 @@ import EditProfile from "./Pages/EditProfile";
 function App() {
   return (
     <Router>
-      {/* <div> */}
-      {/* <Switch>
-        <Nav exact path="/login" component={Login} />
-        <Nav exact path="/" component={Signup} />
-        <Nav exact path="/mark" component={MarkDown} />
-        <Nav exact path="/upload" component={Upload} />
-        <Nav exact path="/final" component={FinalPage} />
-        <Nav exact path="/view-blog/:blogID/:userID" component={ViewBlog} />
-        <Nav exact path="/details" component={DetailsPage} />
-        <Nav exact path="/searchpage" component={SearchPage} />
-      </Switch> */}
       <Nav />
       <Switch>
         <Route exact path="/" component={Signup} />
@@ -42,7 +31,11 @@ function App() {
         <Route exact path="/details" component={DetailsPage} />
         {/* <Route exact path="/:profileID" component={UserProfile} /> */}
         {/* <Route exact path="/edit-profile/:profileID" component={EditUserProfile}/> */}
-        <Route exact path="/edit/:profileUserName" component={EditProfile} />
+        <Route
+          exact
+          path="/edit-profile/:profileUserName"
+          component={EditProfile}
+        />
         <Route exact path="/:profileUserName" component={UserProfile} />
       </Switch>
       {/* </div> */}
