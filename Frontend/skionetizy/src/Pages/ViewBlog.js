@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 
 import axios from "axios";
@@ -37,6 +37,12 @@ const ViewBlog = () => {
   const [hasLiked, setHasLiked] = useState(false);
   const [hasDisliked, setHasDisliked] = useState(false);
   const [commentStatusMessage, setCommentStatusMessage] = useState("");
+  const [viewCountData, setViewCountData] = useState({
+    timeout: false,
+    scroll: false,
+    hasSent: false,
+  });
+  const scrollTargetRef = useRef();
 
   const [hasLikedIcon, setHasLikedIcon] = useState(
     <ThumbUpOutlined fontSize="large" />
@@ -120,6 +126,51 @@ const ViewBlog = () => {
     console.log("im runnning");
     return () => clearTimeout(timerID);
   }, [commentStatusMessage]);
+
+  useEffect(() => {
+    // our logic is based on blogDescription. both
+    // scroll target: position is based on blogDescription height
+    // timeout: is based on blogDescription charater length
+
+    // if blog description is false we do nothing (no-op)
+    if (!blog.blogDescription) return;
+
+    // set timeout according to characters in blog description
+    // using this to for view count
+    const timerID = setTimeout(() => {
+      setViewCountData((prev) => ({ ...prev, timeout: true }));
+    }, (blog.blogDescription.length / 1000) * 30 * 1000);
+
+    const scrollTarget = scrollTargetRef.current;
+
+    // add scroll observer
+    const io = new IntersectionObserver(([entry], _io) => {
+      if (entry.isIntersecting) {
+        console.log("in view");
+        setViewCountData((prev) => ({ ...prev, scroll: true }));
+
+        _io.unobserve(entry.target);
+      }
+    });
+    io.observe(scrollTarget);
+
+    return () => {
+      clearTimeout(timerID);
+      io.unobserve(scrollTarget);
+    };
+  }, [blog.blogDescription]);
+
+  useEffect(() => {
+    if (
+      viewCountData.scroll &&
+      viewCountData.timeout &&
+      !viewCountData.hasSent
+    ) {
+      console.log("send a request to backend");
+      console.dir(viewCountData);
+      setViewCountData({ hasSent: true });
+    }
+  }, [viewCountData]);
 
   // useEffect(() => {}, [blog?.comments?.length]);
   const updateCommentStatusMessageParent = (message) => {
@@ -286,8 +337,26 @@ const ViewBlog = () => {
             alt=" "
           />
         </div>
-        <div className={style.blogContent}>
+        {/* for now giving inline style because they might accordingly our strategy */}
+        <div style={{ position: "relative" }} className={style.blogContent}>
           <article>{blog.blogDescription}</article>
+          {/* when this span comes into view then after `x`
+           minutes we will send view count patch request to backend */}
+          {blog.blogDescription && (
+            <span
+              ref={scrollTargetRef}
+              style={{
+                // moving a bit up so ~75% scroll through blog is counted as a view
+                position: "absolute",
+                bottom: "25%",
+                left: 0,
+                backgroundColor: "red",
+                display: "inline-block",
+                width: 32,
+                height: 32,
+              }}
+            ></span>
+          )}
         </div>
       </div>
       <div className={style.meta}>
