@@ -47,7 +47,7 @@ class UpdateProfile(Resource):
     def patch(self,profileID):
         # print(f"request.form {request.form} ")
         # print(f"request.files {request.files}")
-        body = request.form
+        body = request.form.to_dict()
         print(f"profileBio {body['profileBio']} ")
         print(f"profilePicImage {request.files['profilePicImage']}")
         print(f"profileBannerImage{request.files['profileBannerImage']}")
@@ -56,31 +56,30 @@ class UpdateProfile(Resource):
         userID = body["userID"]
         print(body)
         profile = Profile.objects.get(profileID = profileID)
-        profilePicImage = request.files["profilePicImage"]
-        profileBannerImage = request.files["profileBannerImage"]
-
-        upload_result_profile_pic = upload(profilePicImage)
-        upload_result_profile_banner = upload(profileBannerImage)
-
-        photo_url1,options=cloudinary_url(
+        try:
+            profilePicImage = request.files["profilePicImage"]
+            upload_result_profile_pic = upload(profilePicImage)
+            photo_url1,options=cloudinary_url(
             upload_result_profile_pic['public_id']
-        )
-        profilePicImageURL=photo_url1
-
-        photo_url2,options=cloudinary_url(
+            )
+            profilePicImageURL=photo_url1
+            body["profilePicImageURL"]=photo_url1
+        except:
+            pass
+        try:
+            profileBannerImage = request.files["profileBannerImage"]
+            upload_result_profile_banner = upload(profileBannerImage)
+            photo_url2,options=cloudinary_url(
             upload_result_profile_banner['public_id']
+            )
+            profileBannerImageURL= photo_url2
+            body["profileBannerImageURL"]=photo_url2
+        except:
+            pass    
+        k=profile.update(
+            **body
         )
-        profileBannerImageURL= photo_url2
-
-        profile.update(
-            profileBannerImageURL=profileBannerImageURL,
-            profilePicImageURL=profilePicImageURL,
-            profileWebsiteURL = body["profileWebsiteURL"],
-            profileBio =body["profileBio"],
-
-        )
-        # profile.save()
-        return make_response(jsonify({"profile":profile,"statusCode":200,"success":True}))
+        return make_response(jsonify({"profile":k,"statusCode":200,"success":True}))
 
 class GetProfileDetails(Resource):
     # def get(self,profileID):
