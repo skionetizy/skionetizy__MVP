@@ -1,5 +1,5 @@
 from backend.resources.authorize import AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails#getUserFirstName
-from backend.resources.blog import AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogs,GetBlogByBlogID
+from backend.resources.blog import AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogs,GetBlogByBlogID,GetFeed
 from backend.resources.profile import AddProfileUsernameBioUserDetails, UpdateProfile, CheckProfileUsernameIsAvailableAPIHandler, GetProfileDetails, AddFollower
 from backend.resources.ai_models import GrammarCheck
 from flask import send_from_directory
@@ -43,6 +43,8 @@ def initialize_routes(api):
     api.add_resource(GrammarCheck,'/api/Grammar-Check')
     #Followes-Following
     api.add_resource(AddFollower,'/api/addFollower/<profileID>')
+    #Feeds API
+    api.add_resource(GetFeed,'/api/getFeed/<profileID>')
 
 @app.route('/')
 @app.route('/home',methods=['GET'])

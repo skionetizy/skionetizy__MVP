@@ -302,3 +302,17 @@ class GetBlogByBlogID(Resource):
         blog = Blog.objects.get(blogID=blogID)
         return make_response(jsonify({"blog":blog,"statusCode":200,"success":True}))
 
+
+class GetFeed(Resource):
+    def get(self,profileID):
+        profile=Profile.objects.get_or_404(profileID=profileID)
+        profile_following=profile.Following
+        blogs=[]
+        print(profile_following[0])
+        for i in list(profile_following):
+            p=Profile.objects.get_or_404(profileID=i)
+            b=Blog.objects(userID=p.userID)
+            blogs.extend(b)
+        sort={'timestamp':-1}
+        blogs.sort(key=lambda x:x.timestamp,reverse=True)
+        return jsonify({'blogs':blogs})
