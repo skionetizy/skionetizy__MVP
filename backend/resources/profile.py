@@ -99,7 +99,20 @@ class CheckProfileUsernameIsAvailableAPIHandler(Resource):
             return make_response(jsonify({"message":f"profile user name {profileUserName} is available","statusCode":200,"success":True}))
         
 
-
+class AddFollower(Resource):
+    def patch(self,profileID):
+        body=request.get_json()
+        to_follow_pid=body["to_follow_id"]
+        profile=Profile.objects.get_or_404(profileID=to_follow_pid)
+        profile.Followers.append(profileID)
+        profile.FollowersCount=profile.FollowersCount+1
+        prof=Profile.objects.get_or_404(profileID=profileID)
+        prof.Following.append(to_follow_pid)
+        prof.FollowingCount=prof.FollowingCount+1
+        print(f"I follow {prof.Following} , he has followe {profile.Followers}")
+        profile.save()
+        prof.save()
+        return jsonify({'profile':profile})
 
 
 
