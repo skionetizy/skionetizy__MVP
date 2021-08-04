@@ -33,6 +33,9 @@ const ViewBlog = () => {
   const { blogID, userID } = useParams();
   const loggedInUser = getLoggedInUserID();
   const [blog, setBlog] = useState({});
+  const [showComment, setShowComment] = useState(false);
+  const [length, setLength] = useState(3)
+  const [viewAll, setViewAll] = useState("View all")
   const [authorName, setAuthorName] = useState("");
   const [hasLiked, setHasLiked] = useState(false);
   const [hasDisliked, setHasDisliked] = useState(false);
@@ -302,6 +305,26 @@ const ViewBlog = () => {
     console.log({ hasLiked, hasDisliked });
   };
 
+  const viewAllHandler = () => {
+    setShowComment(!showComment)
+    // eslint-disable-next-line no-lone-blocks
+   
+      if (viewAll === "View all") {
+        setViewAll("Hide")
+
+        setLength(blog?.comments?.length)
+      }
+      else {
+        setViewAll("View all")
+        setLength(3)
+      }
+    
+    // eslint-disable-next-line no-lone-blocks
+  }
+
+
+
+
   return (
     <div className={`${style.main} ${style.container}`}>
       <div className={style.blogHeader}>
@@ -391,9 +414,9 @@ const ViewBlog = () => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-
             const commentDescription = e.target.elements.input.value;
 
+            setCommentStatusMessage('')
             addCommentAPIHandler({
               commentDescription,
               blogID,
@@ -403,18 +426,27 @@ const ViewBlog = () => {
                 setCommentStatusMessage(response.data.message);
                 // re-fetch comments for blog when successful
                 if (response.data.success === true) getBlogs();
+                this.text.value = "";
               })
               .catch((error) => {
                 console.log("It is not working");
               });
+
+
+
+
+
+
           }}
           className={style.commentForm}
         >
           <input
+            id="mainInput"
             className={style.commentInput}
             name="input"
             type="text"
             placeholder="Add to the dicussion..."
+
           ></input>
 
           <button className={style.commentBtn} type="submit">
@@ -437,7 +469,7 @@ const ViewBlog = () => {
         </div>
 
         <div className={styles.comments_container}>
-          {blog?.comments?.map((comment) => (
+          {setShowComment && blog?.comments?.slice(0, length).map((comment) => (
             <Comments
               comment={comment}
               key={comment.commentID}
@@ -452,7 +484,8 @@ const ViewBlog = () => {
           ))}
         </div>
       </div>
-    </div>
+      <button onClick={viewAllHandler} className={style.view_all}>{viewAll}</button>
+    </div >
   );
 };
 
