@@ -305,20 +305,22 @@ const ViewBlog = () => {
     console.log({ hasLiked, hasDisliked });
   };
 
+
+
   const viewAllHandler = () => {
     setShowComment(!showComment)
     // eslint-disable-next-line no-lone-blocks
-   
-      if (viewAll === "View all") {
-        setViewAll("Hide")
 
-        setLength(blog?.comments?.length)
-      }
-      else {
-        setViewAll("View all")
-        setLength(3)
-      }
-    
+    if (viewAll === "View all") {
+      setViewAll("Hide")
+
+      setLength(blog?.comments?.length)
+    }
+    else {
+      setViewAll("View all")
+      setLength(3)
+    }
+
     // eslint-disable-next-line no-lone-blocks
   }
 
@@ -484,7 +486,7 @@ const ViewBlog = () => {
           ))}
         </div>
       </div>
-      <button onClick={viewAllHandler} className={style.view_all}>{viewAll}</button>
+      { blog?.comments?.length > 3 && <button onClick={viewAllHandler} className={style.view_all}>{viewAll}</button>}
     </div >
   );
 };
