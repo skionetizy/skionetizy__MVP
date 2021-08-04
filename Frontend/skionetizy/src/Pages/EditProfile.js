@@ -51,9 +51,13 @@ export default function EditProfile() {
         ev.preventDefault();
         const userID = getLoggedInUserID();
         setStatus("loading");
-        updateProfileDetails(profile.profileID, { userID, ...data });
-        setStatus("success");
-    }
+    const formData = new FormData();
+    formData.append("profileBio", data.profileBio);
+    formData.append("profileWebsiteURL", data.profileWebsiteURL);
+
+    updateProfileDetails(profile.profileID, formData);
+    setStatus("success");
+  }
 
     function handleImageChange(ev) {
         // run validation
