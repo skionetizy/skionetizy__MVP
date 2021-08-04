@@ -47,6 +47,7 @@ class Blog(db.Document):
     # hasDisliked=db.BooleanField(required=False,default=False)
     likesCount= db.IntField(required=False,default=0)
     dislikesCount=db.IntField(required=False,default=0)
+    viewCount=db.IntField(required=False,default=0)
     # likedByUsersList =db.ListField(EmbeddedDocumentField(User),required=False,default=[])
     likedByUsersList =db.ListField(db.UUIDField(required=True,binary=False),required=False,default=[])
     dislikedByUsersList=db.ListField(db.UUIDField(required=True,binary=False),required=False,default=[])

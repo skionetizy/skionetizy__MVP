@@ -311,8 +311,16 @@ class GetFeed(Resource):
         print(profile_following[0])
         for i in list(profile_following):
             p=Profile.objects.get_or_404(profileID=i)
-            b=Blog.objects(userID=p.userID)
+            b=Blog.objects(userID=p.userID).only("comments","likedByUsersList","dislikedByUsersList")
             blogs.extend(b)
         sort={'timestamp':-1}
         blogs.sort(key=lambda x:x.timestamp,reverse=True)
-        return jsonify({'blogs':blogs})
+        return jsonify({'blogs':blogs,"success":True})
+
+class AddView(Resource):
+    def patch(self,blogID):
+        blog=Blog.objects.get_or_404(blogID=blogID)
+        blog.viewCount+=1
+        blog.save()
+        return jsonify({"status_code":200,"success":True})
+        
