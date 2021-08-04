@@ -27,27 +27,7 @@ export const checkProfileUsernameIsAvailableAPIHandler = (data) => {
   });
 };
 
-export const updateProfileDetails = (
-  profileID,
-  { userID, profileBio, profileWebsiteURL, profilePicImage, profileBannerImage }
-) => {
-  console.dir(
-    {
-      userID,
-      profileBio,
-      profileWebsiteURL,
-      profilePicImage,
-      profileBannerImage,
-    },
-    { depth: Infinity }
-  );
-  const formData = new FormData();
-  formData.append("userID", userID);
-  formData.append("profileBio", profileBio);
-  formData.append("profileWebsiteURL", profileWebsiteURL);
-  formData.append("profilePicImage", profilePicImage);
-  formData.append("profileBannerImage", profileBannerImage);
-  console.log({ formData });
+export const updateProfileDetails = (profileID, formData) => {
   return fetch(
     `http://127.0.0.1:5000/profile/updateBlogDescriptionAndText/${profileID}`,
     {
