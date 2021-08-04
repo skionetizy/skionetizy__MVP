@@ -48,9 +48,6 @@ class UpdateProfile(Resource):
         # print(f"request.form {request.form} ")
         # print(f"request.files {request.files}")
         body = request.form.to_dict()
-        print(f"profileBio {body['profileBio']} ")
-        print(f"profilePicImage {request.files['profilePicImage']}")
-        print(f"profileBannerImage{request.files['profileBannerImage']}")
         #### Had to use request.form instead of request.json for the profile data to be fetched
         ### Guess not possibleto send photo in json
         userID = body["userID"]
