@@ -169,11 +169,15 @@ const ViewBlog = () => {
       viewCountData.timeout &&
       !viewCountData.hasSent
     ) {
-      console.log("send a request to backend");
-      console.dir(viewCountData);
-      setViewCountData({ hasSent: true });
+      addViewApiHandler(blogID)
+        .then(() => {
+          setViewCountData({ hasSent: true });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
-  }, [viewCountData]);
+  }, [blogID, viewCountData]);
 
   // useEffect(() => {}, [blog?.comments?.length]);
   const updateCommentStatusMessageParent = (message) => {
@@ -385,7 +389,7 @@ const ViewBlog = () => {
       <div className={style.meta}>
         <div className={style.metaContent}>
           <div className={style.views}>
-            <span className={style.viewCount}>250</span>
+            <span className={style.viewCount}>{blog.viewCount}</span>
 
             <VisibilityIcon fontSize="large" className={style.viewIcon} />
           </div>
