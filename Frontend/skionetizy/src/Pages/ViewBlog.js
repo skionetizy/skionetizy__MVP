@@ -10,6 +10,7 @@ import {
   removeLikeOnBlogAPIHandler,
   removeDislikeOnBlogAPIHandler,
   addCommentAPIHandler,
+  addViewApiHandler,
 } from "../API/blogAPIHandler";
 
 import { getLoggedInUserID } from "../utils/AuthorisationUtils";
