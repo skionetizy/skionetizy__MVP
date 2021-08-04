@@ -58,6 +58,7 @@ class UpdateProfile(Resource):
             upload_result_profile_pic['public_id']
             )
             profilePicImageURL=photo_url1
+            photo_url1='https'+photo_url1[4:]
             body["profilePicImageURL"]=photo_url1
         except:
             pass
@@ -68,6 +69,7 @@ class UpdateProfile(Resource):
             upload_result_profile_banner['public_id']
             )
             profileBannerImageURL= photo_url2
+            photo_url2='https'+photo_url2[4:]
             body["profileBannerImageURL"]=photo_url2
         except:
             pass    
