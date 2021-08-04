@@ -311,9 +311,8 @@ class GetFeed(Resource):
         print(profile_following[0])
         for i in list(profile_following):
             p=Profile.objects.get_or_404(profileID=i)
-            b=Blog.objects(userID=p.userID).only("comments","likedByUsersList","dislikedByUsersList")
+            b=Blog.objects(userID=p.userID).exclude("comments","likedByUsersList","dislikedByUsersList")
             blogs.extend(b)
-        sort={'timestamp':-1}
         blogs.sort(key=lambda x:x.timestamp,reverse=True)
         return jsonify({'blogs':blogs,"success":True})
 
