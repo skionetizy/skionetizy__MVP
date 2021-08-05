@@ -10,7 +10,7 @@ import useForm from "../hooks/useForm";
 import { getLoggedInUserID } from "../utils/AuthorisationUtils";
 import usePreviewImage from "../hooks/usePreviewImage";
 import style from '../Pages/editProfile.module.css'
-import Footer from "../Components/Footer";
+import PublishIcon from '@material-ui/icons/Publish';
 
 const initailData = {
     profileBio: "",
@@ -51,13 +51,13 @@ export default function EditProfile() {
         ev.preventDefault();
         const userID = getLoggedInUserID();
         setStatus("loading");
-        const formData = new FormData();
-        formData.append("profileBio", data.profileBio);
-        formData.append("profileWebsiteURL", data.profileWebsiteURL);
+    const formData = new FormData();
+    formData.append("profileBio", data.profileBio);
+    formData.append("profileWebsiteURL", data.profileWebsiteURL);
 
-        updateProfileDetails(profile.profileID, formData);
-        setStatus("success");
-    }
+    updateProfileDetails(profile.profileID, formData);
+    setStatus("success");
+  }
 
     function handleImageChange(ev) {
         // run validation
@@ -77,90 +77,93 @@ export default function EditProfile() {
     }, [profileUserName, setData]);
 
     return (
-        <div>
-            <div class={style.container}>
-                <div className={style.labelImg}>
 
-                    <img
-                        className={style.coverImage}
-                        src={bannerImageSrc || profile.profileBannerImageURL}
-                        alt=""
-                        width="300"
-                        height="300"
-                    />
-                    <div class={style.middle}>
+        <div className={style.form}>
+            <form className={style.edit_form} onSubmit={handleSubmit}>
+                {/* Banner image input */}
+                <p>Banner</p>
+                {/* Preview Banner Image */}
 
+                <div class={style.container}>
+
+                    <div className={style.labelImg}>
+                        <label>
+                            <img
+                                className={style.bannerImg}
+                                src={bannerImageSrc || profile.profileBannerImageURL}
+                                alt=""
+                                width="300"
+                                height="300"
+                            />
+                            <div class={style.middle}>
+                                <div class={style.text}><PublishIcon fontSize="large" />
+                                    <p>Upload Image</p></div>
+                            </div>
+                            <input
+                                // accept=".jpg,.jpeg,.png,.svg"
+                                type="file"
+                                id={style.files}
+                                name="profileBannerImage"
+                                onChange={handleImageChange}
+
+
+                            />
+                        </label>
                     </div>
-                    {/* <input
-                    // accept=".jpg,.jpeg,.png,.svg"
-                    type="file"
-                    id={style.files}
-                    name="profileBannerImage"
-                    onChange={handleImageChange}
-                /> */}
-
                 </div>
 
+
+
                 {/* Profile image input */}
-                {/* <p>Profile</p> */}
+                <p>Profile</p>
+
+
                 {/* Preview Pic Image */}
+                <div class={style.container}>
+                    <label className={style.labelImg}>
 
-                <img
-                    className={style.profileImage}
-                    src={picImageSrc || profile.profilePicImageURL}
-                    alt=""
-                    width="300"
-                    height="300"
-                />
+                        <img
+                            className="profile"
+                            src={picImageSrc || profile.profilePicImageURL}
+                            alt=""
+                            width="300"
+                            height="300"
+                        />
+
+                        {/* <div class={style.middle1}>
+                            <div class={style.text}><PublishIcon fontSize="large" /></div>
+                        </div> */}
+
+                        <input
+                            type="file"
+                            id={style.files}
+                            name="profilePicImage"
+                            onChange={handleImageChange}
+
+                        />
+
+                    </label>
+                </div>
 
 
-                {/* <div class={style.middle1}>
-                <div class={style.text}><PublishIcon fontSize="large" /></div>
-            </div> */}
 
-                {/* <input
-                type="file"
-                id={style.files}
-                name="profilePicImage"
-                onChange={handleImageChange}
+                <div className={style.inputs}>
 
-            /> */}
+                    {/* onChange & name is coming from getInputProps */}
+                    <FormInput className={style.bio} label="Bio" {...getInputProps("profileBio")} />
 
-            </div>
-            <div className={style.form}>
+                    <FormInput
+                        className={style.url}
+                        label="Website URL"
+                        {...getInputProps("profileWebsiteURL")}
+                    />
+                </div>
 
-                <form className={style.edit_form} onSubmit={handleSubmit}>
-                    <div className={style.inputs}>
+                <button className={style.saveButton} disabled={status === "loading"} type="submit">
+                    Save
+                </button>
 
-                        <fieldset class={style.fieldSet}>
-                            <legend class={style.legendHeading}>Edit Profile</legend>
-
-                            <label htmlFor="firstName">First Name</label>
-                            <input type="text" id="firstName" name="firstName" placeholder="Enter Name.."></input>
-
-                            <label htmlFor="middleName">Middle Name</label>
-                            <input type="text" id="middleName" name="middleName" placeholder="Enter Middle Name.."></input>
-
-                            <label htmlFor="lastName">Last Name</label>
-                            <input type="text" id="lastName" name="lastName" placeholder="Enter Last Name.."></input>
-
-                            <label htmlFor="websiteLink">Website Link</label>
-                            <FormInput id="websiteLink"
-                                {...getInputProps("profileWebsiteURL")}
-                            />
-                            <label htmlFor="Bio">Bio</label>
-                            <textarea id="Bio" type="textarea" name="Bio" class={style.bioInput} placeholder="Enter your Bio..." {...getInputProps("profileBio")} > </textarea>
-                        </fieldset>
-
-                    </div>
-
-                    <button className={style.saveButton} disabled={status === "loading"} type="submit">
-                        Save
-                    </button>
-
-                </form>
-                <Footer />
-            </div>
+            </form>
         </div>
     );
 }
