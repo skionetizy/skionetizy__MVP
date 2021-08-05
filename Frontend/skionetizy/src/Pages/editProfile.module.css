@@ -1,85 +1,97 @@
+body {
+  padding: 0;
+  margin: 0;
+  left: 0;
+  right: 0;
+  overflow-x: hidden;
+}
+
 .edit_form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: white;
-  gap: 2em;
 }
 
-.saveButton {
-  border: none;
-  background-color: var(--primary-blue);
-  padding: 0.6em 1.2em;
-  width: max-content;
-  color: #fff;
-  border-radius: 0.3em;
-  cursor: pointer;
+.container {
+  display: flex;
+  flex-direction: column;
 }
 
-#files {
-  display: none;
+.coverImage {
+  width: 100%;
+  object-fit: cover;
 }
 
-.bio {
-  outline: none;
-  height: 2em;
-  padding: 1em;
-  border-radius: 10px;
-}
-
-.url {
-  outline: none;
-  height: 2em;
-  padding: 1em;
-  border-radius: 10px;
+.profileImage {
+  border-radius: 100%;
+  position: inherit;
+  bottom: 4em;
+  left: 2em;
+  width: 150px;
+  height: 150px;
+  align-self: center;
+  margin-top: -5rem;
+  object-fit: cover;
 }
 
 .inputs {
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  align-items: center;
+  justify-content: center;
+}
+input {
+  margin-bottom: 50px;
+}
+
+fieldset.fieldSet {
+  padding: 5em;
+  display: flex;
+  flex-direction: column;
+}
+
+.legendHeading {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: var(--primary-blue);
+}
+
+.inputs input {
+  border-radius: 5px;
+  border: none;
+  padding: 10px;
+  width: 50rem;
+  outline: none;
+}
+
+.saveButton {
+  background-color: var(--primary-blue);
+  color: white;
+  letter-spacing: 1px;
+  font-size: 1em;
+  font-weight: 500;
+  border: none;
+  outline: none;
   position: relative;
-  text-align: right;
-  margin-top: 10px;
+  top: 2em;
+  padding: 0.5em 1.8em;
+  border-radius: 10px;
+  margin-bottom: 10em;
+  cursor: pointer;
 }
 
-.bannerLabel:hover {
-  opacity: 0.5;
+.inputs label:nth-child(8) {
+  margin-top: 5em;
+}
+.inputs label:nth-child(10) {
+  margin-top: 5em;
 }
 
-#files {
-  display: none;
-}
-
-.labelImg:hover {
-  opacity: 0.8;
-}
-
-.middle {
-  position: absolute;
-  transition: 0.5s ease;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  top: 47%;
-  left: 50%;
-}
-
-/* .middle1 {
-    position: absolute;
-    transition: .5s ease;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    top: 47%;
-    left: 48%;
-  }
-  */
-
-.container:hover .labelImg {
-  opacity: 0.8;
-}
-
-.container:hover .middle {
-  opacity: 1;
-}
-.container:hover .middle1 {
-  opacity: 1;
+.bioInput {
+  height: 10em;
+  padding: 10px;
+  border-radius: 10px;
+  outline: none;
 }

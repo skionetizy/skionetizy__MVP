@@ -168,14 +168,13 @@
 .commentBtn {
   padding: 0 1.5rem;
   display: block;
-
   background-color: #e8f3ff;
   border: none;
   border-top-right-radius: 999px;
   border-bottom-right-radius: 999px;
   outline: none;
   border-left: 0.2rem solid rgba(var(--o-dark-blue), 0.2);
-
+  height: 40px;
   font: inherit;
 
   cursor: pointer;
