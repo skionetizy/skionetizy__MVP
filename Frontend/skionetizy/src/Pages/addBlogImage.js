@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./uploadImage.css";
+import "./addBlogImage.css";
 import { Link } from "react-router-dom";
 function Upload() {
   const [uploaded, isUploaded] = useState(false);

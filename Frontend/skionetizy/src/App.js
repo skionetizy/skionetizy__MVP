@@ -1,9 +1,9 @@
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import Nav from "./Components/Nav";
-import MarkDown from "./Components/markDown";
+import MarkDown from "./Pages/addBlogDetailsMarkdown";
 import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
-import Upload from "./Components/uploadImage";
+import Upload from "./Pages/addBlogImage";
 import { FinalPage } from "./Pages/finalPage";
 import ExploreBlogs from "./Pages/ExploreBlogs";
 import ViewBlog from "./Pages/ViewBlog";
