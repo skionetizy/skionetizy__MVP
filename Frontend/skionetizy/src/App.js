@@ -20,8 +20,8 @@ function App() {
       <Switch>
         <Route exact path="/" component={Signup} />
         <Route exact path="/login" component={Login} />
-        <Route exact path="/markdown" component={MarkDown} />
-        <Route exact path="/upload" component={Upload} />
+        <Route exact path="/addBlogDetailsMarkdown" component={MarkDown} />
+        <Route exact path="/addBlogImage" component={Upload} />
         <Route exact path="/final" component={FinalPage} />
         <Route exact path="/searchpage" component={SearchPage} />
         <Route exact path="/view-blog/:blogID/:userID" component={ViewBlog} />
