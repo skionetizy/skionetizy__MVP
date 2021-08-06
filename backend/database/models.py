@@ -34,15 +34,18 @@ class User(db.Document):
 
 class Comment(db.EmbeddedDocument):
     commentID=db.UUIDField(required=True,binary=False)
+    blogID=db.UUIDField(required=False,binary=False)
+    profileID=db.UUIDField(required=False,binary=False)
     commentDescription=db.StringField(required=True,min_length=6,max_length=500)
-
+    timestamp=db.DateTimeField(required=False,default=datetime.datetime.utcnow)
+    
 class Blog(db.Document):
     blogID = db.UUIDField(required=True,binary=False)
     blogTitle=db.StringField(required=True,min_length=6)
     blogDescription=db.StringField(required=True,min_length=200,max_length=5000)
     blogImageURL=db.URLField(required=False)
     timestamp=db.DateTimeField(required=False,default=datetime.datetime.utcnow)
-    userID= db.UUIDField(required=True,binary=False)
+    profileID=db.UUIDField(required=True,binary=False)
     # hasLiked=db.BooleanField(required=False,default=False)
     # hasDisliked=db.BooleanField(required=False,default=False)
     likesCount= db.IntField(required=False,default=0)

@@ -1,7 +1,8 @@
 from flask import make_response,jsonify
 from flask.globals import request
 from flask_restful import Resource
-
+import json
+from bson import json_util
 
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
@@ -25,7 +26,7 @@ class AddBlogDescriptionAndTitle(Resource):
             blogID = uuid.uuid4(),
             blogTitle=body["blogTitle"],
             blogDescription=body["blogDescription"],
-            userID=body["userID"]
+            profileID=body["profileID"]
         )
 
         newBlog.save()
@@ -40,7 +41,7 @@ class UpdateBlogDescriptionAndText(Resource):
         
         blog = Blog.objects.get(blogID=blogID)
        
-        userID=body['userID']
+        profileID=body['profileID']
         # if(userID!= blog['userID']):
         #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
 
@@ -55,7 +56,7 @@ class UpdateBlogDescriptionAndText(Resource):
 class AddBlogImage(Resource):
     def patch(self):
         blogID = request.form['blogID']
-        userID=request.form['userID']
+        profileID=request.form['profileID']
         # print(blogID)
         blog = Blog.objects.get(blogID= blogID)
         photo = request.files["file"]
@@ -81,12 +82,12 @@ class AddBlogImage(Resource):
 
         
 class LikeOnBlog(Resource):
-    def patch(self,blogID,userID):
+    def patch(self,blogID,profileID):
         # body = request.get_json()
         # userID=body["userID"]
         # blogID=body["blogID"]
         print(f"blogID : {blogID}")
-        print(f"userID: {userID}")
+        print(f"userID: {profileID}")
 
         
         blog=Blog.objects.get(blogID=blogID)
@@ -105,7 +106,7 @@ class LikeOnBlog(Resource):
         newLikesCount=blog['likesCount']+1
         # print(newLikesCount)
         # newUserWhoLiked  = body['userID']
-        newUserWhoLiked  = userID
+        newUserWhoLiked  = profileID
         newLikedByUsersList= blog['likedByUsersList'].append(newUserWhoLiked)
         blog.update(
             likesCount= newLikesCount,
@@ -127,7 +128,7 @@ def changeUUIDtoString2(uuidVar):
 
     
 class RemoveLikeOnBlog(Resource):
-    def patch(self,blogID,userID):
+    def patch(self,blogID,profileID):
         # body=request.get_json()
         # blogID = body['blogID']
         # userID=body['userID']
@@ -143,7 +144,7 @@ class RemoveLikeOnBlog(Resource):
             # print(f"userID :{userID}")
             # print(f"user type: {type(user)}")
             # print(f"userID type: {type(userID)}")
-            if(newUser == userID):
+            if(newUser == profileID):
                 # print("entered")
                 print(newUser)
                 likedByUsersList.remove(user)
@@ -158,7 +159,7 @@ class RemoveLikeOnBlog(Resource):
 
 
 class DislikeOnBlog(Resource):
-    def patch(self,blogID,userID):
+    def patch(self,blogID,profileID):
         # body = request.get_json()
         # userID=body["userID"]
         # blogID=body["blogID"]
@@ -177,7 +178,7 @@ class DislikeOnBlog(Resource):
         newDislikesCount=blog['dislikesCount']+1
         # print(newLikesCount)
         # newUserWhoDisliked  = body['userID']
-        newUserWhoDisliked = userID
+        newUserWhoDisliked = profileID
         newDislikedByUsersList= blog['dislikedByUsersList'].append(newUserWhoDisliked)
         output1= blog.update(
             dislikesCount= newDislikesCount,
@@ -197,7 +198,7 @@ class DislikeOnBlog(Resource):
         return make_response(jsonify({"message":"you have successfully dis liked the blog","statusCode":"200","blog":blog,"success":True}))
 
 class RemoveDislikeOnBlog(Resource):
-    def patch(self,blogID,userID):
+    def patch(self,blogID,profileID):
         # body=request.get_json()
         # blogID = body['blogID']
         # userID=body['userID']
@@ -213,7 +214,7 @@ class RemoveDislikeOnBlog(Resource):
             # print(f"userID {userID}")
             # print(type(newUser))
             # print(type(userID))
-            if(newUser == userID):
+            if(newUser == profileID):
                 print(f"newUser {newUser}")
                 dislikedByUsersList.remove(user)
                 print(f"dislikedByUsersList after removing {dislikedByUsersList} ")
@@ -230,7 +231,7 @@ class AddCommentToBlog(Resource):
     def patch(self):
         body=request.get_json()
         commentID=uuid.uuid4()
-        userID=body['userID']
+        profileID=body['profileID']
         blogID=body['blogID']
         commentDescription=body['commentDescription']
         blog=Blog.objects.get(blogID=blogID)
@@ -240,7 +241,9 @@ class AddCommentToBlog(Resource):
             return make_response(jsonify({"message":"comment must be more than 6 characters and less than 300 characters"}))
         comment=Comment(
             commentID=commentID,
-            commentDescription=commentDescription
+            commentDescription=commentDescription,
+            blogID=blogID,
+            profileID=profileID
         )
         # comment.save()
         comments=blog['comments']
@@ -256,7 +259,7 @@ class RemoveCommentonBlog(Resource):
         body=request.get_json()
         print(f"body {body}")
         commentID=body['commentID']
-        userID=body['userID']
+        profileID=body['profileID']
         blogID=body['blogID']
     
         blog=Blog.objects.get(blogID=blogID)
@@ -282,8 +285,12 @@ class GetBlogs(Resource):
     def get(self):
         # blogs=Blog.objects().exclude("blogDescription","comments","likedByUsersList","dislikedByUsersList")
         blogs=Blog.objects().exclude("comments","likedByUsersList","dislikedByUsersList")
-        # print(blogs)
-        return make_response(jsonify({"blogs":blogs,"success":True}))
+        blogs=[x.to_mongo().to_dict() for x in blogs]
+        for i in blogs:
+            p=Profile.objects.get(profileID=i['profileID'])
+            i['profilePicImageURL']=p.profilePicImageURL
+            i['profileName']=p.profileName
+        return make_response(jsonify({"blogs":json.loads(json_util.dumps(blogs)),"success":True}))
 
 class GetBlogsByProfile(Resource):
     # def get(self,profileID):
@@ -292,7 +299,7 @@ class GetBlogsByProfile(Resource):
         # userID=body['userID']
         # profile = Profile.objects.get(profileID=profileID)
         profile = Profile.objects.get(profileUserName=profileUserName)
-        blogsByUser=Blog.objects(userID=profile["userID"])
+        blogsByUser=Blog.objects(profileID=profile["profileID"])
         # blogsByUser=Blog.objects(userID=userID)
         return make_response(jsonify({"blogs":blogsByUser,"statusCode":200,"success":True}))
 
@@ -311,10 +318,14 @@ class GetFeed(Resource):
         print(profile_following[0])
         for i in list(profile_following):
             p=Profile.objects.get_or_404(profileID=i)
-            b=Blog.objects(userID=p.userID).exclude("comments","likedByUsersList","dislikedByUsersList")
+            b=Blog.objects(profileID=p.profileID).exclude("comments","likedByUsersList","dislikedByUsersList")
+            b=[x.to_mongo().to_dict() for x in b]
+            for k in b:
+                k['profilePicImageURL']=p.profilePicImageURL
+                k['profileName']=p.profileName
             blogs.extend(b)
-        blogs.sort(key=lambda x:x.timestamp,reverse=True)
-        return jsonify({'blogs':blogs,"success":True})
+        blogs.sort(key=lambda x:x['timestamp'],reverse=True)
+        return jsonify({'blogs':json.loads(json_util.dumps(blogs)),"success":True})
 
 class AddView(Resource):
     def patch(self,blogID):

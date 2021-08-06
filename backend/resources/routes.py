@@ -19,10 +19,10 @@ def initialize_routes(api):
     api.add_resource(AddBlogImage,'/blog/addBlogImage')
     #patch
     api.add_resource(UpdateBlogDescriptionAndText,'/blog/updateBlogDescriptionAndTitle')
-    api.add_resource(LikeOnBlog,'/blog/likeOnBlog/<userID>/<blogID>')
-    api.add_resource(RemoveLikeOnBlog,'/blog/removeLikeOnBlog/<userID>/<blogID>')
-    api.add_resource(DislikeOnBlog,'/blog/dislikeOnBlog/<userID>/<blogID>')
-    api.add_resource(RemoveDislikeOnBlog,'/blog/removeDislikeOnBlog/<userID>/<blogID>')
+    api.add_resource(LikeOnBlog,'/blog/likeOnBlog/<profileID>/<blogID>')
+    api.add_resource(RemoveLikeOnBlog,'/blog/removeLikeOnBlog/<profileID>/<blogID>')
+    api.add_resource(DislikeOnBlog,'/blog/dislikeOnBlog/<profileID>/<blogID>')
+    api.add_resource(RemoveDislikeOnBlog,'/blog/removeDislikeOnBlog/<profileID>/<blogID>')
     api.add_resource(AddCommentToBlog,'/blog/addCommentToBlog')
     api.add_resource(RemoveCommentonBlog,'/blog/removeCommentOnBlog')
     #get
