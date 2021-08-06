@@ -34,8 +34,8 @@ class User(db.Document):
 
 class Comment(db.EmbeddedDocument):
     commentID=db.UUIDField(required=True,binary=False)
-    blogID=db.UUIDField(required=False,binary=False)
-    profileID=db.UUIDField(required=False,binary=False)
+    blogID=db.UUIDField(required=True,binary=False)
+    profileID=db.UUIDField(required=True,binary=False)
     commentDescription=db.StringField(required=True,min_length=6,max_length=500)
     timestamp=db.DateTimeField(required=False,default=datetime.datetime.utcnow)
     
