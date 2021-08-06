@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 const useDebounceGeneral = (data, delay) => {
   const [debouncedData, setDebouncedData] = useState(data);
@@ -16,5 +16,25 @@ const useDebounceGeneral = (data, delay) => {
   console.log({ debouncedDataInuseDebounce: debouncedData });
   return debouncedData;
 };
+
+function NEW_useDebounceGeneral(callback, timeout = 0) {
+  const callbackRef = useRef(callback);
+  const prevTimerRef = useRef();
+  ///...
+
+  const debounce = useCallback(
+    (value) => {
+      if (prevTimerRef.current) clearTimeout(prevTimerRef.current);
+
+      prevTimerRef.current = setTimeout(
+        () => callbackRef.current(value),
+        timeout
+      );
+    },
+    [timeout]
+  );
+
+  return debounce;
+}
 
 export default useDebounceGeneral;

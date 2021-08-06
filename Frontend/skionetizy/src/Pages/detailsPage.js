@@ -49,7 +49,7 @@ const DetailsPage = (props) => {
           });
       }
     }
-  }, [details.profileUserName]);
+  }, [debounceData]);
 
   const handleChange = (name) => (e) => {
     setDetails({

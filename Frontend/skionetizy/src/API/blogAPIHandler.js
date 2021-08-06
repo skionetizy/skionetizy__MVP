@@ -101,3 +101,7 @@ export const addCommentAPIHandler = ({ commentDescription, blogID }) => {
     userID,
   });
 };
+
+export const addViewApiHandler = (blogID) => {
+  return axios.patch(`/api/blog/addView/${blogID}`);
+};

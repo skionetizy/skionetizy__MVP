@@ -10,6 +10,7 @@ import {
   removeLikeOnBlogAPIHandler,
   removeDislikeOnBlogAPIHandler,
   addCommentAPIHandler,
+  addViewApiHandler,
 } from "../API/blogAPIHandler";
 
 import { getLoggedInUserID } from "../utils/AuthorisationUtils";
@@ -35,7 +36,7 @@ const ViewBlog = () => {
   const [blog, setBlog] = useState({});
   const [showComment, setShowComment] = useState(false);
   const [length, setLength] = useState(3)
-  const [viewAll, setViewAll] = useState("View all")
+  const [viewMore, setViewMore] = useState("View more")
   const [authorName, setAuthorName] = useState("");
   const [hasLiked, setHasLiked] = useState(false);
   const [hasDisliked, setHasDisliked] = useState(false);
@@ -169,11 +170,15 @@ const ViewBlog = () => {
       viewCountData.timeout &&
       !viewCountData.hasSent
     ) {
-      console.log("send a request to backend");
-      console.dir(viewCountData);
-      setViewCountData({ hasSent: true });
+      addViewApiHandler(blogID)
+        .then(() => {
+          setViewCountData({ hasSent: true });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
-  }, [viewCountData]);
+  }, [blogID, viewCountData]);
 
   // useEffect(() => {}, [blog?.comments?.length]);
   const updateCommentStatusMessageParent = (message) => {
@@ -308,21 +313,11 @@ const ViewBlog = () => {
 
 
   const viewAllHandler = () => {
-    setShowComment(!showComment)
-    // eslint-disable-next-line no-lone-blocks
-
-    if (viewAll === "View all") {
-      setViewAll("Hide")
-
-      setLength(blog?.comments?.length)
-    }
-    else {
-      setViewAll("View all")
-      setLength(3)
-    }
-
-    // eslint-disable-next-line no-lone-blocks
+    setLength(length + 5)
   }
+
+  // eslint-disable-next-line no-lone-blocks
+
 
 
 
@@ -387,7 +382,7 @@ const ViewBlog = () => {
       <div className={style.meta}>
         <div className={style.metaContent}>
           <div className={style.views}>
-            <span className={style.viewCount}>250</span>
+            <span className={style.viewCount}>{blog.viewCount}</span>
 
             <VisibilityIcon fontSize="large" className={style.viewIcon} />
           </div>
@@ -486,7 +481,9 @@ const ViewBlog = () => {
           ))}
         </div>
       </div>
-      { blog?.comments?.length > 3 && <button onClick={viewAllHandler} className={style.view_all}>{viewAll}</button>}
+      {length < blog?.comments?.length && (<button onClick={viewAllHandler} className={style.view_all}>{viewMore}</button>)}
+
+
     </div >
   );
 };
