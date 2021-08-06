@@ -334,3 +334,13 @@ class AddView(Resource):
         blog.save()
         return jsonify({"status_code":200,"success":True})
         
+class GetCommentsByBlogID(Resource):
+    def get(self,blogID):
+        blog=Blog.objects.get_or_404(blogID=blogID)
+        p=Profile.objects.get_or_404(profileID=blog.profileID)
+        comments=blog.comments
+        comments=[x.to_mongo().to_dict() for x in comments]
+        for x in comments:
+            x['profilePicImageURL']=p.profilePicImageURL
+            x['profileName']=p.profileName
+        return jsonify({'comments':json.loads(json_util.dumps(comments)),'status_code':200,'success':'true'})
