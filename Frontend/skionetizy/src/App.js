@@ -12,6 +12,7 @@ import DetailsPage from "./Pages/detailsPage";
 import SearchPage from "./Pages/searchPage";
 import EmailVerification from "./Pages/EmailVerification";
 import EditProfile from "./Pages/EditProfile";
+import Editor from "./Components/Editor";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Nav />
       <Switch>
         <Route exact path="/" component={Signup} />
+        <Route exact path="/editor_example" component={Editor} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/addBlogDetailsMarkdown" component={MarkDown} />
         <Route exact path="/addBlogImage" component={Upload} />
