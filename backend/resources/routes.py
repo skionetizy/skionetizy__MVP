@@ -1,5 +1,5 @@
 from backend.resources.authorize import AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails#getUserFirstName
-from backend.resources.blog import AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogs,GetBlogByBlogID,GetFeed,AddView
+from backend.resources.blog import AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogs,GetBlogByBlogID,GetFeed,AddView,GetCommentsByBlogID
 from backend.resources.profile import AddProfileUsernameBioUserDetails, UpdateProfile, CheckProfileUsernameIsAvailableAPIHandler, GetProfileDetails, AddFollower
 from backend.resources.ai_models import GrammarCheck
 from flask import send_from_directory
@@ -19,10 +19,10 @@ def initialize_routes(api):
     api.add_resource(AddBlogImage,'/blog/addBlogImage')
     #patch
     api.add_resource(UpdateBlogDescriptionAndText,'/blog/updateBlogDescriptionAndTitle')
-    api.add_resource(LikeOnBlog,'/blog/likeOnBlog/<userID>/<blogID>')
-    api.add_resource(RemoveLikeOnBlog,'/blog/removeLikeOnBlog/<userID>/<blogID>')
-    api.add_resource(DislikeOnBlog,'/blog/dislikeOnBlog/<userID>/<blogID>')
-    api.add_resource(RemoveDislikeOnBlog,'/blog/removeDislikeOnBlog/<userID>/<blogID>')
+    api.add_resource(LikeOnBlog,'/blog/likeOnBlog/<profileID>/<blogID>')
+    api.add_resource(RemoveLikeOnBlog,'/blog/removeLikeOnBlog/<profileID>/<blogID>')
+    api.add_resource(DislikeOnBlog,'/blog/dislikeOnBlog/<profileID>/<blogID>')
+    api.add_resource(RemoveDislikeOnBlog,'/blog/removeDislikeOnBlog/<profileID>/<blogID>')
     api.add_resource(AddCommentToBlog,'/blog/addCommentToBlog')
     api.add_resource(RemoveCommentonBlog,'/blog/removeCommentOnBlog')
     #get
@@ -47,6 +47,8 @@ def initialize_routes(api):
     api.add_resource(GetFeed,'/api/blog/getFeed/<profileID>')
     #AddCount
     api.add_resource(AddView,'/api/blog/addView/<blogID>')
+    #
+    api.add_resource(GetCommentsByBlogID,'/blog/getComments/<blogID>')
 @app.route('/')
 @app.route('/home',methods=['GET'])
 def home():
