@@ -1,14 +1,15 @@
 from flask import json, make_response,jsonify,request
 from flask_restful import Resource
 from flask_mail import Message
-from  backend.database.models import User
+from  backend.database.models import Profile, User
 from backend import mail,app
 from threading import Thread
 #sendgrid
 import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
-
+import json
+from bson import json_util
 #jwt
 import jwt
 
@@ -111,7 +112,7 @@ class AuthorizeLogin(Resource):
         body = request.get_json()
         
         user = User.objects.get(emailID = body["emailID"])
-
+        profile=Profile.objects.get_or_404(userID=user.userID)
         if not user:
             return make_response({"message":"create an account, before you login","status":500})
         # elif user["isVerified"]==False:
@@ -121,8 +122,9 @@ class AuthorizeLogin(Resource):
         isAuthorized = user.check_password(body.get('password'))
         if not isAuthorized:
             return make_response(jsonify({"message":"password is incorrect,please try again","statusCode":500}))
-        
-        return make_response({"user":user,"message":"Logged in Successfully","status":200})
+        user=user.to_mongo().to_dict()
+        user['profileID']=profile.profileID
+        return make_response({"user":json.loads(json_util.dumps(user)),"message":"Logged in Successfully","status":200})
 
 # class getUserFirstName(Resource):
 #     def get(self,userID):
