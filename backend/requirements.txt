@@ -12,6 +12,7 @@ Flask-Cors==3.0.10
 flask-mongoengine==1.0.0
 Flask-RESTful==0.3.8
 Flask-WTF==0.14.3
+Flask-Mail==0.9.1
 idna==3.1
 itsdangerous==1.1.0
 Jinja2==2.11.3
@@ -29,3 +30,4 @@ starkbank-ecdsa==1.1.0
 urllib3==1.26.4
 Werkzeug==1.0.1
 WTForms==2.3.3
+gingerit==0.8.2
