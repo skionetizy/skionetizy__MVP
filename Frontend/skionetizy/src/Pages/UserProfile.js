@@ -1,30 +1,49 @@
 import React, { useState, useEffect } from "react";
+import FormInput from "../Components/FormInput";
+import useForm from "../hooks/useForm";
+
+
 
 import style from "./UserProfile.module.css";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import UserBlogsCard from "../Components/UserBlogsCard";
 
 import { getAllBlogsByProfileAPIHandler } from "../API/blogAPIHandler";
-import { getProfileDetailsAPIHandler } from "../API/profileAPIHandler";
+import { getProfileDetailsAPIHandler, updateProfileDetails, } from "../API/profileAPIHandler";
 
 import { getLoggedInUserID } from "../utils/AuthorisationUtils";
 
 import axios from "axios";
 import { useParams, useHistory } from "react-router-dom";
+import Modal from '../Components/Modal'
 
 import Moment from "react-moment";
 
 Moment.globalFormat = "MMM D , YYYY";
 
+
+const initailData = {
+  profileBio: "",
+  profileWebsiteURL: "",
+  profilePicImage: null,
+  rofileBannerImage: null,
+};
+
+
 const UserProfile = () => {
+
+  const { data, getInputProps, handleChange, setData } = useForm(initailData);
+  const [status, setStatus] = useState("idle");
   // const { profileID } = useParams();
   const { profileUserName } = useParams();
-  const history = useHistory();
   const [blogs, setBlogs] = useState([]);
 
   const [profile, setProfile] = useState({});
 
-  const userID = getLoggedInUserID();
+  const profileID = getLoggedInUserID();
+
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   // const promise1 = getAllBlogsByProfileAPIHandler(profileID);
 
@@ -32,8 +51,9 @@ const UserProfile = () => {
   // const promise2 = getProfileDetailsAPIHandler(profileID);
 
   const isAuthorisedUser = () => {
-    return userID === profile.userID;
+    return profileID === profile.profileID;
   };
+
 
   useEffect(() => {
     const promise1 = getAllBlogsByProfileAPIHandler(profileUserName);
@@ -53,10 +73,40 @@ const UserProfile = () => {
     );
   }, []);
 
-  console.log(`userID`, userID);
-  console.log(`profile.userID`, profile.userID);
+  console.log(`profileID`, profileID);
+  console.log(`profile.profileID`, profile.profileID);
   console.log(`profile`, profile);
   console.log(`isAuthorisedUser()`, isAuthorisedUser());
+
+
+  function handleClose() {
+    setShowEditModal(false);
+  }
+
+  useEffect(() => {
+    setStatus("loading");
+    getProfileDetailsAPIHandler(profileUserName).then((response) => {
+      setData({
+        profileBio: response.profile.profileBio,
+        profileWebsiteURL: response.profile.profileWebsiteURL,
+      });
+      setProfile(response.profile);
+      setStatus("idle");
+    });
+  }, [profileUserName, setData]);
+
+  function handleSubmit(ev) {
+    ev.preventDefault();
+    const profileID = getLoggedInUserID();
+    setStatus("loading");
+    const formData = new FormData();
+    formData.append("profileBio", data.profileBio);
+    formData.append("profileWebsiteURL", data.profileWebsiteURL);
+    updateProfileDetails(profile.profileID, formData);
+    setStatus("success");
+    setShowEditModal(false)
+  }
+
 
   return (
     <div className={style.main}>
@@ -89,7 +139,7 @@ const UserProfile = () => {
               <div className={style.authorDetails}>
                 {/* <h2 className={style.author}>Rajath sharma</h2> */}
                 <h2 className={style.author}>{profile.profileName}</h2>
-                <a className={style.link} href="#">
+                <a className={style.link} href="/">
                   bit.ly/rajathsharma
                 </a>
                 {/* <a className={style.link} href="#">
@@ -138,13 +188,51 @@ const UserProfile = () => {
                 {/* <button className={`${style.buttons_followButton} ${style.secondaryButton}`}>Follow</button> */}
                 <button
                   className={style.buttons_editProfile}
-                  onClick={() => history.push(`/edit/${profileUserName}`)}
+                  onClick={() => setShowEditModal(true)}
                 >
                   Edit profile
                 </button>
               </div>
             )}
           </div>
+          {showEditModal && (
+            // this class makes it look like page on mobile
+            <Modal>
+              <div className={style.wrapper}>
+                <button className={style.closeBtn} onClick={handleClose}>&times;</button>
+                <h1>Edit Profile</h1>
+                <form onSubmit={handleSubmit}>
+                  <div className={style.inputs}>
+                    <div className={style.firstLast}>
+                      <label htmlFor="firstName">First Name</label>
+                      <input type="text" name="firstName" id="firstName" />
+                      <label htmlFor="lastName">Last Name</label>
+                      <input type="text" name="lastName" id="lastName" />
+                    </div>
+                    <div>
+                      <label htmlFor="lastName">Joining Date</label>
+                      <input type="date" name="lastName" id="lastName" />
+                    </div>
+                    <hr className={style.horizontalLine} />
+                    <div className={style.bottom}>
+                      <div>
+                        <label htmlFor="">Website Link</label>
+                        <input
+                          className={style.url}
+                          {...getInputProps("profileWebsiteURL")}
+                        />
+                      </div>
+                      <div className={style.bio}>
+                        <label htmlFor="Bio">Bio</label>
+                        <textarea id="Bio"  {...getInputProps("profileBio")} />
+                      </div>
+                    </div>
+                  </div>
+                  <button type="submit" className={style.savebtn}>Save</button>
+                </form>
+              </div>
+            </Modal>
+          )}
 
           <div className={style.divider}>
             <h2>My blogs</h2>
