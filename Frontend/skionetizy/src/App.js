@@ -1,9 +1,9 @@
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import Nav from "./Components/Nav";
-import MarkDown from "./Pages/addBlogDetailsMarkdown";
+import addBlogDetailsMarkdown from "./Pages/addBlogDetailsMarkdown";
 import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
-import Upload from "./Pages/addBlogImage";
+import addBlogImage from "./Pages/addBlogImage";
 import { FinalPage } from "./Pages/finalPage";
 import ExploreBlogs from "./Pages/ExploreBlogs";
 import ViewBlog from "./Pages/ViewBlog";
@@ -22,8 +22,12 @@ function App() {
         <Route exact path="/" component={Signup} />
         <Route exact path="/editor_example" component={Editor} />
         <Route exact path="/login" component={Login} />
-        <Route exact path="/addBlogDetailsMarkdown" component={MarkDown} />
-        <Route exact path="/addBlogImage" component={Upload} />
+        <Route
+          exact
+          path="/addBlogDetailsMarkdown"
+          component={addBlogDetailsMarkdown}
+        />
+        <Route exact path="/addBlogImage" component={addBlogImage} />
         <Route exact path="/final" component={FinalPage} />
         <Route exact path="/searchpage" component={SearchPage} />
         <Route exact path="/view-blog/:blogID/:userID" component={ViewBlog} />

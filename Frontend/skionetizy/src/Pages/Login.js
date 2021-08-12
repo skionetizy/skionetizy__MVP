@@ -35,15 +35,22 @@ function Login(props) {
 
     axios.post(`${baseURL}/login`, details).then((res) => {
       console.log(res.data);
-      if (res.data && res.data.user) {
-        // onLogin(res.data.user._id.$oid);
-        localStorage.setItem("userID", JSON.stringify(res.data.user.userID));
-      }
-      const userID = res.data.user.userID;
-      props.onLogin(userID);
+      if (res.data.status == 200) {
+        if (res.data && res.data.user) {
+          // localStorage.setItem("userID", JSON.stringify(res.data.user.userID));
+          // const userID = res.data.user?.userID;
 
-      // console.log({ userID: res.data.userID });
-      // console.log(res.data.user._id);
+          // props.onLogin(userID);
+
+          // const profileID = res.data.user?.profileID;
+          localStorage.setItem(
+            "profileID",
+            JSON.stringify(res.data.user.profileID.$uuid)
+          );
+        }
+      } else {
+        console.log(res.data.message);
+      }
     });
 
     setDetails({

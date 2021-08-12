@@ -8,6 +8,8 @@ import axios from "axios";
 import "./addBlogDetailsMarkdown.css";
 import useDebounce from "../hooks/useDebounce";
 
+import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
+
 function MarkDown(props) {
   const [data, setData] = useState({
     blogDescription: "",
@@ -17,9 +19,9 @@ function MarkDown(props) {
 
   const debounceData = useDebounce(data, 300000); //5min is 300000 ms
   const addBlogDescriptionAndTitleURL =
-    "http://127.0.0.1:5000/addBlogDescriptionAndTitle";
+    "http://127.0.0.1:5000/blog/addBlogDescriptionAndTitle";
   const UpdateBlogDescriptionAndTitleURL =
-    "http://127.0.0.1:5000/updateBlogDescriptionAndTitle";
+    "http://127.0.0.1:5000/blog/updateBlogDescriptionAndTitle";
   const handleUpload = (e) => {
     if (e) {
       e.preventDefault();
@@ -54,7 +56,8 @@ function MarkDown(props) {
   const updateBlogDescriptionAndTitleAPI = (blogID) => {
     axios.patch(UpdateBlogDescriptionAndTitleURL, {
       ...data,
-      userID: JSON.parse(localStorage.getItem("userID")),
+      // userID: JSON.parse(localStorage.getItem("userID"))
+      profileID: getLoggedInProfileID(),
     });
   };
 
@@ -63,9 +66,12 @@ function MarkDown(props) {
     var blogID;
     axios
       .post(addBlogDescriptionAndTitleURL, {
-        ...data,
+        // ...data,
+        blogTitle: data.blogTitle,
+        blogDescription: data.blogDescription,
         // userID: props.userID,
-        userID: JSON.parse(localStorage.getItem("userID")),
+        // userID: JSON.parse(localStorage.getItem("userID")),
+        profileID: getLoggedInProfileID(),
       })
       .then((res) => {
         console.log(res.data);
@@ -139,6 +145,12 @@ function MarkDown(props) {
         <div className="characters">
           characters Remaining {charactersRemaining}
         </div>
+        <div className="characters">
+          blog description must be more than 200 characters
+        </div>
+        <div className="characters">
+          blog title must be more than 6 characters
+        </div>
         <textarea
           autoFocus
           rows="40"
@@ -153,7 +165,7 @@ function MarkDown(props) {
           </button>
           <button className="upload">
             <Link
-              to="/upload"
+              to="/addBlogImage"
               style={{ textDecoration: "none", color: "white" }}
             >
               Next
