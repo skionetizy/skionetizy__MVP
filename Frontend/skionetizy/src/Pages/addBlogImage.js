@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./addBlogImage.css";
 import { Link } from "react-router-dom";
+import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
 function Upload() {
   const [uploaded, isUploaded] = useState(false);
   const [proImage, setProImage] = useState();
@@ -43,7 +44,8 @@ function Upload() {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("blogID", JSON.parse(localStorage.getItem("blogID")));
-        formData.append("userID", JSON.parse(localStorage.getItem("userID")));
+        // formData.append("userID", JSON.parse(localStorage.getItem("userID")));
+        formData.append("profileID", getLoggedInProfileID());
         setFormData(formData);
         console.log(formData);
       }
