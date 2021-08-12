@@ -6,6 +6,7 @@ function Upload() {
   const [uploaded, isUploaded] = useState(false);
   const [proImage, setProImage] = useState();
   const [formData, setFormData] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const handleProfile = (e) => {
     e.preventDefault();
@@ -52,21 +53,21 @@ function Upload() {
     };
   };
 
-  const url = "http://127.0.0.1:5000/addBlogImage";
+  const url = "http://127.0.0.1:5000/blog/addBlogImage";
 
   const handlePublishBlog = (e) => {
     e.preventDefault();
 
     console.log({ body: formData });
-    // const body = {
-    //   formData: formData,
-    //   blogID: JSON.parse(localStorage.getItem("blogID")),
-    // };
+
     fetch(url, {
       method: "PATCH",
       body: formData,
     })
       .then((response) => {
+        if (response.body.success) {
+          setSuccess(true);
+        }
         return response.json();
       })
       .then((body) => {
@@ -95,9 +96,13 @@ function Upload() {
         <br />
         {/* {uploaded && ( */}
         <div>
-          <h2 style={{ position: "relative", left: "-12%", color: "#3498db" }}>
-            Uploaded successfully
-          </h2>
+          {success && (
+            <h2
+              style={{ position: "relative", left: "-12%", color: "#3498db" }}
+            >
+              Uploaded successfully
+            </h2>
+          )}
           <Link to="/final">
             <button className="next" onClick={handlePublishBlog}>
               Publish Blog
