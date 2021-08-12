@@ -7,7 +7,7 @@ import uuid
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 
-from backend.database.models import Profile
+from backend.database.models import Profile,Blog
 
 # from datetime import datetime
 
@@ -106,12 +106,13 @@ class AddFollower(Resource):
         prof=Profile.objects.get_or_404(profileID=profileID)
         prof.Following.append(to_follow_pid)
         prof.FollowingCount=prof.FollowingCount+1
-        print(f"I follow {prof.Following} , he has followe {profile.Followers}")
+        print(f"I follow {prof.Following} , he has followed {profile.Followers}")
         profile.save()
         prof.save()
         return jsonify({'profile':profile})
 
-
-
-    
-
+class GetBlogsAndProfile(Resource):
+    def get(self,profileID):
+        blogs=Blog.objects(profileID=profileID)
+        profile=Profile.objects.get(profileID=profileID)
+        return jsonify({'blogs':blogs,'profile':profile,'success':True,'status':200})

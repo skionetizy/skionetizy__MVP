@@ -1,6 +1,6 @@
 from backend.resources.authorize import AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails#getUserFirstName
 from backend.resources.blog import AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogs,GetBlogByBlogID,GetFeed,AddView,GetCommentsByBlogID
-from backend.resources.profile import AddProfileUsernameBioUserDetails, UpdateProfile, CheckProfileUsernameIsAvailableAPIHandler, GetProfileDetails, AddFollower
+from backend.resources.profile import AddProfileUsernameBioUserDetails, UpdateProfile, CheckProfileUsernameIsAvailableAPIHandler, GetProfileDetails, AddFollower,GetBlogsAndProfile
 from backend.resources.ai_models import GrammarCheck
 from flask import send_from_directory
 from backend import app,api
@@ -49,6 +49,8 @@ def initialize_routes(api):
     api.add_resource(AddView,'/api/blog/addView/<blogID>')
     #
     api.add_resource(GetCommentsByBlogID,'/blog/getComments/<blogID>')
+    #
+    api.add_resource(GetBlogsAndProfile,'/profile/getDetails/<profileID>')
 @app.route('/')
 @app.route('/home',methods=['GET'])
 def home():
