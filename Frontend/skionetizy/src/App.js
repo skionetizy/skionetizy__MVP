@@ -31,12 +31,11 @@ function App() {
         <Route exact path="/final" component={FinalPage} />
         <Route exact path="/searchpage" component={SearchPage} />
         <Route exact path="/view-blog/:blogID/:userID" component={ViewBlog} />
-        {/* <Route exact path="/user-profile/" component={UserProfile} /> */}
 
         <Route exact path="/explore-blogs" component={ExploreBlogs} />
 
         <Route exact path="/details" component={DetailsPage} />
-        {/* <Route exact path="/:profileID" component={UserProfile} /> */}
+
         {/* <Route exact path="/edit-profile/:profileID" component={EditUserProfile}/> */}
         <Route
           exact
