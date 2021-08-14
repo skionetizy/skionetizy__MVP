@@ -51,6 +51,7 @@ def initialize_routes(api):
     api.add_resource(GetCommentsByBlogID,'/blog/getComments/<blogID>')
     #
     api.add_resource(GetBlogsAndProfile,'/profile/getDetails/<profileID>')
+    
 @app.route('/')
 @app.route('/home',methods=['GET'])
 def home():

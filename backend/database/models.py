@@ -65,6 +65,7 @@ class Profile(db.Document):
     userID=db.UUIDField(required=True,binary=False)
     profilePicImageURL=db.URLField(required=False)
     profileBannerImageURL=db.URLField(required=False)
+    gender=db.StringField(required=True,max_length=10)
     profileName=db.StringField(required=False,max_length=100)
     profileUserName=db.StringField(required=True,unique=True,max_lenght=15)
     profileBio=db.StringField(required=False,max_length=300)

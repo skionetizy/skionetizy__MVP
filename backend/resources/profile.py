@@ -22,6 +22,8 @@ class AddProfileUsernameBioUserDetails(Resource):
             return make_response(jsonify({"message":"Profile Bio must be less than 300 characters","success":False}))
         if len(body["profileUserName"])>15:
             return make_response(jsonify({"message":"Profile Username must be less than 15 characters","success":False}))
+        if body["gender"] not in ["Male","Female","Others"]:
+            return make_response(jsonify({"message":"Provided Gender Details Not In Right Format","success":False}))
 
       
 
@@ -36,7 +38,8 @@ class AddProfileUsernameBioUserDetails(Resource):
             userID = body["userID"],
             profileName = tempProfileName,
             profileUserName = body["profileUserName"],
-            profileBio= body["profileBio"]
+            profileBio= body["profileBio"],
+            gender=body['gender']
         )
         
         newProfile.save()
