@@ -1,26 +1,27 @@
 import React, { useState, useEffect } from "react";
 import FormInput from "../Components/FormInput";
 import useForm from "../hooks/useForm";
+import { useParams, useHistory } from "react-router-dom";
+import Moment from "react-moment";
+import axios from "axios";
 
-
+import { getAllBlogsByProfileAPIHandler } from "../API/blogAPIHandler";
+import {
+  getProfileDetailsAPIHandler,
+  updateProfileDetails,
+} from "../API/profileAPIHandler";
+import {
+  getLoggedInProfileID,
+  getLoggedInUserID,
+} from "../utils/AuthorisationUtils";
+import Modal from "../Components/Modal";
+import usePreviewImage from "../hooks/usePreviewImage";
+import UserBlogsCard from "../Components/UserBlogsCard";
 
 import style from "./UserProfile.module.css";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-import UserBlogsCard from "../Components/UserBlogsCard";
-
-import { getAllBlogsByProfileAPIHandler } from "../API/blogAPIHandler";
-import { getProfileDetailsAPIHandler, updateProfileDetails, } from "../API/profileAPIHandler";
-
-import { getLoggedInUserID } from "../utils/AuthorisationUtils";
-
-import axios from "axios";
-import { useParams, useHistory } from "react-router-dom";
-import Modal from '../Components/Modal'
-
-import Moment from "react-moment";
 
 Moment.globalFormat = "MMM D , YYYY";
-
 
 const initailData = {
   profileBio: "",
@@ -29,31 +30,23 @@ const initailData = {
   rofileBannerImage: null,
 };
 
-
 const UserProfile = () => {
-
   const { data, getInputProps, handleChange, setData } = useForm(initailData);
   const [status, setStatus] = useState("idle");
-  // const { profileID } = useParams();
   const { profileUserName } = useParams();
   const [blogs, setBlogs] = useState([]);
-
   const [profile, setProfile] = useState({});
-
-  const profileID = getLoggedInUserID();
+  const profileID = getLoggedInProfileID();
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   // const promise1 = getAllBlogsByProfileAPIHandler(profileID);
-
-  // const promise2 = axios.get(`${baseURL}/user/getUserDetails/${userID}`);
   // const promise2 = getProfileDetailsAPIHandler(profileID);
 
   const isAuthorisedUser = () => {
     return profileID === profile.profileID;
   };
-
 
   useEffect(() => {
     const promise1 = getAllBlogsByProfileAPIHandler(profileUserName);
@@ -77,7 +70,6 @@ const UserProfile = () => {
   console.log(`profile.profileID`, profile.profileID);
   console.log(`profile`, profile);
   console.log(`isAuthorisedUser()`, isAuthorisedUser());
-
 
   function handleClose() {
     setShowEditModal(false);
@@ -104,9 +96,8 @@ const UserProfile = () => {
     formData.append("profileWebsiteURL", data.profileWebsiteURL);
     updateProfileDetails(profile.profileID, formData);
     setStatus("success");
-    setShowEditModal(false)
+    setShowEditModal(false);
   }
-
 
   return (
     <div className={style.main}>
@@ -199,7 +190,9 @@ const UserProfile = () => {
             // this class makes it look like page on mobile
             <Modal>
               <div className={style.wrapper}>
-                <button className={style.closeBtn} onClick={handleClose}>&times;</button>
+                <button className={style.closeBtn} onClick={handleClose}>
+                  &times;
+                </button>
                 <h1>Edit Profile</h1>
                 <form onSubmit={handleSubmit}>
                   <div className={style.inputs}>
@@ -209,10 +202,10 @@ const UserProfile = () => {
                       <label htmlFor="lastName">Last Name</label>
                       <input type="text" name="lastName" id="lastName" />
                     </div>
-                    <div>
+                    {/* <div>
                       <label htmlFor="lastName">Joining Date</label>
                       <input type="date" name="lastName" id="lastName" />
-                    </div>
+                    </div> */}
                     <hr className={style.horizontalLine} />
                     <div className={style.bottom}>
                       <div>
@@ -224,11 +217,13 @@ const UserProfile = () => {
                       </div>
                       <div className={style.bio}>
                         <label htmlFor="Bio">Bio</label>
-                        <textarea id="Bio"  {...getInputProps("profileBio")} />
+                        <textarea id="Bio" {...getInputProps("profileBio")} />
                       </div>
                     </div>
                   </div>
-                  <button type="submit" className={style.savebtn}>Save</button>
+                  <button type="submit" className={style.savebtn}>
+                    Save
+                  </button>
                 </form>
               </div>
             </Modal>
@@ -246,11 +241,6 @@ const UserProfile = () => {
                   isAuthorisedUser={isAuthorisedUser()}
                 />
               ))}
-
-            {/* <UserBlogsCard />
-            <UserBlogsCard />
-            <UserBlogsCard />
-            <UserBlogsCard /> */}
           </div>
         </div>
       </div>

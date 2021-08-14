@@ -1,5 +1,5 @@
 export const isAuthenticated = () => {
-  const isAuthenticatedStatus = !!localStorage.getItem("userID");
+  const isAuthenticatedStatus = !!getLoggedInProfileID();
   return isAuthenticatedStatus;
 };
 
