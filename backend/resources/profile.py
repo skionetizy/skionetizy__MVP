@@ -22,6 +22,8 @@ class AddProfileUsernameBioUserDetails(Resource):
             return make_response(jsonify({"message":"Profile Bio must be less than 300 characters","success":False}))
         if len(body["profileUserName"])>15:
             return make_response(jsonify({"message":"Profile Username must be less than 15 characters","success":False}))
+        if ' ' in body["profileUserName"]:
+            return make_response(jsonify({'message':'Profile Name Should Not Include WhiteSpaces','success':False}))
         if body["profileGender"] not in ["MALE","FEMALE","OTHERS"]:
             return make_response(jsonify({"message":"Provided Gender Details Not In Right Format","success":False}))
 
