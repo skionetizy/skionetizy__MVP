@@ -16,11 +16,13 @@ import {
 } from "../API/profileAPIHandler";
 import baseURL from "../utils/baseURL";
 import useDebounceGeneral from "../hooks/useDebounceGeneral";
+import { getLoggedInUserID } from "../utils/AuthorisationUtils";
 
 const DetailsPage = (props) => {
   const [details, setDetails] = useState({
     profileUserName: "",
     profileBio: "",
+    profileGender: "",
   });
   const [message, setMessage] = useState("");
 
@@ -62,6 +64,7 @@ const DetailsPage = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log({ details });
+
     const newData = {
       ...details,
       userID: props.userID,
@@ -85,9 +88,11 @@ const DetailsPage = (props) => {
 
   return (
     <div className={`${style.container} ${style.cover_details}`}>
+      {console.log({ details })}
       <div className={style.coverImage_login}>
         <img src={Vector} alt="" className={style.coverImage_svgLogin} />
       </div>
+
       <div className={`${style.container} ${style.details}`}>
         <div className={style.header}>
           <h1 className={style.header_heading}>Details</h1>
@@ -105,6 +110,15 @@ const DetailsPage = (props) => {
                 required
                 value={details.profileUserName}
               />
+              <div onChange={handleChange("profileGender")}>
+                <label>Gender</label>
+                <input type="radio" name="profileGender" value="MALE" />
+                <label>Male</label>
+                <input type="radio" name="profileGender" value="FEMALE" />{" "}
+                <label>Female</label>
+                <input type="radio" name="profileGender" value="OTHERS" />{" "}
+                <label>Others</label>
+              </div>
               <p>{message}</p>
               <textarea
                 type="textarea"
@@ -138,4 +152,4 @@ const mapStateToProps = (state) => {
     lastName: state.lastName,
   };
 };
-export default connect(mapStateToProps)(DetailsPage);
+export default connect(mapStateToProps, null)(DetailsPage);

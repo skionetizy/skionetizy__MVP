@@ -1,9 +1,9 @@
 const initialState = {
-  userID: "",
+  userID: "ab304cc9-1849-48f8-86a0-0ac39ff9929d",
   isLogin: false,
   blogID: "",
-  firstName: "",
-  lastName: "",
+  firstName: "rohan",
+  lastName: "devaki",
   slicedBlogs: [],
   filteredBlogs: [],
 };
