@@ -13,18 +13,18 @@ import Moment from "react-moment";
 Moment.globalFormat = "MMM D , YYY ";
 
 const BlogCard = ({ blog }) => {
-  const [authorName, setAuthorName] = useState("");
+  // const [authorName, setAuthorName] = useState("");
 
-  useEffect(() => {
-    console.log({ blogIDinBlogCard: blog.blogID, blog });
-    axios
-      .get(`${baseURL}/user/getUserDetails/${blog.userID}`)
-      .then((res) => setAuthorName(res.data.user.firstName))
-      .catch((err) => console.log(err));
+  // useEffect(() => {
+  //   console.log({ blogIDinBlogCard: blog.blogID, blog });
+  //   axios
+  //     .get(`${baseURL}/user/getUserDetails/${blog.userID}`)
+  //     .then((res) => setAuthorName(res.data.user.firstName))
+  //     .catch((err) => console.log(err));
 
-    console.log({ blog });
-    // console.log({ userDetails: user });
-  }, []);
+  //   console.log({ blog });
+  //   // console.log({ userDetails: user });
+  // }, []);
 
   // const date = blog.timestamp.split("T")[0];
   return (
@@ -48,11 +48,12 @@ const BlogCard = ({ blog }) => {
                 <div className={style.author}>
                   <img
                     className={style.avatar}
-                    src="//unsplash.it/40/40"
+                    // src="//unsplash.it/40/40"
+                    src={`${blog.profilePicImageURL}`}
                     alt=""
                   />
 
-                  <small className={style.authorName}>{authorName}</small>
+                  <small className={style.authorName}>{blog.profileName}</small>
                 </div>
                 <div>
                   <div className={style.dayLikesDislikes}>
