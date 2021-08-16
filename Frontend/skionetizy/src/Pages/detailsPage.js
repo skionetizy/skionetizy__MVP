@@ -25,6 +25,7 @@ const DetailsPage = (props) => {
     profileGender: "",
   });
   const [message, setMessage] = useState("");
+  const [usernameValidaion, setUsernameValidation] = useState("");
 
   // console.log({ profileUserNameBeforeUseDebounce: details.profileUserName });
   const debounceData = useDebounceGeneral(details.profileUserName, 5000); //2seconds
@@ -73,17 +74,27 @@ const DetailsPage = (props) => {
     };
     console.log({ newDataInDetails: newData });
 
-    axios
-      .post(`${baseURL}/profile/addProfileUsernameBioUserDetails/`, {
-        ...newData,
-      })
-      .then((res) => {
-        console.log("Success:", res.data);
-        <Redirect to="/login" />;
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    validateSpaceInUsername() &&
+      axios
+        .post(`${baseURL}/profile/addProfileUsernameBioUserDetails/`, {
+          ...newData,
+        })
+        .then((res) => {
+          console.log("Success:", res.data);
+          <Redirect to="/login" />;
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+  };
+
+  const validateSpaceInUsername = () => {
+    if (profileUserName.includes(" ")) {
+      setUsernameValidation("Profile Username must not have space");
+      return true;
+    } else {
+      return false;
+    }
   };
 
   return (
@@ -110,6 +121,11 @@ const DetailsPage = (props) => {
                 required
                 value={details.profileUserName}
               />
+              <div>
+                {validateSpaceInUsername() && profileUserName.length > 0 && (
+                  <p>{usernameValidaion}</p>
+                )}
+              </div>
               <div onChange={handleChange("profileGender")}>
                 <label>Gender</label>
                 <input type="radio" name="profileGender" value="MALE" />
