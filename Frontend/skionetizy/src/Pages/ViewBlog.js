@@ -13,7 +13,10 @@ import {
   addViewApiHandler,
 } from "../API/blogAPIHandler";
 
-import { getLoggedInUserID } from "../utils/AuthorisationUtils";
+import {
+  getLoggedInProfileID,
+  getLoggedInUserID,
+} from "../utils/AuthorisationUtils";
 import { saveBlogIDUtil } from "../utils/blogUtil";
 
 import style from "./ViewBlog.module.css";
@@ -31,13 +34,14 @@ import Moment from "react-moment";
 Moment.globalFormat = "MMM D , YYYY";
 
 const ViewBlog = () => {
-  const { blogID, userID } = useParams();
-  const loggedInUser = getLoggedInUserID();
+  const { blogID, profileID } = useParams();
+
+  const loggedInUserProfile = getLoggedInProfileID();
   const [blog, setBlog] = useState({});
   const [showComment, setShowComment] = useState(false);
-  const [length, setLength] = useState(3)
-  const [viewMore, setViewMore] = useState("View more")
-  const [authorName, setAuthorName] = useState("");
+  const [length, setLength] = useState(3);
+  const [viewMore, setViewMore] = useState("View more");
+
   const [hasLiked, setHasLiked] = useState(false);
   const [hasDisliked, setHasDisliked] = useState(false);
   const [commentStatusMessage, setCommentStatusMessage] = useState("");
@@ -55,26 +59,21 @@ const ViewBlog = () => {
     <ThumbDownOutlined fontSize="large" />
   );
 
-  // fix this
-  // on every state update (rerender) requesting backend for blogs & user details
-  const promise1 = axios.get(`${baseURL}/blog/getBlogByBlogID/${blogID}`);
-  const promise2 = axios.get(`${baseURL}/user/getUserDetails/${userID}`);
-
-  // console.log({ promise1, promise2 });
-
-  const findUserHasLiked = (likedUsersArray, userID) => {
+  const findUserHasLiked = (likedUsersArray, profileID) => {
     const result = !!likedUsersArray.find(
-      (userInArray) => userInArray === userID
+      (userInArray) => userInArray === profileID
     );
     console.log({ resultInfindUserHasLiked: result });
-    return !!likedUsersArray.find((userInArray) => userInArray === userID);
+    return !!likedUsersArray.find((userInArray) => userInArray === profileID);
   };
-  const findUserHasDisliked = (DislikedUsersArray, userID) => {
+  const findUserHasDisliked = (DislikedUsersArray, profileID) => {
     const result = !!DislikedUsersArray.find(
-      (userInArray) => userInArray === userID
+      (userInArray) => userInArray === profileID
     );
     console.log({ resultInfindUserHasDisLiked: result });
-    return !!DislikedUsersArray.find((userInArray) => userInArray === userID);
+    return !!DislikedUsersArray.find(
+      (userInArray) => userInArray === profileID
+    );
   };
 
   // fetch again when comments to reflect changes
@@ -85,39 +84,28 @@ const ViewBlog = () => {
   }
 
   useEffect(() => {
-    axios.all([promise1, promise2]).then(
-      axios.spread((...responses) => {
-        const response1 = responses[0];
-        console.log({ blogInUseEffect: response1.data.blog });
-        setBlog(response1.data.blog);
+    axios.get(`${baseURL}/blog/getBlogByBlogID/${blogID}`).then((res) => {
+      setBlog(res.data.blog);
 
-        const resultHasLiked = findUserHasLiked(
-          response1.data.blog.likedByUsersList,
-          userID
-        );
-        const resultHasDisliked = findUserHasDisliked(
-          response1.data.blog.dislikedByUsersList,
-          userID
-        );
-        setHasLiked(resultHasLiked);
-        setHasDisliked(resultHasDisliked);
+      const resultHasLiked = findUserHasLiked(
+        res.data.blog.likedByUsersList,
+        profileID
+      );
+      const resultHasDisliked = findUserHasDisliked(
+        res.data.blog.dislikedByUsersList,
+        profileID
+      );
+      setHasLiked(resultHasLiked);
+      setHasDisliked(resultHasDisliked);
 
-        resultHasLiked
-          ? setHasLikedIcon(<ThumbUp fontSize="large" />)
-          : setHasLikedIcon(<ThumbUpOutlined fontSize="large" />);
-        resultHasDisliked
-          ? setHasDislikedIcon(<ThumbDown fontSize="large" />)
-          : setHasDislikedIcon(<ThumbDownOutlined fontSize="large" />);
-
-        const response2 = responses[1];
-        setAuthorName(response2.data.user.firstName);
-
-        // localStorage.setItem("blogID",response1.data.blog.blogID)
-        // response1.data.blog.blogID
-        saveBlogIDUtil(response1.data.blog.blogID);
-      })
-    );
-  }, []);
+      resultHasLiked
+        ? setHasLikedIcon(<ThumbUp fontSize="large" />)
+        : setHasLikedIcon(<ThumbUpOutlined fontSize="large" />);
+      resultHasDisliked
+        ? setHasDislikedIcon(<ThumbDown fontSize="large" />)
+        : setHasDislikedIcon(<ThumbDownOutlined fontSize="large" />);
+    });
+  });
 
   // whenever statusupdates and is not empty
   useEffect(() => {
@@ -180,7 +168,6 @@ const ViewBlog = () => {
     }
   }, [blogID, viewCountData]);
 
-  // useEffect(() => {}, [blog?.comments?.length]);
   const updateCommentStatusMessageParent = (message) => {
     setCommentStatusMessage(message);
   };
@@ -188,7 +175,7 @@ const ViewBlog = () => {
     console.log("clicked");
     //handling loggedInUser , also handle not logged in User
     if (hasLiked === false && hasDisliked === false) {
-      likeOnBlogAPIHandler(blogID, loggedInUser).then((res) => {
+      likeOnBlogAPIHandler(blogID, loggedInUserProfile).then((res) => {
         const blogResponse = res.blog;
         blogResponse &&
           setBlog((prevBlog) => ({
@@ -200,7 +187,7 @@ const ViewBlog = () => {
         setHasLikedIcon(<ThumbUp fontSize="large" />);
       });
     } else if (hasLiked === true && hasDisliked === false) {
-      removeLikeOnBlogAPIHandler(blogID, loggedInUser).then((res) => {
+      removeLikeOnBlogAPIHandler(blogID, loggedInUserProfile).then((res) => {
         const blogResponse = res.blog;
         blogResponse &&
           setBlog((prevBlog) => ({
@@ -212,7 +199,7 @@ const ViewBlog = () => {
         setHasLikedIcon(<ThumbUpOutlined fontSize="large" />);
       });
     } else if (hasLiked === false && hasDisliked === true) {
-      likeOnBlogAPIHandler(blogID, loggedInUser)
+      likeOnBlogAPIHandler(blogID, loggedInUserProfile)
         .then((res) => {
           const blogResponse = res.blog;
           blogResponse &&
@@ -226,7 +213,7 @@ const ViewBlog = () => {
         })
         .catch((err) => console.log(err));
 
-      removeDislikeOnBlogAPIHandler(blogID, loggedInUser)
+      removeDislikeOnBlogAPIHandler(blogID, loggedInUserProfile)
         .then((res) => {
           const blogResponse = res.blog;
           blogResponse &&
@@ -248,7 +235,7 @@ const ViewBlog = () => {
     console.log("disliked");
 
     if (hasDisliked === false && hasLiked === false) {
-      dislikeOnBlogAPIHandler(blogID, loggedInUser)
+      dislikeOnBlogAPIHandler(blogID, loggedInUserProfile)
         .then((res) => {
           const blogResponse = res.blog;
           blogResponse &&
@@ -262,7 +249,7 @@ const ViewBlog = () => {
         })
         .catch((err) => console.log(err));
     } else if (hasDisliked === true && hasLiked === false) {
-      removeDislikeOnBlogAPIHandler(blogID, loggedInUser)
+      removeDislikeOnBlogAPIHandler(blogID, loggedInUserProfile)
         .then((res) => {
           const blogResponse = res.blog;
           blogResponse &&
@@ -278,7 +265,7 @@ const ViewBlog = () => {
         })
         .catch((err) => console.log(err));
     } else if (hasDisliked === false && hasLiked === true) {
-      removeLikeOnBlogAPIHandler(blogID, loggedInUser)
+      removeLikeOnBlogAPIHandler(blogID, loggedInUserProfile)
         .then((res) => {
           const blogResponse = res.blog;
           blogResponse &&
@@ -292,7 +279,7 @@ const ViewBlog = () => {
         })
         .catch((err) => console.log(err));
 
-      dislikeOnBlogAPIHandler(blogID, loggedInUser)
+      dislikeOnBlogAPIHandler(blogID, loggedInUserProfile)
         .then((res) => {
           const blogResponse = res.blog;
           blogResponse &&
@@ -310,17 +297,11 @@ const ViewBlog = () => {
     console.log({ hasLiked, hasDisliked });
   };
 
-
-
   const viewAllHandler = () => {
-    setLength(length + 5)
-  }
+    setLength(length + 5);
+  };
 
   // eslint-disable-next-line no-lone-blocks
-
-
-
-
 
   return (
     <div className={`${style.main} ${style.container}`}>
@@ -328,9 +309,13 @@ const ViewBlog = () => {
         <h1 className={style.title}>{blog.blogTitle}</h1>
         <div className={style.author}>
           <div className={style.authorContents}>
-            <img className={style.avatar} src="//unsplash.it/50/50" alt=" " />
+            <img
+              className={style.avatar}
+              src={blog.profilePicImageURL}
+              alt=" "
+            />
             <div className={style.published}>
-              <small className={style.authorName}>{authorName}</small>
+              <small className={style.authorName}>{blog.profileName}</small>
               <small className={style.publishedDate}>
                 Published on
                 <small>
@@ -413,7 +398,7 @@ const ViewBlog = () => {
             e.preventDefault();
             const commentDescription = e.target.elements.input.value;
 
-            setCommentStatusMessage('')
+            setCommentStatusMessage("");
             addCommentAPIHandler({
               commentDescription,
               blogID,
@@ -428,12 +413,6 @@ const ViewBlog = () => {
               .catch((error) => {
                 console.log("It is not working");
               });
-
-
-
-
-
-
           }}
           className={style.commentForm}
         >
@@ -443,7 +422,6 @@ const ViewBlog = () => {
             name="input"
             type="text"
             placeholder="Add to the dicussion..."
-
           ></input>
 
           <button className={style.commentBtn} type="submit">
@@ -466,25 +444,28 @@ const ViewBlog = () => {
         </div>
 
         <div className={styles.comments_container}>
-          {setShowComment && blog?.comments?.slice(0, length).map((comment) => (
-            <Comments
-              comment={comment}
-              key={comment.commentID}
-              onDelete={(response) => {
-                // re-fetch comments for blog when successful
-                if (response.data.success === true) getBlogs();
-              }}
-              updateCommentStatusMessage={(commentStatusMessage) =>
-                updateCommentStatusMessageParent(commentStatusMessage)
-              }
-            />
-          ))}
+          {setShowComment &&
+            blog?.comments?.slice(0, length).map((comment) => (
+              <Comments
+                comment={comment}
+                key={comment.commentID}
+                onDelete={(response) => {
+                  // re-fetch comments for blog when successful
+                  if (response.data.success === true) getBlogs();
+                }}
+                updateCommentStatusMessage={(commentStatusMessage) =>
+                  updateCommentStatusMessageParent(commentStatusMessage)
+                }
+              />
+            ))}
         </div>
       </div>
-      {length < blog?.comments?.length && (<button onClick={viewAllHandler} className={style.view_all}>{viewMore}</button>)}
-
-
-    </div >
+      {length < blog?.comments?.length && (
+        <button onClick={viewAllHandler} className={style.view_all}>
+          {viewMore}
+        </button>
+      )}
+    </div>
   );
 };
 
