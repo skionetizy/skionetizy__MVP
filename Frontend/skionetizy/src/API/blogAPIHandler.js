@@ -1,5 +1,8 @@
 import axios from "axios";
-import { getLoggedInUserID } from "../utils/AuthorisationUtils";
+import {
+  getLoggedInProfileID,
+  getLoggedInUserID,
+} from "../utils/AuthorisationUtils";
 
 import baseURL from "../utils/baseURL";
 
@@ -94,11 +97,11 @@ export const deleteCommentAPIHandler = ({ comment, blogID }) => {
 };
 
 export const addCommentAPIHandler = ({ commentDescription, blogID }) => {
-  const userID = getLoggedInUserID();
+  const profileID = getLoggedInProfileID();
   return axios.patch(`/blog/addCommentToBlog`, {
     commentDescription,
     blogID,
-    userID,
+    profileID,
   });
 };
 

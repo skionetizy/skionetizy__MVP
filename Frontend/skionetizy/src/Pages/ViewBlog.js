@@ -50,6 +50,7 @@ const ViewBlog = () => {
     scroll: false,
     hasSent: false,
   });
+  const [comments, setComments] = useState();
   const scrollTargetRef = useRef();
 
   const [hasLikedIcon, setHasLikedIcon] = useState(
@@ -82,30 +83,40 @@ const ViewBlog = () => {
       setBlog(res.data.blog);
     });
   }
+  const promise1 = axios.get(`${baseURL}/blog/getBlogByBlogID/${blogID}`);
+  const promise2 = axios.get(`${baseURL}/blog/getComments/${blogID}`);
 
   useEffect(() => {
-    axios.get(`${baseURL}/blog/getBlogByBlogID/${blogID}`).then((res) => {
-      setBlog(res.data.blog);
+    axios.all([promise1, promise2]).then(
+      axios.spread((...responses) => {
+        const response1 = responses[0];
+        const response2 = responses[1];
 
-      const resultHasLiked = findUserHasLiked(
-        res.data.blog.likedByUsersList,
-        profileID
-      );
-      const resultHasDisliked = findUserHasDisliked(
-        res.data.blog.dislikedByUsersList,
-        profileID
-      );
-      setHasLiked(resultHasLiked);
-      setHasDisliked(resultHasDisliked);
+        setBlog(response1.data.blog);
 
-      resultHasLiked
-        ? setHasLikedIcon(<ThumbUp fontSize="large" />)
-        : setHasLikedIcon(<ThumbUpOutlined fontSize="large" />);
-      resultHasDisliked
-        ? setHasDislikedIcon(<ThumbDown fontSize="large" />)
-        : setHasDislikedIcon(<ThumbDownOutlined fontSize="large" />);
-    });
-  });
+        const resultHasLiked = findUserHasLiked(
+          response1.data.blog.likedByUsersList,
+          profileID
+        );
+        const resultHasDisliked = findUserHasDisliked(
+          response1.data.blog.dislikedByUsersList,
+          profileID
+        );
+        setHasLiked(resultHasLiked);
+        setHasDisliked(resultHasDisliked);
+
+        resultHasLiked
+          ? setHasLikedIcon(<ThumbUp fontSize="large" />)
+          : setHasLikedIcon(<ThumbUpOutlined fontSize="large" />);
+        resultHasDisliked
+          ? setHasDislikedIcon(<ThumbDown fontSize="large" />)
+          : setHasDislikedIcon(<ThumbDownOutlined fontSize="large" />);
+
+        //promise2
+        setComments(response2.data.comments);
+      })
+    );
+  }, []);
 
   // whenever statusupdates and is not empty
   useEffect(() => {
@@ -435,20 +446,18 @@ const ViewBlog = () => {
 
         <div className={styles.comment_count}>
           <h3>
-            {/* <span>45</span> Comments */}
-            <span>{blog?.comments?.length}</span> Comments
-            {/* {console.log({ blogIDInComments: blogID })} */}
+            <span>{comments?.length}</span> Comments
             {console.log({ commentStatusMessage })}
-            {/* {commentStatusMessage} */}
           </h3>
         </div>
 
         <div className={styles.comments_container}>
           {setShowComment &&
-            blog?.comments?.slice(0, length).map((comment) => (
+            comments?.slice(0, length).map((comment) => (
               <Comments
                 comment={comment}
                 key={comment.commentID}
+                authorProfileID={profileID}
                 onDelete={(response) => {
                   // re-fetch comments for blog when successful
                   if (response.data.success === true) getBlogs();
