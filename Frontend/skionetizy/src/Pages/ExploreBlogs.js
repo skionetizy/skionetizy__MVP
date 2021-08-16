@@ -21,7 +21,7 @@ function MyBlogs(props) {
     setCurrentBlog(currBlog);
   };
 
-  const url = "http://127.0.0.1:5000/blog/getBlogs";
+  const url = "http://127.0.0.1:5000/blog/getBlogsAndProfileDetails";
 
   useEffect(() => {
     const loadBlogs = () => {
@@ -32,6 +32,7 @@ function MyBlogs(props) {
           setLoading(false);
 
           // console.log(Object.values(res.data.blogs);
+          console.log(res.data);
 
           setBlogs(Object.values(res.data.blogs));
         })

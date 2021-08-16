@@ -281,7 +281,7 @@ class RemoveCommentonBlog(Resource):
         blog.save()
         return make_response(jsonify({"message":"you have successfully added comment on the    blog","statusCode":"200","blog":blog,"success":True}))
 
-class GetBlogs(Resource):
+class GetBlogsAndProfileDetails(Resource):
     def get(self):
         # blogs=Blog.objects().exclude("blogDescription","comments","likedByUsersList","dislikedByUsersList")
         blogs=Blog.objects().exclude("comments","likedByUsersList","dislikedByUsersList")
