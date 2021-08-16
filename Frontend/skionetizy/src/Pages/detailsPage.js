@@ -89,7 +89,7 @@ const DetailsPage = (props) => {
   };
 
   const validateSpaceInUsername = () => {
-    if (profileUserName.includes(" ")) {
+    if (details.profileUserName.includes(" ")) {
       setUsernameValidation("Profile Username must not have space");
       return true;
     } else {
@@ -122,9 +122,8 @@ const DetailsPage = (props) => {
                 value={details.profileUserName}
               />
               <div>
-                {validateSpaceInUsername() && profileUserName.length > 0 && (
-                  <p>{usernameValidaion}</p>
-                )}
+                {details.profileUserName.length > 0 &&
+                  validateSpaceInUsername() && <p>{usernameValidaion}</p>}
               </div>
               <div onChange={handleChange("profileGender")}>
                 <label>Gender</label>
