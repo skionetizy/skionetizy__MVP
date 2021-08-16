@@ -13,25 +13,11 @@ import Moment from "react-moment";
 Moment.globalFormat = "MMM D , YYY ";
 
 const BlogCard = ({ blog }) => {
-  // const [authorName, setAuthorName] = useState("");
-
-  // useEffect(() => {
-  //   console.log({ blogIDinBlogCard: blog.blogID, blog });
-  //   axios
-  //     .get(`${baseURL}/user/getUserDetails/${blog.userID}`)
-  //     .then((res) => setAuthorName(res.data.user.firstName))
-  //     .catch((err) => console.log(err));
-
-  //   console.log({ blog });
-  //   // console.log({ userDetails: user });
-  // }, []);
-
-  // const date = blog.timestamp.split("T")[0];
   return (
     <div>
       <Link
         style={{ textDecoration: "none" }}
-        to={`/view-blog/${blog.blogID}/${blog.userID}`}
+        to={`/view-blog/${blog.blogID}/${blog.profileID}`}
       >
         <div className={style.main}>
           <div className={style.cardBox}>
