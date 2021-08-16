@@ -105,3 +105,10 @@ export const addCommentAPIHandler = ({ commentDescription, blogID }) => {
 export const addViewApiHandler = (blogID) => {
   return axios.patch(`/api/blog/addView/${blogID}`);
 };
+
+export const addFollower = (profileID) => {
+  return axios.patch(`/api/profile/addFollower/${profileID}`);
+};
+export const removeFollower = (profileID) => {
+  return axios.patch(`/api/profile/removeFollower/${profileID}`);
+};
