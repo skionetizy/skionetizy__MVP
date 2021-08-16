@@ -307,7 +307,11 @@ class GetBlogByBlogID(Resource):
     def get(self,blogID):
         # body=request.get_json()
         blog = Blog.objects.get(blogID=blogID)
-        return make_response(jsonify({"blog":blog,"statusCode":200,"success":True}))
+        profile=Profile.objects.get(profileID=blog['profileID'])
+        blog=blog.to_mongo().to_dict()
+        blog['profilePicImageURL']=profile.profilePicImageURL
+        blog['profileName']=profile.profileName
+        return make_response(jsonify({"blog":json.loads(json_util.dumps(blog)),"statusCode":200,"success":True}))
 
 
 class GetFeed(Resource):
