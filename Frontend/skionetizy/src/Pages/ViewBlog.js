@@ -83,10 +83,11 @@ const ViewBlog = () => {
       setBlog(res.data.blog);
     });
   }
-  const promise1 = axios.get(`${baseURL}/blog/getBlogByBlogID/${blogID}`);
-  const promise2 = axios.get(`${baseURL}/blog/getComments/${blogID}`);
 
   useEffect(() => {
+    const promise1 = axios.get(`${baseURL}/blog/getBlogByBlogID/${blogID}`);
+    const promise2 = axios.get(`${baseURL}/blog/getComments/${blogID}`);
+
     axios.all([promise1, promise2]).then(
       axios.spread((...responses) => {
         const response1 = responses[0];
