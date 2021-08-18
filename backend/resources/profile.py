@@ -107,6 +107,8 @@ class RemoveFollower(Resource):
         to_remove_from_following=body['to_remove_from_following']
         current_user=Profile.objects.get_or_404(profileID=to_remove_from_following)
         other_user=Profile.objects.get_or_404(profileID=profileID)
+        if(current_user.profileID==other_user.profileID):
+            return make_response(jsonify({'Message':'Method Not allowed'}))
         print(other_user.Followers)
         print(current_user.Following)
         if(other_user.profileID not in current_user.Following):
@@ -132,6 +134,8 @@ class AddFollower(Resource):
         profile=Profile.objects.get_or_404(profileID=to_follow_pid)
         prof=Profile.objects.get_or_404(profileID=profileID)
         print(profile.Followers)
+        if(prof.profileID==profile.profileID):
+            return make_response(jsonify({'Message':'Method Not allowed'}))
         if prof.profileID in profile.Followers:
             return make_response(jsonify({'Message':'Already Following'}))
         profile.Followers.append(profileID)
