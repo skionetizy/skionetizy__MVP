@@ -1,6 +1,6 @@
 from backend.resources.authorize import AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails#getUserFirstName
 from backend.resources.blog import AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogsAndProfileDetails,GetBlogByBlogID,GetFeed,AddView,GetCommentsByBlogID
-from backend.resources.profile import AddProfileUsernameBioUserDetails, UpdateProfile, CheckProfileUsernameIsAvailableAPIHandler, GetProfileDetails, AddFollower,GetBlogsAndProfile
+from backend.resources.profile import AddProfileUsernameBioUserDetails, UpdateProfile, CheckProfileUsernameIsAvailableAPIHandler, GetProfileDetails, AddFollower,GetBlogsAndProfile,RemoveFollower
 from backend.resources.ai_models import GrammarCheck
 from flask import send_from_directory
 from backend import app,api
@@ -43,6 +43,7 @@ def initialize_routes(api):
     api.add_resource(GrammarCheck,'/api/Grammar-Check')
     #Followes-Following
     api.add_resource(AddFollower,'/api/profile/addFollower/<profileID>')
+    api.add_resource(RemoveFollower,'/profile/removeFollower/<profileID>')
     #Feeds API
     api.add_resource(GetFeed,'/api/blog/getFeed/<profileID>')
     #AddCount

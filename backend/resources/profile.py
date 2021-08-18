@@ -1,4 +1,4 @@
-from flask import make_response,jsonify
+from flask import json, make_response,jsonify
 from flask.globals import request
 from flask_restful import Resource
 
@@ -99,19 +99,46 @@ class CheckProfileUsernameIsAvailableAPIHandler(Resource):
             return  make_response(jsonify({"message":f"profile User Name  {profileUserName}  already exists ,try again","statusCode":500,"success":False}))
         else:
             return make_response(jsonify({"message":f"profile user name {profileUserName} is available","statusCode":200,"success":True}))
-        
+
+class RemoveFollower(Resource):
+    def patch(self,profileID):
+        #profileID here is the profileID of the current user
+        body=request.get_json()
+        to_remove_from_following=body['to_remove_from_following']
+        current_user=Profile.objects.get_or_404(profileID=to_remove_from_following)
+        other_user=Profile.objects.get_or_404(profileID=profileID)
+        print(other_user.Followers)
+        print(current_user.Following)
+        if(other_user.profileID not in current_user.Following):
+            return make_response(jsonify({'Message':'Cannot Unfollow a person you dont follow'}))
+        k=other_user.Followers
+        k.remove(current_user.profileID)
+        other_user.update(Followers=k)
+        other_user.FollowersCount-=1
+        other_user.save()
+        k=current_user.Following
+        k.remove(other_user.profileID)
+        current_user.update(Following=k)
+        current_user.FollowingCount-=1
+        current_user.save()
+        return make_response(jsonify({'Message':'Successfully Committed Changes'}))
+
+
 
 class AddFollower(Resource):
     def patch(self,profileID):
         body=request.get_json()
         to_follow_pid=body["to_follow_id"]
         profile=Profile.objects.get_or_404(profileID=to_follow_pid)
+        prof=Profile.objects.get_or_404(profileID=profileID)
+        print(profile.Followers)
+        if prof.profileID in profile.Followers:
+            return make_response(jsonify({'Message':'Already Following'}))
         profile.Followers.append(profileID)
         profile.FollowersCount=profile.FollowersCount+1
-        prof=Profile.objects.get_or_404(profileID=profileID)
         prof.Following.append(to_follow_pid)
         prof.FollowingCount=prof.FollowingCount+1
-        print(f"I follow {prof.Following} , he has followed {profile.Followers}")
+        print(f"I am adding to my following: {prof.Following} ,  That Guys account has  follower {profile.Followers}")
         profile.save()
         prof.save()
         return jsonify({'profile':profile})
