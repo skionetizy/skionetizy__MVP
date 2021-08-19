@@ -13,11 +13,7 @@ import {
   addViewApiHandler,
 } from "../API/blogAPIHandler";
 
-import {
-  getLoggedInProfileID,
-  getLoggedInUserID,
-} from "../utils/AuthorisationUtils";
-import { saveBlogIDUtil } from "../utils/blogUtil";
+import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
 
 import style from "./ViewBlog.module.css";
 import styles from "../Components/comments.module.css";

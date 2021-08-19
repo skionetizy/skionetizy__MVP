@@ -20,6 +20,7 @@ import UserBlogsCard from "../Components/UserBlogsCard";
 
 import style from "./UserProfile.module.css";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import baseURL from "../utils/baseURL";
 
 Moment.globalFormat = "MMM D , YYYY";
 
@@ -49,47 +50,35 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
-    const promise1 = getAllBlogsByProfileAPIHandler(profileUserName);
-    const promise2 = getProfileDetailsAPIHandler(profileUserName);
-    axios.all([promise1, promise2]).then(
-      axios.spread((...responses) => {
-        const response1 = responses[0];
-        const response2 = responses[1];
-        console.log({ blogsInUserProfile: response1 });
-        console.log({ profileInAxiosAll: response2 });
-        setBlogs(response1.blogs);
-        setProfile(response2.profile);
-
-        // const response2 = responses[0];
-        // setAuthorName(response2.data.user.firstName);
-      })
-    );
+    axios
+      .get(`${baseURL}/profile/getBlogsAndProfile/${profileID}`)
+      .then((res) => {
+        console.log({ blogAndProfile: res.data });
+        setProfile(res.data.profile);
+        setBlogs(res.data.blogs);
+      });
   }, []);
-
-  console.log(`profileID`, profileID);
-  console.log(`profile.profileID`, profile.profileID);
-  console.log(`profile`, profile);
-  console.log(`isAuthorisedUser()`, isAuthorisedUser());
 
   function handleClose() {
     setShowEditModal(false);
   }
 
-  useEffect(() => {
-    setStatus("loading");
-    getProfileDetailsAPIHandler(profileUserName).then((response) => {
-      setData({
-        profileBio: response.profile.profileBio,
-        profileWebsiteURL: response.profile.profileWebsiteURL,
-      });
-      setProfile(response.profile);
-      setStatus("idle");
-    });
-  }, [profileUserName, setData]);
+  // useEffect(() => {
+  //   setStatus("loading");
+  //   getProfileDetailsAPIHandler(profileUserName).then((response) => {
+  //     setData({
+  //       profileBio: response.profile.profileBio,
+  //       profileWebsiteURL: response.profile.profileWebsiteURL,
+  //     });
+  //     setProfile(response.profile);
+  //     setStatus("idle");
+  //   });
+  // }, [profileUserName, setData]);
 
   function handleSubmit(ev) {
     ev.preventDefault();
     const profileID = getLoggedInUserID();
+    //change to getlogginedProfileID
     setStatus("loading");
     const formData = new FormData();
     formData.append("profileBio", data.profileBio);
@@ -105,53 +94,42 @@ const UserProfile = () => {
         <div className={style.profileDetails}>
           <img
             className={style.coverImage}
-            src="//unsplash.it/700/700"
+            // src="//unsplash.it/700/700"
+            src={profile.profileBannerImageURL}
             alt=""
           />
-          {/* <img
-            className={style.coverImage}
-            src={`${profileBannerImage}`}
-            alt=""
-          /> */}
+
           <img
             className={style.profileImage}
-            src="//unsplash.it/120/120"
+            // src="//unsplash.it/120/120"
+            src={profile.profilePicImageURL}
             alt=""
           />
-          {/* <img
-            className={style.profileImage}
-            src={`${profilePicImage}`}
-            alt=""
-          /> */}
         </div>
         <div className={style.container}>
           <div className={style.profileDescription}>
             <div className={style.bioDescription}>
               <div className={style.authorDetails}>
-                {/* <h2 className={style.author}>Rajath sharma</h2> */}
                 <h2 className={style.author}>{profile.profileName}</h2>
-                <a className={style.link} href="/">
+                {/* <a className={style.link} href="/">
                   bit.ly/rajathsharma
-                </a>
-                {/* <a className={style.link} href="#">
-                  {profile.profileWebsiteURL}
                 </a> */}
+                <a className={style.link} href="#">
+                  {profile.profileWebsiteURL}
+                </a>
               </div>
               <div className={style.date}>
                 <CalendarTodayIcon fontSize="small" />
-                {/* <p>June 2019</p> */}
+
                 <p>
                   <Moment>{profile?.profileTimestamp?.$date}</Moment>
                 </p>
               </div>
               <div className={style.followCount}>
-                {/* <p>
-                  <span className={style.followingCount}>38</span> Following
-                </p> */}
                 <p>
                   <span className={style.followingCount}>
                     {profile.FollowersCount}
-                  </span>{" "}
+                  </span>
                   Following
                 </p>
                 {/* <p>
