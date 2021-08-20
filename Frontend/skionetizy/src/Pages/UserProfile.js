@@ -51,7 +51,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     axios
-      .get(`${baseURL}/profile/getBlogsAndProfile/${profileID}`)
+      .get(`${baseURL}/profile/getBlogsAndProfile/${profileUserName}`)
       .then((res) => {
         console.log({ blogAndProfile: res.data });
         setProfile(res.data.profile);
