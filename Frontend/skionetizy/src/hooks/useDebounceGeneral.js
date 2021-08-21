@@ -17,7 +17,7 @@ const useDebounceGeneral = (data, delay) => {
   return debouncedData;
 };
 
-function NEW_useDebounceGeneral(callback, timeout = 0) {
+export function NEW_useDebounceGeneral(callback, timeout = 0) {
   const callbackRef = useRef(callback);
   const prevTimerRef = useRef();
   ///...

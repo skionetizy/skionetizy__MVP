@@ -8,8 +8,11 @@ import {
   RichUtils,
   Modifier,
   SelectionState,
+  ContentState,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
+import { NEW_useDebounceGeneral as useDebounce } from "../hooks/useDebounceGeneral";
+import axios from "axios";
 
 const dict = {
   were: "where",
@@ -37,8 +40,7 @@ const rawContent = {
       text: "",
     },
     {
-      text: `This is a para characters will delete the entire entity. Adding characters.
-      were is your favorete food?`,
+      text: `This is a para characters will delete the entire entity. Adding characters.\n were is your favorete food?`,
       type: "unstyled",
     },
     {
@@ -94,6 +96,63 @@ export default function MyEditor() {
     EditorState.createWithContent(convertFromRaw(rawContent), decorators)
   );
   const editorStateRef = useRef(text);
+  const isEditing = useRef(false);
+
+  const debounce = useDebounce(
+    /** @type {EditorState} */ async (text) => {
+      let finalEditorState = text;
+      const cs = finalEditorState.getCurrentContent();
+      isEditing.current = false;
+
+      const prediction = (
+        await axios.post("/api/Grammar-Check", {
+          input: cs.getPlainText(),
+        })
+      ).data.prediction;
+      if (isEditing.current === true) return;
+
+      const predictionBlocks = prediction
+        .split("\n")
+        .map((para) => para.split(" "));
+
+      cs.getBlocksAsArray().forEach((block, iBlock) => {
+        let textOffset = 0;
+        block
+          .getText()
+          .split(" ")
+          .forEach((word, wordIdx) => {
+            if (word != predictionBlocks[iBlock][wordIdx]) {
+              finalEditorState = applyWrongEntity(
+                finalEditorState,
+                block.getKey(),
+                textOffset,
+                textOffset + word.length,
+                {
+                  correctText: predictionBlocks[iBlock][wordIdx],
+                  setText,
+                  debounceWithCS: (cs) => {
+                    setText(EditorState.set(text, { currentContent: cs }));
+                    debounce(EditorState.set(text, { currentContent: cs }));
+                  },
+                }
+              );
+            } else {
+              finalEditorState = removeWrongEntity(
+                finalEditorState,
+                block.getKey(),
+                textOffset,
+                textOffset + word.length
+              );
+            }
+
+            textOffset += word.length + 1;
+          });
+      });
+
+      setText(finalEditorState);
+    },
+    2000
+  );
 
   return (
     <div style={textareaStyles}>
@@ -102,28 +161,32 @@ export default function MyEditor() {
         onChange={(editorState) => {
           setText(editorState);
           editorStateRef.current = editorState;
-          const blockKey = editorState.getSelection().getEndKey();
-          setCurrentBlock(blockKey);
+          isEditing.current = true;
+          debounce(editorState);
         }}
       />
     </div>
   );
 }
 
-function applyWrongEntity(editorState, textStart, textEnd) {
+function applyWrongEntity(editorState, blockKey, textStart, textEnd, props) {
   console.count("applyWrongEntity()");
   // return if text is empty
   if (textStart === textEnd) return editorState;
 
   const contentState = editorState.getCurrentContent();
   const selection = editorState.getSelection();
-  const contentStateWithEntity = contentState.createEntity("WRONG", "MUTABLE");
+  const contentStateWithEntity = contentState.createEntity(
+    "WRONG",
+    "MUTABLE",
+    props
+  );
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
 
   const newSelection = new SelectionState({
-    anchorKey: selection.getAnchorKey(),
+    anchorKey: blockKey,
     anchorOffset: textStart,
-    focusKey: selection.getAnchorKey(),
+    focusKey: blockKey,
     focusOffset: textEnd,
   });
 
@@ -147,10 +210,79 @@ function applyWrongEntity(editorState, textStart, textEnd) {
   return withProperCursor;
 }
 
-function TokenSpan(props) {
+function removeWrongEntity(editorState, blockKey, textStart, textEnd) {
+  console.count("applyWrongEntity()");
+  // return if text is empty
+  if (textStart === textEnd) return editorState;
+
+  const contentState = editorState.getCurrentContent();
+  const selection = editorState.getSelection();
+  const contentStateWithEntity = contentState.createEntity("WRONG", "MUTABLE");
+  const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+
+  const newSelection = new SelectionState({
+    anchorKey: blockKey,
+    anchorOffset: textStart,
+    focusKey: blockKey,
+    focusOffset: textEnd,
+  });
+
+  const withAppliedEntity = Modifier.applyEntity(
+    contentState,
+    newSelection,
+    null
+  );
+
+  const withErrorDecoration = EditorState.push(
+    editorState,
+    withAppliedEntity,
+    "apply-entity"
+  );
+
+  const withProperCursor = EditorState.forceSelection(
+    withErrorDecoration,
+    selection
+  );
+
+  return withProperCursor;
+}
+
+function TokenSpan({
+  children,
+  entityKey,
+  blockKey,
+  contentState,
+  start,
+  end,
+  ...props
+}) {
+  console.log(props);
+  const { correctText, setText, debounceWithCS } = contentState
+    .getEntity(entityKey)
+    .getData();
+  /** @type {ContentState} */
+  let c = contentState;
+
   return (
-    <span style={{ cursor: "pointer", borderBottom: "2px solid green" }}>
-      {props.children}
+    <span
+      onClick={(ev) => {
+        const cs = Modifier.replaceText(
+          contentState,
+          new SelectionState({
+            anchorKey: blockKey,
+            anchorOffset: start,
+            focusKey: blockKey,
+            focusOffset: end,
+          }),
+          correctText
+        );
+
+        debounceWithCS(cs);
+      }}
+      onMouseEnter={() => console.log(correctText)}
+      style={{ cursor: "pointer", borderBottom: "2px solid green" }}
+    >
+      {children}
     </span>
   );
 }
