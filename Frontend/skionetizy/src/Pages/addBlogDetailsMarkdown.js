@@ -9,6 +9,7 @@ import "./addBlogDetailsMarkdown.css";
 import useDebounce from "../hooks/useDebounce";
 
 import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
+import Editor from "../Components/Editor";
 
 function MarkDown(props) {
   const [data, setData] = useState({
@@ -113,7 +114,7 @@ function MarkDown(props) {
   }, [debounceData.blogTitle, debounceData.blogDescription]);
 
   const handleChange = (name) => (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     setData({
       ...data,
       [name]: e.target.value,
@@ -151,13 +152,19 @@ function MarkDown(props) {
         <div className="characters">
           blog title must be more than 6 characters
         </div>
-        <textarea
+        {/* <textarea
           autoFocus
           rows="40"
           cols="85"
           className="textarea"
           fixed
           onChange={handleChange("blogDescription")}
+        /> */}
+        <Editor
+          className="textarea"
+          onChange={(text) =>
+            handleChange("blogDescription")({ target: { value: text } })
+          }
         />
         <div className="pos">
           <button onClick={handleUpload} className="upload">

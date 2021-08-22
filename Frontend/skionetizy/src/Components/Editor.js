@@ -1,83 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 import {
   CompositeDecorator,
+  ContentState,
   convertFromRaw,
-  convertToRaw,
   Editor,
   EditorState,
-  RichUtils,
   Modifier,
   SelectionState,
-  ContentState,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
+import React, { useRef, useState } from "react";
 import { NEW_useDebounceGeneral as useDebounce } from "../hooks/useDebounceGeneral";
-import axios from "axios";
 
-const dict = {
-  were: "where",
-  r: "are",
-  u: "you",
-  ur: "your",
-  favorete: "favourite",
-};
-
-const textareaStyles = {
-  minHeight: 200,
-  border: "1px solid blue",
-  borderRadius: 10,
-  color: "whitesmoke",
-  fontSize: 32,
-  resize: "vertical",
-};
-const rawContent = {
-  blocks: [
-    {
-      text: "# Welcome to Lorem Ipsum",
-      type: "unstyled",
-    },
-    {
-      text: "",
-    },
-    {
-      text: `This is a para characters will delete the entire entity. Adding characters.\n were is your favorete food?`,
-      type: "unstyled",
-    },
-    {
-      text: "",
-    },
-    {
-      text: "### Features will",
-      type: "unstyled",
-    },
-    {
-      text: "",
-    },
-    {
-      text: "- Budget Friendly",
-      type: "unstyled",
-    },
-    {
-      text: "- Faster then ever",
-      type: "unstyled",
-    },
-    {
-      text: "- Rounded Glass Edges",
-      type: "unstyled",
-    },
-  ],
-
-  entityMap: {
-    first: {
-      type: "WRONG",
-      mutability: "MUTABLE",
-    },
-  },
-};
-
-export default function MyEditor() {
-  const [editing, setEditing] = useState("");
-  const [currentBlock, setCurrentBlock] = useState("");
+export default function MyEditor({ onChange, className }) {
   const decorators = new CompositeDecorator([
     {
       strategy(contentBlock, callback, contentState) {
@@ -92,9 +27,7 @@ export default function MyEditor() {
       component: TokenSpan,
     },
   ]);
-  const [text, setText] = useState(() =>
-    EditorState.createWithContent(convertFromRaw(rawContent), decorators)
-  );
+  const [text, setText] = useState(() => EditorState.createEmpty(decorators));
   const editorStateRef = useRef(text);
   const isEditing = useRef(false);
 
@@ -155,11 +88,12 @@ export default function MyEditor() {
   );
 
   return (
-    <div style={textareaStyles}>
+    <div className={className}>
       <Editor
         editorState={text}
         onChange={(editorState) => {
           setText(editorState);
+          onChange?.(editorState.getCurrentContent().getPlainText());
           editorStateRef.current = editorState;
           isEditing.current = true;
           debounce(editorState);
