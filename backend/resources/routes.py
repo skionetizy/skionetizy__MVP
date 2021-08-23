@@ -1,5 +1,5 @@
 from backend.resources.authorize import AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails#getUserFirstName
-from backend.resources.blog import AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogsAndProfileDetails,GetBlogByBlogID,GetFeed,AddView,GetCommentsByBlogID
+from backend.resources.blog import AddKeywordsBlog,AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogsAndProfileDetails,GetBlogByBlogID,GetFeed,AddView,GetCommentsByBlogID
 from backend.resources.profile import AddProfileUsernameBioUserDetails, UpdateProfile, CheckProfileUsernameIsAvailableAPIHandler, GetProfileDetails, AddFollower,GetBlogsAndProfile,RemoveFollower
 from backend.resources.ai_models import GrammarCheck
 from flask import send_from_directory
@@ -52,6 +52,7 @@ def initialize_routes(api):
     api.add_resource(GetCommentsByBlogID,'/blog/getComments/<blogID>')
     #
     api.add_resource(GetBlogsAndProfile,'/profile/getBlogsAndProfile/<profileUserName>')
+    api.add_resource(AddKeywordsBlog,'/blog/getKeywords/<word>')
     
 @app.route('/')
 @app.route('/home',methods=['GET'])
