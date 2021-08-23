@@ -369,5 +369,5 @@ class AddKeywordsBlog(Resource):
                 list_annotations.append(y.concept_group.name)
             list_to_excel.append([list_keywords[x].text, list_keywords[x].keyword_idea_metrics.avg_monthly_searches, str(list_keywords[x].keyword_idea_metrics.competition)[28::], list_keywords[x].keyword_idea_metrics.competition_index, list_searches, list_months, list_annotations ])
         data=pd.DataFrame(list_to_excel, columns = ["Keyword", "Average Searches", "Competition Level", "Competition Index", "Searches Past Months", "Past Months", "List Annotations"])
-        print(data)
+        # print(data)
         return make_response(jsonify({'data':data.head().to_dict()}))
