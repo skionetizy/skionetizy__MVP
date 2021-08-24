@@ -6,9 +6,10 @@ from bson import json_util
 
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
-
+import pandas as pd
 from backend.database.models import Blog,Comment,Profile
-
+from backend import client
+from backend.resources.gads import gads
 from datetime import datetime
 import uuid
 
@@ -348,3 +349,25 @@ class GetCommentsByBlogID(Resource):
             x['profilePicImageURL']=p.profilePicImageURL
             x['profileName']=p.profileName
         return jsonify({'comments':json.loads(json_util.dumps(comments)),'status_code':200,'success':'true'})
+
+
+class AddKeywordsBlog(Resource):
+    def get(self,word):
+        l=[]
+        l.append(str(word))
+        list_keywords= gads(client, "5304812837", ["2840"], "1000",l, None)
+        list_to_excel = []
+        for x in range(len(list_keywords)):
+            list_months = []
+            list_searches = []
+            list_annotations = []
+            for y in list_keywords[x].keyword_idea_metrics.monthly_search_volumes:
+                list_months.append(str(y.month)[12::] + " - " + str(y.year))
+                list_searches.append(y.monthly_searches)
+                
+            for y in list_keywords[x].keyword_annotations.concepts:
+                list_annotations.append(y.concept_group.name)
+            list_to_excel.append([list_keywords[x].text, list_keywords[x].keyword_idea_metrics.avg_monthly_searches, str(list_keywords[x].keyword_idea_metrics.competition)[28::], list_keywords[x].keyword_idea_metrics.competition_index, list_searches, list_months, list_annotations ])
+        data=pd.DataFrame(list_to_excel, columns = ["Keyword", "Average Searches", "Competition Level", "Competition Index", "Searches Past Months", "Past Months", "List Annotations"])
+        # print(data)
+        return make_response(jsonify({'data':data.head().to_dict()}))

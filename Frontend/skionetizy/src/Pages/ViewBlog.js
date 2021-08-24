@@ -26,6 +26,7 @@ import ShareIcon from "@material-ui/icons/Share";
 
 import Comments from "../Components/comments";
 import Moment from "react-moment";
+const KEYWORDS_LOCAL_KEY = "blogsKeywords";
 
 Moment.globalFormat = "MMM D , YYYY";
 
@@ -449,7 +450,7 @@ const ViewBlog = () => {
         </div>
 
         <div className={styles.comments_container}>
-          {setShowComment &&
+          {showComment &&
             comments?.slice(0, length).map((comment) => (
               <Comments
                 comment={comment}

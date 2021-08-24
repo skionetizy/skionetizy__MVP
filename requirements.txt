@@ -37,3 +37,6 @@ starkbank-ecdsa==1.1.0
 urllib3==1.26.4
 Werkzeug==1.0.1
 WTForms==2.3.3
+google-ads
+pandas
+openpyxl==3.0.7

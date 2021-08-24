@@ -55,6 +55,7 @@ class UpdateProfile(Resource):
         body = request.form.to_dict()
         #### Had to use request.form instead of request.json for the profile data to be fetched
         ### Guess not possibleto send photo in json
+        
         profile = Profile.objects.get(profileID = profileID)
         try:
             profilePicImage = request.files["profilePicImage"]
@@ -148,7 +149,8 @@ class AddFollower(Resource):
         return jsonify({'profile':profile})
 
 class GetBlogsAndProfile(Resource):
-    def get(self,profileID):
+    def get(self,profileUserName):
+        profileID = Profile.objects.get(profileUserName=profileUserName)
         blogs=Blog.objects(profileID=profileID)
-        profile=Profile.objects.get(profileID=profileID)
+        profile=Profile.objects.get(profileID=profileID.profileID)
         return jsonify({'blogs':blogs,'profile':profile,'success':True,'status':200})

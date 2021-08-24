@@ -6,6 +6,7 @@ import config
 import cloudinary
 import os
 from gingerit.gingerit import GingerIt
+from google.ads.googleads.client import GoogleAdsClient
 
 #cloudinary
 # from cloudinary.uploader import upload
@@ -37,7 +38,9 @@ env_config = os.environ.get("APP_SETTINGS") or "DevelopmentConfig"
 app.config.from_object("config."+env_config)
 mail=Mail(app)
 DB_URI='mongodb+srv://rohandevaki:1YoBOdLHY3xm6Jqt@cluster0.gnqpe.mongodb.net/skionetizymvp?retryWrites=true&w=majority'
-
+client=''
+if(os.environ.get('USE_GADS')):
+    client = GoogleAdsClient.load_from_storage("backend/skio.yaml")
 app.config["MONGODB_HOST"]=DB_URI
 
 from flask_mongoengine import MongoEngine

@@ -58,7 +58,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     axios
-      .get(`${baseURL}/profile/getBlogsAndProfile/${profileID}`)
+      .get(`${baseURL}/profile/getBlogsAndProfile/${profileUserName}`)
       .then((res) => {
         console.log({ blogAndProfile: res.data });
         setProfile(res.data.profile);
@@ -169,9 +169,14 @@ const UserProfile = () => {
                   <div className={style.inputs}>
                     <div className={style.firstLast}>
                       <label htmlFor="firstName">First Name</label>
-                      <input type="text" name="firstName" id="firstName" />
-                      <label htmlFor="lastName">Last Name</label>
-                      <input type="text" name="lastName" id="lastName" />
+                      <input
+                        type="text"
+                        name="firstName"
+                        id="firstName"
+                        value={profile.profileName}
+                      />
+                      {/* <label htmlFor="lastName">Last Name</label>
+                      <input type="text" name="lastName" id="lastName" /> */}
                     </div>
                     {/* <div>
                       <label htmlFor="lastName">Joining Date</label>
