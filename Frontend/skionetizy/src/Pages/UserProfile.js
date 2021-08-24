@@ -156,6 +156,65 @@ const UserProfile = () => {
             </ul>
           </div>
         </section>
+
+{/* Previous code section for UserProfile section         
+<div className={style.profileDescription}>
+            <div className={style.bioDescription}>
+              <div className={style.authorDetails}>
+                <h2 className={style.author}>{profile.profileName}</h2>
+                 <a className={style.link} href="/">
+                  bit.ly/rajathsharma
+                </a> 
+                <a className={style.link} href="#">
+                  {profile.profileWebsiteURL}
+                </a>
+              </div>
+              <div className={style.date}>
+                <CalendarTodayIcon fontSize="small" />
+
+                <p>
+                  <Moment>{profile?.profileTimestamp?.$date}</Moment>
+                </p>
+              </div>
+              <div className={style.followCount}>
+                <p>
+                  <span className={style.followingCount}>
+                    {profile.FollowersCount}
+                  </span>
+                  Following
+                </p>
+                 <p>
+                  <span className={style.followersCount}>5</span> Followers
+                </p>
+                <p>
+                  <span className={style.followersCount}>
+                    {profile.FollowingCount}
+                  </span>{" "}
+                  Followers
+                </p>
+              </div>
+               <div className={style.bio}>
+                <p>
+                  I am a person who loves to write tech content. I am also a
+                  designer who has great perspection
+                </p>
+              </div> 
+              <div className={style.bio}>
+                <p>{profile.profileBio}</p>
+              </div>
+            </div>
+            {isAuthorisedUser() && (
+              <div className={style.buttons}>
+                <button className={`${style.buttons_followButton} ${style.secondaryButton}`}>Follow</button> 
+                <button
+                  className={style.buttons_editProfile}
+                  onClick={() => setShowEditModal(true)}
+                >
+                  Edit profile
+                </button>
+              </div>
+            )}
+          </div>*/}
         <div className={style.container}>
           {showEditModal && (
             // this class makes it look like page on mobile
