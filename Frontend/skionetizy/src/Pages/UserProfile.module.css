@@ -13,22 +13,122 @@
   object-fit: cover;
   height: 13em;
 }
+
 .container {
   width: 85%;
   max-width: 1100px;
   margin: 0 auto;
 }
 
+.userProfile{
+  width: 100%;
+  height: 50%;
+  display: flex;
+  padding: 2rem 8rem;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+
 .profileImage {
+  width: 250px;
+  height: 250px;
   border-radius: 100%;
-  position: relative;
-  bottom: 4em;
-  left: 2em;
   border: 3px solid var(--primary-blue);
 }
 
+.col1{
+  align-self: center;
+}
+
+.col2{
+  align-self: center;
+  flex-grow: 2;
+  padding: 0 4rem; 
+}
+
+.col2 h1{
+  margin: 0 0 10px 0;
+  /* font-family: "Cera Pro"; */
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+col3{
+  width: 30vh;
+  align-self: center;
+  flex-shrink: 2;
+}
+
+.profileDes{
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  font-weight: 800;
+  font-size: 0.8rem;
+}
+
+.profileFollow{
+  display: flex;
+  align-items: center;
+  padding: 1rem 0 1.5rem 0;
+}
+
+.followIcon{
+    width: 45px !important;
+    height: 48px !important;
+    color: #1684F8;
+    background: #E8F3FF;
+    border-radius: 8px;
+    align-self: center;
+    border-radius: 12px;
+}
+
+.follow{
+  font-family: Cera Pro;
+  margin: 0 20px;
+}
+
+.follow small{
+  margin: 0 !important;
+}
+
+.follow h1{
+  margin: 0 !important;
+  font-weight: 500;
+}
+
+.follow small{
+  color: #0065CF;
+}
+
+.social ul li{
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  margin: 5px 0;
+}
+.userButton{
+  display: flex;
+}
+.userButton Button{
+  margin-right: 2rem;
+  background-color: #142850;
+  color: white;
+  padding: 12px 48px;
+  width: 172px;
+  height: 48px;
+  font-size: 12px;
+  border-radius: 12px;
+}
+
 .profileDescription {
-  margin-top: -5em;
+  /* margin-top: -5em; */
   font-weight: 800;
   font-size: 0.8rem;
 }

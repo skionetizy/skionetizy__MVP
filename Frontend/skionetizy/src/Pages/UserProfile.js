@@ -20,6 +20,13 @@ import UserBlogsCard from "../Components/UserBlogsCard";
 
 import style from "./UserProfile.module.css";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import PeopleIcon from "@material-ui/icons/People";
+import PeopleOutlineIcon from "@material-ui/icons/PeopleOutline";
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import Button from '@material-ui/core/Button';
+import EditIcon from '@material-ui/icons/Edit';
+
 import baseURL from "../utils/baseURL";
 
 Moment.globalFormat = "MMM D , YYYY";
@@ -94,76 +101,62 @@ const UserProfile = () => {
         <div className={style.profileDetails}>
           <img
             className={style.coverImage}
-            // src="//unsplash.it/700/700"
-            src={profile.profileBannerImageURL}
-            alt=""
-          />
-
-          <img
-            className={style.profileImage}
-            // src="//unsplash.it/120/120"
-            src={profile.profilePicImageURL}
+            src="//unsplash.it/700/700"
+            // src={profile.profileBannerImageURL}
             alt=""
           />
         </div>
-        <div className={style.container}>
-          <div className={style.profileDescription}>
-            <div className={style.bioDescription}>
-              <div className={style.authorDetails}>
-                <h2 className={style.author}>{profile.profileName}</h2>
-                {/* <a className={style.link} href="/">
-                  bit.ly/rajathsharma
-                </a> */}
-                <a className={style.link} href="#">
-                  {profile.profileWebsiteURL}
-                </a>
-              </div>
-              <div className={style.date}>
-                <CalendarTodayIcon fontSize="small" />
 
-                <p>
-                  <Moment>{profile?.profileTimestamp?.$date}</Moment>
-                </p>
+        <section className={style.userProfile}>
+          <div className={style.col1}>
+            <img
+              className={style.profileImage}
+              src="//unsplash.it/120/120"
+              // src={profile.profilePicImageURL}
+              alt=""
+            />
+          </div>
+          <div className={style.col2}>
+            <h1>Angela Jolie</h1>
+            <div className={style.profileDes}>
+              <li>B. Tech CSE</li>
+              <li>Vellore Institute of Technology</li>
+              <li>Skionetizy</li>
+              <li></li>
+              <li></li>
+              <li></li>
+            </div>
+            <p className={style.profileDes}>Mumbai, Maharashtra</p>
+            <div className={style.profileFollow}>
+              <PeopleOutlineIcon className={style.followIcon} />
+              <div className={style.follow}>
+                <small>Following</small>
+                <h1>596</h1>
               </div>
-              <div className={style.followCount}>
-                <p>
-                  <span className={style.followingCount}>
-                    {profile.FollowersCount}
-                  </span>
-                  Following
-                </p>
-                {/* <p>
-                  <span className={style.followersCount}>5</span> Followers
-                </p> */}
-                <p>
-                  <span className={style.followersCount}>
-                    {profile.FollowingCount}
-                  </span>{" "}
-                  Followers
-                </p>
-              </div>
-              {/* <div className={style.bio}>
-                <p>
-                  I am a person who loves to write tech content. I am also a
-                  designer who has great perspection
-                </p>
-              </div> */}
-              <div className={style.bio}>
-                <p>{profile.profileBio}</p>
+              <PeopleOutlineIcon className={style.followIcon} />
+              <div className={style.follow}>
+                <small>Followers</small>
+                <h1>1000</h1>
               </div>
             </div>
-            {isAuthorisedUser() && (
-              <div className={style.buttons}>
-                {/* <button className={`${style.buttons_followButton} ${style.secondaryButton}`}>Follow</button> */}
-                <button
-                  className={style.buttons_editProfile}
-                  onClick={() => setShowEditModal(true)}
-                >
-                  Edit profile
-                </button>
-              </div>
-            )}
+            <div className={style.userButton}>
+            <Button variant="contained" color="primary">
+              <EditIcon />Edit Profile
+            </Button>
+            <Button variant="outlined" color="primary" href="#outlined-buttons">
+                30th July 2021
+            </Button>
+            </div>
           </div>
+          <div className={style.social}>
+            <h3>Social</h3>
+            <ul>
+              <li><LinkedInIcon className={style.socialIcons} /> LinkedIn</li>
+              <li><GitHubIcon className={style.socialIcons} />Website</li>
+            </ul>
+          </div>
+        </section>
+        <div className={style.container}>
           {showEditModal && (
             // this class makes it look like page on mobile
             <Modal>
