@@ -15,6 +15,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import { connect } from "react-redux";
+import { getTokens } from "../auth/googleOauth";
 
 function Signup(props) {
   const [values, setValues] = useState({
@@ -72,6 +73,29 @@ function Signup(props) {
       confirmPassword: "",
     });
   };
+
+  useEffect(() => {
+    async function a() {
+      const params = new URLSearchParams(window.location.search);
+      // We send this code to backend for verification and
+      // backend should send a normal jwt
+      // And we save that jwt for latter use
+      const googleOAuthCode = params.get("code");
+
+      if (!googleOAuthCode) return;
+
+      // Not sure if we require to get this token on client side
+      // I followed a tutorial on this step
+      // Might not be need
+      const { access_token: GOOGLE_JWT_TOKEN } = await getTokens({
+        code: googleOAuthCode,
+        redirectUri: "http://localhost:3000",
+      });
+
+      console.log("[G oauth] res:", GOOGLE_JWT_TOKEN);
+    }
+    a();
+  }, []);
 
   return (
     <div className={`${style.container} ${style.cover}`}>

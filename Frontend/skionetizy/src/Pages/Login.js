@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
   Link,
@@ -12,8 +12,12 @@ import axios from "axios";
 import Vector from "../Assets/bro.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import { SiGoogle } from "react-icons/si";
+import { createAuthURL } from "../auth/googleOauth";
 
 import baseURL from "../utils/baseURL";
+
+const googleOauthURL = createAuthURL("http://localhost:3000");
 
 function Login(props) {
   const [details, setDetails] = useState({
@@ -94,6 +98,21 @@ function Login(props) {
             <button className={style.signinButton} type="submit">
               Login <FontAwesomeIcon icon={faSignInAlt} />
             </button>
+
+            <div>
+              <a
+                type="button"
+                style={{
+                  background: "none",
+                  border: "none",
+                  fontSize: "1.5rem",
+                  cursor: "pointer",
+                }}
+                href={googleOauthURL}
+              >
+                <SiGoogle width="1em" fontSize="inherit" />
+              </a>
+            </div>
           </form>
           <div className={style.signupLink}>
             <p>Don't have an account?</p>
