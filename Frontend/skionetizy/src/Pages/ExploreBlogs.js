@@ -6,6 +6,7 @@ import BlogCard from "../Components/BlogCard";
 import BlogNavigation from "../Components/BlogNavigation";
 
 import axios from "axios";
+import useIObserver from "../hooks/useIntersectionObserver";
 
 function MyBlogs(props) {
   const [blogsPerPage, setBlogsPerPage] = useState(12);
@@ -13,6 +14,8 @@ function MyBlogs(props) {
   const [blogs, setBlogs] = useState([]);
   const [currentBlog, setCurrentBlog] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  const viewMore = useIObserver();
 
   const startingIndex = currentBlog * blogsPerPage;
   const endingIndex = startingIndex + blogsPerPage;
@@ -44,6 +47,14 @@ function MyBlogs(props) {
     loadBlogs();
   }, []);
 
+  useEffect(() => {
+    if (viewMore.isVisible) {
+      console.log("Fetch more blogs");
+      console.log("set status to fetching to prevent dublicate axios request");
+      console.log("show loading spinner with desent top bottom margin");
+    }
+  }, [viewMore.entry, viewMore.isVisible]);
+
   const slicedBlogs = blogs.slice(startingIndex, endingIndex);
   props.saveSlicedBlogs(slicedBlogs);
   // console.log(slicedBlogs);
@@ -73,6 +84,7 @@ function MyBlogs(props) {
         blogsLength={blogs.length}
         setCurrentBlog={(currBlog) => setCurrentBlogHandler(currBlog)}
       />
+      <span ref={viewMore.targetRef}>view more span</span>
     </div>
   );
 }
