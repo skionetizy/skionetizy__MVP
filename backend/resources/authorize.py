@@ -146,4 +146,8 @@ class getUserDetails(Resource):
         return make_response({"user":user,"message":"fetched user details  Successfully","status":200})
 
 
-        
+class GoogleAuth(Resource):
+    def post(self):
+        body=request.get_json()
+        token=body['auth_token']
+        return make_response(jsonify({'Message':'Backend Received The Data','sucess':True}))

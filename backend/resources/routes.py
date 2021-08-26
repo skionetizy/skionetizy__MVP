@@ -1,4 +1,4 @@
-from backend.resources.authorize import AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails#getUserFirstName
+from backend.resources.authorize import AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails,GoogleAuth
 from backend.resources.blog import AddKeywordsBlog,AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogsAndProfileDetails,GetBlogByBlogID,GetFeed,AddView,GetCommentsByBlogID
 from backend.resources.profile import AddProfileUsernameBioUserDetails, UpdateProfile, CheckProfileUsernameIsAvailableAPIHandler, GetProfileDetails, AddFollower,GetBlogsAndProfile,RemoveFollower
 from backend.resources.ai_models import GrammarCheck
@@ -53,6 +53,8 @@ def initialize_routes(api):
     #
     api.add_resource(GetBlogsAndProfile,'/profile/getBlogsAndProfile/<profileUserName>')
     api.add_resource(AddKeywordsBlog,'/blog/getKeywords/<word>')
+
+    api.add_resource(GoogleAuth,'/auth/authToken')
     
 @app.route('/')
 @app.route('/home',methods=['GET'])
