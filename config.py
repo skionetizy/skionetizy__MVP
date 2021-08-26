@@ -9,6 +9,7 @@ class Config:
     MAIL_PORT=os.environ.get('MAIL_PORT') or 465
     MAIL_USERNAME=os.environ.get('MAIL_USERNAME') or 'xyz@gmail.com'
     MAIL_PASSWORD=os.environ.get("MAIL_PASSWORD") or 'xyz'
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
     # DEVELOPMENT=False
     # SECRET_KEY=os.environ.get('SECRET_KEY')
     # MONGODB_HOST="mongodb+srv://"+os.environ.get('DB_USERNAME')+':'+os.environ.get('DB_PASSWORD')+'@cluster0.gnqpe.mongodb.net/'+os.environ.get('DATABASE_NAME')+'?retryWrites=true&w=majority'

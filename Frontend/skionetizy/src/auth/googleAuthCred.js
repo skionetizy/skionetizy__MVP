@@ -1,4 +1,4 @@
-const clientName = "skionetizymvp01oauthclient";
+const clientName = "Skionetizy";
 export const clientID =
-  "554132859132-ajslo71d3h80uaogk17kmuvtah3k12q3.apps.googleusercontent.com";
-export const clientSecret = "ESDG60EL5Sd-hkkxbff7Dd_a";
+  "1009912481477-rumk7lv3njmf7l3asoo7ee6808htfdtd.apps.googleusercontent.com";
+export const clientSecret = "xVWz8LZBMnaXvr1YNXGtjvhH";

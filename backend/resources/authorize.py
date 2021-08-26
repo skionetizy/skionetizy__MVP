@@ -1,4 +1,5 @@
 from flask import json, make_response,jsonify,request
+import requests
 from flask_restful import Resource
 from flask_mail import Message
 from  backend.database.models import Profile, User
@@ -12,7 +13,7 @@ import json
 from bson import json_util
 #jwt
 import jwt
-
+from backend import authclient
 import uuid
 
 #Async Mailing
@@ -27,8 +28,9 @@ def send_email(subject, sender, recipients, html):
     thr = Thread(target=send_async_email, args=[app, msg])
     thr.start()
 
-
-
+GOOGLE_DISCOVERY_URL="https://accounts.google.com/.well-known/openid-configuration"
+def get_google_provider_cfg():
+    return requests.get(GOOGLE_DISCOVERY_URL).json()
 
 
 
@@ -147,7 +149,43 @@ class getUserDetails(Resource):
 
 
 class GoogleAuth(Resource):
-    def post(self):
-        body=request.get_json()
-        token=body['auth_token']
+    def get(self,*args,**kwargs):
+        code = request.args.get("code")
+        google_provider_cfg = get_google_provider_cfg()
+        token_endpoint = google_provider_cfg["token_endpoint"]
+        token_url, headers, body = authclient.prepare_token_request(
+                                token_endpoint,
+                                authorization_response=request.url,
+                                redirect_url='http://localhost:5000/auth/authToken',
+                                code=code
+                            )
+        token_response = requests.post(
+            token_url,
+            headers=headers,
+            data=body,
+            auth=( "1009912481477-rumk7lv3njmf7l3asoo7ee6808htfdtd.apps.googleusercontent.com", "xVWz8LZBMnaXvr1YNXGtjvhH"),
+        )
+        authclient.parse_request_body_response(json.dumps(token_response.json()))
+        userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
+        uri, headers, body = authclient.add_token(userinfo_endpoint)    
+        userinfo_response = requests.get(uri, headers=headers, data=body)
+        print(userinfo_response.content)
+        if userinfo_response.json().get("email_verified"):
+            users_email = userinfo_response.json()["email"]
+            picture = userinfo_response.json()["picture"]
+            users_name = userinfo_response.json()["given_name"]
+            # first_name=users_name.split()[0]
+            # second_name=''
+            # if users_name.split()[1]:
+            #     second_name=users_name.split()[1]
+            # newUser = User(
+            #     userID= uuid.uuid4(),
+            #     firstName=first_name,
+            #     lastName=second_name,
+            #     emailID=body['emailID'],
+            #     password=body['password'],
+            #     confirmPassword=body['confirmPassword']
+            # )
+        else:
+            return make_response(jsonify({"Message":"User email not available or not verified by Google."}))
         return make_response(jsonify({'Message':'Backend Received The Data','sucess':True}))

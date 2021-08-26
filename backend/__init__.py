@@ -7,7 +7,7 @@ import cloudinary
 import os
 from gingerit.gingerit import GingerIt
 from google.ads.googleads.client import GoogleAdsClient
-
+from oauthlib.oauth2 import WebApplicationClient
 #cloudinary
 # from cloudinary.uploader import upload
 # from cloudinary.utils import cloudinary_url
@@ -41,6 +41,8 @@ DB_URI='mongodb+srv://rohandevaki:1YoBOdLHY3xm6Jqt@cluster0.gnqpe.mongodb.net/sk
 client=''
 if(os.environ.get('USE_GADS')):
     client = GoogleAdsClient.load_from_storage("backend/skio.yaml")
+
+authclient=WebApplicationClient('1009912481477-rumk7lv3njmf7l3asoo7ee6808htfdtd.apps.googleusercontent.com')
 app.config["MONGODB_HOST"]=DB_URI
 
 from flask_mongoengine import MongoEngine
