@@ -74,6 +74,8 @@ function Signup(props) {
     });
   };
 
+  // remove this whole code
+  // migrate to `/blog/authToken`
   useEffect(() => {
     async function a() {
       const params = new URLSearchParams(window.location.search);
