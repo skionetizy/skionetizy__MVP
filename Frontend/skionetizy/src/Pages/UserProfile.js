@@ -101,7 +101,8 @@ const UserProfile = () => {
         <div className={style.profileDetails}>
           <img
             className={style.coverImage}
-            src="//unsplash.it/700/700"
+            // src="//unsplash.it/700/700"
+            src='https://lh3.googleusercontent.com/zidTLyBQ7Z46uLdcPFTSYdxsGMNzjdLOJ6jG4xGbqXVfrHkEm2nsa3Q_nZYqp51RfeApLHTgCMX6UkJFqiAJKIpZDa65SCPy7WZQzd6fmb-7JMIeoA76t1bY44wCErusB2V3H5cqTNVCATDWziU63fUdTDzLCGHNQV-0iPoHUyAMACtbB27r-kqGTlZ5RzPHg4JFhPfWxEXi0VL-PnVpMRCRLsGhThf90C0BYhzwKfHCB2iXVpWsSFWLtESgTCsxNGn3LAXm34LxN9B0PrigHjIUzY75GYxjRIvUEU69tNhQcYx5zbWKcRV-roL6iK0qGy1snILuRWqma4SWZeb7ZKAVk8kXFq0PqXGRGNqVZc7-bi_5i7sSkr6bzVbSn_7XHJMhOZKatdYen__DOdSt84iRjkUT4IuMa1JiTVhwjecPqJMKOrRfMh110BPuiHcHzDcaanP-s0Q56c95ONYVJxq4IKE6nA1jT_ZQ0qVUMlgeZU5_J_FFEPmJRMBoSxqLTVfacuIoZr4wlHzy6gv2jBULjTetV4Ee6gGgE1BO7P-ZYZirwBOD0fe9QYprPjkeUA-80fX_ceWN6peVBUzqFNObZfZgHFTbnbhzdZXB1SNw-BqcyGdXkC4dUJuZOT3XQn3s-mAHQaJ9GCA0R4Twp_jBGNCzO37azvoIQPqqXgVdJwPbm3Fh5uhBzB_wr4AlwjtgqGCp1r_wEF2zNymj5aw=w1588-h893-no?authuser=0'
             // src={profile.profileBannerImageURL}
             alt=""
           />
@@ -111,7 +112,8 @@ const UserProfile = () => {
           <div className={style.col1}>
             <img
               className={style.profileImage}
-              src="//unsplash.it/120/120"
+              // src="//unsplash.it/120/120"
+              src="https://lh3.googleusercontent.com/38k61zIuLjAqGFrDDR0_XV06j9MqUBlekxZ1atB0BCvwbCnYS28LBdMXVUViCRfv1rJPrJUVYGDzyhOsoaz4YiQ8mX5HRL024vPIMNe9Msc3TBEWIMzAg9IwRQspPbb3EbIgyfZB0g1DM3CQqUFlzEjsYr35Ven_zd_kEMetELQ2pk1Pm8D0hI4Og9lBbXSlrayFLux61kmF2p1Oo7bJx6Fn7a-87AdUPtT2Ebq3e8r0hALRs6kY-C5kqjwOVuJl8JbLRBOLkOaYcbZnnQMmtfXBV_O2XNs4f8WoxYKL919bMY6kIz0WBB2TGFFlTrQsZfbuX5P_HYtloXX-oQ5IelMjWwnxRmVFO4XmJ9H9b7LxJcHUTkA4Nhky2g8jjshualXfIfuLFPhJwJm7-nL--U-DMNNHGNoJnRl2NEKwf4_9N1NXwFezFdftRIubh5MgiuPjaPDUvBZl2mFCAv_FCALeXotK2z7yMLktufNbmw-wIACqGJSIXlk-MyK7s9SeZzevKAYFz53OX2khFp9isjoAiJmbdA7RdngInB76foVcnctef7ISINZEKnWq0tyDkxOynbyHFqicQSVKNzTSenYgSVKVXuRerdkJFSHk8O7PJH26b5iyE4tDjFAXnZS4Fey2bmABMuH9ehdfGOHNDtTjNoZBBxtbPivAxdXKh3yoggn-Tcn5eCkMfGhxKXZdX4MiOmJorIhiryn63Pi5i24=w889-h893-no?authuser=0"
               // src={profile.profilePicImageURL}
               alt=""
             />

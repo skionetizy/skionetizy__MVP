@@ -10,8 +10,9 @@
 
 .coverImage {
   width: 100%;
-  object-fit: cover;
-  height: 13em;
+  /* object-fit: cover; */
+  background-size: cover;
+  height: 18em;
 }
 
 .container {
@@ -32,9 +33,10 @@
 
 .profileImage {
   width: 250px;
-  height: 250px;
+  height: auto;
   border-radius: 100%;
   border: 3px solid var(--primary-blue);
+  object-fit: cover;
 }
 
 .col1{
