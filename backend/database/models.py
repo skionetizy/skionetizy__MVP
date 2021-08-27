@@ -67,7 +67,7 @@ class Profile(db.Document):
     userID=db.UUIDField(required=True,binary=False)
     profilePicImageURL=db.URLField(required=False)
     profileBannerImageURL=db.URLField(required=False)
-    profileGender=db.StringField(required=True,max_length=10)
+    profileGender=db.StringField(required=False,max_length=10)
     profileName=db.StringField(required=False,max_length=100)
     profileUserName=db.StringField(required=True,unique=True,max_lenght=15)
     profileBio=db.StringField(required=False,max_length=300)
@@ -82,7 +82,6 @@ class Profile(db.Document):
     banner = ["https://res.cloudinary.com/dd8470vy4/image/upload/v1628924597/default_banner5_vozcng.jpg","https://res.cloudinary.com/dd8470vy4/image/upload/v1628924597/dafault_banner1_t1jtqd.jpg","https://res.cloudinary.com/dd8470vy4/image/upload/v1628924597/default_banner2_cbkpwx.jpg","https://res.cloudinary.com/dd8470vy4/image/upload/v1628924597/default_banner4_fsgrie.jpg","https://res.cloudinary.com/dd8470vy4/image/upload/v1628924597/default_banner6_lxhjrl.jpg","https://res.cloudinary.com/dd8470vy4/image/upload/v1628924597/default_banner3_uyxaii.jpg"]
     male = ["https://res.cloudinary.com/dd8470vy4/image/upload/v1628924598/Profile_Pic_male_mg0kie.jpg","https://res.cloudinary.com/dd8470vy4/image/upload/v1629308403/male_profile_pic3_f8mtlr.jpg","https://res.cloudinary.com/dd8470vy4/image/upload/v1629308402/male_profile_pic2_gcafhp.jpg","https://res.cloudinary.com/dd8470vy4/image/upload/v1629308402/male_profile_pic4_mnjejq.jpg"]
     female = ["https://res.cloudinary.com/dd8470vy4/image/upload/v1628924598/Profile_Pic_Female_hwkfwv.jpg","https://res.cloudinary.com/dd8470vy4/image/upload/v1629308402/female_profile_pic2_mqaiuh.jpg","https://res.cloudinary.com/dd8470vy4/image/upload/v1629308402/female_profile_pic3_oxfaio.jpg","https://res.cloudinary.com/dd8470vy4/image/upload/v1629308402/female_profile_pic4_vkmvfj.jpg"]
-
     def randomize(self):
         banner = random.randint(0,len(self.banner)-1)
         male = random.randint(0,len(self.male)-1)

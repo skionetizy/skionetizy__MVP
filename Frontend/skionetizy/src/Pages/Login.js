@@ -17,7 +17,7 @@ import { createAuthURL } from "../auth/googleOauth";
 
 import baseURL from "../utils/baseURL";
 
-const frontendBaseURL = "http://localhost:5000";
+const frontendBaseURL = "http://localhost:3000";
 const googleOauthURL = createAuthURL(frontendBaseURL + "/auth/authToken");
 
 function Login(props) {

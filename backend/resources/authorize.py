@@ -15,7 +15,7 @@ from bson import json_util
 import jwt
 from backend import authclient
 import uuid
-
+from urllib.parse import urlparse,parse_qs
 #Async Mailing
 def send_async_email(app, msg):
     with app.app_context():
@@ -149,14 +149,17 @@ class getUserDetails(Resource):
 
 
 class GoogleAuth(Resource):
-    def get(self,*args,**kwargs):
-        code = request.args.get("code")
+    def post(self,*args,**kwargs):
+        body=request.get_json()
+        callback_uri=body['callbackURL']
+        parsed_url=urlparse(callback_uri)
+        code=parse_qs(parsed_url.query)['code'][0]
         google_provider_cfg = get_google_provider_cfg()
         token_endpoint = google_provider_cfg["token_endpoint"]
         token_url, headers, body = authclient.prepare_token_request(
                                 token_endpoint,
-                                authorization_response=request.url,
-                                redirect_url='http://localhost:5000/auth/authToken',
+                                authorization_response=callback_uri,
+                                redirect_url='http://localhost:3000/auth/authToken',
                                 code=code
                             )
         token_response = requests.post(
@@ -173,7 +176,33 @@ class GoogleAuth(Resource):
         if userinfo_response.json().get("email_verified"):
             users_email = userinfo_response.json()["email"]
             picture = userinfo_response.json()["picture"]
-            users_name = userinfo_response.json()["given_name"]
+            users_name = userinfo_response.json()["name"]
+        
+            if User.objects(emailID=users_email).first():
+                #Existing User
+                return make_response(jsonify({'user':User.objects.get(emailID=users_email),'sucess':True}))
+            else:
+                #New User
+                u=User()
+                u.firstName=userinfo_response.json()["given_name"]
+                u.lastName=userinfo_response.json()["family_name"]
+                u.emailID=users_email
+                u.password="LOGGEDINWITHGOOGLE"
+                u.hash_password()
+                u.confirmPassword="LOGGEDINWITHGOOGLE"
+                u.userID=uuid.uuid4()
+                u.isVerified=True
+                u.save()
+                p=Profile()
+                p.profileID=uuid.uuid4()
+                p.userID=u.userID
+                p.profilePicImageURL=picture
+                p.profileName=userinfo_response.json()["name"]
+                p.profileUserName=u.emailID.split('@')[0].replace('.','_')
+                p.save()
+                return make_response(jsonify({'user':u,'profile':p,'success':1}))                
+        else:
+            return make_response(jsonify({"Message":"User email not available or not verified by Google."}))
             # first_name=users_name.split()[0]
             # second_name=''
             # if users_name.split()[1]:
@@ -186,6 +215,5 @@ class GoogleAuth(Resource):
             #     password=body['password'],
             #     confirmPassword=body['confirmPassword']
             # )
-        else:
-            return make_response(jsonify({"Message":"User email not available or not verified by Google."}))
+        
         return make_response(jsonify({'Message':'Backend Received The Data','sucess':True}))
