@@ -1,51 +1,51 @@
 .container {
-	width: 80%;
-	max-width: 1400px;
-	margin: 0 auto;
+  width: 80%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .flex {
-	display: flex;
-	justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .signup {
-	font-family: 'Montserrat', sans-serif;
-	background-color: var(--primary-blue);
-	padding: 1em 1em;
-	display: block;
-	text-align: center;
-	/* height: 90vh; */
-	border-radius: 0.5em;
-	width: 100%;
+  font-family: "Montserrat", sans-serif;
+  background-color: var(--primary-blue);
+  padding: 1em 1em;
+  display: block;
+  text-align: center;
+  /* height: 90vh; */
+  border-radius: 0.5em;
+  width: 100%;
 }
 .header {
-	color: #fff;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin-bottom: 2em;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2em;
 }
 
 .signup_form {
-	display: flex;
-	flex-direction: column;
-	gap: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
 
 .cover {
-	display: flex;
-	margin-top: 4em;
-	margin-bottom: 4em;
+  display: flex;
+  margin-top: 4em;
+  margin-bottom: 4em;
 }
 .coverImage {
-	display: none;
+  display: none;
 }
 
 .name {
-	display: flex;
-	flex-direction: column;
-	gap: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
 
 .name_firstName,
@@ -53,87 +53,88 @@
 .email,
 .password,
 .confirmPassword {
-	padding: 0.75em 0.85em;
-	font-family: 'Montserrat', sans-serif;
-	border: none;
-	outline: none;
-	border-radius: 1em;
-	line-height: 2;
-	letter-spacing: 0.08rem;
-	font-weight: 700;
+  padding: 0.75em 0.85em;
+  font-family: "Montserrat", sans-serif;
+  border: none;
+  outline: none;
+  border-radius: 1em;
+  line-height: 2;
+  letter-spacing: 0.08rem;
+  font-weight: 700;
 }
 
 .email_password {
-	display: flex;
-	flex-direction: column;
-	gap: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
 
 .signupButton {
-	align-self: center;
-	border: none;
-	background: transparent;
-	font-family: 'Montserrat', sans-serif;
-	background-color: var(--dark-blue);
-	color: white;
-	padding: 0.85em 1.2em;
-	padding: 1rem 2rem;
-	cursor: pointer;
-	font-weight: 700;
-	letter-spacing: 0.09rem;
-	outline: none;
-	border-radius: 0.6em;
+  align-self: center;
+  border: none;
+  background: transparent;
+  font-family: "Montserrat", sans-serif;
+  background-color: var(--dark-blue);
+  color: white;
+  padding: 0.85em 1.2em;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.09rem;
+  outline: none;
+  border-radius: 0.6em;
 }
 
 .loginLink {
-	color: #fff;
-	display: flex;
-	flex-direction: column;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
 }
+
 @media (min-width: 700px) {
-	.name {
-		display: flex;
-		flex-direction: row;
-	}
-	.name_firstName,
-	.name_lastName {
-		width: 50%;
-	}
-	.signup {
-		font-family: 'Montserrat', sans-serif;
-		background-color: var(--primary-blue);
-		padding: 2em;
-		height: fit-content;
-		display: flex;
-		flex-direction: column;
-		border-radius: 0.5em;
-	}
+  .name {
+    display: flex;
+    flex-direction: row;
+  }
+  .name_firstName,
+  .name_lastName {
+    width: 50%;
+  }
+  .signup {
+    font-family: "Montserrat", sans-serif;
+    background-color: var(--primary-blue);
+    padding: 2em;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.5em;
+  }
 
-	.signup_form {
-		display: flex;
-		flex-direction: column;
-		gap: 2.5em;
-	}
+  .signup_form {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5em;
+  }
 
-	.email_password {
-		display: flex;
-		flex-direction: column;
-		gap: 2.5em;
-	}
+  .email_password {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5em;
+  }
 }
 
 @media (min-width: 1200px) {
-	.signup {
-		width: 50%;
-	}
+  .signup {
+    width: 50%;
+  }
 
-	.coverImage {
-		display: flex;
-		width: 50%;
-	}
+  .coverImage {
+    display: flex;
+    width: 50%;
+  }
 
-	.coverImage_svg {
-		height: 40em;
-		margin-left: 6em;
-	}
+  .coverImage_svg {
+    height: 40em;
+    margin-left: 6em;
+  }
 }

@@ -13,6 +13,7 @@ import SearchPage from "./Pages/searchPage";
 import EmailVerification from "./Pages/EmailVerification";
 import EditProfile from "./Pages/EditProfile";
 import Editor from "./Components/Editor";
+import OAuthPage from "./Pages/OAuthPage";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
           path="/edit-profile/:profileUserName"
           component={EditProfile}
         />
+        <Route exact path="/auth/authToken" component={OAuthPage} />
         <Route exact path="/:profileUserName" component={UserProfile} />
       </Switch>
     </Router>
