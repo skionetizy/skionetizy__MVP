@@ -37,7 +37,7 @@ api = Api(app)
 env_config = os.environ.get("APP_SETTINGS") or "DevelopmentConfig"
 app.config.from_object("config."+env_config)
 mail=Mail(app)
-DB_URI='mongodb+srv://rohandevaki:1YoBOdLHY3xm6Jqt@cluster0.gnqpe.mongodb.net/skionetizymvp?retryWrites=true&w=majority'
+DB_URI='mongodb+srv://rohandevaki:joOlDai1Ey0ccazD@cluster0.gnqpe.mongodb.net/skionetizymvp?retryWrites=true&w=majority'
 client=''
 if(os.environ.get('USE_GADS')):
     client = GoogleAdsClient.load_from_storage("backend/skio.yaml")
