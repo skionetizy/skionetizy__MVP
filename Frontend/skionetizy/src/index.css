@@ -1,6 +1,6 @@
 * {
-	padding: 0;
-	font-family: "Montserrat", sans-serif;
+  padding: 0;
+  font-family: "Montserrat", sans-serif;
 }
 /* .logo {
 	width: 80px;
@@ -15,7 +15,7 @@
 	top: -150px;
 } */
 body {
-	background-color: #142850;
+  background-color: #142850;
 }
 /* .login {
 	position: relative;
@@ -175,3 +175,9 @@ nav ul li h3 {
 	font-weight: 700;
 	letter-spacing: 0.08rem;
 } */
+
+@keyframes spinner {
+  100% {
+    transform: rotate(360deg);
+  }
+}
