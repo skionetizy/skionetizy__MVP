@@ -8,6 +8,7 @@ import BlogNavigation from "../Components/BlogNavigation";
 import axios from "axios";
 import useIObserver from "../hooks/useIntersectionObserver";
 import Spinner from "../Components/Spinner";
+import ViewMore from "../Components/ViewMore";
 
 const blogsPerPage = 6;
 const url = "http://127.0.0.1:5000/blog/getBlogsAndProfileDetails";
@@ -17,8 +18,7 @@ function MyBlogs(props) {
   const [blogs, setBlogs] = useState([]);
   const [currentBlog, setCurrentBlog] = useState(0);
   const [loading, setLoading] = useState(false);
-
-  const viewMore = useIObserver();
+  const [isVisible, setIsVisible] = useState(false);
 
   const startingIndex = currentBlog * blogsPerPage;
   const endingIndex = startingIndex + blogsPerPage;
@@ -49,7 +49,7 @@ function MyBlogs(props) {
   const slicedBlogs = blogs.slice(0, endingIndex);
 
   useEffect(() => {
-    if (viewMore.isVisible && status === "idle" && blogs.length > 0) {
+    if (isVisible && status === "idle" && blogs.length > 0) {
       console.log("Fetch more blogs");
       setStatus("loading");
 
@@ -62,7 +62,7 @@ function MyBlogs(props) {
         setCurrentBlog((prev) => prev + 1);
       }, 5000);
     }
-  }, [blogs.length, slicedBlogs.length, status, viewMore.isVisible]);
+  }, [blogs.length, isVisible, slicedBlogs.length, status]);
 
   props.saveSlicedBlogs(slicedBlogs);
 
@@ -72,10 +72,7 @@ function MyBlogs(props) {
         className={`${style.blogCardContainer} ${style.container} ${style.body}`}
       >
         {loading && <p className={style.statusMessage}>loading..</p>}
-        {slicedBlogs &&
-          slicedBlogs.map((blog) => {
-            return <BlogCard blog={blog} />;
-          })}
+        {slicedBlogs && slicedBlogs.map((blog) => <BlogCard blog={blog} />)}
       </div>
       {/* <BlogNavigation
         blogsPerPage={blogsPerPage}
@@ -83,12 +80,13 @@ function MyBlogs(props) {
         setCurrentBlog={(currBlog) => setCurrentBlogHandler(currBlog)}
       /> */}
 
-      {/* intersection observer target span */}
-      <span ref={viewMore.targetRef} className={style.viewMore}>
-        view more span target. js uses it to detect when user has scroll to
-        bottom to this span and then fetch more blogs. this span is visually
-        hidden using css
-      </span>
+      {/* Show after initial fetching 9-12 blogs */}
+      {blogs.length > 0 && (
+        <ViewMore
+          className={style.viewMore}
+          onVisiblityChange={(isVisible) => setIsVisible(isVisible)}
+        />
+      )}
 
       {/* Loading Spinner */}
       {status === "loading" && (
