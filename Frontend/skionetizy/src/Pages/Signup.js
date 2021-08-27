@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 import Signupvec from "../Assets/signupvec.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,6 +16,7 @@ import {
 } from "react-router-dom";
 import { connect } from "react-redux";
 import { getTokens } from "../auth/googleOauth";
+import { sendGoogleAuthCode } from "../API/oauthAPIHandler";
 
 function Signup(props) {
   const [values, setValues] = useState({
@@ -26,6 +27,7 @@ function Signup(props) {
     confirmPassword: "",
     userID: "",
   });
+  const [error, setError] = useState("");
   // const [formvalues,setformValues]=useState();
 
   const handleChange = (e) => {
@@ -74,103 +76,117 @@ function Signup(props) {
     });
   };
 
-  // remove this whole code
-  // migrate to `/blog/authToken`
   useEffect(() => {
-    async function a() {
-      const params = new URLSearchParams(window.location.search);
-      // We send this code to backend for verification and
-      // backend should send a normal jwt
-      // And we save that jwt for latter use
-      const googleOAuthCode = params.get("code");
+    console.log(window.location.toString());
+    const params = new URLSearchParams(window.location.search);
+    const googleOAuthCode = params.get("code");
+    const callbackURL = window.location.toString();
 
-      if (!googleOAuthCode) return;
+    if (googleOAuthCode) {
+      sendGoogleAuthCode({ callbackURL })
+        .then((userData) => {
+          const { jwt } = userData;
+          localStorage.setItem("auth_token", jwt);
+          localStorage.setItem("userData", JSON.stringify(userData));
+        })
+        .catch((error) => {
+          if (!error.isAxiosError) throw error;
 
-      // Not sure if we require to get this token on client side
-      // I followed a tutorial on this step
-      // Might not be need
-      const { access_token: GOOGLE_JWT_TOKEN } = await getTokens({
-        code: googleOAuthCode,
-        redirectUri: "http://localhost:3000",
-      });
+          setError(error.response?.data.message);
 
-      console.log("[G oauth] res:", GOOGLE_JWT_TOKEN);
+          console.info(error);
+        });
     }
-    a();
   }, []);
 
   return (
-    <div className={`${style.container} ${style.cover}`}>
-      <div className={`${style.container} ${style.signup}`}>
-        <div className={style.header}>
-          <h1 className={style.header_heading}>Sign up</h1>
-          <p className={style.header_text}>
-            Enter your details to create a free account
-          </p>
-        </div>
-        <div className={style.signup_container}>
-          <form className={style.signup_form} onSubmit={handleSubmit}>
-            <div className={style.name}>
-              <input
-                type="text"
-                className={style.name_firstName}
-                onChange={handleChange}
-                name="firstName"
-                placeholder=" First Name"
-                required
-              />
-              <input
-                type="text"
-                className={style.name_lastName}
-                onChange={handleChange}
-                name="lastName"
-                placeholder=" Last Name"
-                required
-              />
+    <>
+      {" "}
+      <div className={`${style.container} ${style.cover}`}>
+        <div className={`${style.container} ${style.signup}`}>
+          <div className={style.header}>
+            <h1 className={style.header_heading}>Sign up</h1>
+            <p className={style.header_text}>
+              Enter your details to create a free account
+            </p>
+          </div>
+          <div className={style.signup_container}>
+            <form className={style.signup_form} onSubmit={handleSubmit}>
+              <div className={style.name}>
+                <input
+                  type="text"
+                  className={style.name_firstName}
+                  onChange={handleChange}
+                  name="firstName"
+                  placeholder=" First Name"
+                  required
+                />
+                <input
+                  type="text"
+                  className={style.name_lastName}
+                  onChange={handleChange}
+                  name="lastName"
+                  placeholder=" Last Name"
+                  required
+                />
+              </div>
+              <div className={style.email_password}>
+                <input
+                  type="email"
+                  name="emailID"
+                  placeholder=" Email"
+                  onChange={handleChange}
+                  className={style.email}
+                  required
+                />
+                <input
+                  type="password"
+                  name="password"
+                  placeholder=" Password"
+                  onChange={handleChange}
+                  className={style.password}
+                  required
+                />
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  placeholder=" Confirm Password"
+                  onChange={handleChange}
+                  className={style.confirmPassword}
+                  required
+                />
+              </div>
+              <button className={style.signupButton} type="submit">
+                Sign up
+                <FontAwesomeIcon icon={faSignInAlt} />
+              </button>
+            </form>
+            <div className={style.loginLink}>
+              <p>Already have an account?</p>
+              <span>
+                <Link to="/login">Login</Link>
+              </span>
             </div>
-            <div className={style.email_password}>
-              <input
-                type="email"
-                name="emailID"
-                placeholder=" Email"
-                onChange={handleChange}
-                className={style.email}
-                required
-              />
-              <input
-                type="password"
-                name="password"
-                placeholder=" Password"
-                onChange={handleChange}
-                className={style.password}
-                required
-              />
-              <input
-                type="password"
-                name="confirmPassword"
-                placeholder=" Confirm Password"
-                onChange={handleChange}
-                className={style.confirmPassword}
-                required
-              />
-            </div>
-            <button className={style.signupButton} type="submit">
-              Sign up
-              <FontAwesomeIcon icon={faSignInAlt} />
-            </button>
-          </form>
-          <div className={style.loginLink}>
-            <p>Already have an account?</p>
-            <span>
-              <Link to="/login">Login</Link>
-            </span>
           </div>
         </div>
+        <div className={style.coverImage}>
+          <img src={bgsignup} alt="" className={style.coverImage_svg} />
+        </div>
       </div>
-      <div className={style.coverImage}>
-        <img src={bgsignup} alt="" className={style.coverImage_svg} />
-      </div>
-    </div>
+      {/* Error Message */}
+      {error ? (
+        <div
+          onAnimationEnd={() => {
+            // clear error message after animation ends
+            setError("");
+          }}
+          className={style.errorWrapper}
+        >
+          <p>There was an error:</p>
+          <p>"{error}"</p>
+        </div>
+      ) : null}
+    </>
   );
 }
 
