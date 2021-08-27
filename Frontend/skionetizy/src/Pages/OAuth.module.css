@@ -1,0 +1,22 @@
+.wrapper {
+  color: #fafafa;
+  min-height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 1.5rem;
+}
+
+.spinner {
+  margin-right: 2rem;
+}
+
+.errorWrapper {
+  padding: 0.25rem 1rem;
+
+  background-color: #fafafa;
+  border-radius: 0.75rem;
+  color: red;
+  font-size: 0.75rem;
+}
