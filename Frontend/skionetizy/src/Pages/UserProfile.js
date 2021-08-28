@@ -205,7 +205,10 @@ const UserProfile = () => {
                 <p>{profile.profileBio}</p>
               </div>
             </div>
-            {isAuthorisedUser() && (
+           
+          </div>*/}
+        <div className={style.container}>
+        {isAuthorisedUser() && (
               <div className={style.buttons}>
                 <button className={`${style.buttons_followButton} ${style.secondaryButton}`}>Follow</button> 
                 <button
@@ -216,8 +219,6 @@ const UserProfile = () => {
                 </button>
               </div>
             )}
-          </div>*/}
-        <div className={style.container}>
           {showEditModal && (
             // this class makes it look like page on mobile
             <Modal>
