@@ -22,11 +22,11 @@ import style from "./UserProfile.module.css";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import PeopleIcon from "@material-ui/icons/People";
 import PeopleOutlineIcon from "@material-ui/icons/PeopleOutline";
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import GitHubIcon from '@material-ui/icons/GitHub';
-import Button from '@material-ui/core/Button';
-import EditIcon from '@material-ui/icons/Edit';
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
+import GitHubIcon from "@material-ui/icons/GitHub";
+import Button from "@material-ui/core/Button";
+import EditIcon from "@material-ui/icons/Edit";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 
 import baseURL from "../utils/baseURL";
 
@@ -103,8 +103,8 @@ const UserProfile = () => {
           <img
             className={style.coverImage}
             // src="//unsplash.it/700/700"
-            src='https://lh3.googleusercontent.com/zidTLyBQ7Z46uLdcPFTSYdxsGMNzjdLOJ6jG4xGbqXVfrHkEm2nsa3Q_nZYqp51RfeApLHTgCMX6UkJFqiAJKIpZDa65SCPy7WZQzd6fmb-7JMIeoA76t1bY44wCErusB2V3H5cqTNVCATDWziU63fUdTDzLCGHNQV-0iPoHUyAMACtbB27r-kqGTlZ5RzPHg4JFhPfWxEXi0VL-PnVpMRCRLsGhThf90C0BYhzwKfHCB2iXVpWsSFWLtESgTCsxNGn3LAXm34LxN9B0PrigHjIUzY75GYxjRIvUEU69tNhQcYx5zbWKcRV-roL6iK0qGy1snILuRWqma4SWZeb7ZKAVk8kXFq0PqXGRGNqVZc7-bi_5i7sSkr6bzVbSn_7XHJMhOZKatdYen__DOdSt84iRjkUT4IuMa1JiTVhwjecPqJMKOrRfMh110BPuiHcHzDcaanP-s0Q56c95ONYVJxq4IKE6nA1jT_ZQ0qVUMlgeZU5_J_FFEPmJRMBoSxqLTVfacuIoZr4wlHzy6gv2jBULjTetV4Ee6gGgE1BO7P-ZYZirwBOD0fe9QYprPjkeUA-80fX_ceWN6peVBUzqFNObZfZgHFTbnbhzdZXB1SNw-BqcyGdXkC4dUJuZOT3XQn3s-mAHQaJ9GCA0R4Twp_jBGNCzO37azvoIQPqqXgVdJwPbm3Fh5uhBzB_wr4AlwjtgqGCp1r_wEF2zNymj5aw=w1588-h893-no?authuser=0'
-            // src={profile.profileBannerImageURL}
+            // src='https://lh3.googleusercontent.com/zidTLyBQ7Z46uLdcPFTSYdxsGMNzjdLOJ6jG4xGbqXVfrHkEm2nsa3Q_nZYqp51RfeApLHTgCMX6UkJFqiAJKIpZDa65SCPy7WZQzd6fmb-7JMIeoA76t1bY44wCErusB2V3H5cqTNVCATDWziU63fUdTDzLCGHNQV-0iPoHUyAMACtbB27r-kqGTlZ5RzPHg4JFhPfWxEXi0VL-PnVpMRCRLsGhThf90C0BYhzwKfHCB2iXVpWsSFWLtESgTCsxNGn3LAXm34LxN9B0PrigHjIUzY75GYxjRIvUEU69tNhQcYx5zbWKcRV-roL6iK0qGy1snILuRWqma4SWZeb7ZKAVk8kXFq0PqXGRGNqVZc7-bi_5i7sSkr6bzVbSn_7XHJMhOZKatdYen__DOdSt84iRjkUT4IuMa1JiTVhwjecPqJMKOrRfMh110BPuiHcHzDcaanP-s0Q56c95ONYVJxq4IKE6nA1jT_ZQ0qVUMlgeZU5_J_FFEPmJRMBoSxqLTVfacuIoZr4wlHzy6gv2jBULjTetV4Ee6gGgE1BO7P-ZYZirwBOD0fe9QYprPjkeUA-80fX_ceWN6peVBUzqFNObZfZgHFTbnbhzdZXB1SNw-BqcyGdXkC4dUJuZOT3XQn3s-mAHQaJ9GCA0R4Twp_jBGNCzO37azvoIQPqqXgVdJwPbm3Fh5uhBzB_wr4AlwjtgqGCp1r_wEF2zNymj5aw=w1588-h893-no?authuser=0'
+            src={profile.profileBannerImageURL}
             alt=""
           />
           <EditOutlinedIcon className={style.bannerEditIcon} />
@@ -115,54 +115,67 @@ const UserProfile = () => {
             <img
               className={style.profileImage}
               // src="//unsplash.it/120/120"
-              src="https://lh3.googleusercontent.com/38k61zIuLjAqGFrDDR0_XV06j9MqUBlekxZ1atB0BCvwbCnYS28LBdMXVUViCRfv1rJPrJUVYGDzyhOsoaz4YiQ8mX5HRL024vPIMNe9Msc3TBEWIMzAg9IwRQspPbb3EbIgyfZB0g1DM3CQqUFlzEjsYr35Ven_zd_kEMetELQ2pk1Pm8D0hI4Og9lBbXSlrayFLux61kmF2p1Oo7bJx6Fn7a-87AdUPtT2Ebq3e8r0hALRs6kY-C5kqjwOVuJl8JbLRBOLkOaYcbZnnQMmtfXBV_O2XNs4f8WoxYKL919bMY6kIz0WBB2TGFFlTrQsZfbuX5P_HYtloXX-oQ5IelMjWwnxRmVFO4XmJ9H9b7LxJcHUTkA4Nhky2g8jjshualXfIfuLFPhJwJm7-nL--U-DMNNHGNoJnRl2NEKwf4_9N1NXwFezFdftRIubh5MgiuPjaPDUvBZl2mFCAv_FCALeXotK2z7yMLktufNbmw-wIACqGJSIXlk-MyK7s9SeZzevKAYFz53OX2khFp9isjoAiJmbdA7RdngInB76foVcnctef7ISINZEKnWq0tyDkxOynbyHFqicQSVKNzTSenYgSVKVXuRerdkJFSHk8O7PJH26b5iyE4tDjFAXnZS4Fey2bmABMuH9ehdfGOHNDtTjNoZBBxtbPivAxdXKh3yoggn-Tcn5eCkMfGhxKXZdX4MiOmJorIhiryn63Pi5i24=w889-h893-no?authuser=0"
-              // src={profile.profilePicImageURL}
+              // src="https://lh3.googleusercontent.com/38k61zIuLjAqGFrDDR0_XV06j9MqUBlekxZ1atB0BCvwbCnYS28LBdMXVUViCRfv1rJPrJUVYGDzyhOsoaz4YiQ8mX5HRL024vPIMNe9Msc3TBEWIMzAg9IwRQspPbb3EbIgyfZB0g1DM3CQqUFlzEjsYr35Ven_zd_kEMetELQ2pk1Pm8D0hI4Og9lBbXSlrayFLux61kmF2p1Oo7bJx6Fn7a-87AdUPtT2Ebq3e8r0hALRs6kY-C5kqjwOVuJl8JbLRBOLkOaYcbZnnQMmtfXBV_O2XNs4f8WoxYKL919bMY6kIz0WBB2TGFFlTrQsZfbuX5P_HYtloXX-oQ5IelMjWwnxRmVFO4XmJ9H9b7LxJcHUTkA4Nhky2g8jjshualXfIfuLFPhJwJm7-nL--U-DMNNHGNoJnRl2NEKwf4_9N1NXwFezFdftRIubh5MgiuPjaPDUvBZl2mFCAv_FCALeXotK2z7yMLktufNbmw-wIACqGJSIXlk-MyK7s9SeZzevKAYFz53OX2khFp9isjoAiJmbdA7RdngInB76foVcnctef7ISINZEKnWq0tyDkxOynbyHFqicQSVKNzTSenYgSVKVXuRerdkJFSHk8O7PJH26b5iyE4tDjFAXnZS4Fey2bmABMuH9ehdfGOHNDtTjNoZBBxtbPivAxdXKh3yoggn-Tcn5eCkMfGhxKXZdX4MiOmJorIhiryn63Pi5i24=w889-h893-no?authuser=0"
+              src={profile.profilePicImageURL}
               alt=""
             />
             <EditOutlinedIcon className={style.profileEditIcon} />
           </div>
           <div className={style.col2}>
-            <h1>Angela Jolie</h1>
+            {/* <h1>Angela Jolie</h1> */}
+            <h1>{profile.profileName}</h1>
             <div className={style.profileDes}>
-              <li>B. Tech CSE</li>
+              {/* <li>B. Tech CSE</li>
               <li>Vellore Institute of Technology</li>
-              <li>Skionetizy</li>
-              <li></li>
+              <li>Skionetizy</li> */}
+              <li>{profile.profileBio}</li>
               <li></li>
               <li></li>
             </div>
-            <p className={style.profileDes}>Mumbai, Maharashtra</p>
+            {/* <p className={style.profileDes}>Mumbai, Maharashtra</p> */}
             <div className={style.profileFollow}>
               <PeopleOutlineIcon className={style.followIcon} />
               <div className={style.follow}>
                 <small>Following</small>
-                <h1>596</h1>
+                {/* <h1>596</h1> */}
+                <h1> {profile.FollowingCount}</h1>
               </div>
               <PeopleOutlineIcon className={style.followIcon} />
               <div className={style.follow}>
                 <small>Followers</small>
-                <h1>1000</h1>
+                <h1>{profile.FollowersCount}</h1>
               </div>
             </div>
             <div className={style.userButton}>
-            <Button variant="contained" color="primary">
-              <EditIcon />Edit Profile
-            </Button>
-            <Button variant="outlined" color="primary" href="#outlined-buttons">
-                30th July 2021
-            </Button>
+              <Button variant="contained" color="primary">
+                <EditIcon />
+                Edit Profile
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                href="#outlined-buttons"
+              >
+                {/* 30th July 2021 */}
+                <Moment>{profile?.profileTimestamp?.$date}</Moment>
+              </Button>
             </div>
           </div>
           <div className={style.social}>
             <h3>Social</h3>
             <ul>
-              <li><LinkedInIcon className={style.socialIcons} /> LinkedIn</li>
-              <li><GitHubIcon className={style.socialIcons} />Website</li>
+              <li>
+                <LinkedInIcon className={style.socialIcons} /> LinkedIn
+              </li>
+              <li>
+                <GitHubIcon className={style.socialIcons} />
+                Website
+              </li>
             </ul>
           </div>
         </section>
 
-{/* Previous code section for UserProfile section         
+        {/* Previous code section for UserProfile section         
 <div className={style.profileDescription}>
             <div className={style.bioDescription}>
               <div className={style.authorDetails}>
@@ -211,17 +224,21 @@ const UserProfile = () => {
            
           </div>*/}
         <div className={style.container}>
-        {isAuthorisedUser() && (
-              <div className={style.buttons}>
-                <button className={`${style.buttons_followButton} ${style.secondaryButton}`}>Follow</button> 
-                <button
-                  className={style.buttons_editProfile}
-                  onClick={() => setShowEditModal(true)}
-                >
-                  Edit profile
-                </button>
-              </div>
-            )}
+          {isAuthorisedUser() && (
+            <div className={style.buttons}>
+              <button
+                className={`${style.buttons_followButton} ${style.secondaryButton}`}
+              >
+                Follow
+              </button>
+              <button
+                className={style.buttons_editProfile}
+                onClick={() => setShowEditModal(true)}
+              >
+                Edit profile
+              </button>
+            </div>
+          )}
           {showEditModal && (
             // this class makes it look like page on mobile
             <Modal>
