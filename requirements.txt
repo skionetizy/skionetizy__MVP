@@ -40,3 +40,4 @@ WTForms==2.3.3
 google-ads
 pandas
 openpyxl==3.0.7
+spacy==3.1.2
