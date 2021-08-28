@@ -2,46 +2,63 @@ import React, { useEffect, useState } from "react";
 import { sendGoogleAuthCode } from "../API/oauthAPIHandler";
 import Spinner from "../Components/Spinner";
 import styles from "./OAuth.module.css";
+import { useHistory } from "react-router-dom";
 
 export default function OAuthPage() {
   const [error, setError] = useState("");
+  const [status, setStatus] = useState("idle");
+  const history = useHistory();
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const googleOAuthCode = params.get("code");
     const callbackURL = window.location.toString();
 
-    if (googleOAuthCode) {
-      sendGoogleAuthCode({ callbackURL })
-        .then((userData) => {
-          const { jwt } = userData;
-          localStorage.setItem("auth_token", jwt);
-          localStorage.setItem("userData", JSON.stringify(userData));
-        })
-        .catch((error) => {
-          if (!error.isAxiosError) throw error;
+    setStatus("loading");
+    sendGoogleAuthCode({ callbackURL })
+      .then((userData) => {
+        const { userID, profileID } = userData;
+        localStorage.setItem("userID", userID);
+        localStorage.setItem("profileID", profileID);
+        setStatus("success");
 
-          setError(error.response?.data.message);
-          console.info(error);
-        });
-    }
-  }, []);
+        setTimeout(() => {
+          history.push("/explore-blogs");
+        }, 2000);
+      })
+      .catch((error) => {
+        if (!error.isAxiosError) throw error;
+
+        setStatus("error");
+        setError(
+          error.response?.data.message ||
+            JSON.stringify({ response: error.response?.data }, null, 4)
+        );
+
+        console.info(error);
+      });
+  }, [history]);
 
   return (
     <>
       <div className={styles.wrapper}>
         <div>
-          {error ? (
+          {status === "idle" ? (
+            <p>. . .</p>
+          ) : status === "error" ? (
             <div className={styles.errorWrapper}>
               <p>There was an error:</p>
               <p>"{error}"</p>
             </div>
-          ) : (
-            <>
+          ) : status === "loading" ? (
+            <p>
               <Spinner className={styles.spinner} /> Validating your details . .
               .
+            </p>
+          ) : status === "success" ? (
+            <>
+              <p>Login Successful.</p>
+              <small>Redirecting . . .</small>
             </>
-          )}
+          ) : null}
         </div>
       </div>
     </>
