@@ -26,6 +26,7 @@ import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 
 import baseURL from "../utils/baseURL";
 
@@ -106,6 +107,7 @@ const UserProfile = () => {
             // src={profile.profileBannerImageURL}
             alt=""
           />
+          <EditOutlinedIcon className={style.bannerEditIcon} />
         </div>
 
         <section className={style.userProfile}>
@@ -117,6 +119,7 @@ const UserProfile = () => {
               // src={profile.profilePicImageURL}
               alt=""
             />
+            <EditOutlinedIcon className={style.profileEditIcon} />
           </div>
           <div className={style.col2}>
             <h1>Angela Jolie</h1>
