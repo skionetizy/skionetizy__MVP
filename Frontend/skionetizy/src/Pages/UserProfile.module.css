@@ -21,7 +21,7 @@
   margin: 0 auto;
 }
 
-.userProfile{
+.userProfile {
   width: 100%;
   height: 50%;
   display: flex;
@@ -44,21 +44,20 @@
   border-radius: 50%;
 }
 
-
 .profileImage {
   width: 250px;
-  height: auto;
+  /* height: auto; */
   border-radius: 100%;
   border: 3px solid var(--primary-blue);
   object-fit: cover;
 }
 
-.col1{
+.col1 {
   align-self: center;
   position: relative;
 }
 
-.col1 .profileEditIcon{
+.col1 .profileEditIcon {
   position: absolute;
   width: 30px;
   height: 30px;
@@ -70,13 +69,13 @@
   border-radius: 50%;
 }
 
-.col2{
+.col2 {
   align-self: center;
   flex-grow: 2;
-  padding: 0 4rem; 
+  padding: 0 4rem;
 }
 
-.col2 h1{
+.col2 h1 {
   margin: 0 0 10px 0;
   /* font-family: "Cera Pro"; */
   font-style: normal;
@@ -84,13 +83,13 @@
   font-size: 24px;
 }
 
-col3{
+col3 {
   width: 30vh;
   align-self: center;
   flex-shrink: 2;
 }
 
-.profileDes{
+.profileDes {
   display: flex;
   justify-content: space-between;
   list-style: none;
@@ -98,41 +97,41 @@ col3{
   font-size: 0.8rem;
 }
 
-.profileFollow{
+.profileFollow {
   display: flex;
   align-items: center;
   padding: 1rem 0 1.5rem 0;
 }
 
-.followIcon{
-    width: 45px !important;
-    height: 48px !important;
-    color: #1684F8;
-    background: #E8F3FF;
-    border-radius: 8px;
-    align-self: center;
-    border-radius: 12px;
+.followIcon {
+  width: 45px !important;
+  height: 48px !important;
+  color: #1684f8;
+  background: #e8f3ff;
+  border-radius: 8px;
+  align-self: center;
+  border-radius: 12px;
 }
 
-.follow{
+.follow {
   font-family: Cera Pro;
   margin: 0 20px;
 }
 
-.follow small{
+.follow small {
   margin: 0 !important;
 }
 
-.follow h1{
+.follow h1 {
   margin: 0 !important;
   font-weight: 500;
 }
 
-.follow small{
-  color: #0065CF;
+.follow small {
+  color: #0065cf;
 }
 
-.social ul li{
+.social ul li {
   display: flex;
   justify-content: space-between;
   list-style: none;
@@ -142,10 +141,10 @@ col3{
   line-height: 24px;
   margin: 5px 0;
 }
-.userButton{
+.userButton {
   display: flex;
 }
-.userButton Button{
+.userButton Button {
   margin-right: 2rem;
   background-color: #142850;
   color: white;
@@ -324,32 +323,6 @@ col3{
   top: 5px;
 }
 
-.wrapper {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background-color: var(--dark-blue);
-  height: 40em;
-  width: 60em;
-  border-radius: 10px;
-  padding: 1em 3em;
-  color: white;
-  border: 1px solid black;
-}
-
-.inputs {
-  display: flex;
-  flex-direction: column;
-  justify-self: center;
-  align-items: flex-start;
-  gap: 4em;
-}
-
-.firstLast > label:nth-child(3) {
-  margin-left: 4em;
-}
-
 form input {
   border: none;
   border-bottom: 1px solid white;
@@ -359,56 +332,30 @@ form input {
   color: white;
 }
 
-.horizontalLine {
-  width: 100%;
-}
-
-.savebtn {
-  border: none;
-  background-color: var(--primary-blue);
-  padding: 0.6em 1.2em;
-  width: max-content;
-  color: #fff;
-  border-radius: 0.3em;
+.editImageLabel {
   cursor: pointer;
-  position: relative;
+}
+
+.editImageInput:disabled + .editImageLabel {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.editImageInput {
+  display: none;
+}
+
+.usersImageSpinner {
+  color: red;
+  font-size: 2rem;
+  position: absolute;
   left: 50%;
-  top: 10px;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.closeBtn {
-  position: relative;
-  float: right;
-  color: white;
-
-  outline: none;
-  border: none;
-  left: 3.5vh;
-  bottom: 25px;
-  font-size: 60px;
-  font-weight: bold;
-  background: transparent;
-  transition: all 0.5s ease;
-  z-index: 1;
-}
-
-.closeBtn:hover {
-  transform: rotate(90deg);
-}
-.bio {
-  margin-top: 5em;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-.bio > textarea {
-  height: 10em;
-  width: 50em;
-  margin-left: 6.6em;
-  color: white;
-  background: var(--dark-blue);
-  padding: 0.5em;
+.usersImageLoading {
+  opacity: 0.5;
 }
 
 @media (min-width: 1000px) {

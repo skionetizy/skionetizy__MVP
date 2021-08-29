@@ -2,55 +2,31 @@ import React, { useState } from "react";
 import "./addBlogImage.css";
 import { Link } from "react-router-dom";
 import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
+import validateImage from "../utils/validateImage";
+
 function Upload() {
-  const [uploaded, isUploaded] = useState(false);
+  const [uploaded, setUploaded] = useState(false);
   const [proImage, setProImage] = useState();
   const [formData, setFormData] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const handleProfile = (e) => {
+  const handleProfile = async (e) => {
     e.preventDefault();
     const file = e.target.files[0];
     const maxWidth = 1920;
     const maxHeight = 1080;
-    const img = new Image();
-    img.src = window.URL.createObjectURL(file);
-    const maxFileSize = 1024 * 1024; //1mb
-    img.onload = () => {
-      const ext = [".jpg", ".jpeg", ".png", ".svg"];
-      const filename = file.name;
-      console.log(filename);
-      console.log(img.width);
-      console.log(img.height);
 
-      if (file.type.match("image.*") && file.size > maxFileSize) {
-        alert(
-          "The selected image file is too big. Please choose one that is smaller than 1 MB."
-        );
-      } else if (!ext.some((el) => filename.endsWith(el))) {
-        alert("only upload images of .jpg,.jpeg,.png,.svg");
-      }
-      // else if (
-      //   file.type.match("image.*") &&
-      //   (img.width !== maxWidth || img.height !== maxHeight)
-      // ) {
-      //   alert(
-      //     `The selected image is too big. Please choose one with maximum dimensions of ${maxWidth}x${maxHeight}.`
-      //   );
-      //   return;
-      // }
-      else {
-        setProImage(URL.createObjectURL(file));
-        isUploaded(true);
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("blogID", JSON.parse(localStorage.getItem("blogID")));
-        // formData.append("userID", JSON.parse(localStorage.getItem("userID")));
-        formData.append("profileID", getLoggedInProfileID());
-        setFormData(formData);
-        console.log(formData);
-      }
-    };
+    if (await validateImage(file, { maxWidth, maxHeight })) {
+      setProImage(URL.createObjectURL(file));
+      setUploaded(true);
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("blogID", JSON.parse(localStorage.getItem("blogID")));
+      // formData.append("userID", JSON.parse(localStorage.getItem("userID")));
+      formData.append("profileID", getLoggedInProfileID());
+      setFormData(formData);
+      console.log(formData);
+    }
   };
 
   const url = "http://127.0.0.1:5000/blog/addBlogImage";
