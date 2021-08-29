@@ -6,7 +6,8 @@ export default function usePreviewImage(fileObj, initialValue) {
   useEffect(() => {
     if (!fileObj) return;
 
-    const urlSrc = URL.createObjectURL(fileObj);
+    const urlSrc =
+      typeof fileObj === "string" ? fileObj : URL.createObjectURL(fileObj);
     setSrc(urlSrc);
 
     return () => URL.revokeObjectURL(urlSrc);

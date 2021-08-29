@@ -176,6 +176,10 @@ nav ul li h3 {
 	letter-spacing: 0.08rem;
 } */
 
+.ani-spinner {
+  animation: spinner var(--speed, 2s) linear infinite;
+}
+
 @keyframes spinner {
   100% {
     transform: rotate(360deg);

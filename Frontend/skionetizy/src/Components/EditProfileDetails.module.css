@@ -1,0 +1,103 @@
+.wrapper {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--dark-blue);
+  height: 40em;
+  width: 60em;
+  border-radius: 10px;
+  padding: 1em 3em;
+  color: white;
+  border: 1px solid black;
+}
+
+.container {
+  position: relative;
+}
+
+.backdrop {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  place-items: center;
+
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.closeBtn {
+  position: relative;
+  float: right;
+  color: white;
+
+  outline: none;
+  border: none;
+  left: 3.5vh;
+  bottom: 25px;
+  font-size: 60px;
+  font-weight: bold;
+  background: transparent;
+  transition: all 0.5s ease;
+  z-index: 1;
+}
+
+.closeBtn:hover {
+  transform: rotate(90deg);
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-items: flex-start;
+  gap: 4em;
+}
+
+.firstLast > label:nth-child(3) {
+  margin-left: 4em;
+}
+
+.horizontalLine {
+  width: 100%;
+}
+
+.bio {
+  margin-top: 5em;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.bio > textarea {
+  height: 10em;
+  width: 50em;
+  margin-left: 6.6em;
+  color: white;
+  background: var(--dark-blue);
+  padding: 0.5em;
+}
+
+.savebtn {
+  display: flex;
+  align-items: center;
+  column-gap: 1ch;
+
+  border: none;
+  background-color: var(--primary-blue);
+  padding: 0.6em 1.2em;
+  width: max-content;
+  color: #fff;
+  border-radius: 0.3em;
+  cursor: pointer;
+  position: relative;
+  left: 50%;
+  top: 10px;
+}
+
+.inputError {
+  color: red;
+  font-size: 0.875rem;
+}
