@@ -125,23 +125,11 @@ function MarkDown(props) {
   };
 
   return (
-    <div>
-      <div className="mainmark">
-        <div style={{ position: "relative", marginLeft: "5%", top: "14%" }}>
+    <div className="mainmark">
+      <div>
+        <div>
           <h3>Enter Blog Title</h3>
-          <br />
-          <input
-            style={{
-              backgroundColor: "#3498db",
-              color: "white",
-              padding: "5px",
-              border: "1px solid transparent",
-              outline: "none",
-              borderRadius: "5px",
-              width: "40%",
-            }}
-            onChange={handleChange("blogTitle")}
-          />
+          <input className="titleInput" onChange={handleChange("blogTitle")} />
         </div>
         <div className="characters">
           characters Remaining {charactersRemaining}
@@ -152,14 +140,6 @@ function MarkDown(props) {
         <div className="characters">
           blog title must be more than 6 characters
         </div>
-        {/* <textarea
-          autoFocus
-          rows="40"
-          cols="85"
-          className="textarea"
-          fixed
-          onChange={handleChange("blogDescription")}
-        /> */}
         <Editor
           className="textarea"
           onChange={(text) =>
@@ -179,14 +159,11 @@ function MarkDown(props) {
             </Link>
           </button>
         </div>
-        <h2
-          style={{ position: "relative", marginTop: "-54%", marginLeft: "68%" }}
-        >
-          Preview
-        </h2>
-        <div>
-          <ReactMarkdown source={data.blogDescription} className="markdown" />
-        </div>
+      </div>
+
+      <div>
+        <h2>Preview</h2>
+        <ReactMarkdown source={data.blogDescription} className="markdown" />
       </div>
     </div>
   );

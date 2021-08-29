@@ -1,34 +1,44 @@
-.textarea {
-  position: relative;
-  margin-top: 10%;
-  padding: 10px;
-  border: 2px solid transparent;
-  left: 5%;
-  outline: none;
-  resize: none;
-  border: 0.1rem solid currentColor;
-}
-.markdown {
-  position: relative;
-  margin-top: 4%;
-  padding: 10px;
-  height: auto;
-  word-wrap: break-word;
-  margin-left: 50%;
-  width: 44%;
-  background-color: white;
-}
 .mainmark {
   color: #3498db;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem;
 }
+
+.markdown {
+  padding: 10px;
+  word-wrap: break-word;
+  background-color: white;
+}
+
+.titleInput {
+  background-color: #3498db;
+  color: white;
+  padding: 5px;
+  border: 1px solid transparent;
+  outline: none;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.textarea {
+  margin-top: 2rem;
+  padding: 10px;
+  border: 2px solid transparent;
+  outline: none;
+  border: 0.1rem solid currentColor;
+}
+
 .characters {
-  margin-left: 30em;
-  position: absolute;
-  margin-top: 7em;
+  margin-top: 0.2rem;
 }
+
 .bg {
   background-color: transparent;
 }
+
 .upload {
   padding: 10px;
   background-color: #3498db;
