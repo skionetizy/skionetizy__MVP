@@ -1,5 +1,5 @@
 from backend.resources.authorize import AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails,GoogleAuth
-from backend.resources.blog import AddKeywordsBlog,AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogsAndProfileDetails,GetBlogByBlogID,GetFeed,AddView,GetCommentsByBlogID
+from backend.resources.blog import AddKeywordsBlog,AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogsAndProfileDetails,GetBlogByBlogID,GetFeed,AddView,GetCommentsByBlogID,GetBlogsAndProfileDetailsPagination
 from backend.resources.profile import AddProfileUsernameBioUserDetails, UpdateProfile, CheckProfileUsernameIsAvailableAPIHandler, GetProfileDetails, AddFollower,GetBlogsAndProfile,RemoveFollower
 from backend.resources.ai_models import GrammarCheck,KeywordsAI
 from flask import send_from_directory
@@ -56,6 +56,8 @@ def initialize_routes(api):
 
     api.add_resource(GoogleAuth,'/auth/authToken')
     api.add_resource(KeywordsAI,'/ai/keywords')
+
+    api.add_resource(GetBlogsAndProfileDetailsPagination,'/blog/getBlogsPaginated')
     
 @app.route('/')
 @app.route('/home',methods=['GET'])

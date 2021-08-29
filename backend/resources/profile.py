@@ -154,3 +154,5 @@ class GetBlogsAndProfile(Resource):
         blogs=Blog.objects(profileID=profileID.profileID)
         profile=Profile.objects.get(profileID=profileID.profileID)
         return jsonify({'blogs':blogs,'profile':profile,'success':True,'status':200})
+
+

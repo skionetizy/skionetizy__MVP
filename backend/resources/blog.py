@@ -371,3 +371,25 @@ class AddKeywordsBlog(Resource):
         data=pd.DataFrame(list_to_excel, columns = ["Keyword", "Average Searches", "Competition Level", "Competition Index", "Searches Past Months", "Past Months", "List Annotations"])
         # print(data)
         return make_response(jsonify({'data':data.head().to_dict()}))
+
+
+class GetBlogsAndProfileDetailsPagination(Resource):
+    def get(self):
+        blogs=Blog.objects().exclude("comments","likedByUsersList","dislikedByUsersList")
+        blogs=[x.to_mongo().to_dict() for x in blogs]
+        for i in blogs:
+            p=Profile.objects.get(profileID=i['profileID'])
+            i['profilePicImageURL']=p.profilePicImageURL
+            i['profileName']=p.profileName
+        blogs_paginated=[]
+        index=0
+        i=0
+        temp=[]
+        for i in blogs:
+            if len(temp)==5:
+                blogs_paginated.append(temp)
+                temp=[]
+            else:
+                temp.append(i)
+        blogs_paginated.append(temp)
+        return make_response(jsonify({"blogs":json.loads(json_util.dumps(blogs_paginated)),"success":True}))
