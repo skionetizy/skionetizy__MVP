@@ -175,6 +175,8 @@ body {
 
 .avatar {
   border-radius: 2em;
+  width: 40px;
+  height: 40px;
 }
 
 /* To change the colour of like and dislike button use this css */

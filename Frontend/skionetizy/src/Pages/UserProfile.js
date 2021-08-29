@@ -8,17 +8,17 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useParams } from "react-router-dom";
+import { updateProfileDetails } from "../API/profileAPIHandler";
 import EditProfileDetails from "../Components/EditProfileDetails";
 import Modal from "../Components/Modal";
+import Spinner from "../Components/Spinner";
 import UserBlogsCard from "../Components/UserBlogsCard";
+import usePreviewImage from "../hooks/usePreviewImage";
 import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
 import baseURL from "../utils/baseURL";
-import usePreviewImage from "../hooks/usePreviewImage";
-import style from "./UserProfile.module.css";
-import validateImage from "../utils/validateImage";
-import { updateProfileDetails } from "../API/profileAPIHandler";
-import Spinner from "../Components/Spinner";
 import clsx from "../utils/clsx";
+import validateImage from "../utils/validateImage";
+import style from "./UserProfile.module.css";
 
 Moment.globalFormat = "MMM D , YYYY";
 
@@ -187,26 +187,28 @@ const UserProfile = () => {
             )}
           </div>
           <div className={style.col2}>
-            <h1>Angela Jolie</h1>
+            {/* <h1>Angela Jolie</h1> */}
+            <h1>{profile.profileName}</h1>
             <div className={style.profileDes}>
-              <li>B. Tech CSE</li>
+              {/* <li>B. Tech CSE</li>
               <li>Vellore Institute of Technology</li>
-              <li>Skionetizy</li>
-              <li></li>
+              <li>Skionetizy</li> */}
+              <li>{profile.profileBio}</li>
               <li></li>
               <li></li>
             </div>
-            <p className={style.profileDes}>Mumbai, Maharashtra</p>
+            {/* <p className={style.profileDes}>Mumbai, Maharashtra</p> */}
             <div className={style.profileFollow}>
               <PeopleOutlineIcon className={style.followIcon} />
               <div className={style.follow}>
                 <small>Following</small>
-                <h1>596</h1>
+                {/* <h1>596</h1> */}
+                <h1> {profile.FollowingCount}</h1>
               </div>
               <PeopleOutlineIcon className={style.followIcon} />
               <div className={style.follow}>
                 <small>Followers</small>
-                <h1>1000</h1>
+                <h1>{profile.FollowersCount}</h1>
               </div>
             </div>
             <div className={style.userButton}>
@@ -219,7 +221,8 @@ const UserProfile = () => {
                 color="primary"
                 href="#outlined-buttons"
               >
-                30th July 2021
+                {/* 30th July 2021 */}
+                <Moment>{profile?.profileTimestamp?.$date}</Moment>
               </Button>
             </div>
           </div>

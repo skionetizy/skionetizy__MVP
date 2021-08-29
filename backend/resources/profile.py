@@ -150,7 +150,6 @@ class AddFollower(Resource):
 
 class GetBlogsAndProfile(Resource):
     def get(self,profileUserName):
-        profileID = Profile.objects.get(profileUserName=profileUserName)
-        blogs=Blog.objects(profileID=profileID)
-        profile=Profile.objects.get(profileID=profileID.profileID)
+        profile = Profile.objects.get(profileUserName=profileUserName)
+        blogs=Blog.objects(profileID=profile.profileID)
         return jsonify({'blogs':blogs,'profile':profile,'success':True,'status':200})
