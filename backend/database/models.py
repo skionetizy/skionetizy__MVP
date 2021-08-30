@@ -58,6 +58,7 @@ class Blog(db.Document):
     dislikedByUsersList=db.ListField(db.UUIDField(required=True,binary=False),required=False,default=[])
     # sampleList=db.ListField(db.StringField(required=True),required=False)
     comments =db.ListField(db.EmbeddedDocumentField(Comment),required=False,default=[])
+    blogStatus=db.StringField(required=False,binary=False)
 
 # class Follower(db.Document):
 #     userID=db.UUIDField(required=True,binary=False)
