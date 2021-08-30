@@ -7,7 +7,7 @@ from bson import json_util
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 import pandas as pd
-from backend.database.models import Blog,Comment,Profile
+from backend.database.models import Blog,Comment,Profile,User
 from backend import client
 from backend.resources.gads import gads
 from datetime import datetime
@@ -394,5 +394,30 @@ class GetBlogsAndProfileDetailsPagination(Resource):
         blogs_paginated.append(temp)
         if(len(blogs_paginated)<number or number<0):
             return make_response(jsonify({'message':'exceeded bounds'}), 404)
-
         return make_response(jsonify({"blogs":json.loads(json_util.dumps(blogs_paginated[number])),"success":True}))
+
+class GetBlogStatus(Resource):
+    def get(self,profileID,blogID):
+        p=Profile.objects.get_or_404(profileID=profileID)
+        u=User.objects.get_or_404(userID=p.userID)
+        if(u.role == 1):
+            b=Blog.objects.get_or_404(blogID=blogID)
+            status = b.blogStatus
+            return make_response(jsonify({"status":json.loads(json_util.dumps(status))}))
+        else:
+            return make_response(jsonify({"status":"Not Authorized"}))
+class UpdateBlogStatus(Resource):
+    def patch(self,profileID,blogID,blogStatus):
+        statusList = ["UNDER_REVIEW","REQUESTED_TO_BE_MODIFIED",  "ACCEPTED","DRAFT"]
+        p=Profile.objects.get_or_404(profileID=profileID)
+        u=User.objects.get_or_404(userID=p.userID)
+        if(u.role == 1):
+            blog=Blog.objects.get_or_404(blogID=blogID)
+            if(blogStatus in statusList):
+                blog.blogStatus=blogStatus
+                blog.save()
+                return make_response(jsonify({"message":"Status updated successfully","status":blogStatus}))
+            else:
+                return make_response(jsonify({"message":"STATUS FORMAT NOT ACCEPTED"}))
+        else:
+            return make_response(jsonify({"status":"Not Authorized"})) 

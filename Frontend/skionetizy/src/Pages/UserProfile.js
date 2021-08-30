@@ -149,7 +149,9 @@ const UserProfile = () => {
           )}
         </div>
 
+        {/* User Profile */}
         <section className={style.userProfile}>
+          {/* User Image */}
           <div className={style.col1}>
             <img className={style.profileImage} src={userProfileSrc} alt="" />
 
@@ -186,18 +188,17 @@ const UserProfile = () => {
               </div>
             )}
           </div>
+
+          {/* User Details */}
           <div className={style.col2}>
-            {/* <h1>Angela Jolie</h1> */}
             <h1>{profile.profileName}</h1>
             <div className={style.profileDes}>
-              {/* <li>B. Tech CSE</li>
-              <li>Vellore Institute of Technology</li>
-              <li>Skionetizy</li> */}
               <li>{profile.profileBio}</li>
               <li></li>
               <li></li>
             </div>
             {/* <p className={style.profileDes}>Mumbai, Maharashtra</p> */}
+
             <div className={style.profileFollow}>
               <PeopleOutlineIcon className={style.followIcon} />
               <div className={style.follow}>
@@ -211,21 +212,25 @@ const UserProfile = () => {
                 <h1>{profile.FollowersCount}</h1>
               </div>
             </div>
+
+            {/* Action Btns Group */}
             <div className={style.userButton}>
-              <Button variant="contained" color="primary">
-                <EditIcon />
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<EditIcon />}
+                onClick={() => setShowEditModal(true)}
+              >
                 Edit Profile
               </Button>
-              <Button
-                variant="outlined"
-                color="primary"
-                href="#outlined-buttons"
-              >
+              <Button variant="outlined">
                 {/* 30th July 2021 */}
                 <Moment>{profile?.profileTimestamp?.$date}</Moment>
               </Button>
             </div>
           </div>
+
+          {/* Socials */}
           <div className={style.social}>
             <h3>Social</h3>
             <ul>
@@ -306,7 +311,7 @@ const UserProfile = () => {
           )}
           {showEditModal && (
             // this class makes it look like page on mobile
-            <Modal>
+            <Modal className={style.modal}>
               <EditProfileDetails
                 profileUserName={profileUserName}
                 onClose={handleClose}
