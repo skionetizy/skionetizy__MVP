@@ -61,7 +61,7 @@ def initialize_routes(api):
     #Get blog Status
     api.add_resource(GetBlogStatus,'/blog/getBlogStatus/<profileID>/<blogID>')
     #Update Blog Status
-    api.add_resource(UpdateBlogStatus,'/blog/updateBlogStatus/<profileID>/<blogID>/<status>')
+    api.add_resource(UpdateBlogStatus,'/blog/updateBlogStatus/<profileID>/<blogID>/<blogStatus>')
     
 @app.route('/')
 @app.route('/home',methods=['GET'])
