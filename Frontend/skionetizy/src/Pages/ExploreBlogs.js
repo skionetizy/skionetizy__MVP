@@ -11,7 +11,7 @@ import Spinner from "../Components/Spinner";
 import ViewMore from "../Components/ViewMore";
 
 const blogsPerPage = 6;
-const url = "http://127.0.0.1:5000/blog/getBlogsAndProfileDetails";
+const url = "http://127.0.0.1:5000/blog/getBlogsPaginated";
 
 function MyBlogs(props) {
   const [status, setStatus] = useState("idle");
@@ -19,60 +19,46 @@ function MyBlogs(props) {
   const [currentBlog, setCurrentBlog] = useState(0);
   const [loading, setLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-
-  const startingIndex = currentBlog * blogsPerPage;
-  const endingIndex = startingIndex + blogsPerPage;
+  const [hasMoreBlogs, setHasMoreBlogs] = useState(true);
 
   useEffect(() => {
     const loadBlogs = () => {
       setLoading(true);
       setStatus("loading");
       axios
-        .get(url)
+        .get(url + `/${currentBlog}`)
         .then((res) => {
           // console.log(Object.values(res.data.blogs);
           console.log(res.data);
-
-          setBlogs(Object.values(res.data.blogs));
+          setBlogs((prevBlogs) => [...prevBlogs, ...res.data.blogs]);
         })
         .catch((err) => {
-          console.log(err);
+          if (err.response?.data.message === "exceeded bounds") {
+            setHasMoreBlogs(false);
+          }
         })
         .finally(() => {
           setStatus("idle");
           setLoading(false);
         });
     };
-    loadBlogs();
-  }, []);
-
-  const slicedBlogs = blogs.slice(0, endingIndex);
+    if (hasMoreBlogs) {
+      loadBlogs();
+    }
+  }, [currentBlog, hasMoreBlogs]);
 
   useEffect(() => {
-    if (isVisible && status === "idle" && blogs.length > 0) {
-      console.log("Fetch more blogs");
-      setStatus("loading");
-
-      // fake delay for 5 seconds
-      setTimeout(() => {
-        if (slicedBlogs.length + blogsPerPage > blogs.length)
-          setStatus("completed");
-        else setStatus("idle");
-
-        setCurrentBlog((prev) => prev + 1);
-      }, 5000);
+    if (isVisible && status === "idle" && blogs.length > 0 && hasMoreBlogs) {
+      setCurrentBlog((prev) => prev + 1);
     }
-  }, [blogs.length, isVisible, slicedBlogs.length, status]);
-
-  props.saveSlicedBlogs(slicedBlogs);
+  }, [blogs.length, hasMoreBlogs, isVisible, status]);
 
   return (
     <div>
       <div
         className={`${style.blogCardContainer} ${style.container} ${style.body}`}
       >
-        {loading && <p className={style.statusMessage}>loading..</p>}
-        {slicedBlogs && slicedBlogs.map((blog) => <BlogCard blog={blog} />)}
+        {blogs && blogs.map((blog) => <BlogCard blog={blog} />)}
       </div>
       {/* <BlogNavigation
         blogsPerPage={blogsPerPage}
@@ -90,13 +76,18 @@ function MyBlogs(props) {
 
       {/* Loading Spinner */}
       {status === "loading" && (
-        <div className={style.spinnerWrapper}>
-          <Spinner color="white" fontSize="2rem" />
-        </div>
+        <>
+          <div className={style.spinnerWrapper}>
+            <Spinner color="white" />
+            <span className={style.statusMessage}>
+              Loading <span className="ani-typing">...</span>
+            </span>
+          </div>
+        </>
       )}
 
       {/* Status Message */}
-      {status === "completed" && (
+      {hasMoreBlogs === false && (
         <p className={style.statusMessage}>🎉You have reached to end</p>
       )}
     </div>

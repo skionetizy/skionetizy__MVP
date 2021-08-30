@@ -219,9 +219,13 @@ body {
 }
 
 .spinnerWrapper {
+  display: flex;
+  align-items: center;
   width: max-content;
+
+  gap: 1rem;
   margin: 0 auto;
-  padding: 4rem 0;
+  padding: 2rem 0;
 }
 
 .statusMessage {

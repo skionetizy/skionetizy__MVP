@@ -180,8 +180,43 @@ nav ul li h3 {
   animation: spinner var(--speed, 2s) linear infinite;
 }
 
+.ani-typing {
+  --background: var(--dark-blue);
+  --color: white;
+  display: inline-block;
+  position: relative;
+  letter-spacing: 0.5ch;
+  color: var(--color);
+}
+
+.ani-typing::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background);
+
+  font-family: monospace;
+
+  animation: typing 3s steps(999) infinite;
+}
+
+@keyframes typing {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+
 @keyframes spinner {
   100% {
-    transform: rotate(360deg);
+    transform: rotate(359deg);
   }
 }
