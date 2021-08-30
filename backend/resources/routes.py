@@ -1,5 +1,5 @@
 from backend.resources.authorize import AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails,GoogleAuth
-from backend.resources.blog import AddKeywordsBlog,AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogsAndProfileDetails,GetBlogByBlogID,GetFeed,AddView,GetCommentsByBlogID,GetBlogsAndProfileDetailsPagination,GetBlogStatus
+from backend.resources.blog import AddKeywordsBlog,AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogsAndProfileDetails,GetBlogByBlogID,GetFeed,AddView,GetCommentsByBlogID,GetBlogsAndProfileDetailsPagination,GetBlogStatus,UpdateBlogStatus
 from backend.resources.profile import AddProfileUsernameBioUserDetails, UpdateProfile, CheckProfileUsernameIsAvailableAPIHandler, GetProfileDetails, AddFollower,GetBlogsAndProfile,RemoveFollower
 from backend.resources.ai_models import GrammarCheck,KeywordsAI
 from flask import send_from_directory
@@ -60,6 +60,8 @@ def initialize_routes(api):
     api.add_resource(GetBlogsAndProfileDetailsPagination,'/blog/getBlogsPaginated')
     #Get blog Status
     api.add_resource(GetBlogStatus,'/blog/getBlogStatus/<profileID>/<blogID>')
+    #Update Blog Status
+    api.add_resource(UpdateBlogStatus,'/blog/updateBlogStatus/<profileID>/<blogID>/<status>')
     
 @app.route('/')
 @app.route('/home',methods=['GET'])

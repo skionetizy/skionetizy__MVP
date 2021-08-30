@@ -404,3 +404,18 @@ class GetBlogStatus(Resource):
             return make_response(jsonify({"status":json.loads(json_util.dumps(status))}))
         else:
             return make_response(jsonify({"status":"Not Authorized"}))
+class UpdateBlogStatus(Resource):
+    def patch(self,profileID,blogID,status):
+        statusList = ["UNDER_REVIEW","REQUESTED_TO_BE_MODIFIED",  "ACCEPTED","DRAFT"]
+        p=Profile.objects.get_or_404(profileID=profileID)
+        u=User.objects.get_or_404(userID=p.userID)
+        if(u.role == 1):
+            blog=Blog.objects.get_or_404(blogID=blogID)
+            if(status in statusList):
+                blog.blogStatus=status
+                blog.save()
+                return make_response(jsonify({"message":"Status updated successfully","status":status}))
+            else:
+                return make_response(jsonify({"message":"STATUS FORMAT NOT ACCEPTED"}))
+        else:
+            return make_response(jsonify({"status":"Not Authorized"})) 
