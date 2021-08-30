@@ -374,7 +374,7 @@ class AddKeywordsBlog(Resource):
 
 
 class GetBlogsAndProfileDetailsPagination(Resource):
-    def get(self):
+    def get(self,number):
         blogs=Blog.objects().exclude("comments","likedByUsersList","dislikedByUsersList")
         blogs=[x.to_mongo().to_dict() for x in blogs]
         for i in blogs:
@@ -392,4 +392,7 @@ class GetBlogsAndProfileDetailsPagination(Resource):
             else:
                 temp.append(i)
         blogs_paginated.append(temp)
-        return make_response(jsonify({"blogs":json.loads(json_util.dumps(blogs_paginated)),"success":True}))
+        if(len(blogs_paginated)<number or number<0):
+            return make_response(jsonify({'message':'exceeded bounds'}), 404)
+
+        return make_response(jsonify({"blogs":json.loads(json_util.dumps(blogs_paginated[number])),"success":True}))

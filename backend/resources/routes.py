@@ -57,7 +57,7 @@ def initialize_routes(api):
     api.add_resource(GoogleAuth,'/auth/authToken')
     api.add_resource(KeywordsAI,'/ai/keywords')
 
-    api.add_resource(GetBlogsAndProfileDetailsPagination,'/blog/getBlogsPaginated')
+    api.add_resource(GetBlogsAndProfileDetailsPagination,'/blog/getBlogsPaginated/<int:number>')
     
 @app.route('/')
 @app.route('/home',methods=['GET'])
