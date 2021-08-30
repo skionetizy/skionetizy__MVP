@@ -8,7 +8,7 @@ import baseURL from "../utils/baseURL";
 import { updateProfileDetails } from "../API/profileAPIHandler";
 import getYupErrors from "../utils/getYupErrors";
 import Spinner from "./Spinner";
-import { FiLoader } from "react-icons/fi";
+import { FiLoader, FiArrowLeft } from "react-icons/fi";
 
 const initailData = {
   profileBio: "",
@@ -91,57 +91,60 @@ function EditProfileDetails({ onClose, profileUserName }) {
   }
   return (
     <div className={style.wrapper}>
-      <div className={style.container}>
-        {isProfileLoading && (
-          <div className={style.backdrop}>
-            <FiLoader width="1em" fontSize="2rem" className="ani-spinner" />
-          </div>
-        )}
-        <button className={style.closeBtn} onClick={onClose}>
-          &times;
-        </button>
-        <h1>Edit Profile</h1>
-        <form onSubmit={handleSubmit}>
-          <div className={style.inputs}>
-            <div className={style.firstLast}>
-              <label htmlFor="firstName">First Name</label>
-              <input
-                type="text"
-                name="firstName"
-                id="firstName"
-                value={profile.profileName}
-                disabled
-              />
-              {/* <label htmlFor="lastName">Last Name</label>
+      {isProfileLoading && (
+        <div className={style.backdrop}>
+          <FiLoader width="1em" fontSize="2rem" className="ani-spinner" />
+        </div>
+      )}
+      <button className={style.closeBtn} onClick={onClose}>
+        &times;
+      </button>
+
+      <button className={style.backBtn} onClick={onClose}>
+        <FiArrowLeft width="1em" />
+      </button>
+
+      <h1>Edit Profile</h1>
+      <form onSubmit={handleSubmit}>
+        <div className={style.inputs}>
+          <div className={style.firstLast}>
+            <label htmlFor="firstName">First Name</label>
+            <input
+              type="text"
+              name="firstName"
+              id="firstName"
+              value={profile.profileName}
+              disabled
+            />
+            {/* <label htmlFor="lastName">Last Name</label>
                       <input type="text" name="lastName" id="lastName" /> */}
-            </div>
-            {/* <div>
+          </div>
+          {/* <div>
                       <label htmlFor="lastName">Joining Date</label>
                       <input type="date" name="lastName" id="lastName" />
                     </div> */}
-            <hr className={style.horizontalLine} />
-            <div className={style.bottom}>
-              <div>
-                <label htmlFor="">Website Link</label>
-                <input
-                  className={style.url}
-                  {...getInputProps("profileWebsiteURL")}
-                />
-              </div>
-              <InputError error={errors.profileWebsiteURL} />
-
-              <div className={style.bio}>
-                <label htmlFor="Bio">Bio</label>
-                <textarea id="Bio" {...getInputProps("profileBio")} />
-              </div>
-              <InputError error={errors.profileBio} />
+          <hr className={style.horizontalLine} />
+          <div className={style.bottom}>
+            <div>
+              <label htmlFor="">Website Link</label>
+              <input
+                className={style.url}
+                {...getInputProps("profileWebsiteURL")}
+              />
             </div>
+            <InputError error={errors.profileWebsiteURL} />
+
+            <div className={style.bio}>
+              <label htmlFor="Bio">Bio</label>
+              <textarea id="Bio" {...getInputProps("profileBio")} rows="4" />
+            </div>
+            <InputError error={errors.profileBio} />
           </div>
-          <button type="submit" className={style.savebtn} disabled={isLoading}>
-            {isLoading && <Spinner />} Save
-          </button>
-        </form>
-      </div>
+        </div>
+        <button type="submit" className={style.savebtn} disabled={isLoading}>
+          {isLoading && <Spinner />} Save
+        </button>
+      </form>
     </div>
   );
 }
