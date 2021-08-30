@@ -1,18 +1,13 @@
 .wrapper {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   background-color: var(--dark-blue);
-  height: 40em;
-  width: 60em;
+
+  min-height: 40em;
+  width: 100vw;
+  max-width: 60em;
   border-radius: 10px;
   padding: 1em 3em;
   color: white;
   border: 1px solid black;
-}
-
-.container {
   position: relative;
 }
 
@@ -72,12 +67,14 @@
 }
 
 .bio > textarea {
-  height: 10em;
-  width: 50em;
-  margin-left: 6.6em;
+  max-height: 10em;
+  margin-left: 1rem;
+  flex: 1;
   color: white;
   background: var(--dark-blue);
   padding: 0.5em;
+  border: 1px solid;
+  resize: vertical;
 }
 
 .savebtn {
@@ -100,4 +97,40 @@
 .inputError {
   color: red;
   font-size: 0.875rem;
+}
+
+.backBtn {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .wrapper {
+    border-radius: 0;
+    min-height: 100%;
+    padding: 2rem;
+  }
+
+  .closeBtn {
+    display: none;
+  }
+
+  .backBtn {
+    display: block;
+    position: relative;
+    left: 3.5vh;
+    bottom: 25px;
+
+    margin: 1rem;
+
+    float: right;
+    color: white;
+
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 2rem;
+
+    z-index: 1;
+  }
 }
