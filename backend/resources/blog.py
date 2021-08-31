@@ -392,7 +392,7 @@ class GetBlogsAndProfileDetailsPagination(Resource):
             else:
                 temp.append(i)
         blogs_paginated.append(temp)
-        if(len(blogs_paginated)<number or number<0):
+        if(len(blogs_paginated)<=number or number<0):
             return make_response(jsonify({'message':'exceeded bounds'}), 404)
         return make_response(jsonify({"blogs":json.loads(json_util.dumps(blogs_paginated[number])),"success":True}))
 
