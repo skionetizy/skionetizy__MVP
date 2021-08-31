@@ -176,6 +176,11 @@ nav ul li h3 {
 	letter-spacing: 0.08rem;
 } */
 
+.center {
+  display: grid;
+  place-items: center;
+}
+
 .ani-spinner {
   animation: spinner var(--speed, 2s) linear infinite;
 }

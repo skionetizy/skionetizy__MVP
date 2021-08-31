@@ -52,7 +52,7 @@ function App() {
           component={EditProfile}
         />
         <Route exact path="/auth/authToken" component={OAuthPage} />
-        <Route exact path="/:profileUserName" component={UserProfile} />
+        <Route path="/:profileUserName" component={UserProfile} />
       </Switch>
     </Router>
   );

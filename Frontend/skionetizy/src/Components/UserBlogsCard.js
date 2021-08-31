@@ -1,50 +1,52 @@
 import React from "react";
+import { FiEdit2 } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import styles from "./UserBlogsCard.module.css";
 
-import style from "../Pages/UserProfile.module.css";
-import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
-import ThumbDownAltIcon from "@material-ui/icons/ThumbDownAlt";
-
-import Moment from "react-moment";
-
-Moment.globalFormat = "MMM D , YYYY";
-
-const UserBlogsCard = ({ blog, isAuthorisedUser }) => {
-  // console.log({ blogInUserBlogsCard: blog });
+export default function UserBlogsCard({ blog, profile }) {
+  const { blogImageURL, blogTitle, blogDescription, blogStatus, timestamp } =
+    blog;
+  const { profilePicImageURL, profileName } = profile;
+  const blogPublishDate = new Date(timestamp.$date).toLocaleString("en-IN", {
+    month: "short",
+    day: "numeric",
+  });
 
   return (
-    <div className={style.container}>
-      <div className={style.row}>
-        <img className={style.blogImage} src={`${blog.blogImageURL}`} alt="" />
-        <div className={style.blogInfo}>
-          <div className={style.blogTitle}>{blog.blogTitle}</div>
-          <div className={style.dayLikesDislikes}>
-            <h4 className={style.date}>
-              <Moment>{blog?.timestamp?.$date}</Moment>
-            </h4>
-            <div className={style.pushRight}>
-              <span>{blog.likesCount}</span>
-              <ThumbUpAltIcon className={style.ThumbUpAlt} />
-            </div>
-            <div className={style.thumbDown}>
-              <span>{blog.dislikesCount}</span>
-              <ThumbDownAltIcon className={style.ThumbDownAlt} />
-            </div>
+    <div className={styles.wrapper}>
+      <img
+        src={blogImageURL}
+        className={styles.blogImage}
+        alt={`${blogTitle}'s`}
+      />
+
+      {/* details */}
+      <div className={styles.detailsWrapper}>
+        <div className={styles.titleWrapper}>
+          <p className={styles.blogTitle}>{blogTitle}</p>
+          <p>{blogPublishDate}</p>
+        </div>
+
+        <div className={styles.profileDetailsWrapper}>
+          <div className={styles.profileWrapper}>
+            <img
+              src={profilePicImageURL}
+              className={styles.profileImage}
+              alt={profileName}
+            />
+
+            <p className={styles.profileName}>{profileName}</p>
           </div>
-          {isAuthorisedUser && (
-            <div className={style.actions}>
-              <button
-                className={`${style.deleteBlog} ${style.secondaryButton}`}
-              >
-                Delete
-              </button>
-              <button className={style.editBlog}>Edit Blog</button>
-            </div>
+
+          {blogStatus && (
+            <span className={styles.blogStatus}>{blogStatus}</span>
           )}
         </div>
+
+        <p className={styles.blogDescription}>
+          {blogDescription.substr(0, 200)}...
+        </p>
       </div>
-      <hr />
     </div>
   );
-};
-
-export default UserBlogsCard;
+}

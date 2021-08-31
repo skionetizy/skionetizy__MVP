@@ -7,7 +7,7 @@ import PeopleOutlineIcon from "@material-ui/icons/PeopleOutline";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
-import { useParams } from "react-router-dom";
+import { Link, useParams, useRouteMatch, NavLink } from "react-router-dom";
 import { updateProfileDetails } from "../API/profileAPIHandler";
 import EditProfileDetails from "../Components/EditProfileDetails";
 import Modal from "../Components/Modal";
@@ -19,6 +19,9 @@ import baseURL from "../utils/baseURL";
 import clsx from "../utils/clsx";
 import validateImage from "../utils/validateImage";
 import style from "./UserProfile.module.css";
+import { Switch, Route } from "react-router-dom";
+import DraftCard from "../Components/DraftCard";
+import { FiEdit2 } from "react-icons/fi";
 
 Moment.globalFormat = "MMM D , YYYY";
 
@@ -30,6 +33,7 @@ const UserProfile = () => {
   const [blogs, setBlogs] = useState([]);
   const [profile, setProfile] = useState({});
   const profileID = getLoggedInProfileID();
+  const { url: userProfileRoute } = useRouteMatch();
 
   const [userProfileImage, setUserProfileImage] = useState(null);
   const [profileImageStatus, setProfileImageStatus] = useState("idle");
@@ -48,6 +52,7 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
+    setStatus("loading");
     axios
       .get(`${baseURL}/profile/getBlogsAndProfile/${profileUserName}`)
       .then((res) => {
@@ -57,6 +62,9 @@ const UserProfile = () => {
 
         setUserProfileImage(res.data.profile.profilePicImageURL);
         setUserCoverImage(res.data.profile.profileBannerImageURL);
+      })
+      .finally(() => {
+        setStatus("idle");
       });
   }, [profileUserName]);
 
@@ -213,20 +221,22 @@ const UserProfile = () => {
               </div>
             </div>
 
+            <Moment>{profile?.profileTimestamp?.$date}</Moment>
+
             {/* Action Btns Group */}
             <div className={style.userButton}>
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<EditIcon />}
-                onClick={() => setShowEditModal(true)}
-              >
-                Edit Profile
-              </Button>
-              <Button variant="outlined">
-                {/* 30th July 2021 */}
-                <Moment>{profile?.profileTimestamp?.$date}</Moment>
-              </Button>
+              {isAuthorisedUser() ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<EditIcon />}
+                  onClick={() => setShowEditModal(true)}
+                >
+                  Edit Profile
+                </Button>
+              ) : (
+                <Button variant="outlined">Follow</Button>
+              )}
             </div>
           </div>
 
@@ -294,7 +304,7 @@ const UserProfile = () => {
            
           </div>*/}
         <div className={style.container}>
-          {isAuthorisedUser() && (
+          {/* {isAuthorisedUser() && (
             <div className={style.buttons}>
               <button
                 className={`${style.buttons_followButton} ${style.secondaryButton}`}
@@ -308,7 +318,7 @@ const UserProfile = () => {
                 Edit profile
               </button>
             </div>
-          )}
+          )} */}
           {showEditModal && (
             // this class makes it look like page on mobile
             <Modal className={style.modal}>
@@ -318,21 +328,95 @@ const UserProfile = () => {
               />
             </Modal>
           )}
-
-          <div className={style.divider}>
-            <h2>My blogs</h2>
-          </div>
-          <div className={style.userBlogs}>
-            {blogs &&
-              blogs.map((blog, index) => (
-                <UserBlogsCard
-                  key={index}
-                  blog={blog}
-                  isAuthorisedUser={isAuthorisedUser()}
-                />
-              ))}
-          </div>
         </div>
+      </div>
+
+      <div className={style.blogDraftWrapper}>
+        {/* Blogs Draft Nav */}
+        <nav>
+          <NavLink
+            activeClassName={style.navBtnActive}
+            to={`${userProfileRoute}/blogs`}
+            className={style.navBtn}
+          >
+            My Blogs
+          </NavLink>
+
+          <NavLink
+            activeClassName={style.navBtnActive}
+            to={`${userProfileRoute}/drafts`}
+            className={style.navBtn}
+          >
+            My Drafts
+          </NavLink>
+        </nav>
+
+        <Switch>
+          {/* Blogs */}
+          <Route path={`${userProfileRoute}/blogs`}>
+            <div className={style.divider}>
+              <h2>My Blogs</h2>
+            </div>
+
+            {status === "loading" ? (
+              <div className="center">
+                <Spinner fontSize="2rem" color="white" />
+              </div>
+            ) : (
+              blogs && (
+                <div className={style.userBlogs}>
+                  {blogs &&
+                    blogs.map((blog, index) => (
+                      <UserBlogsCard
+                        key={index}
+                        blog={blog}
+                        profile={profile}
+                        isAuthorisedUser={isAuthorisedUser()}
+                      />
+                    ))}
+                </div>
+              )
+            )}
+          </Route>
+
+          <Route path={`${userProfileRoute}/drafts`}>
+            <div className={style.divider}>
+              <h2>My Drafts</h2>
+            </div>
+
+            <div className={style.userBlogs}>
+              {Array(10)
+                .fill({
+                  blogID: Math.random().toString().substr(2),
+                  blogTitle: "How to write a blog",
+                  blogImageURL:
+                    "https://res.cloudinary.com/dd8470vy4/image/upload/tedyg2kmtgw7dkrhcq9r",
+                  blogStatus: "Cancelled",
+                  timestamp: { $date: 1622375890509 },
+                  blogDescription:
+                    "I love cheese, especially airedale queso. Cheese and biscuits halloumi cauliflower cheese cottage cheese swiss boursin fondue caerphilly. I love cheese, especially airedale queso. Cheese and biscuits halloumi cauliflower cheese cottage cheese swiss boursin fondue caerphilly. I love cheese, especially airedale queso. Cheese and biscuits halloumi cauliflower cheese cottage cheese swiss boursin fondue caerphilly. I love cheese, especially airedale queso. Cheese and biscuits halloumi cauliflower cheese cottage cheese swiss boursin fondue caerphilly.",
+                })
+                .map((blog, index) => (
+                  <div className={style.draftWrapper}>
+                    <UserBlogsCard
+                      key={index}
+                      blog={blog}
+                      profile={profile}
+                      isAuthorisedUser={isAuthorisedUser()}
+                    />
+
+                    <Link
+                      to={`/edit-draft/${blog.blogID}`}
+                      className={style.editDraftBtn}
+                    >
+                      <FiEdit2 width="1em" />
+                    </Link>
+                  </div>
+                ))}
+            </div>
+          </Route>
+          {/* Drafts */}
+        </Switch>
       </div>
     </div>
   );

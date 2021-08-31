@@ -33,6 +33,33 @@
 .profileDetails {
   position: relative;
 }
+
+.userBlogs > * + * {
+  margin-top: 6rem;
+}
+
+.draftWrapper {
+  position: relative;
+}
+
+.editDraftBtn {
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 2rem;
+  height: 2rem;
+
+  background-color: #f1f1f3;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+  border-radius: 999px;
+  transform: translate(25%, -25%);
+}
+
 .profileDetails .bannerEditIcon {
   position: absolute;
   width: 30px;
@@ -146,6 +173,7 @@ col3 {
 .userButton {
   display: flex;
   gap: 1rem;
+  padding-top: 1rem;
 }
 .userButton button {
   font-size: 12px;
@@ -254,21 +282,22 @@ col3 {
   display: flex;
   justify-content: center;
   align-items: center;
+  color: white;
 }
 
-.divider ::before {
+.divider::before {
   content: "";
   height: 3px;
-  background-color: black;
+  background-color: currentColor;
   width: 20%;
   position: absolute;
   left: 10%;
   margin-top: 0.5em;
 }
-.divider ::after {
+.divider::after {
   content: "";
   height: 3px;
-  background-color: black;
+  background-color: currentColor;
   width: 20%;
   position: absolute;
   right: 10%;
@@ -353,6 +382,32 @@ form input {
 
 .usersImageLoading {
   opacity: 0.5;
+}
+
+/* blog draft */
+.blogDraftWrapper {
+  min-height: 40vh;
+
+  padding: 0 2rem;
+  padding-top: 3.5rem;
+  background-color: var(--dark-blue);
+}
+
+.navBtn {
+  display: inline-block;
+
+  margin: 0 0.5rem;
+  padding: 0.3rem 1.5rem;
+  border: 0.1rem solid var(--primary-blue);
+  border-radius: 0.75rem;
+
+  color: white;
+  text-decoration: none;
+}
+
+.navBtnActive {
+  background-color: white;
+  color: var(--dark-blue);
 }
 
 /* mobile only */
@@ -446,22 +501,27 @@ form input {
     align-self: center;
   }
 
-  .divider ::before {
+  .divider::before {
     content: "";
     height: 3px;
-    background-color: black;
+    background-color: currentColor;
     width: 35%;
     position: absolute;
     left: 10%;
     margin-top: 0.5em;
   }
-  .divider ::after {
+  .divider::after {
     content: "";
     height: 3px;
-    background-color: black;
+    background-color: currentColor;
     width: 35%;
     position: absolute;
     right: 10%;
     margin-top: 0.5em;
+  }
+
+  .blogDraftWrapper {
+    padding-left: 5rem;
+    padding-right: 5rem;
   }
 }
