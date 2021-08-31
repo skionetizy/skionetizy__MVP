@@ -1,0 +1,43 @@
+.wrapper {
+  padding: 4rem 3rem;
+  background-color: var(--dark-blue);
+  border-radius: 1rem;
+
+  color: white;
+  text-align: center;
+
+  position: relative;
+}
+
+.closeBtn {
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  margin: 1rem;
+
+  background: none;
+  border: none;
+  color: inherit;
+  transition: transform 250ms ease-in-out;
+
+  cursor: pointer;
+}
+
+.closeBtn:hover {
+  transform: rotate(90deg);
+}
+
+.googleBtn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0.5rem;
+  border-radius: 999px;
+  transition: background-color 250ms ease-in-out;
+}
+
+.googleBtn:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}

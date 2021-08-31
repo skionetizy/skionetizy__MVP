@@ -26,6 +26,7 @@ import ShareIcon from "@material-ui/icons/Share";
 
 import Comments from "../Components/comments";
 import Moment from "react-moment";
+import GoogleOAuthModal from "../Components/GoogleOAuthModal";
 const KEYWORDS_LOCAL_KEY = "blogsKeywords";
 
 Moment.globalFormat = "MMM D , YYYY";
@@ -38,7 +39,7 @@ const ViewBlog = () => {
   const [showComment, setShowComment] = useState(false);
   const [length, setLength] = useState(3);
   const [viewMore, setViewMore] = useState("View more");
-
+  const [shouldShowLoginModal, setShouldShowLoginModal] = useState(false);
   const [hasLiked, setHasLiked] = useState(false);
   const [hasDisliked, setHasDisliked] = useState(false);
   const [commentStatusMessage, setCommentStatusMessage] = useState("");
@@ -114,6 +115,10 @@ const ViewBlog = () => {
         setComments(response2.data.comments);
       })
     );
+
+    setTimeout(() => {
+      setShouldShowLoginModal(true);
+    }, 8000);
   }, []);
 
   // whenever statusupdates and is not empty
@@ -313,166 +318,173 @@ const ViewBlog = () => {
   // eslint-disable-next-line no-lone-blocks
 
   return (
-    <div className={`${style.main} ${style.container}`}>
-      <div className={style.blogHeader}>
-        <h1 className={style.title}>{blog.blogTitle}</h1>
-        <div className={style.author}>
-          <div className={style.authorContents}>
+    <>
+      <div className={`${style.main} ${style.container}`}>
+        <div className={style.blogHeader}>
+          <h1 className={style.title}>{blog.blogTitle}</h1>
+          <div className={style.author}>
+            <div className={style.authorContents}>
+              <img
+                className={style.avatar}
+                src={blog.profilePicImageURL}
+                alt=" "
+              />
+              <div className={style.published}>
+                <small className={style.authorName}>{blog.profileName}</small>
+                <small className={style.publishedDate}>
+                  Published on
+                  <small>
+                    <Moment>{blog?.timestamp?.$date}</Moment>
+                  </small>
+                </small>
+              </div>
+            </div>
+            <div className={style.buttons}>
+              <button className={`${style.button} ${style.followButton}`}>
+                Follow
+              </button>
+              <button className={`${style.button} ${style.shareButton}`}>
+                Share <ShareIcon fontSize="small" />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className={style.blogArea}>
+          <div className={style.blogCoverImage}>
             <img
-              className={style.avatar}
-              src={blog.profilePicImageURL}
+              className={style.blogImage}
+              src={`${blog.blogImageURL}`}
               alt=" "
             />
-            <div className={style.published}>
-              <small className={style.authorName}>{blog.profileName}</small>
-              <small className={style.publishedDate}>
-                Published on
-                <small>
-                  <Moment>{blog?.timestamp?.$date}</Moment>
-                </small>
-              </small>
-            </div>
           </div>
-          <div className={style.buttons}>
-            <button className={`${style.button} ${style.followButton}`}>
-              Follow
-            </button>
-            <button className={`${style.button} ${style.shareButton}`}>
-              Share <ShareIcon fontSize="small" />
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className={style.blogArea}>
-        <div className={style.blogCoverImage}>
-          <img
-            className={style.blogImage}
-            src={`${blog.blogImageURL}`}
-            alt=" "
-          />
-        </div>
-        {/* for now giving inline style because they might accordingly our strategy */}
-        <div style={{ position: "relative" }} className={style.blogContent}>
-          <article>{blog.blogDescription}</article>
-          {/* when this span comes into view then after `x`
+          {/* for now giving inline style because they might accordingly our strategy */}
+          <div style={{ position: "relative" }} className={style.blogContent}>
+            <article>{blog.blogDescription}</article>
+            {/* when this span comes into view then after `x`
            minutes we will send view count patch request to backend */}
-          {blog.blogDescription && (
-            <span
-              ref={scrollTargetRef}
-              style={{
-                // moving a bit up so ~75% scroll through blog is counted as a view
-                position: "absolute",
-                bottom: "25%",
-                left: 0,
-                backgroundColor: "red",
-                display: "inline-block",
-                width: 32,
-                height: 32,
-              }}
-            ></span>
-          )}
-        </div>
-      </div>
-      <div className={style.meta}>
-        <div className={style.metaContent}>
-          <div className={style.views}>
-            <span className={style.viewCount}>{blog.viewCount}</span>
-
-            <VisibilityIcon fontSize="large" className={style.viewIcon} />
-          </div>
-          <div className={`${style.pushRight} ${style.likes}`}>
-            <span className={style.likesCount}>{blog.likesCount}</span>
-            <div className={style.thumbUp} onClick={handleLike}>
-              {hasLikedIcon}
-            </div>
-          </div>
-          <div className={style.dislikes}>
-            <span className={style.dislikesCount}>{blog.dislikesCount}</span>
-            <div className={style.thumbDown} onClick={handleDislike}>
-              {hasDislikedIcon}
-            </div>
-            {console.log({
-              intheAppLiked: hasLiked,
-              intheAppDiskLiked: hasDisliked,
-              blogInApp: blog,
-              inTheAppBlogLikesCount: blog.likesCount,
-              intheAppBlogDislikes: blog.dislikesCount,
-            })}
+            {blog.blogDescription && (
+              <span
+                ref={scrollTargetRef}
+                style={{
+                  // moving a bit up so ~75% scroll through blog is counted as a view
+                  position: "absolute",
+                  bottom: "25%",
+                  left: 0,
+                  backgroundColor: "red",
+                  display: "inline-block",
+                  width: 32,
+                  height: 32,
+                }}
+              ></span>
+            )}
           </div>
         </div>
-      </div>
-      <div className={styles.comments}>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            const commentDescription = e.target.elements.input.value;
+        <div className={style.meta}>
+          <div className={style.metaContent}>
+            <div className={style.views}>
+              <span className={style.viewCount}>{blog.viewCount}</span>
 
-            setCommentStatusMessage("");
-            addCommentAPIHandler({
-              commentDescription,
-              blogID,
-            })
-              .then((response) => {
-                console.log(JSON.stringify(response));
-                setCommentStatusMessage(response.data.message);
-                // re-fetch comments for blog when successful
-                if (response.data.success === true) getBlogs();
-                this.text.value = "";
+              <VisibilityIcon fontSize="large" className={style.viewIcon} />
+            </div>
+            <div className={`${style.pushRight} ${style.likes}`}>
+              <span className={style.likesCount}>{blog.likesCount}</span>
+              <div className={style.thumbUp} onClick={handleLike}>
+                {hasLikedIcon}
+              </div>
+            </div>
+            <div className={style.dislikes}>
+              <span className={style.dislikesCount}>{blog.dislikesCount}</span>
+              <div className={style.thumbDown} onClick={handleDislike}>
+                {hasDislikedIcon}
+              </div>
+              {console.log({
+                intheAppLiked: hasLiked,
+                intheAppDiskLiked: hasDisliked,
+                blogInApp: blog,
+                inTheAppBlogLikesCount: blog.likesCount,
+                intheAppBlogDislikes: blog.dislikesCount,
+              })}
+            </div>
+          </div>
+        </div>
+        <div className={styles.comments}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const commentDescription = e.target.elements.input.value;
+
+              setCommentStatusMessage("");
+              addCommentAPIHandler({
+                commentDescription,
+                blogID,
               })
-              .catch((error) => {
-                console.log("It is not working");
-              });
-          }}
-          className={style.commentForm}
-        >
-          <input
-            id="mainInput"
-            className={style.commentInput}
-            name="input"
-            type="text"
-            placeholder="Add to the dicussion..."
-          ></input>
-
-          <button className={style.commentBtn} type="submit">
-            Submit
-          </button>
-        </form>
-
-        <p className={style.commentStatus}>
-          {commentStatusMessage || <>&nbsp;</>}
-        </p>
-
-        <div className={styles.comment_count}>
-          <h3>
-            <span>{comments?.length}</span> Comments
-            {console.log({ commentStatusMessage })}
-          </h3>
-        </div>
-
-        <div className={styles.comments_container}>
-          {showComment &&
-            comments?.slice(0, length).map((comment) => (
-              <Comments
-                comment={comment}
-                key={comment.commentID}
-                authorProfileID={profileID}
-                onDelete={(response) => {
+                .then((response) => {
+                  console.log(JSON.stringify(response));
+                  setCommentStatusMessage(response.data.message);
                   // re-fetch comments for blog when successful
                   if (response.data.success === true) getBlogs();
-                }}
-                updateCommentStatusMessage={(commentStatusMessage) =>
-                  updateCommentStatusMessageParent(commentStatusMessage)
-                }
-              />
-            ))}
+                  this.text.value = "";
+                })
+                .catch((error) => {
+                  console.log("It is not working");
+                });
+            }}
+            className={style.commentForm}
+          >
+            <input
+              id="mainInput"
+              className={style.commentInput}
+              name="input"
+              type="text"
+              placeholder="Add to the dicussion..."
+            ></input>
+
+            <button className={style.commentBtn} type="submit">
+              Submit
+            </button>
+          </form>
+
+          <p className={style.commentStatus}>
+            {commentStatusMessage || <>&nbsp;</>}
+          </p>
+
+          <div className={styles.comment_count}>
+            <h3>
+              <span>{comments?.length}</span> Comments
+              {console.log({ commentStatusMessage })}
+            </h3>
+          </div>
+
+          <div className={styles.comments_container}>
+            {showComment &&
+              comments?.slice(0, length).map((comment) => (
+                <Comments
+                  comment={comment}
+                  key={comment.commentID}
+                  authorProfileID={profileID}
+                  onDelete={(response) => {
+                    // re-fetch comments for blog when successful
+                    if (response.data.success === true) getBlogs();
+                  }}
+                  updateCommentStatusMessage={(commentStatusMessage) =>
+                    updateCommentStatusMessageParent(commentStatusMessage)
+                  }
+                />
+              ))}
+          </div>
         </div>
+        {length < blog?.comments?.length && (
+          <button onClick={viewAllHandler} className={style.view_all}>
+            {viewMore}
+          </button>
+        )}
       </div>
-      {length < blog?.comments?.length && (
-        <button onClick={viewAllHandler} className={style.view_all}>
-          {viewMore}
-        </button>
-      )}
-    </div>
+
+      <GoogleOAuthModal
+        isVisible={shouldShowLoginModal}
+        onClose={() => setShouldShowLoginModal(false)}
+      />
+    </>
   );
 };
 
