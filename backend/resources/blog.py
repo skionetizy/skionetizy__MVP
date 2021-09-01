@@ -285,7 +285,7 @@ class RemoveCommentonBlog(Resource):
 class GetBlogsAndProfileDetails(Resource):
     def get(self):
         # blogs=Blog.objects().exclude("blogDescription","comments","likedByUsersList","dislikedByUsersList")
-        blogs=Blog.objects().exclude("comments","likedByUsersList","dislikedByUsersList")
+        blogs=Blog.objects(blogStatus='ACCEPTED').exclude("comments","likedByUsersList","dislikedByUsersList","blogDescription")
         blogs=[x.to_mongo().to_dict() for x in blogs]
         for i in blogs:
             p=Profile.objects.get(profileID=i['profileID'])

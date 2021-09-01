@@ -6,7 +6,7 @@ import uuid
 
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
-
+from bson import json_util
 from backend.database.models import Profile,Blog
 
 # from datetime import datetime
@@ -153,3 +153,26 @@ class GetBlogsAndProfile(Resource):
         profile = Profile.objects.get(profileUserName=profileUserName)
         blogs=Blog.objects(profileID=profile.profileID)
         return jsonify({'blogs':blogs,'profile':profile,'success':True,'status':200})
+
+class GetProfileandBlogsPaginated(Resource):
+    def get(self,number):
+        blogs=Blog.objects().exclude("comments","likedByUsersList","dislikedByUsersList")
+        blogs=[x.to_mongo().to_dict() for x in blogs]
+        for i in blogs:
+            p=Profile.objects.get(profileID=i['profileID'])
+            i['profilePicImageURL']=p.profilePicImageURL
+            i['profileName']=p.profileName
+        blogs_paginated=[]
+        index=0
+        i=0
+        temp=[]
+        for i in blogs:
+            if len(temp)==5:
+                blogs_paginated.append(temp)
+                temp=[]
+            else:
+                temp.append(i)
+        blogs_paginated.append(temp)
+        if(len(blogs_paginated)<=number or number<0):
+            return make_response(jsonify({'message':'exceeded bounds'}), 404)
+        return make_response(jsonify({"blogs":json.loads(json_util.dumps(blogs_paginated[number])),"success":True}))

@@ -59,12 +59,12 @@ class Blog(db.Document):
     # sampleList=db.ListField(db.StringField(required=True),required=False)
     comments =db.ListField(db.EmbeddedDocumentField(Comment),required=False,default=[])
     blogStatus=db.StringField(required=False,binary=False)
-    meta={'indexes': [
-        {'fields': ['$blogTitle', "$blogDescription"],
-         'default_language': 'english',
-         'weights': {'blogTitle': 10, 'blogDescription': 5}
-        }
-    ]}
+    # meta={'indexes': [
+    #     {'fields': ['$blogTitle', "$blogDescription"],
+    #      'default_language': 'english',
+    #      'weights': {'blogTitle': 10, 'blogDescription': 5}
+    #     }
+    # ]}
 
 # class Follower(db.Document):
 #     userID=db.UUIDField(required=True,binary=False)
