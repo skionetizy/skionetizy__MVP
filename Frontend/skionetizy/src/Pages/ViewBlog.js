@@ -30,6 +30,8 @@ import ShareIcon from "@material-ui/icons/Share";
 import Comments from "../Components/comments";
 import Moment from "react-moment";
 import GoogleOAuthModal from "../Components/GoogleOAuthModal";
+import Modal from "../Components/Modal";
+import ShareBlogModal from "../Components/ShareBlogModal";
 const KEYWORDS_LOCAL_KEY = "blogsKeywords";
 
 Moment.globalFormat = "MMM D , YYYY";
@@ -42,7 +44,7 @@ const ViewBlog = () => {
   const [showComment, setShowComment] = useState(false);
   const [length, setLength] = useState(3);
   const [viewMore, setViewMore] = useState("View more");
-  const [shouldShowLoginModal, setShouldShowLoginModal] = useState(false);
+  const [shouldShowShareModal, setShouldShowShareModal] = useState(false);
   const [hasLiked, setHasLiked] = useState(false);
   const [hasDisliked, setHasDisliked] = useState(false);
   const [commentStatusMessage, setCommentStatusMessage] = useState("");
@@ -355,9 +357,19 @@ const ViewBlog = () => {
               <button className={`${style.button} ${style.followButton}`}>
                 Follow
               </button>
-              <button className={`${style.button} ${style.shareButton}`}>
+              <button
+                className={`${style.button} ${style.shareButton}`}
+                onClick={() => setShouldShowShareModal(true)}
+              >
                 Share <ShareIcon fontSize="small" />
               </button>
+
+              {shouldShowShareModal && (
+                <ShareBlogModal
+                  isVisible={shouldShowShareModal}
+                  onClose={() => setShouldShowShareModal(false)}
+                />
+              )}
             </div>
           </div>
         </div>

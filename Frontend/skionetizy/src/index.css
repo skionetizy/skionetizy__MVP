@@ -229,3 +229,18 @@ nav ul li h3 {
     transform: rotate(359deg);
   }
 }
+
+.ani-slideUp {
+  animation: slideUp 250ms ease-in-out forwards;
+}
+@keyframes slideUp {
+  from {
+    transform: translateY(0);
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(-25%);
+  }
+}
