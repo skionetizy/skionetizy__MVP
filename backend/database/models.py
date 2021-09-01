@@ -62,7 +62,7 @@ class Blog(db.Document):
     meta={'indexes': [
         {'fields': ['$blogTitle', "$blogDescription"],
          'default_language': 'english',
-         'weights': {'blogTitle': 10, 'blogDescription': 2}
+         'weights': {'blogTitle': 10, 'blogDescription': 5}
         }
     ]}
 
