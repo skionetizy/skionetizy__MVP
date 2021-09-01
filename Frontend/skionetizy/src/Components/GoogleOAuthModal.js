@@ -9,7 +9,7 @@ import Spinner from "./Spinner";
 
 const frontendBaseURL = "http://localhost:3000";
 
-function GoogleOAuthModal() {
+function GoogleOAuthModal({ currentBlog }) {
   const [isVisible, setIsVisible] = useState(false);
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
@@ -17,7 +17,6 @@ function GoogleOAuthModal() {
     utmSource: "blog",
     redirectURL: window.location.pathname,
   });
-  console.log("#####################", window.location.toString());
   const { state } = useLocation();
 
   useEffect(() => {
@@ -82,7 +81,16 @@ function GoogleOAuthModal() {
             <p>Skionetizy</p>
             <p>You missing most of our features. Login in with one click</p>
 
-            <a href={googleOAuthURL} className={styles.googleBtn}>
+            <a
+              href={googleOAuthURL}
+              className={styles.googleBtn}
+              onClick={() => {
+                localStorage.setItem(
+                  "GOOGLE_OAUTH_CURRENT_BLOG",
+                  JSON.stringify(currentBlog)
+                );
+              }}
+            >
               <FcGoogle width="1em" fontSize="2rem" />
             </a>
           </>

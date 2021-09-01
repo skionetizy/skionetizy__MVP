@@ -86,8 +86,21 @@ const ViewBlog = () => {
   }
 
   useEffect(() => {
-    const promise1 = axios.get(`${baseURL}/blog/getBlogByBlogID/${blogID}`);
+    const cachedBlogKey = "GOOGLE_OAUTH_CURRENT_BLOG";
+    const cachedBlog = localStorage.getItem(cachedBlogKey);
+    let promise1;
+    if (cachedBlog) {
+      // make it look like a AxiosResponse
+      promise1 = { data: { blog: JSON.parse(cachedBlog) } };
+
+      // remove cache so next time we get fresh data from backend
+      localStorage.removeItem(cachedBlogKey);
+    } else {
+      promise1 = axios.get(`${baseURL}/blog/getBlogByBlogID/${blogID}`);
+    }
     const promise2 = axios.get(`${baseURL}/blog/getComments/${blogID}`);
+
+    console.log(promise1);
 
     axios.all([promise1, promise2]).then(
       axios.spread((...responses) => {
@@ -479,7 +492,7 @@ const ViewBlog = () => {
         )}
       </div>
 
-      {!isAuthenticated() && <GoogleOAuthModal />}
+      {!isAuthenticated() && <GoogleOAuthModal currentBlog={blog} />}
     </>
   );
 };
