@@ -176,6 +176,10 @@ nav ul li h3 {
 	letter-spacing: 0.08rem;
 } */
 
+.noscroll {
+  overflow: hidden;
+}
+
 .center {
   display: grid;
   place-items: center;

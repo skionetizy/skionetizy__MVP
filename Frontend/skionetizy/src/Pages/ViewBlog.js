@@ -13,7 +13,10 @@ import {
   addViewApiHandler,
 } from "../API/blogAPIHandler";
 
-import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
+import {
+  getLoggedInProfileID,
+  isAuthenticated,
+} from "../utils/AuthorisationUtils";
 
 import style from "./ViewBlog.module.css";
 import styles from "../Components/comments.module.css";
@@ -115,10 +118,6 @@ const ViewBlog = () => {
         setComments(response2.data.comments);
       })
     );
-
-    setTimeout(() => {
-      setShouldShowLoginModal(true);
-    }, 8000);
   }, []);
 
   // whenever statusupdates and is not empty
@@ -480,10 +479,7 @@ const ViewBlog = () => {
         )}
       </div>
 
-      <GoogleOAuthModal
-        isVisible={shouldShowLoginModal}
-        onClose={() => setShouldShowLoginModal(false)}
-      />
+      {!isAuthenticated() && <GoogleOAuthModal />}
     </>
   );
 };
