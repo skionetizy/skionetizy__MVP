@@ -176,6 +176,10 @@ nav ul li h3 {
 	letter-spacing: 0.08rem;
 } */
 
+.noscroll {
+  overflow: hidden;
+}
+
 .center {
   display: grid;
   place-items: center;
@@ -223,5 +227,20 @@ nav ul li h3 {
 @keyframes spinner {
   100% {
     transform: rotate(359deg);
+  }
+}
+
+.ani-slideUp {
+  animation: slideUp 250ms ease-in-out forwards;
+}
+@keyframes slideUp {
+  from {
+    transform: translateY(0);
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(-25%);
   }
 }

@@ -1,0 +1,49 @@
+.wrapper {
+  padding: 1rem 3rem 3rem;
+  min-width: 40rem;
+  background-color: var(--dark-blue);
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+  border-radius: 1rem;
+  color: white;
+}
+
+.body {
+  text-align: center;
+}
+.body > * + * {
+  margin-top: 2rem;
+}
+
+.closeBtn {
+  display: block;
+  margin-left: auto;
+  padding: 0.5rem;
+  color: inherit;
+  background: none;
+  border: none;
+  border-radius: 999px;
+
+  /* make children's text center vertically center  */
+  line-height: 0;
+  transition: transform 250ms ease-in-out;
+  cursor: pointer;
+}
+
+.closeBtn:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+  transform: rotate(90deg);
+}
+
+.copyBtn {
+  padding: 0.4rem 0.5rem;
+  background-color: var(--primary-blue);
+  border: none;
+  border-radius: 0.5rem;
+  color: #fff8;
+  transition: color 250ms ease-in-out;
+  cursor: pointer;
+}
+
+.copyBtn:hover {
+  color: #fff;
+}

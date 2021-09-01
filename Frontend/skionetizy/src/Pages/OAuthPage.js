@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { sendGoogleAuthCode } from "../API/oauthAPIHandler";
 import Spinner from "../Components/Spinner";
 import styles from "./OAuth.module.css";
@@ -8,6 +8,15 @@ export default function OAuthPage() {
   const [error, setError] = useState("");
   const [status, setStatus] = useState("idle");
   const history = useHistory();
+
+  useLayoutEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const { utmSource, redirectURL } = JSON.parse(params.get("state") || "{}");
+    console.log({ utmSource, redirectURL });
+    if (utmSource === "blog") {
+      history.push(redirectURL, { callbackURL: window.location.toString() });
+    }
+  }, [history]);
 
   useEffect(() => {
     const callbackURL = window.location.toString();

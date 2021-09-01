@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as GOOGLE from "./googleAuthCred";
 
-export function createAuthURL(redirectURL) {
+export function createAuthURL(redirectURL, state = "") {
   const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth";
   const options = {
     redirect_uri: redirectURL,
@@ -13,6 +13,7 @@ export function createAuthURL(redirectURL) {
       "https://www.googleapis.com/auth/userinfo.profile",
       "https://www.googleapis.com/auth/userinfo.email",
     ].join(" "),
+    state: JSON.stringify(state),
   };
 
   return rootUrl + "?" + new URLSearchParams(options).toString();

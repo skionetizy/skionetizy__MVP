@@ -13,7 +13,10 @@ import {
   addViewApiHandler,
 } from "../API/blogAPIHandler";
 
-import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
+import {
+  getLoggedInProfileID,
+  isAuthenticated,
+} from "../utils/AuthorisationUtils";
 
 import style from "./ViewBlog.module.css";
 import styles from "../Components/comments.module.css";
@@ -27,6 +30,8 @@ import ShareIcon from "@material-ui/icons/Share";
 import Comments from "../Components/comments";
 import Moment from "react-moment";
 import GoogleOAuthModal from "../Components/GoogleOAuthModal";
+import Modal from "../Components/Modal";
+import ShareBlogModal from "../Components/ShareBlogModal";
 const KEYWORDS_LOCAL_KEY = "blogsKeywords";
 
 Moment.globalFormat = "MMM D , YYYY";
@@ -39,7 +44,7 @@ const ViewBlog = () => {
   const [showComment, setShowComment] = useState(false);
   const [length, setLength] = useState(3);
   const [viewMore, setViewMore] = useState("View more");
-  const [shouldShowLoginModal, setShouldShowLoginModal] = useState(false);
+  const [shouldShowShareModal, setShouldShowShareModal] = useState(false);
   const [hasLiked, setHasLiked] = useState(false);
   const [hasDisliked, setHasDisliked] = useState(false);
   const [commentStatusMessage, setCommentStatusMessage] = useState("");
@@ -83,8 +88,21 @@ const ViewBlog = () => {
   }
 
   useEffect(() => {
-    const promise1 = axios.get(`${baseURL}/blog/getBlogByBlogID/${blogID}`);
+    const cachedBlogKey = "GOOGLE_OAUTH_CURRENT_BLOG";
+    const cachedBlog = localStorage.getItem(cachedBlogKey);
+    let promise1;
+    if (cachedBlog) {
+      // make it look like a AxiosResponse
+      promise1 = { data: { blog: JSON.parse(cachedBlog) } };
+
+      // remove cache so next time we get fresh data from backend
+      localStorage.removeItem(cachedBlogKey);
+    } else {
+      promise1 = axios.get(`${baseURL}/blog/getBlogByBlogID/${blogID}`);
+    }
     const promise2 = axios.get(`${baseURL}/blog/getComments/${blogID}`);
+
+    console.log(promise1);
 
     axios.all([promise1, promise2]).then(
       axios.spread((...responses) => {
@@ -115,10 +133,6 @@ const ViewBlog = () => {
         setComments(response2.data.comments);
       })
     );
-
-    setTimeout(() => {
-      setShouldShowLoginModal(true);
-    }, 8000);
   }, []);
 
   // whenever statusupdates and is not empty
@@ -343,9 +357,19 @@ const ViewBlog = () => {
               <button className={`${style.button} ${style.followButton}`}>
                 Follow
               </button>
-              <button className={`${style.button} ${style.shareButton}`}>
+              <button
+                className={`${style.button} ${style.shareButton}`}
+                onClick={() => setShouldShowShareModal(true)}
+              >
                 Share <ShareIcon fontSize="small" />
               </button>
+
+              {shouldShowShareModal && (
+                <ShareBlogModal
+                  isVisible={shouldShowShareModal}
+                  onClose={() => setShouldShowShareModal(false)}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -480,10 +504,7 @@ const ViewBlog = () => {
         )}
       </div>
 
-      <GoogleOAuthModal
-        isVisible={shouldShowLoginModal}
-        onClose={() => setShouldShowLoginModal(false)}
-      />
+      {!isAuthenticated() && <GoogleOAuthModal currentBlog={blog} />}
     </>
   );
 };
