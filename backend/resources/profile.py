@@ -149,15 +149,33 @@ class AddFollower(Resource):
         return jsonify({'profile':profile})
 
 class GetBlogsAndProfile(Resource):
-    def get(self,profileUserName,type):            
+    def get(self,profileUserName,type,number):            
         profile = Profile.objects.get(profileUserName=profileUserName)
         if(type == "DRAFTS"):
-            blogs=Blog.objects(profileID=profile.profileID, blogStatus="DRAFTED")
+            blogs=Blog.objects(profileID=profile.profileID, blogStatus="DRAFTED").exclude("comments","likedByUsersList","dislikedByUsersList")
         elif(type=="NON_DRAFTS"):
-            blogs=Blog.objects(profileID=profile.profileID, blogStatus=["IN_REVIEW","MODERATOR_MODIFYING","PUBLISHED"])
+            blogs=Blog.objects(profileID=profile.profileID, blogStatus=["IN_REVIEW","MODERATOR_MODIFYING","PUBLISHED"]).exclude("comments","likedByUsersList","dislikedByUsersList")
         elif(type=="PUBLISHED"):
-            blogs=Blog.objects(profileID=profile.profileID, blogStatus="PUBLISHED")
-        return jsonify({'blogs':blogs,'profile':profile,'success':True,'status':200})
+            blogs=Blog.objects(profileID=profile.profileID, blogStatus="PUBLISHED").exclude("comments","likedByUsersList","dislikedByUsersList")
+        blogs=[x.to_mongo().to_dict() for x in blogs]
+        for i in blogs:
+            p=Profile.objects.get(profileID=i['profileID'])
+            i['profilePicImageURL']=p.profilePicImageURL
+            i['profileName']=p.profileName
+        blogs_paginated=[]
+        index=0
+        i=0
+        temp=[]
+        for i in blogs:
+            if len(temp)==5:
+                blogs_paginated.append(temp)
+                temp=[]
+            else:
+                temp.append(i)
+        blogs_paginated.append(temp)
+        if(len(blogs_paginated)<=number or number<0):
+            return make_response(jsonify({'message':'exceeded bounds'}), 404)
+        return jsonify({'blogs':json.loads(json_util.dumps(blogs_paginated[number])),'success':True,'status':200})
 
 class GetProfileandBlogsPaginated(Resource):
     def get(self,number):

@@ -51,7 +51,7 @@ def initialize_routes(api):
     #
     api.add_resource(GetCommentsByBlogID,'/blog/getComments/<blogID>')
     #
-    api.add_resource(GetBlogsAndProfile,'/profile/getBlogsAndProfile/<profileUserName>/<type>')
+    api.add_resource(GetBlogsAndProfile,'/profile/getBlogsAndProfile/<int:number>/<profileUserName>/<type>')
     api.add_resource(AddKeywordsBlog,'/blog/getKeywords/<word>')
 
     api.add_resource(GoogleAuth,'/auth/authToken')
