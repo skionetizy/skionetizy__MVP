@@ -149,9 +149,14 @@ class AddFollower(Resource):
         return jsonify({'profile':profile})
 
 class GetBlogsAndProfile(Resource):
-    def get(self,profileUserName):
+    def get(self,profileUserName,type):            
         profile = Profile.objects.get(profileUserName=profileUserName)
-        blogs=Blog.objects(profileID=profile.profileID)
+        if(type == "DRAFTS"):
+            blogs=Blog.objects(profileID=profile.profileID, blogStatus="DRAFTED")
+        elif(type=="NON_DRAFTS"):
+            blogs=Blog.objects(profileID=profile.profileID, blogStatus=["IN_REVIEW","MODERATOR_MODIFYING","PUBLISHED"])
+        elif(type=="PUBLISHED"):
+            blogs=Blog.objects(profileID=profile.profileID, blogStatus="PUBLISHED")
         return jsonify({'blogs':blogs,'profile':profile,'success':True,'status':200})
 
 class GetProfileandBlogsPaginated(Resource):
