@@ -25,7 +25,7 @@ import style from "./UserProfile.module.css";
 import { Switch, Route } from "react-router-dom";
 import DraftCard from "../Components/DraftCard";
 import UserProfileDrafts from "./UserProfileDrafts";
-import { FiEdit2 } from "react-icons/fi";
+import { FiEdit2, FiCamera } from "react-icons/fi";
 import UserProfileBlogs from "./UserProfileBlogs";
 
 Moment.globalFormat = "MMM D , YYYY";
@@ -204,7 +204,7 @@ const UserProfile = () => {
               accept=".jpg,.jpeg,.png,.svg"
             />
             <label htmlFor="profilePicImage" className={style.editImageLabel}>
-              <EditOutlinedIcon className={style.profileEditIcon} />
+              <FiCamera className={style.profileEditIcon} />
             </label>
 
             {profileImageStatus === "loading" && (
