@@ -1,0 +1,9 @@
+.dropdown {
+  position: relative;
+}
+
+.dropdownBody {
+  position: absolute;
+  padding-top: 1rem;
+  z-index: 100;
+}
