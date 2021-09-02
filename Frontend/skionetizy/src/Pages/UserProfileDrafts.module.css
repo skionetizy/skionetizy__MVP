@@ -1,0 +1,110 @@
+.bottomDivider,
+.divider {
+  --space: 1rem;
+  --width: 0.1em;
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 1rem 0;
+
+  color: white;
+}
+
+.divider > :first-child {
+  margin: 0;
+  flex: none;
+  width: max-content;
+}
+
+.bottomDivider::before,
+.divider::after {
+  content: "";
+  height: var(--width);
+  flex: 1;
+  background-color: currentColor;
+  transform: translateX(var(--space));
+}
+.bottomDivider::before {
+  transform: translateX(calc(var(--space) * -1));
+}
+
+.bottomDivider::after,
+.divider::before {
+  content: "";
+
+  position: absolute;
+  width: var(--width);
+  height: max(50vh, 512px);
+
+  flex: none;
+  justify-self: flex-start;
+  align-self: flex-start;
+
+  background-color: currentColor;
+}
+
+.hidden.divider::before,
+.hidden.bottomDivider::after {
+  display: none;
+}
+
+.divider::before {
+  top: 1.9rem;
+  right: calc(var(--space) * -1);
+}
+.bottomDivider::after {
+  bottom: 1rem;
+  left: calc(var(--space) * -1);
+}
+
+.userBlogs > * + * {
+  margin-top: 6rem;
+}
+
+.draftWrapper {
+  position: relative;
+}
+
+.editDraftBtn {
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 2rem;
+  height: 2rem;
+
+  background-color: #f1f1f3;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+  border-radius: 999px;
+  transform: translate(25%, -25%);
+}
+
+.statusMessage {
+  color: white;
+  text-align: center;
+}
+
+/* desktop */
+@media (min-width: 1000px) {
+  .bottomDivider,
+  .divider {
+    --space: 3rem;
+    padding: 3rem 0;
+  }
+
+  .divider::before {
+    top: 3.9rem;
+    right: calc(var(--space) * -1);
+  }
+  .bottomDivider::after {
+    bottom: 3rem;
+    left: calc(var(--space) * -1);
+  }
+}

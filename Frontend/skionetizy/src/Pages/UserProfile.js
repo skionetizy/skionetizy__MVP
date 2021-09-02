@@ -8,7 +8,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { Link, useParams, useRouteMatch, NavLink } from "react-router-dom";
-import { updateProfileDetails } from "../API/profileAPIHandler";
+import {
+  getProfileDetailsAPIHandler,
+  updateProfileDetails,
+} from "../API/profileAPIHandler";
 import EditProfileDetails from "../Components/EditProfileDetails";
 import Modal from "../Components/Modal";
 import Spinner from "../Components/Spinner";
@@ -21,7 +24,9 @@ import validateImage from "../utils/validateImage";
 import style from "./UserProfile.module.css";
 import { Switch, Route } from "react-router-dom";
 import DraftCard from "../Components/DraftCard";
+import UserProfileDrafts from "./UserProfileDrafts";
 import { FiEdit2 } from "react-icons/fi";
+import UserProfileBlogs from "./UserProfileBlogs";
 
 Moment.globalFormat = "MMM D , YYYY";
 
@@ -31,6 +36,7 @@ const placeholderImageSrc =
 const UserProfile = () => {
   const { profileUserName } = useParams();
   const [blogs, setBlogs] = useState([]);
+  const [drafts, setDrafts] = useState([]);
   const [profile, setProfile] = useState({});
   const profileID = getLoggedInProfileID();
   const { url: userProfileRoute } = useRouteMatch();
@@ -53,15 +59,26 @@ const UserProfile = () => {
 
   useEffect(() => {
     setStatus("loading");
-    axios
-      .get(`${baseURL}/profile/getBlogsAndProfile/${profileUserName}`)
-      .then((res) => {
-        console.log({ blogAndProfile: res.data });
-        setProfile(res.data.profile);
-        setBlogs(res.data.blogs);
+    const drafts = axios.get(
+      `${baseURL}/profile/getBlogsAndProfile/0/${profileUserName}/DRAFTS`
+    );
+    const notDrafts = axios.get(
+      `${baseURL}/profile/getBlogsAndProfile/0/${profileUserName}/NON_DRAFTS`
+    );
+    const blogs = axios.get(
+      `${baseURL}/profile/getBlogsAndProfile/0/${profileUserName}/PUBLISHED`
+    );
+    const profile = getProfileDetailsAPIHandler(profileUserName);
 
-        setUserProfileImage(res.data.profile.profilePicImageURL);
-        setUserCoverImage(res.data.profile.profileBannerImageURL);
+    Promise.all([drafts, notDrafts, blogs, profile])
+      .then(([resDrafts, resNotDrafts, resBlogs, resProfile]) => {
+        const profileData = resProfile.profile;
+        setProfile(profileData);
+        setBlogs(resBlogs.data.blogs);
+        setDrafts([...resDrafts.data.blogs, ...resNotDrafts.data.blogs]);
+
+        setUserProfileImage(profileData.profilePicImageURL);
+        setUserCoverImage(profileData.profileBannerImageURL);
       })
       .finally(() => {
         setStatus("idle");
@@ -353,67 +370,12 @@ const UserProfile = () => {
 
         <Switch>
           {/* Blogs */}
-          <Route path={`${userProfileRoute}/blogs`}>
-            <div className={style.divider}>
-              <h2>My Blogs</h2>
-            </div>
-
-            {status === "loading" ? (
-              <div className="center">
-                <Spinner fontSize="2rem" color="white" />
-              </div>
-            ) : (
-              blogs && (
-                <div className={style.userBlogs}>
-                  {blogs &&
-                    blogs.map((blog, index) => (
-                      <UserBlogsCard
-                        key={index}
-                        blog={blog}
-                        profile={profile}
-                        isAuthorisedUser={isAuthorisedUser()}
-                      />
-                    ))}
-                </div>
-              )
-            )}
+          <Route path="/:profileUserName/blogs">
+            <UserProfileBlogs profile={profile} />
           </Route>
 
-          <Route path={`${userProfileRoute}/drafts`}>
-            <div className={style.divider}>
-              <h2>My Drafts</h2>
-            </div>
-
-            <div className={style.userBlogs}>
-              {Array(10)
-                .fill({
-                  blogID: Math.random().toString().substr(2),
-                  blogTitle: "How to write a blog",
-                  blogImageURL:
-                    "https://res.cloudinary.com/dd8470vy4/image/upload/tedyg2kmtgw7dkrhcq9r",
-                  blogStatus: "Cancelled",
-                  timestamp: { $date: 1622375890509 },
-                  blogDescription:
-                    "I love cheese, especially airedale queso. Cheese and biscuits halloumi cauliflower cheese cottage cheese swiss boursin fondue caerphilly. I love cheese, especially airedale queso. Cheese and biscuits halloumi cauliflower cheese cottage cheese swiss boursin fondue caerphilly. I love cheese, especially airedale queso. Cheese and biscuits halloumi cauliflower cheese cottage cheese swiss boursin fondue caerphilly. I love cheese, especially airedale queso. Cheese and biscuits halloumi cauliflower cheese cottage cheese swiss boursin fondue caerphilly.",
-                })
-                .map((blog, index) => (
-                  <div className={style.draftWrapper}>
-                    <UserBlogsCard
-                      key={index}
-                      blog={blog}
-                      profile={profile}
-                      isAuthorisedUser={isAuthorisedUser()}
-                    />
-
-                    <Link
-                      to={`/edit-draft/${blog.blogID}`}
-                      className={style.editDraftBtn}
-                    >
-                      <FiEdit2 width="1em" />
-                    </Link>
-                  </div>
-                ))}
-            </div>
+          <Route path="/:profileUserName/drafts">
+            <UserProfileDrafts profile={profile} />
           </Route>
           {/* Drafts */}
         </Switch>

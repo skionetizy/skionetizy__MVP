@@ -189,6 +189,10 @@ nav ul li h3 {
   place-items: center;
 }
 
+.hidden {
+  display: none;
+}
+
 .ani-spinner {
   animation: spinner var(--speed, 2s) linear infinite;
 }
