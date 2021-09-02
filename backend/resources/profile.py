@@ -154,7 +154,7 @@ class GetBlogsAndProfile(Resource):
         if(type == "DRAFTS"):
             blogs=Blog.objects(profileID=profile.profileID, blogStatus="DRAFTED").exclude("comments","likedByUsersList","dislikedByUsersList")
         elif(type=="NON_DRAFTS"):
-            blogs=Blog.objects(profileID=profile.profileID, blogStatus=["IN_REVIEW","MODERATOR_MODIFYING","PUBLISHED"]).exclude("comments","likedByUsersList","dislikedByUsersList")
+            blogs=Blog.objects(profileID=profile.profileID, blogStatus__in=["IN_REVIEW","MODERATOR_MODIFYING","PUBLISHED"]).exclude("comments","likedByUsersList","dislikedByUsersList")
         elif(type=="PUBLISHED"):
             blogs=Blog.objects(profileID=profile.profileID, blogStatus="PUBLISHED").exclude("comments","likedByUsersList","dislikedByUsersList")
         blogs=[x.to_mongo().to_dict() for x in blogs]
