@@ -1,3 +1,7 @@
+:root {
+  --primary-blue: #3498db;
+  --primary-blue-washed: #67b1e4;
+}
 * {
   padding: 0;
   font-family: "Montserrat", sans-serif;
