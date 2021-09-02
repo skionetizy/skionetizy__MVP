@@ -12,8 +12,10 @@ from backend import client
 from backend.resources.gads import gads
 from datetime import datetime
 import uuid
+import random
 
 class AddBlogDescriptionAndTitle(Resource):
+    
     def post(self):
         body = request.get_json()
         print(f"body: {body}")
@@ -22,12 +24,17 @@ class AddBlogDescriptionAndTitle(Resource):
         elif len(body["blogDescription"])<=200:
             return make_response(jsonify({"message":"blog description must be more than 200 characters long","statusCode":500,"success":False}))
 
+        banners=["https://res.cloudinary.com/duqnxcc4l/image/upload/v1630574985/jason-leung-Xaanw0s0pMk-unsplash_maapht.jpg","https://res.cloudinary.com/duqnxcc4l/image/upload/v1630574972/keith-misner-h0Vxgz5tyXA-unsplash_by5add.jpg","https://res.cloudinary.com/dd8470vy4/image/upload/tedyg2kmtgw7dkrhcq9r"]
+        i=random.randint(0,3)
+        blogImageURL=banners[i]
+
         
         newBlog= Blog(
             blogID = uuid.uuid4(),
             blogTitle=body["blogTitle"],
             blogDescription=body["blogDescription"],
-            profileID=body["profileID"]
+            profileID=body["profileID"],
+            blogImageURL=blogImageURL
         )
 
         newBlog.save()
@@ -285,7 +292,7 @@ class RemoveCommentonBlog(Resource):
 class GetBlogsAndProfileDetails(Resource):
     def get(self):
         # blogs=Blog.objects().exclude("blogDescription","comments","likedByUsersList","dislikedByUsersList")
-        blogs=Blog.objects(blogStatus='ACCEPTED').exclude("comments","likedByUsersList","dislikedByUsersList","blogDescription")
+        blogs=Blog.objects(blogStatus='PUBLISHED').exclude("comments","likedByUsersList","dislikedByUsersList","blogDescription")
         blogs=[x.to_mongo().to_dict() for x in blogs]
         for i in blogs:
             p=Profile.objects.get(profileID=i['profileID'])
@@ -429,4 +436,4 @@ class SearchBlog(Resource):
             return make_response(jsonify({'Message':'Invalide Search String'}))
         objects = Blog.objects.search_text(search).order_by('$text_score')
         return make_response(jsonify({'Queried Data':objects}))
-        
+
