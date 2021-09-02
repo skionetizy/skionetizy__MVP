@@ -408,7 +408,7 @@ class GetBlogStatus(Resource):
             return make_response(jsonify({"status":"Not Authorized"}))
 class UpdateBlogStatus(Resource):
     def patch(self,profileID,blogID,blogStatus):
-        statusList = ["UNDER_REVIEW","REQUESTED_TO_BE_MODIFIED",  "ACCEPTED","DRAFT"]
+        statusList = ["CANCELLED","PUBLISHED","IN_REVIEW","MODERATOR_MODIFYING","DRAFTED"]
         p=Profile.objects.get_or_404(profileID=profileID)
         u=User.objects.get_or_404(userID=p.userID)
         if(u.role == 1):
