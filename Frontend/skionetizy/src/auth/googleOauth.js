@@ -1,10 +1,12 @@
 import axios from "axios";
 import * as GOOGLE from "./googleAuthCred";
+import getFrontendURL from "../utils/getFrontendURL";
 
 export function createAuthURL(redirectURL, state = "") {
   const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth";
+  console.log(getFrontendURL(redirectURL));
   const options = {
-    redirect_uri: redirectURL,
+    redirect_uri: getFrontendURL(redirectURL),
     client_id: GOOGLE.clientID,
     access_type: "offline",
     response_type: "code",

@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Profiledropdown.module.css";
 import Dropdown from "./Dropdown";
-import axios from "axios";
-import baseURL from "../utils/baseURL";
 import { Link } from "react-router-dom";
 import { FaUser, FaNewspaper, FaEdit } from "react-icons/fa";
+import { getProfileDetailsAPIHandler } from "../API/profileAPIHandler";
 
 const profileUserName = "test1";
 export default function ProfileDropdown() {
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`${baseURL}/profile/getBlogsAndProfile/${profileUserName}`)
-      .then((res) => {
-        setProfile(res.data.profile);
-      });
+    getProfileDetailsAPIHandler(profileUserName).then((res) => {
+      setProfile(res.profile);
+    });
   }, []);
 
   return (

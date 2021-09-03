@@ -7,13 +7,11 @@ import { useLocation } from "react-router-dom";
 import { sendGoogleAuthCode } from "../API/oauthAPIHandler";
 import Spinner from "./Spinner";
 
-const frontendBaseURL = "http://localhost:3000";
-
 function GoogleOAuthModal({ currentBlog }) {
   const [isVisible, setIsVisible] = useState(false);
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
-  const googleOAuthURL = createAuthURL(`${frontendBaseURL}/auth/authToken`, {
+  const googleOAuthURL = createAuthURL("/auth/authToken", {
     utmSource: "blog",
     redirectURL: window.location.pathname,
   });
