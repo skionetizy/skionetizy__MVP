@@ -124,7 +124,7 @@ class RemoveFollower(Resource):
         current_user.update(Following=k)
         current_user.FollowingCount-=1
         current_user.save()
-        return make_response(jsonify({'Message':'Successfully Committed Changes'}))
+        return make_response(jsonify({'Profile':current_user}))
 
 
 
