@@ -159,7 +159,7 @@ class GoogleAuth(Resource):
         token_url, headers, body = authclient.prepare_token_request(
                                 token_endpoint,
                                 authorization_response=callback_uri,
-                                redirect_url='http://skionetizymvp-staging.herokuapp.com/auth/authToken',
+                                redirect_url='https://skionetizymvp-staging.herokuapp.com/auth/authToken',
                                 code=code
                             )
         token_response = requests.post(
