@@ -5,7 +5,10 @@ import style from "./EditProfileDetails.module.css";
 import * as yup from "yup";
 import axios from "axios";
 import baseURL from "../utils/baseURL";
-import { updateProfileDetails } from "../API/profileAPIHandler";
+import {
+  getProfileDetailsAPIHandler,
+  updateProfileDetails,
+} from "../API/profileAPIHandler";
 import getYupErrors from "../utils/getYupErrors";
 import Spinner from "./Spinner";
 import { FiLoader, FiArrowLeft } from "react-icons/fi";
@@ -46,13 +49,11 @@ function EditProfileDetails({ onClose, profileUserName }) {
 
   useEffect(() => {
     setStatus("fetching-profile");
-    axios
-      .get(`${baseURL}/profile/getBlogsAndProfile/${profileUserName}`)
-      .then((res) => {
-        setProfile(res.data.profile);
-        setData(res.data.profile);
-        setStatus("idle");
-      });
+    getProfileDetailsAPIHandler(profileUserName).then((res) => {
+      setProfile(res.profile);
+      setData(res.profile);
+      setStatus("idle");
+    });
   }, [profileUserName, setData]);
 
   async function handleSubmit(ev) {
