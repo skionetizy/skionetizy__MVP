@@ -215,5 +215,3 @@ class GoogleAuth(Resource):
             #     password=body['password'],
             #     confirmPassword=body['confirmPassword']
             # )
-        
-        return make_response(jsonify({'Message':'Backend Received The Data','sucess':True}))
