@@ -24,9 +24,13 @@ export default function OAuthPage() {
     setStatus("loading");
     sendGoogleAuthCode({ callbackURL })
       .then((userData) => {
-        const { userID, profileID } = userData;
-        localStorage.setItem("userID", userID);
-        localStorage.setItem("profileID", profileID);
+        const { userID, emailID } = userData.user;
+        localStorage.setItem("userID", JSON.parse(userID));
+        // localStorage.setItem("profileID", JSON.parse(profileID));
+        localStorage.setItem(
+          "profileUserName",
+          JSON.parse(emailID.replace(/\./g, "_").split("@")[0])
+        );
         setStatus("success");
 
         setTimeout(() => {

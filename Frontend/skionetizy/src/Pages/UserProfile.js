@@ -7,7 +7,13 @@ import PeopleOutlineIcon from "@material-ui/icons/PeopleOutline";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
-import { Link, useParams, useRouteMatch, NavLink } from "react-router-dom";
+import {
+  Link,
+  useParams,
+  useRouteMatch,
+  NavLink,
+  Redirect,
+} from "react-router-dom";
 import {
   getProfileDetailsAPIHandler,
   updateProfileDetails,
@@ -27,6 +33,8 @@ import DraftCard from "../Components/DraftCard";
 import UserProfileDrafts from "./UserProfileDrafts";
 import { FiEdit2, FiCamera } from "react-icons/fi";
 import UserProfileBlogs from "./UserProfileBlogs";
+import { sendFollowUser, sendUnfollowUser } from "../API/userAPIHandler";
+import FollowButton from "../Components/FollowButton";
 
 Moment.globalFormat = "MMM D , YYYY";
 
@@ -35,8 +43,6 @@ const placeholderImageSrc =
 
 const UserProfile = () => {
   const { profileUserName } = useParams();
-  const [blogs, setBlogs] = useState([]);
-  const [drafts, setDrafts] = useState([]);
   const [profile, setProfile] = useState({});
   const profileID = getLoggedInProfileID();
   const { url: userProfileRoute } = useRouteMatch();
@@ -56,26 +62,14 @@ const UserProfile = () => {
   const isAuthorisedUser = () => {
     return profileID === profile.profileID;
   };
+  const isFollowing = profile.Followers?.includes(profileID);
 
   useEffect(() => {
     setStatus("loading");
-    const drafts = axios.get(
-      `${baseURL}/profile/getBlogsAndProfile/0/${profileUserName}/DRAFTS`
-    );
-    const notDrafts = axios.get(
-      `${baseURL}/profile/getBlogsAndProfile/0/${profileUserName}/NON_DRAFTS`
-    );
-    const blogs = axios.get(
-      `${baseURL}/profile/getBlogsAndProfile/0/${profileUserName}/PUBLISHED`
-    );
-    const profile = getProfileDetailsAPIHandler(profileUserName);
-
-    Promise.all([drafts, notDrafts, blogs, profile])
-      .then(([resDrafts, resNotDrafts, resBlogs, resProfile]) => {
+    getProfileDetailsAPIHandler(profileUserName)
+      .then((resProfile) => {
         const profileData = resProfile.profile;
         setProfile(profileData);
-        setBlogs(resBlogs.data.blogs);
-        setDrafts([...resDrafts.data.blogs, ...resNotDrafts.data.blogs]);
 
         setUserProfileImage(profileData.profilePicImageURL);
         setUserCoverImage(profileData.profileBannerImageURL);
@@ -109,18 +103,6 @@ const UserProfile = () => {
       alert("Failed to upload your image. Try again");
     }
   }
-
-  // useEffect(() => {
-  //   setStatus("loading");
-  //   getProfileDetailsAPIHandler(profileUserName).then((response) => {
-  //     setData({
-  //       profileBio: response.profile.profileBio,
-  //       profileWebsiteURL: response.profile.profileWebsiteURL,
-  //     });
-  //     setProfile(response.profile);
-  //     setStatus("idle");
-  //   });
-  // }, [profileUserName, setData]);
 
   return (
     <div className={style.main}>
@@ -222,13 +204,11 @@ const UserProfile = () => {
               <li></li>
               <li></li>
             </div>
-            {/* <p className={style.profileDes}>Mumbai, Maharashtra</p> */}
 
             <div className={style.profileFollow}>
               <PeopleOutlineIcon className={style.followIcon} />
               <div className={style.follow}>
                 <small>Following</small>
-                {/* <h1>596</h1> */}
                 <h1> {profile.FollowingCount}</h1>
               </div>
               <PeopleOutlineIcon className={style.followIcon} />
@@ -242,7 +222,7 @@ const UserProfile = () => {
 
             {/* Action Btns Group */}
             <div className={style.userButton}>
-              {isAuthorisedUser() ? (
+              {profile?.profileID == null ? null : isAuthorisedUser() ? (
                 <Button
                   variant="contained"
                   color="primary"
@@ -252,7 +232,12 @@ const UserProfile = () => {
                   Edit Profile
                 </Button>
               ) : (
-                <Button variant="outlined">Follow</Button>
+                <FollowButton
+                  othersProfileID={profile.profileID}
+                  onUpdate={(data) => {
+                    setProfile((prev) => ({ ...prev, ...data }));
+                  }}
+                />
               )}
             </div>
           </div>
@@ -376,6 +361,12 @@ const UserProfile = () => {
 
           <Route path="/:profileUserName/drafts">
             <UserProfileDrafts profile={profile} />
+          </Route>
+
+          <Route path="*">
+            {({ location, history }) => (
+              <Redirect to={`${location.pathname}/blogs`} from="../.." />
+            )}
           </Route>
           {/* Drafts */}
         </Switch>

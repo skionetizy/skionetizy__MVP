@@ -6,6 +6,7 @@ const initialState = {
   lastName: "devaki",
   slicedBlogs: [],
   filteredBlogs: [],
+  profile: null,
 };
 
 const Reducer = (state = initialState, action) => {
@@ -45,6 +46,13 @@ const Reducer = (state = initialState, action) => {
         ...state,
         filteredBlogs,
       };
+
+    case "SAVE_PROFILE": {
+      return {
+        ...state,
+        profile: action.payload,
+      };
+    }
     default:
       return state;
   }

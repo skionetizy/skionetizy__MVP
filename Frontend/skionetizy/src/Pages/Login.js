@@ -51,6 +51,11 @@ function Login(props) {
             "profileID",
             JSON.stringify(res.data.user.profileID.$uuid)
           );
+
+          localStorage.setItem(
+            "profileUserName",
+            JSON.stringify(res.data.user.profileUserName)
+          );
         }
       } else {
         console.log(res.data.message);

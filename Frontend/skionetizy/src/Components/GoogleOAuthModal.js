@@ -24,8 +24,12 @@ function GoogleOAuthModal({ currentBlog }) {
       setStatus("loading");
       sendGoogleAuthCode({ callbackURL })
         .then((userData) => {
-          const { userID } = userData.user;
+          const { userID, emailID } = userData.user;
           localStorage.setItem("userID", JSON.stringify(userID));
+          localStorage.setItem(
+            "profileUserName",
+            JSON.stringify(emailID.replace(/\./g, "_").split("@")[0])
+          );
           // localStorage.setItem("profileID", JSON.stringify(profileID));
 
           // clearing react router state

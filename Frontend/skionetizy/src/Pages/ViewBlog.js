@@ -32,6 +32,7 @@ import Moment from "react-moment";
 import GoogleOAuthModal from "../Components/GoogleOAuthModal";
 import Modal from "../Components/Modal";
 import ShareBlogModal from "../Components/ShareBlogModal";
+import FollowButton from "../Components/FollowButton";
 const KEYWORDS_LOCAL_KEY = "blogsKeywords";
 
 Moment.globalFormat = "MMM D , YYYY";
@@ -354,9 +355,9 @@ const ViewBlog = () => {
               </div>
             </div>
             <div className={style.buttons}>
-              <button className={`${style.button} ${style.followButton}`}>
-                Follow
-              </button>
+              {!!blog.blogID && (
+                <FollowButton othersProfileID={blog.profileID} />
+              )}
               <button
                 className={`${style.button} ${style.shareButton}`}
                 onClick={() => setShouldShowShareModal(true)}

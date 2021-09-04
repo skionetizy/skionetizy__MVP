@@ -1,0 +1,19 @@
+.button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  background-color: var(--primary-blue);
+  padding: 0.7em 1.5em;
+  border-radius: 0.6em;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.followButton {
+  padding-left: 2.2em;
+  padding-right: 2.2em;
+}
