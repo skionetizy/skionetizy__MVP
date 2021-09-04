@@ -146,7 +146,7 @@ class AddFollower(Resource):
         print(f"I am adding to my following: {prof.Following} ,  That Guys account has  follower {profile.Followers}")
         profile.save()
         prof.save()
-        return jsonify({'profile':profile})
+        return jsonify({'profile':prof})
 
 class GetBlogsAndProfile(Resource):
     def get(self,profileUserName,type,number):            
