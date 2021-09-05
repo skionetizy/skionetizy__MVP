@@ -124,7 +124,7 @@ class RemoveFollower(Resource):
         current_user.update(Following=k)
         current_user.FollowingCount-=1
         current_user.save()
-        return make_response(jsonify({'profile':other_user}))
+        return make_response(jsonify({'profile':current_user}))
 
 
 
@@ -199,3 +199,8 @@ class GetProfileandBlogsPaginated(Resource):
         if(len(blogs_paginated)<=number or number<0):
             return make_response(jsonify({'message':'exceeded bounds'}), 404)
         return make_response(jsonify({"blogs":json.loads(json_util.dumps(blogs_paginated[number])),"success":True}))
+
+class GetHoverDetails(Resource):
+    def get(self,profileID):
+        p=Profile.objects(profileID=profileID).only('profilePicImageURL','profileBannerImageURL','profileName')
+        return jsonify({'details':p})
