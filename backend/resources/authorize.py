@@ -36,10 +36,9 @@ def get_google_provider_cfg():
 
 class AuthorizeSignup(Resource):
     def post(self):
-
         body = request.get_json()
 
-        if len(body['firstName'])== 0  or len(body['lastName']) == 0 or len(body['emailID'])==0 or len(body['password'] )== 0 or len(body['confirmPassword']) == 0 :
+        if len(body['firstName'])== 0  or len(body['lastName']) == 0 or len(body['emailID'])==0 :
             return make_response(jsonify({"message":"all fields are required","statusCode":500}))
             # raise FieldsEmpty
         print(body['firstName'])
@@ -51,27 +50,17 @@ class AuthorizeSignup(Resource):
         if(existingUser):
             return make_response(jsonify({"message":"user already exists, try to login","statusCode":500}))
             # raise UserAlreadyExist
-
-        if len(body['password']) <6:
-            return make_response(jsonify({"message":"password is less than 6 characters","statusCode":500}))
-            # raise PasswordIsShort
-
-        if body['password'] != body['confirmPassword']:
-            return make_response(jsonify({"message":"passwords doesnt match,please check","statusCode":500}))
-
         newUser = User(
             userID= uuid.uuid4(),
             firstName=body['firstName'],
             lastName=body['lastName'],
-            emailID=body['emailID'],
-            password=body['password'],
-            confirmPassword=body['confirmPassword']
+            emailID=body['emailID']
         )
 
         emailID=body['emailID']
 
         auth_token = newUser.encode_auth_token()
-
+        print(f'{auth_token} here')
         redirect_url = f'http://127.0.0.1:5000/emailVerification/{auth_token}'
 
         send_email("Skionetizy Email Verification for creating account",os.environ.get('MAIL_USERNAME'),recipients=[body["emailID"]],html=f"<a href={redirect_url}>and easy to do anywhere, even with Python</a>")
@@ -86,27 +75,44 @@ class AuthorizeSignup(Resource):
         # # print(response.status_code)
         # # print(response.body)
         # # print(response.headers)
-
-        newUser.hash_password()
+        x=newUser.generate_password()
         newUser.save()
-
-        return make_response(jsonify({"userID": newUser['_id'],"emailID":newUser["emailID"],"statusCode":200}))
+        print(x)
+        return make_response(jsonify({"emailID":newUser["emailID"],"statusCode":200,"password":x}))
         # except Exception as e:
         #     print(e.message)
 
 class AuthorizeEmailVerification(Resource):
     def patch(self,token):
-        payload = jwt.decode(token,'SECRET_KEY',algorithms='HS256')
-        emailID =  payload['emailID']
-        print("Is Running")
-        user= User.objects.get(emailID=emailID)
-
+        print('Received token:',token)
+        result=User.decode_auth_token(token)
+        print(result)
+        if result=='Singnature Expired.Please Signup Again' or result == 'Invalid Token':
+            if result=='Signature Expired.Please Signup Again':
+                return make_response(jsonify({"message":result,"status":500}))
+            return make_response(jsonify({"message":result,"status":500}))
+        user= User.objects.get(emailID=result)
         if user:
             user.update(isVerified=True)
             user.save()
             return make_response(jsonify({"user":user,"message":"User is now verified","status":200}))
-
         return make_response(jsonify({"message":"User verification failed","status":500}))
+
+class ReverificationToken(Resource):
+    def post(self):
+        body=request.get_json()
+        email=body['emailID']
+        user=User.objects.get_or_404(emailID=email)
+        if user.isVerified==1:
+            return make_response(jsonify({'Message':'Already Verified','status':200}))
+        else:
+            auth_token=user.encode_auth_token()
+            redirect_url = f'http://127.0.0.1:5000/emailVerification/{auth_token}'
+            send_email("Skionetizy Email Verification for creating account",os.environ.get('MAIL_USERNAME'),recipients=[body["emailID"]],html=f"<a href={redirect_url}>and easy to do anywhere, even with Python</a>")
+        return make_response(jsonify({'Message':'Reverification Mail Sent','success':True}))
+        
+
+
 
 
 class AuthorizeLogin(Resource):

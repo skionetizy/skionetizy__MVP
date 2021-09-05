@@ -5,6 +5,8 @@ from flask_bcrypt import generate_password_hash, check_password_hash
 import datetime
 import random
 import json
+import string    
+import secrets
 
 from backend import db
 
@@ -14,10 +16,14 @@ class User(db.Document):
     lastName=db.StringField(required=True)
     emailID = db.EmailField(required=True,unique=True)
     password = db.StringField(required=True,min_length=6)
-    confirmPassword = db.StringField(required=True,min_length=6)
+    confirmPassword = db.StringField(required=False,min_length=6)
     role=db.IntField(default=0,required=False)
     isVerified = db.BooleanField(default=False,required=False)
-
+    def generate_password(self,num=10):
+        res = ''.join(secrets.choice(string.ascii_letters + string.punctuation) for x in range(num))  
+        self.password=res
+        self.hash_password()
+        return res 
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')
 
@@ -26,10 +32,22 @@ class User(db.Document):
 
     def encode_auth_token(self):
         payload={
-            'emailID':self.emailID
+            'emailID':self.emailID,
+            'exp':datetime.datetime.utcnow()+datetime.timedelta(days=0,minutes=30,seconds=30),
+            'iat':datetime.datetime.utcnow()
         }
         return jwt.encode(payload,'SECRET_KEY',algorithm='HS256')
     
+    @staticmethod
+    def decode_auth_token(auth_token):
+        try:
+            payload=jwt.decode(auth_token,'SECRET_KEY',algorithms='HS256')
+            print("Executed")
+            return payload['emailID']
+        except jwt.ExpiredSignatureError:
+            return 'Singnature Expired.Please Signup Again'
+        except jwt.InvalidTokenError:
+            return 'Invalid Token'
     # def decode_auth_token(auth_token):
     #     payload = jwt.decode(auth_token,'SECRET_KEY')
     #     return payload['emailID']
