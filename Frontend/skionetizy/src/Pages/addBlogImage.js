@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import "./addBlogImage.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
 import validateImage from "../utils/validateImage";
+import BlogSteps from "../Components/BlogSteps";
 
 function Upload() {
   const [uploaded, setUploaded] = useState(false);
   const [proImage, setProImage] = useState();
   const [formData, setFormData] = useState("");
   const [success, setSuccess] = useState(false);
+
+  const location = useLocation();
 
   const handleProfile = async (e) => {
     e.preventDefault();
@@ -52,6 +55,9 @@ function Upload() {
   };
   return (
     <div className="upload_page">
+      <div className="center">
+        <BlogSteps noOfSteps={3} currentStep={2} />
+      </div>
       <div className="upload-btn-wrapper">
         <img src={proImage} />
         <br />
@@ -83,6 +89,10 @@ function Upload() {
             <button className="next" onClick={handlePublishBlog}>
               Publish Blog
             </button>
+          </Link>
+
+          <Link to={{ pathname: "/addBlogKeywords", state: location.state }}>
+            <button className="next">Keywords</button>
           </Link>
         </div>
         {/* )} */}

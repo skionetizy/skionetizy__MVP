@@ -33,6 +33,8 @@ import GoogleOAuthModal from "../Components/GoogleOAuthModal";
 import Modal from "../Components/Modal";
 import ShareBlogModal from "../Components/ShareBlogModal";
 import FollowButton from "../Components/FollowButton";
+import { Helmet } from "react-helmet";
+
 const KEYWORDS_LOCAL_KEY = "blogsKeywords";
 
 Moment.globalFormat = "MMM D , YYYY";
@@ -110,7 +112,11 @@ const ViewBlog = () => {
         const response1 = responses[0];
         const response2 = responses[1];
 
-        setBlog(response1.data.blog);
+        const allKeywords = JSON.parse(
+          localStorage.getItem(KEYWORDS_LOCAL_KEY) || "{}"
+        );
+        const keywords = allKeywords[blogID];
+        setBlog({ ...response1.data.blog, keywords });
 
         const resultHasLiked = findUserHasLiked(
           response1.data.blog.likedByUsersList,
@@ -335,6 +341,9 @@ const ViewBlog = () => {
   return (
     <>
       <div className={`${style.main} ${style.container}`}>
+        <Helmet>
+          <meta name="description" content={blog.keywords} />
+        </Helmet>
         <div className={style.blogHeader}>
           <h1 className={style.title}>{blog.blogTitle}</h1>
           <div className={style.author}>
@@ -348,9 +357,7 @@ const ViewBlog = () => {
                 <small className={style.authorName}>{blog.profileName}</small>
                 <small className={style.publishedDate}>
                   Published on
-                  <small>
-                    <Moment>{blog?.timestamp?.$date}</Moment>
-                  </small>
+                  <Moment>{blog?.timestamp?.$date}</Moment>
                 </small>
               </div>
             </div>

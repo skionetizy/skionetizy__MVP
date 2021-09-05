@@ -1,0 +1,242 @@
+import React, { useEffect, useState } from "react";
+import styles from "./addBlogKeywords.module.css";
+import BlogSteps from "../Components/BlogSteps";
+import KeywordsIllustration from "../Assets/add_keywords.svg";
+import { FiSearch, FiX } from "react-icons/fi";
+import axios from "axios";
+import { getKeywords, getKeywordsByAI } from "../API/blogAPIHandler";
+import { Link, useLocation } from "react-router-dom";
+import { AiOutlineFall, AiOutlineRise, AiOutlineLine } from "react-icons/ai";
+
+function calcTrend(currentMonthSearches, pastMonthSearches) {
+  let score = 0;
+  for (let i = 0; i < 11; i++) {
+    score += Math.sign(currentMonthSearches[i] - pastMonthSearches[i]);
+  }
+
+  return Math.sign(score);
+}
+
+function AddBlogKeywords() {
+  // const [blogs, setBlogs] = useState(null);
+  // const [selectedBlogID, setSelectedBlogID] = useState("");
+  const { state } = useLocation();
+  const blog = state?.blog || null;
+
+  const [keywords, setKeywords] = useState([]);
+  const [aiKeywords, setAiKeywords] = useState([]);
+  const [keywordValue, setKeywordValue] = useState("");
+  const [keywordSearchValue, setKeywordSearchValue] = useState("");
+  const [searchedKeywords, setSearchedKeywords] = useState({
+    list: [],
+    data: {},
+  });
+
+  function handleAddKeywords(inputValue) {
+    const newKeywords = inputValue
+      .split(",")
+      .filter(Boolean)
+      .filter((word) => !keywords.includes(word));
+
+    setKeywords((prev) => [...prev, ...newKeywords]);
+  }
+
+  function handleSearchKeywords(ev) {
+    ev.preventDefault();
+
+    getKeywords(keywordSearchValue).then((res) =>
+      setSearchedKeywords({
+        list: Object.entries(res.data.data),
+        data: res.data.data,
+      })
+    );
+  }
+
+  useEffect(() => {
+    const blogDescription = blog?.blogDescription;
+    if (!blogDescription) return;
+
+    getKeywordsByAI({ blogDescription }).then((res) =>
+      setAiKeywords(res.data.Keywords)
+    );
+  }, [blog?.blogDescription]);
+
+  if (blog == null)
+    return (
+      <div className={styles.wrapper}>
+        <div className="center">
+          <BlogSteps noOfSteps={3} currentStep={3} />
+        </div>
+
+        <div className="center">
+          <p>No Blog Selected</p>
+          <p>Please go to edit blog and then select addKeywords from their</p>
+
+          <Link className={styles.button} to="/addBlogDetailsMarkdown">
+            Edit Blog
+          </Link>
+        </div>
+      </div>
+    );
+
+  return (
+    <>
+      <div className="center">
+        <BlogSteps noOfSteps={3} currentStep={3} />
+      </div>
+
+      <div className={styles.wrapper}>
+        <h1 className={styles.title}>Keywords</h1>
+
+        <div className={styles.keywordsList}>
+          {aiKeywords.map((word) => (
+            <span key={word} className={styles.keyword}>
+              {word}
+            </span>
+          ))}
+        </div>
+
+        {/* flex wrap */}
+        <section className={styles.flexWrap}>
+          <div className={styles.flexItem}>
+            <h3 className={styles.label}>Tags</h3>
+
+            <div className={styles.keywordsList}>
+              {keywords.map((keyword) => (
+                <span key={keyword} className={styles.keyword}>
+                  {keyword}
+                  <button
+                    className={styles.keywordDeleteBtn}
+                    onClick={() =>
+                      setKeywords((prev) =>
+                        prev.filter((word) => word !== keyword)
+                      )
+                    }
+                  >
+                    <FiX width="1em" />
+                  </button>
+                </span>
+              ))}
+            </div>
+
+            <form
+              onSubmit={(ev) => {
+                ev.preventDefault();
+                const inputValue = ev.target.elements.tag.value;
+                handleAddKeywords(inputValue);
+                setKeywordValue("");
+              }}
+            >
+              <input
+                name="tag"
+                className={styles.input}
+                value={keywordValue}
+                onChange={(ev) => {
+                  if (ev.target.value.endsWith(",")) {
+                    handleAddKeywords(ev.target.value);
+                    setKeywordValue("");
+                  } else {
+                    setKeywordValue(ev.target.value);
+                  }
+                }}
+                placeholder="Add tags"
+              />
+            </form>
+
+            <p>Enter a comma after each tag</p>
+
+            <p>
+              Tags can be useful if content in your video is commonly
+              misspelled. Otherwise, tags play a minimal role in helping viewers
+              find your video.
+            </p>
+
+            <img
+              className={styles.img}
+              src={KeywordsIllustration}
+              height="400px"
+              width="300px"
+              alt=""
+            />
+          </div>
+
+          <div className={styles.flexItem}>
+            <h3 className={styles.label}>Keyword Finder</h3>
+
+            {/* Search Input */}
+            <form
+              className={styles.searchInput}
+              onSubmit={handleSearchKeywords}
+            >
+              <input
+                value={keywordSearchValue}
+                onChange={(ev) => setKeywordSearchValue(ev.target.value)}
+                placeholder="Enter up to 5 keywords here"
+              />
+              <button>
+                <FiSearch width="1em" />
+              </button>
+            </form>
+
+            {/* Table */}
+            <div className={styles.keywordsTableWrapper}>
+              <table className={styles.keywordsTable}>
+                <thead className={styles.keywordsTableHeader}>
+                  <tr>
+                    <th>Keyword</th>
+                    <th>Monthly Volumn</th>
+                    <th>Ad Words CPU</th>
+                    <th>Ad Words Comp</th>
+                    <th>Trend</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {searchedKeywords.list.length > 0 &&
+                    Array(5)
+                      .fill()
+                      .map((_, idx) => (
+                        <tr className={styles.keywordRow}>
+                          <td>{searchedKeywords.data["Keyword"][idx]}</td>
+                          <td>
+                            {searchedKeywords.data["Average Searches"][idx]}
+                          </td>
+                          <td>
+                            {searchedKeywords.data["Competition Index"][idx]}
+                          </td>
+                          <td>
+                            {searchedKeywords.data["Competition Level"][idx]}
+                          </td>
+                          <td>
+                            <Temp
+                              trend={calcTrend(
+                                searchedKeywords.data["Average Searches"][idx],
+                                searchedKeywords.data["Searches Past Months"][
+                                  idx
+                                ]
+                              )}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        <button>Back</button>
+      </div>
+    </>
+  );
+}
+
+function Temp({ trend }) {
+  return trend > 0 ? (
+    <AiOutlineRise />
+  ) : trend < 0 ? (
+    <AiOutlineFall />
+  ) : (
+    <AiOutlineLine />
+  );
+}
+export default AddBlogKeywords;

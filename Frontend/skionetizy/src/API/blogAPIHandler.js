@@ -115,3 +115,11 @@ export const addFollower = (profileID) => {
 export const removeFollower = (profileID) => {
   return axios.patch(`/api/profile/removeFollower/${profileID}`);
 };
+
+export const getKeywords = (keywordPrediction) => {
+  return axios.get(`${baseURL}/blog/getKeywords/${keywordPrediction}`);
+};
+
+export const getKeywordsByAI = ({ blogDescription }) => {
+  return axios.post(`${baseURL}/ai/keywords`, { input: blogDescription });
+};

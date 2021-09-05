@@ -14,6 +14,7 @@ import EmailVerification from "./Pages/EmailVerification";
 import EditProfile from "./Pages/EditProfile";
 import Editor from "./Components/Editor";
 import OAuthPage from "./Pages/OAuthPage";
+import AddBlogKeywords from "./Pages/addBlogKeywords";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           component={addBlogDetailsMarkdown}
         />
         <Route exact path="/addBlogImage" component={addBlogImage} />
+        <Route exact path="/addBlogKeywords" component={AddBlogKeywords} />
         <Route exact path="/final" component={FinalPage} />
         <Route exact path="/searchpage" component={SearchPage} />
         <Route

@@ -328,14 +328,14 @@ col3 {
   top: 5px;
 }
 
-form input {
+/* form input {
   border: none;
   border-bottom: 1px solid white;
   outline: none;
   margin-left: 10px;
   background: var(--dark-blue);
   color: white;
-}
+} */
 
 .editImageLabel {
   cursor: pointer;

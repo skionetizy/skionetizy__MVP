@@ -1,0 +1,158 @@
+:root {
+  --washed: #a2cfed;
+}
+
+.wrapper {
+  padding: 3.5rem 7rem;
+  color: white;
+}
+
+.title {
+  color: var(--washed);
+  font-size: 2rem;
+}
+
+.keywordsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  padding: 1rem;
+  border: 0.1rem solid var(--washed);
+  border-radius: 1rem;
+}
+
+.keyword {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  padding: 0.25rem 0.5rem;
+  background-color: var(--washed);
+  border-radius: 0.5rem;
+
+  color: black;
+  font-size: 1.25rem;
+}
+
+.keywordDeleteBtn {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  font-size: inherit;
+  line-height: 0;
+}
+
+.flexWrap {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 3rem;
+
+  margin-top: 7rem;
+}
+.flexItem {
+  flex: 1;
+  width: 50%;
+}
+
+.label {
+  color: var(--primary-blue);
+  font-size: 2rem;
+}
+
+.input {
+  width: 100%;
+  margin-top: 2.5rem;
+  padding: 0.75rem 1.25rem;
+
+  background-color: transparent;
+  border: 0.1rem solid var(--primary-blue);
+  border-radius: 1rem;
+
+  color: inherit;
+  font-size: 1.5rem;
+}
+
+.img {
+  display: block;
+  max-width: 100%;
+}
+
+.searchInput {
+  display: flex;
+  gap: 1rem;
+
+  padding: 0.75rem 1.25rem;
+  border: 0.1rem solid var(--primary-blue);
+  border-radius: 1rem;
+  font-size: 1.5rem;
+}
+
+.searchInput:focus-within {
+  outline: 0.1rem solid var(--primary-blue);
+}
+
+.searchInput input {
+  flex: 1;
+  background-color: transparent;
+  border: none;
+  color: inherit;
+  font-size: inherit;
+  outline: none;
+}
+
+.searchInput button {
+  background-color: transparent;
+  border: none;
+
+  color: inherit;
+  font-size: inherit;
+  line-height: 0;
+  cursor: pointer;
+}
+
+.keywordsTableWrapper {
+  overflow-x: scroll;
+}
+
+.keywordsTable {
+  margin-top: 4rem;
+  border-collapse: collapse;
+}
+
+.keywordsTable th,
+.keywordsTable td {
+  white-space: nowrap;
+}
+
+.keywordsTableHeader th {
+  padding: 1rem;
+  background-color: white;
+
+  color: var(--dark-blue);
+  font-weight: normal;
+}
+
+.keywordsTableHeader th:first-of-type {
+  border-radius: 1rem 0 0 1rem;
+}
+.keywordsTableHeader th:last-child {
+  border-radius: 0 1rem 1rem 0;
+}
+
+.keywordRow td {
+  padding: 1rem;
+  padding-top: 2.5rem;
+
+  border-bottom: 0.1rem solid var(--primary-blue);
+}
+
+.button {
+  margin-top: 4rem;
+  padding: 0.25rem 0.5rem;
+  background-color: var(--primary-blue);
+  border-radius: 0.5rem;
+  color: inherit;
+  text-decoration: none;
+}
