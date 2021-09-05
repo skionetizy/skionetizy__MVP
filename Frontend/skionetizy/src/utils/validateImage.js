@@ -42,7 +42,13 @@ async function validateImage(
           ratioWidth / ratioHeight !== img.width / img.height
         ) {
           reject(
-            new Error(`Please choose a ${ratioWidth}/${ratioHeight} image`)
+            new Error(
+              `Please choose a ${
+                ratioWidth === ratioHeight
+                  ? "square"
+                  : `rectangle (${ratioWidth}/${ratioHeight})`
+              } image`
+            )
           );
         } else {
           resolve(true);
