@@ -234,8 +234,23 @@ const UserProfile = () => {
               ) : (
                 <FollowButton
                   othersProfileID={profile.profileID}
-                  onUpdate={(data) => {
-                    setProfile((prev) => ({ ...prev, ...data }));
+                  onUpdate={(res, err) => {
+                    if (err) return;
+
+                    const profileID = getLoggedInProfileID();
+                    const Followers = res.isFollowing
+                      ? profile.Followers.filter((_id) => _id === profileID)
+                      : [...profile.Followers, profileID];
+
+                    const FollowersCount = res.isFollowing
+                      ? profile.FollowersCount - 1
+                      : profile.FollowersCount + 1;
+
+                    setProfile((prev) => ({
+                      ...prev,
+                      Followers,
+                      FollowersCount,
+                    }));
                   }}
                 />
               )}

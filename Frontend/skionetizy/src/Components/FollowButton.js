@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./FollowButton.module.css";
 import clsx from "../utils/clsx";
+import { useHistory } from "react-router-dom";
 import { sendFollowUser, sendUnfollowUser } from "../API/userAPIHandler";
 import { getProfileDetailsAPIHandler } from "../API/profileAPIHandler";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,40 +24,50 @@ export default function FollowButton({
   const [status, setStatus] = useState("idle");
   const profile = useSelector((state) => state.profile);
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const isFollowing = profile?.Following?.includes(othersProfileID);
   const isLoading = status === "loading";
   const loggedProfileID = getLoggedInProfileID();
+  const loggedProfileUserName = getLoggedInProfileUserName();
+  const isProfileLoading = loggedProfileUserName && profile == null;
 
   useEffect(() => {
-    const profileUserName = getLoggedInProfileUserName();
-    if (profile == null && profileUserName) {
-      getProfileDetailsAPIHandler(profileUserName).then((data) =>
+    if (profile == null && loggedProfileUserName) {
+      getProfileDetailsAPIHandler(loggedProfileUserName).then((data) =>
         saveProfile(dispatch, data.profile)
       );
     }
-  }, [dispatch, profile]);
+  }, [dispatch, profile, loggedProfileUserName]);
 
   async function handleFollow() {
     setStatus("loading");
     let promise;
+
+    if (!loggedProfileUserName) {
+      history.push("/login");
+    }
     if (isFollowing) {
       promise = sendUnfollowUser(othersProfileID, loggedProfileID);
     } else {
       promise = sendFollowUser(loggedProfileID, othersProfileID);
     }
 
-    promise.then((res) => {
-      setStatus("idle");
-      if (res.data.Message === "Already Following") return;
+    promise
+      .then((res) => {
+        setStatus("idle");
+        if (res.data.Message === "Already Following") return;
 
-      saveProfile(dispatch, res.data.profile);
-      onUpdate?.({
-        Followers: res.data.profile.Followers,
-        FollowersCount: res.data.profile.FollowersCount,
-        Following: res.data.profile.Following,
-        FollowingCount: res.data.profile.FollowingCount,
-      });
-    });
+        saveProfile(dispatch, res.data.profile);
+        onUpdate?.({
+          Followers: res.data.profile.Followers,
+          FollowersCount: res.data.profile.FollowersCount,
+          Following: res.data.profile.Following,
+          FollowingCount: res.data.profile.FollowingCount,
+          isFollowing,
+        });
+      })
+      .catch((err) => onUpdate(null, err));
   }
 
   return (
@@ -66,10 +77,10 @@ export default function FollowButton({
         onClick?.();
         handleFollow();
       }}
-      disabled={isLoading || profile == null}
+      disabled={isLoading || isProfileLoading}
       {...props}
     >
-      {profile == null ? "Loading..." : isFollowing ? "Following" : "Follow"}
+      {isProfileLoading ? "Loading..." : isFollowing ? "Following" : "Follow"}
     </button>
   );
 }
