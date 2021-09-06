@@ -9,7 +9,7 @@ import {
   SelectionState,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NEW_useDebounceGeneral as useDebounce } from "../hooks/useDebounceGeneral";
 
 export default function MyEditor({ onChange, className }) {
@@ -30,6 +30,7 @@ export default function MyEditor({ onChange, className }) {
   const [text, setText] = useState(() => EditorState.createEmpty(decorators));
   const editorStateRef = useRef(text);
   const isEditing = useRef(false);
+  const isInFocus = useRef(true);
 
   const debounce = useDebounce(
     /** @type {EditorState} */ async (text) => {
@@ -43,6 +44,7 @@ export default function MyEditor({ onChange, className }) {
         })
       ).data.prediction;
       if (isEditing.current === true) return;
+      if (isInFocus.current === false) return;
 
       const predictionBlocks = prediction
         .split("\n")
@@ -87,16 +89,25 @@ export default function MyEditor({ onChange, className }) {
     2000
   );
 
+  useEffect(() => {
+    onChange?.(text.getCurrentContent().getPlainText());
+  }, [text]);
+
   return (
     <div className={className}>
       <Editor
         editorState={text}
         onChange={(editorState) => {
           setText(editorState);
-          onChange?.(editorState.getCurrentContent().getPlainText());
           editorStateRef.current = editorState;
           isEditing.current = true;
           debounce(editorState);
+        }}
+        onBlur={() => {
+          isInFocus.current = false;
+        }}
+        onFocus={() => {
+          isInFocus.current = true;
         }}
       />
     </div>

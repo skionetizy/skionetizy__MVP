@@ -29,7 +29,6 @@
 .input {
   width: 100%;
   min-height: 4em;
-  max-height: 90vh;
   padding-left: 2rem;
   padding-top: 1.6rem;
   padding-bottom: 0.4rem;
@@ -48,10 +47,13 @@
 }
 
 .descriptionTextLength {
-  margin: 1rem;
+  margin: 0.5rem 0.75rem;
   position: absolute;
   bottom: 0;
   right: 0;
+  pointer-events: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.75rem;
 }
 
 .header {

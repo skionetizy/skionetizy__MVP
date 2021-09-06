@@ -1,25 +1,42 @@
-import React, { useState, useEffect } from "react";
-import styles from "./addBlogDetailsMarkdown.module.css";
-import { Link, useLocation } from "react-router-dom";
-import { connect } from "react-redux";
-
-import ReactMarkdown from "react-markdown";
 import axios from "axios";
-
-import useDebounce from "../hooks/useDebounce";
-
-import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
-import Editor from "../Components/Editor";
-import AddBlogSteps from "../Components/BlogSteps";
+import React, { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import { connect } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
+import * as yup from "yup";
 import BlogSteps from "../Components/BlogSteps";
-import clsx from "../utils/clsx";
+import Editor from "../Components/Editor";
+import useDebounce from "../hooks/useDebounce";
+import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
+import getYupErrors from "../utils/getYupErrors";
+import styles from "./addBlogDetailsMarkdown.module.css";
+
+const markdownSchema = yup.object().shape(
+  {
+    blogTitle: yup
+      .string()
+      .required("Blog Title is required")
+      .min(6, "Blog Title should atleast be of 6 characters"),
+    blogDescription: yup
+      .string()
+      .required("Blog description is required")
+      .test(
+        "test-blog-words",
+        "Blog Description should alleast contain 5000 words",
+        (value) => value.split(" ").filter(characterLike).length >= 5
+      ),
+  }
+  // [["blogDescription", "blogDescription"]]
+);
 
 function MarkDown(props) {
   const [data, setData] = useState({
-    blogDescription: "",
     blogTitle: "",
+    blogDescription: "",
   });
+  const [errors, setErrors] = useState({});
   const location = useLocation();
+  const history = useHistory();
   const debounceData = useDebounce(data, 300000); //5min is 300000 ms
   const addBlogDescriptionAndTitleURL =
     "http://127.0.0.1:5000/blog/addBlogDescriptionAndTitle";
@@ -83,16 +100,6 @@ function MarkDown(props) {
       } else if (debounceData.blogTitle.length <= 6) {
         console.log("blog title must be more than 6 characters");
       } else {
-        //handle api call
-        // console.log("entered use effect in markdown");
-        // const blogID;
-        // axios
-        //   .post(url)
-        //   .then((res) => {
-        //     console.log(res.data);
-        //     blogID = res.data.blog._id;
-        //   })
-        //   .catch((err) => console.log(err));
         var blogID = null;
         if (!blogID) {
           blogID = addBlogDescriptionAndTitleAPI();
@@ -105,10 +112,10 @@ function MarkDown(props) {
 
   const handleChange = (name) => (e) => {
     // e.preventDefault();
-    setData({
+    setData((data) => ({
       ...data,
       [name]: e.target.value,
-    });
+    }));
     console.log({ name });
   };
 
@@ -124,37 +131,56 @@ function MarkDown(props) {
 
           <label>
             <p className={styles.label}> Blog Title</p>
-            <input className={styles.input} placeholder="Enter Title" />
-            <p>Minimum 6 characters</p>
-          </label>
-        </div>
-
-        <div className={clsx(styles.footer, styles.descriptionInput)}>
-          <label>
-            <p className={styles.label}>Blog Description</p>
-            <Editor
+            <input
               className={styles.input}
-              onChange={(text) =>
-                handleChange("blogDescription")({ target: { value: text } })
-              }
+              placeholder="Enter Title"
+              value={data.blogTitle}
+              onChange={handleChange("blogTitle")}
             />
           </label>
-          <p className={styles.descriptionTextLength}>
-            {data.blogDescription.length}/5000
-          </p>
+          <p>{errors.blogTitle}</p>
+        </div>
+
+        <div className={styles.footer}>
+          <div className={styles.descriptionInput}>
+            <label>
+              <p className={styles.label}>Blog Description</p>
+              <Editor
+                className={styles.input}
+                onChange={(text) =>
+                  handleChange("blogDescription")({ target: { value: text } })
+                }
+              />
+            </label>
+            <p className={styles.descriptionTextLength}>
+              {data.blogDescription.length}/5000
+            </p>
+          </div>
+          <p>{errors.blogDescription}</p>
         </div>
 
         <div className={styles.actions}>
           <button onClick={handleUpload} className={styles.button}>
             Upload
           </button>
-          <button className={styles.button}>
-            <Link
-              to={{ pathname: "/addBlogImage", state: location.state }}
-              style={{ textDecoration: "none", color: "white" }}
-            >
-              Next
-            </Link>
+
+          <button
+            className={styles.button}
+            onClick={() => {
+              markdownSchema
+                .validate(data, { abortEarly: false, context: true })
+                .then(() => {
+                  setErrors({});
+                  history.push("/addBlogImage", location.state);
+                  // save to drafts
+                })
+                .catch((error) => {
+                  setErrors(getYupErrors(error));
+                  window.scrollTo({ behavior: "smooth", left: 0, top: 0 });
+                });
+            }}
+          >
+            Next
           </button>
         </div>
 
@@ -182,5 +208,9 @@ const mapDispatchToProps = (dispatch) => {
     saveBlogID: (blogID) => dispatch({ type: "SAVE_BLOG_ID", blogID: blogID }),
   };
 };
+
+function characterLike(word) {
+  return /[A-z|\d]+/.test(word);
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(MarkDown);
