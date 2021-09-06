@@ -23,15 +23,12 @@ const addBlogDescriptionAndTitleAPI = (data) => {
 };
 
 const updateBlogDescriptionAndTitleAPI = (data) => {
-  return axios.patch(
-    `http://127.0.0.1:5000/blog/updateBlogDescriptionAndTitle`,
-    {
-      blogID: data.blogID,
-      blogTitle: data.blogTitle,
-      blogDescription: data.blogDescription,
-      profileID: getLoggedInProfileID(),
-    }
-  );
+  return axios.patch(`${baseURL}/blog/updateBlogDescriptionAndTitle`, {
+    blogID: data.blogID,
+    blogTitle: data.blogTitle,
+    blogDescription: data.blogDescription,
+    profileID: getLoggedInProfileID(),
+  });
 };
 
 const markdownSchema = yup.object().shape({

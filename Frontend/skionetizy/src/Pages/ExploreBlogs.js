@@ -9,9 +9,10 @@ import axios from "axios";
 import useIObserver from "../hooks/useIntersectionObserver";
 import Spinner from "../Components/Spinner";
 import ViewMore from "../Components/ViewMore";
+import baseURL from "../utils/baseURL";
 
 const blogsPerPage = 6;
-const url = "http://127.0.0.1:5000/blog/getBlogsPaginated";
+const url = `${baseURL}/blog/getBlogsPaginated`;
 
 function MyBlogs(props) {
   const [status, setStatus] = useState("idle");

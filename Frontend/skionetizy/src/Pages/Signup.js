@@ -17,6 +17,7 @@ import {
 import { connect } from "react-redux";
 import { getTokens } from "../auth/googleOauth";
 import { sendGoogleAuthCode } from "../API/oauthAPIHandler";
+import baseURL from "../utils/baseURL";
 
 function Signup(props) {
   const [values, setValues] = useState({
@@ -49,7 +50,7 @@ function Signup(props) {
       return;
     }
     // console.log(values);
-    const url = "http://127.0.0.1:5000/signup";
+    const url = `${baseURL}/signup`;
 
     axios
       .post(`${url}`, values)

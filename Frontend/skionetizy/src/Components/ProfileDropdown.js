@@ -4,18 +4,33 @@ import Dropdown from "./Dropdown";
 import { Link } from "react-router-dom";
 import { FaUser, FaNewspaper, FaEdit } from "react-icons/fa";
 import { getProfileDetailsAPIHandler } from "../API/profileAPIHandler";
+import { getLoggedInProfileUserName } from "../utils/AuthorisationUtils";
+import DefaultUserAvatar from "../Assets/avtar.png";
 
-const profileUserName = "test1";
 export default function ProfileDropdown() {
   const [profile, setProfile] = useState(null);
+  const profileUserName = getLoggedInProfileUserName();
 
   useEffect(() => {
+    if (!profileUserName) return;
+
     getProfileDetailsAPIHandler(profileUserName).then((res) => {
       setProfile(res.profile);
     });
-  }, []);
+  }, [profileUserName]);
 
-  return (
+  return profile == null ? (
+    <img
+      src={DefaultUserAvatar}
+      style={{
+        width: "2rem",
+        height: "2rem",
+        objectFit: "cover",
+        borderRadius: "999px",
+      }}
+      alt="Default User Pic"
+    />
+  ) : (
     <Dropdown>
       <Dropdown.Button>
         <img
