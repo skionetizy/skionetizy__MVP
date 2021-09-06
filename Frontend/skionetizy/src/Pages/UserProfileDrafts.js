@@ -55,7 +55,13 @@ export default function UserProfileBlogs({ profile }) {
             <UserBlogsCard key={index} blog={blog} profile={profile} />
 
             <Link
-              to={{ pathname: "/addBlogDetailsMarkdown", state: { blog } }}
+              to="/addBlogDetailsMarkdown"
+              onClick={() => {
+                localStorage.setItem(
+                  "CURRENT_EDITING_BLOG",
+                  JSON.stringify(blog)
+                );
+              }}
               className={style.editDraftBtn}
             >
               <FiEdit2 width="1em" />

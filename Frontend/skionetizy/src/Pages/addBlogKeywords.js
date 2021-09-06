@@ -3,10 +3,11 @@ import styles from "./addBlogKeywords.module.css";
 import BlogSteps from "../Components/BlogSteps";
 import KeywordsIllustration from "../Assets/add_keywords.svg";
 import { FiSearch, FiX } from "react-icons/fi";
-import axios from "axios";
 import { getKeywords, getKeywordsByAI } from "../API/blogAPIHandler";
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineFall, AiOutlineRise, AiOutlineLine } from "react-icons/ai";
+import { CURRENT_EDITING_BLOG } from "../utils/localStorageKeys";
+import { getLoggedInProfileUserName } from "../utils/AuthorisationUtils";
 
 function calcTrend(currentMonthSearches, pastMonthSearches) {
   let score = 0;
@@ -20,8 +21,7 @@ function calcTrend(currentMonthSearches, pastMonthSearches) {
 function AddBlogKeywords() {
   // const [blogs, setBlogs] = useState(null);
   // const [selectedBlogID, setSelectedBlogID] = useState("");
-  const { state } = useLocation();
-  const blog = state?.blog || null;
+  const blog = JSON.parse(localStorage.getItem(CURRENT_EDITING_BLOG));
 
   const [keywords, setKeywords] = useState([]);
   const [aiKeywords, setAiKeywords] = useState([]);
@@ -78,6 +78,10 @@ function AddBlogKeywords() {
         </div>
       </div>
     );
+
+  function handleProfile() {
+    alert("NOT IMPLEMENTED YET ⚠");
+  }
 
   return (
     <>
@@ -224,7 +228,19 @@ function AddBlogKeywords() {
             </div>
           </div>
         </section>
-        <button>Back</button>
+
+        <div className={styles.actions}>
+          <Link
+            className={styles.button}
+            to={`/${getLoggedInProfileUserName()}`}
+          >
+            Back to Profile
+          </Link>
+
+          <button onClick={handleProfile} className={styles.button}>
+            Publish
+          </button>
+        </div>
       </div>
     </>
   );

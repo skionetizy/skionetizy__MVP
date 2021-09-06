@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   CompositeDecorator,
   ContentState,
+  convertFromHTML,
   convertFromRaw,
   Editor,
   EditorState,
@@ -12,22 +13,28 @@ import "draft-js/dist/Draft.css";
 import React, { useEffect, useRef, useState } from "react";
 import { NEW_useDebounceGeneral as useDebounce } from "../hooks/useDebounceGeneral";
 
-export default function MyEditor({ onChange, className }) {
-  const decorators = new CompositeDecorator([
-    {
-      strategy(contentBlock, callback, contentState) {
-        contentBlock.findEntityRanges((character) => {
-          const entityKey = character.getEntity();
-          return (
-            entityKey !== null &&
-            contentState.getEntity(entityKey).getType() === "WRONG"
-          );
-        }, callback);
-      },
-      component: TokenSpan,
+const decorators = new CompositeDecorator([
+  {
+    strategy(contentBlock, callback, contentState) {
+      contentBlock.findEntityRanges((character) => {
+        const entityKey = character.getEntity();
+        return (
+          entityKey !== null &&
+          contentState.getEntity(entityKey).getType() === "WRONG"
+        );
+      }, callback);
     },
-  ]);
-  const [text, setText] = useState(() => EditorState.createEmpty(decorators));
+    component: TokenSpan,
+  },
+]);
+
+export default function MyEditor({ onChange, className, initialData = "" }) {
+  const [text, setText] = useState(() =>
+    EditorState.createWithContent(
+      ContentState.createFromText(initialData, "\\n"),
+      decorators
+    )
+  );
   const editorStateRef = useRef(text);
   const isEditing = useRef(false);
   const isInFocus = useRef(true);

@@ -148,11 +148,20 @@
   border-bottom: 0.1rem solid var(--primary-blue);
 }
 
+.actions {
+  text-align: center;
+}
+
 .button {
+  margin: 1rem;
   margin-top: 4rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem 0.75rem;
   background-color: var(--primary-blue);
+  border: none;
   border-radius: 0.5rem;
   color: inherit;
   text-decoration: none;
+  cursor: pointer;
+
+  font: inherit;
 }

@@ -24,6 +24,10 @@
 }
 
 .next {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
   padding: 10px;
   background-color: #3498db;
   color: white;

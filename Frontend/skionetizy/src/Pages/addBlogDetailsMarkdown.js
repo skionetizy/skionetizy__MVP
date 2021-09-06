@@ -10,105 +10,98 @@ import useDebounce from "../hooks/useDebounce";
 import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
 import getYupErrors from "../utils/getYupErrors";
 import styles from "./addBlogDetailsMarkdown.module.css";
+import Spinner from "../Components/Spinner";
+import baseURL from "../utils/baseURL";
+import { CURRENT_EDITING_BLOG } from "../utils/localStorageKeys";
 
-const markdownSchema = yup.object().shape(
-  {
-    blogTitle: yup
-      .string()
-      .required("Blog Title is required")
-      .min(6, "Blog Title should atleast be of 6 characters"),
-    blogDescription: yup
-      .string()
-      .required("Blog description is required")
-      .test(
-        "test-blog-words",
-        "Blog Description should alleast contain 5000 words",
-        (value) => value.split(" ").filter(characterLike).length >= 5
-      ),
-  }
-  // [["blogDescription", "blogDescription"]]
-);
+const addBlogDescriptionAndTitleAPI = (data) => {
+  return axios.post(`${baseURL}/blog/addBlogDescriptionAndTitle`, {
+    blogTitle: data.blogTitle,
+    blogDescription: data.blogDescription,
+    profileID: getLoggedInProfileID(),
+  });
+};
+
+const updateBlogDescriptionAndTitleAPI = (data) => {
+  return axios.patch(
+    `http://127.0.0.1:5000/blog/updateBlogDescriptionAndTitle`,
+    {
+      blogID: data.blogID,
+      blogTitle: data.blogTitle,
+      blogDescription: data.blogDescription,
+      profileID: getLoggedInProfileID(),
+    }
+  );
+};
+
+const markdownSchema = yup.object().shape({
+  blogTitle: yup
+    .string()
+    .required("Blog Title is required")
+    .min(6, "Blog Title should atleast be of 6 characters"),
+  blogDescription: yup
+    .string()
+    .required("Blog description is required")
+    .test(
+      "test-blog-words",
+      "Blog Description should alleast contain 200 words",
+      (value) => value.split(" ").filter(characterLike).length >= 200
+    ),
+});
 
 function MarkDown(props) {
-  const [data, setData] = useState({
-    blogTitle: "",
-    blogDescription: "",
+  const [data, setData] = useState(() => {
+    return (
+      JSON.parse(localStorage.getItem(CURRENT_EDITING_BLOG)) || {
+        blogTitle: "",
+        blogDescription: "",
+      }
+    );
   });
   const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState("idle");
   const location = useLocation();
   const history = useHistory();
   const debounceData = useDebounce(data, 300000); //5min is 300000 ms
-  const addBlogDescriptionAndTitleURL =
-    "http://127.0.0.1:5000/blog/addBlogDescriptionAndTitle";
-  const UpdateBlogDescriptionAndTitleURL =
-    "http://127.0.0.1:5000/blog/updateBlogDescriptionAndTitle";
-  const handleUpload = (e) => {
-    if (e) {
-      e.preventDefault();
-    }
 
-    if (data.blogDescription.length <= 200) {
-      alert("blog description must be greater than 200 characters");
-    } else if (data.blogTitle <= 6) {
-      alert("blog title must be more than 6 characters");
-    } else {
-      var blogID = null;
+  const handleUpload = async (e) => {
+    try {
+      setStatus("loading");
+      const validatedData = await markdownSchema.validate(data, {
+        abortEarly: false,
+        context: true,
+      });
+
+      setErrors({});
+
+      const blogID = data.blogID;
+      let promise;
       if (!blogID) {
-        blogID = addBlogDescriptionAndTitleAPI();
+        promise = addBlogDescriptionAndTitleAPI(validatedData);
       } else {
-        updateBlogDescriptionAndTitleAPI(blogID);
+        promise = updateBlogDescriptionAndTitleAPI({
+          ...validatedData,
+          blogID,
+        });
+      }
+
+      await promise;
+
+      localStorage.setItem(CURRENT_EDITING_BLOG, JSON.stringify(data));
+      history.push("/addBlogImage");
+    } catch (error) {
+      if (error instanceof yup.ValidationError) {
+        setErrors(getYupErrors(error));
+        window.scrollTo({ behavior: "smooth", left: 0, top: 0 });
+      } else if (error.isAxiosError) {
+        setErrors({
+          axiosError: error?.response?.data?.Message || "Server Error",
+        });
+      } else {
+        throw error;
       }
     }
   };
-
-  const updateBlogDescriptionAndTitleAPI = (blogID) => {
-    axios.patch(UpdateBlogDescriptionAndTitleURL, {
-      ...data,
-      // userID: JSON.parse(localStorage.getItem("userID"))
-      profileID: getLoggedInProfileID(),
-    });
-  };
-
-  const addBlogDescriptionAndTitleAPI = () => {
-    // console.log({ userID: props.userID });
-    var blogID;
-    axios
-      .post(addBlogDescriptionAndTitleURL, {
-        // ...data,
-        blogTitle: data.blogTitle,
-        blogDescription: data.blogDescription,
-        // userID: props.userID,
-        // userID: JSON.parse(localStorage.getItem("userID")),
-        profileID: getLoggedInProfileID(),
-      })
-      .then((res) => {
-        console.log(res.data);
-        blogID = res.data.blog._id;
-        localStorage.setItem("blogID", JSON.stringify(blogID.$uuid));
-        // props.saveBlogID(blogID);
-      })
-      .catch((err) => console.log(err));
-
-    return blogID;
-  };
-
-  useEffect(() => {
-    if (debounceData) {
-      console.log({ debounceData });
-      if (debounceData.blogDescription.length <= 200) {
-        console.log("blog description must be greater than 200 characters");
-      } else if (debounceData.blogTitle.length <= 6) {
-        console.log("blog title must be more than 6 characters");
-      } else {
-        var blogID = null;
-        if (!blogID) {
-          blogID = addBlogDescriptionAndTitleAPI();
-        } else {
-          updateBlogDescriptionAndTitleAPI(blogID);
-        }
-      }
-    }
-  }, [debounceData.blogTitle, debounceData.blogDescription]);
 
   const handleChange = (name) => (e) => {
     // e.preventDefault();
@@ -147,6 +140,7 @@ function MarkDown(props) {
               <p className={styles.label}>Blog Description</p>
               <Editor
                 className={styles.input}
+                initialData={data.blogDescription}
                 onChange={(text) =>
                   handleChange("blogDescription")({ target: { value: text } })
                 }
@@ -160,27 +154,20 @@ function MarkDown(props) {
         </div>
 
         <div className={styles.actions}>
-          <button onClick={handleUpload} className={styles.button}>
-            Upload
-          </button>
-
           <button
             className={styles.button}
             onClick={() => {
-              markdownSchema
-                .validate(data, { abortEarly: false, context: true })
-                .then(() => {
-                  setErrors({});
-                  history.push("/addBlogImage", location.state);
-                  // save to drafts
-                })
-                .catch((error) => {
-                  setErrors(getYupErrors(error));
-                  window.scrollTo({ behavior: "smooth", left: 0, top: 0 });
-                });
+              handleUpload();
             }}
           >
-            Next
+            {status === "loading" ? (
+              <>
+                <Spinner />
+                {data.blogStatus === "DRAFTED" ? "Saving as Draft" : "Saving"}
+              </>
+            ) : (
+              "Next"
+            )}
           </button>
         </div>
 
