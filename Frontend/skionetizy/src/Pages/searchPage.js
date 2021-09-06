@@ -24,7 +24,6 @@ const SearchPage = (props) => {
     setCurrentBlog(currBlog);
   };
 
-  // const url = "http://127.0.0.1:5000/blog/getBlogs";
   const url = `${baseURL}/blog/getBlogs`;
 
   useEffect(() => {

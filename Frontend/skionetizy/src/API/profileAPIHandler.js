@@ -28,11 +28,8 @@ export const checkProfileUsernameIsAvailableAPIHandler = (data) => {
 };
 
 export const updateProfileDetails = (profileID, formData) => {
-  return fetch(
-    `http://127.0.0.1:5000/profile/updateBlogDescriptionAndText/${profileID}`,
-    {
-      method: "PATCH",
-      body: formData,
-    }
-  );
+  return fetch(`${baseURL}/profile/updateBlogDescriptionAndText/${profileID}`, {
+    method: "PATCH",
+    body: formData,
+  });
 };
