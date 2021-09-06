@@ -85,9 +85,9 @@ function MarkDown(props) {
         });
       }
 
-      await promise;
+      const blogDetails = (await promise).data.blog;
 
-      localStorage.setItem(CURRENT_EDITING_BLOG, JSON.stringify(data));
+      localStorage.setItem(CURRENT_EDITING_BLOG, JSON.stringify(blogDetails));
       history.push("/addBlogImage");
     } catch (error) {
       if (error instanceof yup.ValidationError) {

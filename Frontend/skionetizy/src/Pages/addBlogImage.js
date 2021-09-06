@@ -59,6 +59,14 @@ function Upload() {
 
       if (data.success !== true) throw new Error("Image Upload Failed");
 
+      localStorage.setItem(
+        CURRENT_EDITING_BLOG,
+        JSON.stringify({
+          ...data,
+          blogImageURL: data.blog.blogImageURL,
+        })
+      );
+
       setIsLoading(false);
       setSuccess(true);
       history.push("/addBlogKeywords");
@@ -74,7 +82,7 @@ function Upload() {
         <BlogSteps noOfSteps={3} currentStep={2} />
       </div>
       <div className="upload-btn-wrapper">
-        <img src={proImage} alt="Blog Hero Thumbnail" />
+        <img src={proImage || data.blogImageURL} alt="Blog Hero Thumbnail" />
         <br />
         <input
           type="file"

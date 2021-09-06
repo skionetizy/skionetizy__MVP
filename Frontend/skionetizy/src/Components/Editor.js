@@ -41,57 +41,59 @@ export default function MyEditor({ onChange, className, initialData = "" }) {
 
   const debounce = useDebounce(
     /** @type {EditorState} */ async (text) => {
-      let finalEditorState = text;
-      const cs = finalEditorState.getCurrentContent();
-      isEditing.current = false;
+      try {
+        let finalEditorState = text;
+        const cs = finalEditorState.getCurrentContent();
+        isEditing.current = false;
 
-      const prediction = (
-        await axios.post("/api/Grammar-Check", {
-          input: cs.getPlainText(),
-        })
-      ).data.prediction;
-      if (isEditing.current === true) return;
-      if (isInFocus.current === false) return;
+        const prediction = (
+          await axios.post("/api/Grammar-Check", {
+            input: cs.getPlainText(),
+          })
+        ).data.prediction;
+        if (isEditing.current === true) return;
+        if (isInFocus.current === false) return;
 
-      const predictionBlocks = prediction
-        .split("\n")
-        .map((para) => para.split(" "));
+        const predictionBlocks = prediction
+          .split("\n")
+          .map((para) => para.split(" "));
 
-      cs.getBlocksAsArray().forEach((block, iBlock) => {
-        let textOffset = 0;
-        block
-          .getText()
-          .split(" ")
-          .forEach((word, wordIdx) => {
-            if (word != predictionBlocks[iBlock][wordIdx]) {
-              finalEditorState = applyWrongEntity(
-                finalEditorState,
-                block.getKey(),
-                textOffset,
-                textOffset + word.length,
-                {
-                  correctText: predictionBlocks[iBlock][wordIdx],
-                  setText,
-                  debounceWithCS: (cs) => {
-                    setText(EditorState.set(text, { currentContent: cs }));
-                    debounce(EditorState.set(text, { currentContent: cs }));
-                  },
-                }
-              );
-            } else {
-              finalEditorState = removeWrongEntity(
-                finalEditorState,
-                block.getKey(),
-                textOffset,
-                textOffset + word.length
-              );
-            }
+        cs.getBlocksAsArray().forEach((block, iBlock) => {
+          let textOffset = 0;
+          block
+            .getText()
+            .split(" ")
+            .forEach((word, wordIdx) => {
+              if (word != predictionBlocks[iBlock][wordIdx]) {
+                finalEditorState = applyWrongEntity(
+                  finalEditorState,
+                  block.getKey(),
+                  textOffset,
+                  textOffset + word.length,
+                  {
+                    correctText: predictionBlocks[iBlock][wordIdx],
+                    setText,
+                    debounceWithCS: (cs) => {
+                      setText(EditorState.set(text, { currentContent: cs }));
+                      debounce(EditorState.set(text, { currentContent: cs }));
+                    },
+                  }
+                );
+              } else {
+                finalEditorState = removeWrongEntity(
+                  finalEditorState,
+                  block.getKey(),
+                  textOffset,
+                  textOffset + word.length
+                );
+              }
 
-            textOffset += word.length + 1;
-          });
-      });
+              textOffset += word.length + 1;
+            });
+        });
 
-      setText(finalEditorState);
+        setText(finalEditorState);
+      } catch (error) {}
     },
     2000
   );
