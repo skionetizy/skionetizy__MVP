@@ -38,7 +38,7 @@ class AuthorizeSignup(Resource):
     def post(self):
         body = request.get_json()
 
-        if len(body['firstName'])== 0  or len(body['lastName']) == 0 or len(body['emailID'])==0 :
+        if len(body['firstName'])== 0  or len(body['emailID'])==0 :
             return make_response(jsonify({"message":"all fields are required","statusCode":500}))
             # raise FieldsEmpty
         print(body['firstName'])
