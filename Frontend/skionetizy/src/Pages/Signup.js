@@ -26,12 +26,18 @@ function Signup(props) {
       e.preventDefault();
       const url = `${baseURL}/signup`;
 
-      await yup.string().email("Enter a valid email address").validate(emailID);
+      await yup
+        .string()
+        .required("Email is required")
+        .email("Enter a valid email address")
+        .validate(emailID);
+
       setError("");
 
       const payload = {
         emailID: emailID,
         firstName: emailID.replace(/\./g, "_").split("@")[0],
+        lastName: "",
       };
 
       setIsLoading(true);
@@ -41,7 +47,6 @@ function Signup(props) {
         throw createFlaskError(res.data.message);
       }
 
-      alert(JSON.stringify(res.data, null, 4));
       localStorage.setItem(
         LOGGED_IN_PROFILE_USERNAME,
         JSON.stringify(payload.firstName)
