@@ -47,10 +47,6 @@ function Signup(props) {
         throw createFlaskError(res.data.message);
       }
 
-      localStorage.setItem(
-        LOGGED_IN_PROFILE_USERNAME,
-        JSON.stringify(payload.firstName)
-      );
       setIsLoading(false);
       history.push("/details");
     } catch (error) {
