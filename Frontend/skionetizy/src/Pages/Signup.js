@@ -1,152 +1,99 @@
-import { React, useEffect, useState } from "react";
-import axios, { AxiosError } from "axios";
-
-import Signupvec from "../Assets/signupvec.svg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
-import style from "../Pages/signup.module.css";
-import bgsignup from "../Assets/bgsignup.svg";
-
-import {
-  Link,
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import axios from "axios";
+import { React, useState } from "react";
+import { FcGoogle } from "react-icons/fc";
+import { FiArrowRight } from "react-icons/fi";
 import { connect } from "react-redux";
-import { getTokens } from "../auth/googleOauth";
-import { sendGoogleAuthCode } from "../API/oauthAPIHandler";
+import { useHistory } from "react-router-dom";
+import * as yup from "yup";
+import AddUserRafikiImage from "../Assets/add_user_rafiki.svg";
+import { createAuthURL } from "../auth/googleOauth";
+import styles from "../Pages/signup.module.css";
 import baseURL from "../utils/baseURL";
+import createFlaskError from "../utils/createFlaskError";
+import Spinner from "../Components/Spinner";
+import { LOGGED_IN_PROFILE_USERNAME } from "../utils/localStorageKeys";
+
+const googleOAuthURL = createAuthURL("/auth/authToken");
 
 function Signup(props) {
-  const [values, setValues] = useState({
-    firstName: "",
-    lastName: "",
-    emailID: "",
-    password: "",
-    confirmPassword: "",
-    userID: "",
-  });
-  // const [formvalues,setformValues]=useState();
+  const [emailID, setEmailID] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const history = useHistory();
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    const inpname = e.target.name;
-    const inpvalue = e.target.value;
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const url = `${baseURL}/signup`;
 
-    setValues({ ...values, [inpname]: inpvalue });
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (values.firstName.length < 5) {
-      alert("Less characters in firstname (minimum length 6)");
-      setValues({ ...values, firstName: "" });
-      return;
+      await yup.string().email("Enter a valid email address").validate(emailID);
+      setError("");
+
+      const payload = {
+        emailID: emailID,
+        firstName: emailID.replace(/\./g, "_").split("@")[0],
+      };
+
+      setIsLoading(true);
+      const res = await axios.post(`${url}`, payload);
+
+      if (res.data.statusCode === 500) {
+        throw createFlaskError(res.data.message);
+      }
+
+      alert(JSON.stringify(res.data, null, 4));
+      localStorage.setItem(
+        LOGGED_IN_PROFILE_USERNAME,
+        JSON.stringify(payload.firstName)
+      );
+      setIsLoading(false);
+      history.push("/details");
+    } catch (error) {
+      if (error instanceof yup.ValidationError) {
+        setError(error.message);
+      } else if (error.isFlaskError) {
+        setError(error.message);
+      } else if (error.isAxiosError) {
+        setError(error?.response.data.message || "Server Error");
+      }
+      setIsLoading(false);
     }
-    if (values.password !== values.confirmPassword) {
-      alert("Password and confirm password do not match");
-      setValues({ ...values, password: "", confirmPassword: "" });
-      return;
-    }
-    // console.log(values);
-    const url = `${baseURL}/signup`;
-
-    axios
-      .post(`${url}`, values)
-      .then((res) => {
-        // console.log(res.data);
-        setValues({ ...values, userID: res.data.userID });
-      })
-      .catch((err) => console.log(err));
-    props.saveUserDetails(values.userID, values.firstName, values.lastName);
-    // <Route exact path="/">
-    //   {loggedIn ? <Redirect to="/dashboard" /> : <PublicHomePage />}
-    // </Route>;
-
-    values.userID && <Redirect to="/details" />;
-
-    setValues({
-      ...values,
-      firstName: "",
-      lastName: "",
-      emailID: "",
-      password: "",
-      confirmPassword: "",
-    });
   };
 
   return (
-    <div className={`${style.container} ${style.cover}`}>
-      <div className={`${style.container} ${style.signup}`}>
-        <div className={style.header}>
-          <h1 className={style.header_heading}>Sign up</h1>
-          <p className={style.header_text}>
-            Enter your details to create a free account
-          </p>
-        </div>
-        <div className={style.signup_container}>
-          <form className={style.signup_form} onSubmit={handleSubmit}>
-            <div className={style.name}>
-              <input
-                type="text"
-                className={style.name_firstName}
-                onChange={handleChange}
-                name="firstName"
-                placeholder=" First Name"
-                required
-              />
-              <input
-                type="text"
-                className={style.name_lastName}
-                onChange={handleChange}
-                name="lastName"
-                placeholder=" Last Name"
-                required
-              />
-            </div>
-            <div className={style.email_password}>
-              <input
-                type="email"
-                name="emailID"
-                placeholder=" Email"
-                onChange={handleChange}
-                className={style.email}
-                required
-              />
-              <input
-                type="password"
-                name="password"
-                placeholder=" Password"
-                onChange={handleChange}
-                className={style.password}
-                required
-              />
-              <input
-                type="password"
-                name="confirmPassword"
-                placeholder=" Confirm Password"
-                onChange={handleChange}
-                className={style.confirmPassword}
-                required
-              />
-            </div>
-            <button className={style.signupButton} type="submit">
-              Sign up
-              <FontAwesomeIcon icon={faSignInAlt} />
-            </button>
-          </form>
-          <div className={style.loginLink}>
-            <p>Already have an account?</p>
-            <span>
-              <Link to="/login">Login</Link>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div className={style.coverImage}>
-        <img src={bgsignup} alt="" className={style.coverImage_svg} />
-      </div>
+    <div className={styles.wrapper}>
+      <h1 className={styles.title}>SIGNUP</h1>
+
+      <img className={styles.heroImage} src={AddUserRafikiImage} alt="" />
+
+      <p className={styles.lead}>
+        Cheese and biscuits halloumi cauliflower cheese cottage cheese swiss
+        boursin fondue caerphilly. Cow port-salut camembert de normandie
+        macaroni cheese feta who moved my cheese babybel boursin.
+      </p>
+
+      <a className={styles.googleBtn} href={googleOAuthURL}>
+        <FcGoogle fontSize="1.5em" /> Signup With Google
+      </a>
+
+      <p className={styles.divider}>
+        <span> OR SIGNUP WITH </span>
+      </p>
+
+      <form className={styles.emailInputWrapper} onSubmit={handleSubmit}>
+        <input
+          className={styles.emailInput}
+          placeholder="Enter Email ID"
+          name="emailID"
+          value={emailID}
+          onChange={(ev) => setEmailID(ev.target.value)}
+        />
+
+        <button className={styles.emailSubmitBtn}>
+          {isLoading ? <Spinner /> : <FiArrowRight width="1em" />}
+        </button>
+      </form>
+      <p className={styles.error}>{error || <>&nbsp;</>}</p>
     </div>
   );
 }
@@ -162,4 +109,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapDispatchToProps)(Signup);
+export default connect(null, mapDispatchToProps)(Signup);

@@ -1,140 +1,133 @@
-.container {
-  width: 80%;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.flex {
-  display: flex;
-  justify-content: space-between;
-}
-
-.signup {
-  font-family: "Montserrat", sans-serif;
+.wrapper {
+  padding: 1.5rem 2rem 3rem;
+  margin: 1rem;
   background-color: var(--primary-blue);
-  padding: 1em 1em;
-  display: block;
-  text-align: center;
-  /* height: 90vh; */
-  border-radius: 0.5em;
-  width: 100%;
-}
-.header {
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 2em;
-}
+  border-radius: 1.125rem;
 
-.signup_form {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-}
-
-.cover {
-  display: flex;
-  margin-top: 4em;
-  margin-bottom: 4em;
-}
-.coverImage {
-  display: none;
-}
-
-.name {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-}
-
-.name_firstName,
-.name_lastName,
-.email,
-.password,
-.confirmPassword {
-  padding: 0.75em 0.85em;
-  font-family: "Montserrat", sans-serif;
-  border: none;
-  outline: none;
-  border-radius: 1em;
-  line-height: 2;
-  letter-spacing: 0.08rem;
-  font-weight: 700;
-}
-
-.email_password {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-}
-
-.signupButton {
-  align-self: center;
-  border: none;
-  background: transparent;
-  font-family: "Montserrat", sans-serif;
-  background-color: var(--dark-blue);
   color: white;
-  padding: 0.85em 1.2em;
-  padding: 1rem 2rem;
-  cursor: pointer;
-  font-weight: 700;
-  letter-spacing: 0.09rem;
-  outline: none;
-  border-radius: 0.6em;
 }
 
-.loginLink {
-  color: #fff;
+.title {
+  margin: 0;
+}
+
+.heroImage {
+  display: block;
+  margin: 0 auto;
+  margin-top: 2rem;
+}
+
+.emailInputWrapper {
   display: flex;
-  flex-direction: column;
 }
 
-@media (min-width: 700px) {
-  .name {
-    display: flex;
-    flex-direction: row;
-  }
-  .name_firstName,
-  .name_lastName {
-    width: 50%;
-  }
-  .signup {
-    font-family: "Montserrat", sans-serif;
-    background-color: var(--primary-blue);
-    padding: 2em;
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
-    border-radius: 0.5em;
-  }
+.emailInput {
+  width: 100%;
+  flex: 1;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  background-color: #fff;
+  border-radius: 0.625rem 0 0 0.625rem;
 
-  .signup_form {
-    display: flex;
-    flex-direction: column;
-    gap: 2.5em;
-  }
-
-  .email_password {
-    display: flex;
-    flex-direction: column;
-    gap: 2.5em;
-  }
+  color: var(--dark-blue);
+  font: inherit;
+  outline: none;
 }
 
-@media (min-width: 1200px) {
-  .signup {
-    width: 50%;
-  }
+.emailInput:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.25);
+}
 
-  .coverImage {
+.emailSubmitBtn {
+  width: 3rem;
+  height: 3rem;
+  flex: none;
+  background-color: var(--dark-blue);
+  border: none;
+  border-radius: 0 0.675rem 0.675rem 0;
+  color: white;
+  font: inherit;
+  line-height: 0;
+  cursor: pointer;
+}
+
+.divider {
+  margin: 2.5rem 0;
+  display: flex;
+  align-items: center;
+  color: var(--dark-blue);
+}
+
+.divider span {
+  flex: none;
+  width: max-content;
+  font-weight: bold;
+}
+
+.divider::after,
+.divider::before {
+  content: "";
+  flex: 1;
+  margin: 0 0.5rem;
+  height: 0.2rem;
+  background-color: #fff;
+}
+
+.googleBtn {
+  margin-top: 2.375rem;
+  padding: 0.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  background-color: #fff;
+  border-radius: 0.675rem;
+
+  color: var(--dark-blue);
+  text-decoration: none;
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+}
+
+/* desktop */
+@media (min-width: 1000px) {
+  .wrapper {
     display: flex;
-    width: 50%;
+    flex-direction: column;
+    align-items: center;
+
+    margin: 1rem 5.5rem;
+    padding: 2.5rem 5rem;
   }
 
-  .coverImage_svg {
-    height: 40em;
-    margin-left: 6em;
+  .title {
+    align-self: flex-start;
+  }
+
+  .heroImage {
+    max-width: 30vw;
+  }
+
+  .lead {
+    margin-top: 4rem;
+    max-width: 60vw;
+    font-size: 1.5rem;
+    font-weight: lighter;
+    line-height: 1.5em;
+  }
+
+  .divider::after,
+  .divider::before {
+    margin: 0 2rem;
+    width: 6rem;
+  }
+
+  .googleBtn,
+  .emailInputWrapper {
+    width: 25rem;
   }
 }
