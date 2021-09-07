@@ -44,7 +44,7 @@ const ViewBlog = () => {
 
   const loggedInUserProfile = getLoggedInProfileID();
   const [blog, setBlog] = useState({});
-  const [showComment, setShowComment] = useState(false);
+  const [showComment, setShowComment] = useState(true);
   const [length, setLength] = useState(3);
   const [viewMore, setViewMore] = useState("View more");
   const [shouldShowShareModal, setShouldShowShareModal] = useState(false);

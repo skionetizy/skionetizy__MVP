@@ -1,53 +1,50 @@
 :root {
-	--primary-blue: #3498db;
-	--dark-blue: #142850;
+  --primary-blue: #3498db;
+  --dark-blue: #142850;
 }
 
 .comments_container {
-	background-color: var(--primary-blue);
-	padding: 0.5em;
-	border-radius: 0.3em;
-	display: flex;
-	flex-direction: column;
-	gap: 1em;
+  padding: 0.5em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.user_comments {
+  display: flex;
+  align-items: center;
+
+  color: white;
+}
+
+.user_comments + .user_comments {
+  margin-top: 3rem;
 }
 
 .comment_count {
-	color: #fff;
-	font-size: 0.8rem;
-}
-
-.comment_text {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+  color: #fff;
+  font-size: 0.8rem;
 }
 
 .comment_delete {
-	/* background-color: var(--dark-blue); */
-	background: transparent;
-	color: #fff;
-	outline: none;
-	border: none;
-	padding: 0.5em 1em;
-	border-radius: 0.5em;
-	cursor: pointer;
+  /* background-color: var(--dark-blue); */
+  background: transparent;
+  color: #fff;
+  outline: none;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+  cursor: pointer;
 }
 
 .break {
-	border: 0.2px solid var(--dark-blue);
-}
-
-@media (min-width: 1000px) {
-	.comment_count {
-		font-size: 1rem;
-	}
+  border: 0.2px solid var(--dark-blue);
 }
 
 .userContents {
-	display: flex;
-	align-items: center;
-	gap: 0.7em;
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
 }
 
 /* .userContents ::after{
@@ -59,23 +56,59 @@
 	right: 10%;
 } */
 .userName {
-	color: #fff;
-	font-size: 0.8rem;
-	font-weight: 700;
+  color: inherit;
+  font-size: 1rem;
+  font-weight: 400;
 }
 
 .user_avatar {
-	border-radius: 2em;
+  width: 100%;
+  height: 100%;
+  max-width: 4rem;
+  max-height: 4rem;
+  border-radius: 2em;
 }
 
 .comment_text {
-	color: var(--dark-blue);
-	font-weight: 800;
-	margin-left: 3em;
+  flex: 1;
+
+  margin-left: 2rem;
+
+  font-weight: 800;
+  color: inherit;
 }
 
-.comment_text  input{
-	width:50em;
-	height:3em;
+.comment_text p {
+  margin: 0;
+  margin-top: 0.5rem;
+  font-size: 1.15rem;
 }
 
+.date {
+  margin-left: 1rem;
+  font-size: 0.8em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 1000px) {
+  .comments_container {
+    padding: 0;
+  }
+
+  .comment_count {
+    font-size: 1rem;
+  }
+
+  .user_comments {
+    align-items: flex-start;
+  }
+
+  .user_avatar {
+    max-width: 2rem;
+    max-height: 2rem;
+  }
+
+  .comment_text {
+    margin: 0 0.5rem;
+  }
+}

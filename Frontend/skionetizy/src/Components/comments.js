@@ -50,23 +50,37 @@ const Comments = ({
             src={comment.profilePicImageURL} //edit it with profile
             alt=" "
           />
-          <div className={styles.published}>
-            {/* <small className={styles.userName}>Rahul Gupta</small> */}
-            <small className={styles.userName}>{comment.profileName}</small>
-          </div>
         </div>
+
         <div className={styles.comment_text}>
+          <small className={styles.userName}>
+            {comment.profileName}{" "}
+            <span className={styles.date}>
+              {comment.timestamp.$date
+                ? timestampToDateString(comment.timestamp.$date)
+                : ""}
+            </span>
+          </small>
+
           <p>{comment.commentDescription}</p>
-          {handleShowDelete() && (
-            <button className={styles.comment_delete} onClick={handleDelete}>
-              <DeleteIcon />
-            </button>
-          )}
         </div>
+
+        {handleShowDelete && (
+          <button className={styles.comment_delete} onClick={handleDelete}>
+            <DeleteIcon />
+          </button>
+        )}
       </div>
       <hr className={styles.break} />
     </div>
   );
 };
+
+function timestampToDateString(timestamp) {
+  return new Date(timestamp).toLocaleString("en-IN", {
+    month: "short",
+    day: "numeric",
+  });
+}
 
 export default Comments;
