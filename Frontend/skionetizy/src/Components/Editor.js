@@ -234,7 +234,7 @@ function TokenSpan({
         debounceWithCS(cs);
       }}
       onMouseEnter={() => console.log(correctText)}
-      style={{ cursor: "pointer", borderBottom: "2px solid green" }}
+      style={{ cursor: "pointer", borderBottom: "2px solid red" }}
     >
       {children}
     </span>
