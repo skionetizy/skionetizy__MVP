@@ -3,7 +3,7 @@ import { React, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FiArrowRight } from "react-icons/fi";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import * as yup from "yup";
 import AddUserRafikiImage from "../Assets/add_user_rafiki.svg";
 import { createAuthURL } from "../auth/googleOauth";
@@ -95,6 +95,10 @@ function Signup(props) {
         </button>
       </form>
       <p className={styles.error}>{error || <>&nbsp;</>}</p>
+
+      <Link className={styles.loginLink} to="/login">
+        Already have an account
+      </Link>
     </div>
   );
 }
