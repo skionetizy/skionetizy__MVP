@@ -61,7 +61,7 @@ class AuthorizeSignup(Resource):
 
         auth_token = newUser.encode_auth_token()
         print(f'{auth_token} here')
-        redirect_url = f'http://127.0.0.1:5000/emailVerification/{auth_token}'
+        redirect_url = f'https://skionetizymvp-staging.herokuapp.com/emailVerification/{auth_token}'
 
         send_email("Skionetizy Email Verification for creating account",os.environ.get('MAIL_USERNAME'),recipients=[body["emailID"]],html=f"<a href={redirect_url}>and easy to do anywhere, even with Python</a>")
         # message = Mail(
