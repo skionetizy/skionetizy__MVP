@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
+import Login from "../Pages/Login";
 
 import axios from "axios";
 
@@ -29,11 +30,12 @@ import ShareIcon from "@material-ui/icons/Share";
 
 import Comments from "../Components/comments";
 import Moment from "react-moment";
-import GoogleOAuthModal from "../Components/GoogleOAuthModal";
+import LoginFormModal from "../Components/LoginFormModal";
 import Modal from "../Components/Modal";
 import ShareBlogModal from "../Components/ShareBlogModal";
 import FollowButton from "../Components/FollowButton";
 import { Helmet } from "react-helmet";
+import LoginForm from "../Components/LoginForm";
 
 const KEYWORDS_LOCAL_KEY = "blogsKeywords";
 
@@ -512,7 +514,7 @@ const ViewBlog = () => {
         )}
       </div>
 
-      {!isAuthenticated() && <GoogleOAuthModal currentBlog={blog} />}
+      {!isAuthenticated() && <LoginFormModal />}
     </>
   );
 };

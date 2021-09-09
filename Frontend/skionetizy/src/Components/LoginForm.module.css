@@ -1,0 +1,96 @@
+.googleBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  padding: 1rem 0.75rem;
+
+  background-color: #fff;
+  border-radius: 1rem;
+
+  color: var(--dark-blue);
+  text-decoration: none;
+  font-size: 1.25;
+}
+
+.divider {
+  margin: 1.5rem 0 !important;
+}
+
+.signin_form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.email_password {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+.email,
+.password {
+  padding: 1.25rem 0.85rem;
+  font-family: "Montserrat", sans-serif;
+  border: none;
+  outline: none;
+  border-radius: 1rem;
+  font-size: inherit;
+}
+
+.forgotPasswordLink {
+  margin-top: 0.5rem;
+  display: block;
+
+  color: #fff;
+  text-align: right;
+}
+
+.signinButton {
+  margin-top: 2rem;
+  align-self: center;
+  border: none;
+  background: transparent;
+  font-family: "Montserrat", sans-serif;
+  background-color: var(--dark-blue);
+  color: white;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.09rem;
+  outline: none;
+  border-radius: 0.6em;
+}
+
+.signinButton svg {
+  margin-left: 1rem;
+}
+
+.signupLink {
+  margin-top: 2.75rem;
+  color: #fff;
+}
+.signupLink a {
+  color: var(--dark-blue);
+}
+
+@media (min-width: 700px) {
+  .signin_form {
+    gap: 0;
+  }
+
+  .email_password {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5em;
+  }
+}
+
+@media (min-width: 1200px) {
+  .email_password {
+    display: flex;
+    flex-direction: column;
+  }
+}

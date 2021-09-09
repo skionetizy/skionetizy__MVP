@@ -1,13 +1,14 @@
-import Modal from "./Modal";
 import React, { useEffect, useState } from "react";
-import { createAuthURL } from "../auth/googleOauth";
-import { FcGoogle } from "react-icons/fc";
-import styles from "./GoogleOAuthModal.module.css";
 import { useLocation } from "react-router-dom";
 import { sendGoogleAuthCode } from "../API/oauthAPIHandler";
+import Vector from "../Assets/bro.svg";
+import { createAuthURL } from "../auth/googleOauth";
+import LoginForm from "./LoginForm";
+import styles from "./LoginFormModal.module.css";
+import Modal from "./Modal";
 import Spinner from "./Spinner";
 
-function GoogleOAuthModal({ currentBlog }) {
+function GoogleOAuthModal() {
   const [isVisible, setIsVisible] = useState(false);
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
@@ -16,6 +17,10 @@ function GoogleOAuthModal({ currentBlog }) {
     redirectURL: window.location.pathname,
   });
   const { state } = useLocation();
+
+  function onClose() {
+    setIsVisible(false);
+  }
 
   useEffect(() => {
     const { callbackURL } = state || {};
@@ -37,7 +42,7 @@ function GoogleOAuthModal({ currentBlog }) {
           setStatus("success");
 
           setTimeout(() => {
-            setIsVisible(false);
+            onClose();
           }, 2000);
         })
         .catch((error) => {
@@ -72,29 +77,40 @@ function GoogleOAuthModal({ currentBlog }) {
           <div>
             <Spinner />
             &nbsp; &nbsp; Verifying your Credientials{" "}
-            <span className="ani-typing">...</span>
+            <span
+              style={{ "--background": "var(--primary-blue)" }}
+              className="ani-typing"
+            >
+              ...
+            </span>
           </div>
         ) : status === "error" ? (
-          <p>{error}</p>
+          <p className={styles.error}>{error}</p>
         ) : status === "success" ? (
           <p>Login Successful</p>
         ) : (
           <>
-            <p>Skionetizy</p>
-            <p>You missing most of our features. Login in with one click</p>
+            <div className={styles.loginWrapper}>
+              <div className={styles.imageWrapper}>
+                <h1 className={styles.title}>Login</h1>
+                <p className={styles.lead}>
+                  Over 500+ people have logged in Over 500+ people have logged
+                  in Over 500+ people have logged in
+                </p>
+                <img className={styles.image} src={Vector} alt="" />
+              </div>
 
-            <a
-              href={googleOAuthURL}
-              className={styles.googleBtn}
-              onClick={() => {
-                localStorage.setItem(
-                  "GOOGLE_OAUTH_CURRENT_BLOG",
-                  JSON.stringify(currentBlog)
-                );
-              }}
-            >
-              <FcGoogle width="1em" fontSize="2rem" />
-            </a>
+              <div className={styles.loginForm}>
+                <LoginForm
+                  googleOAuthURL={googleOAuthURL}
+                  onLogin={(_user, error) => {
+                    if (error) return;
+
+                    onClose();
+                  }}
+                />
+              </div>
+            </div>
           </>
         )}
       </div>

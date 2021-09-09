@@ -219,7 +219,7 @@ nav ul li h3 {
 
   font-family: monospace;
 
-  animation: typing 3s steps(999) infinite;
+  animation: typing 3s steps(5) infinite;
 }
 
 @keyframes typing {
