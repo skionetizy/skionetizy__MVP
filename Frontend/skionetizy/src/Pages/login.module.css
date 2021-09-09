@@ -1,138 +1,172 @@
 .container {
-	width: 80%;
-	max-width: 1400px;
-	margin: 0 auto;
+  width: 80%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 .signin {
-	font-family: 'Montserrat', sans-serif;
-	background-color: var(--primary-blue);
-	padding: 1em 1em;
-	display: block;
-	text-align: center;
-	/* height: 90vh; */
-	border-radius: 0.5em;
-	width: 100%;
+  font-family: "Montserrat", sans-serif;
+  background-color: var(--primary-blue);
+  padding: 1em 1em;
+  display: block;
+  text-align: center;
+  /* height: 90vh; */
+  border-radius: 0.5em;
+  width: 100%;
 }
 .header {
-	color: #fff;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin-bottom: 2em;
+  color: #fff;
+  text-align: left;
+  margin-bottom: 2em;
 }
 .header_text {
-	max-width: 70%;
-	text-align: center;
-	margin: 0;
+  max-width: 70%;
+  text-align: center;
+  margin: 0;
 }
+
+.googleBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  padding: 1rem 0.75rem;
+
+  background-color: #fff;
+  border-radius: 1rem;
+
+  color: inherit;
+  text-decoration: none;
+  font-size: 1.25;
+}
+
+.divider {
+  margin: 1.5rem 0 !important;
+}
+
 .signin_form {
-	display: flex;
-	flex-direction: column;
-	gap: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
 .cover_login {
-	display: flex;
-	margin-top: 4em;
+  display: flex;
+  margin-top: 4em;
 }
 
 .coverImage_login {
-	/* width: 100%; */
-	display: none;
+  /* width: 100%; */
+  display: none;
 }
-/* .name {
-	display: flex;
-	flex-direction: column;
-	gap: 1em;
-} */
 
 .email,
 .password {
-	padding: 0.75em 0.85em;
-	font-family: 'Montserrat', sans-serif;
-	border: none;
-	outline: none;
-	border-radius: 1em;
-	line-height: 2;
-	letter-spacing: 0.08rem;
-	font-weight: 700;
-	height: 5em;
-	font-size: 1rem;
+  padding: 1.25rem 0.85rem;
+  font-family: "Montserrat", sans-serif;
+  border: none;
+  outline: none;
+  border-radius: 1rem;
+  font-size: inherit;
 }
 
 .email_password {
-	display: flex;
-	flex-direction: column;
-	gap: 2em;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
 }
+
+.forgotPasswordLink {
+  margin-top: 0.5rem;
+  display: block;
+
+  color: #fff;
+  text-align: right;
+}
+
 .signinButton {
-	align-self: center;
-	border: none;
-	background: transparent;
-	font-family: 'Montserrat', sans-serif;
-	background-color: var(--dark-blue);
-	color: white;
-	padding: 0.85em 1.2em;
-	padding: 1rem 2rem;
-	cursor: pointer;
-	font-weight: 700;
-	letter-spacing: 0.09rem;
-	outline: none;
-	border-radius: 0.6em;
+  margin-top: 2rem;
+  align-self: center;
+  border: none;
+  background: transparent;
+  font-family: "Montserrat", sans-serif;
+  background-color: var(--dark-blue);
+  color: white;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.09rem;
+  outline: none;
+  border-radius: 0.6em;
 }
+.signinButton svg {
+  margin-left: 1rem;
+}
+
 .signupLink {
-	color: #fff;
-	display: flex;
-	flex-direction: column;
+  margin-top: 2.75rem;
+  color: #fff;
+}
+.signupLink a {
+  color: var(--dark-blue);
 }
 
 @media (min-width: 700px) {
-	.signin {
-		font-family: 'Montserrat', sans-serif;
-		background-color: var(--primary-blue);
-		padding: 2em;
-		height: fit-content;
-		display: flex;
-		flex-direction: column;
-		border-radius: 0.5em;
-		margin-bottom: 3em;
-	}
+  .signin {
+    font-family: "Montserrat", sans-serif;
+    background-color: var(--primary-blue);
+    padding: 2em;
+    /* height: fit-content; */
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.5em;
+    margin-bottom: 3em;
+  }
 
-	.signin_form {
-		display: flex;
-		flex-direction: column;
-		gap: 3.5em;
-	}
+  .signin_form {
+    gap: 0;
+  }
 
-	.email_password {
-		display: flex;
-		flex-direction: column;
-		gap: 2.5em;
-	}
+  .email_password {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5em;
+  }
 }
 
 @media (min-width: 1200px) {
-	.cover_login {
-		display: flex;
-		align-items: center;
-	}
+  .cover_login {
+    display: flex;
+    /* align-items: center; */
+    gap: 3rem;
+  }
 
-	.signin {
-		width: 50%;
-		height: 40em;
-		text-align: center;
-		padding: 2em 5em;
-	}
-	.email_password {
-		display: flex;
-		flex-direction: column;
-	}
+  .signin {
+    flex: 1;
+    align-self: flex-start;
+    text-align: center;
+    padding: 2em 5em;
+  }
+  .email_password {
+    display: flex;
+    flex-direction: column;
+  }
 
-	.coverImage_login {
-		display: flex;
-		width: 60%;
-	}
+  .coverImage_login {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 
-	.coverImage_svgLogin {
-		height: 40em;
-	}
+    color: #fff;
+  }
+
+  .coverImage_login p {
+    margin: 0 auto;
+    max-width: 85%;
+    font-size: 1.25rem;
+  }
+
+  .coverImage_svgLogin {
+    margin-top: 5rem;
+    /* height: 40em; */
+  }
 }

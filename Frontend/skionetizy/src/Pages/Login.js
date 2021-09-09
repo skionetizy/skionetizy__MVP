@@ -13,8 +13,9 @@ import Vector from "../Assets/bro.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { SiGoogle } from "react-icons/si";
+import { FcGoogle } from "react-icons/fc";
 import { createAuthURL } from "../auth/googleOauth";
-
+import Divider from "../Components/Divider";
 import baseURL from "../utils/baseURL";
 
 const googleOauthURL = createAuthURL("/auth/authToken");
@@ -71,13 +72,23 @@ function Login(props) {
   return (
     <div className={`${style.container} ${style.cover_login}`}>
       <div className={style.coverImage_login}>
+        <p>
+          Over 500+ people have logged in Over 500+ people have logged in Over
+          500+ people have logged in
+        </p>
         <img src={Vector} alt="" className={style.coverImage_svgLogin} />
       </div>
       <div className={`${style.container} ${style.signin}`}>
         <div className={style.header}>
-          <h1 className={style.header_heading}>Login</h1>
-          <p className={style.header_text}>Login to your account</p>
+          <h1>Login</h1>
         </div>
+
+        <a className={style.googleBtn} href={googleOauthURL}>
+          <FcGoogle fontSize="1.5rem" /> Login with Google
+        </a>
+
+        <Divider className={style.divider}>OR</Divider>
+
         <div className={style.signin_container}>
           <form className={style.signin_form} onSubmit={handleSubmit}>
             <div className={style.email_password}>
@@ -100,31 +111,18 @@ function Login(props) {
                 required
               />
             </div>
+
+            <Link className={style.forgotPasswordLink} to="/forgotPassword">
+              Forgot Password
+            </Link>
+
             <button className={style.signinButton} type="submit">
               Login <FontAwesomeIcon icon={faSignInAlt} />
             </button>
-
-            <div>
-              <a
-                type="button"
-                style={{
-                  background: "none",
-                  border: "none",
-                  fontSize: "1.5rem",
-                  cursor: "pointer",
-                }}
-                href={googleOauthURL}
-              >
-                <SiGoogle width="1em" fontSize="inherit" />
-              </a>
-            </div>
           </form>
-          <div className={style.signupLink}>
-            <p>Don't have an account?</p>
-            <span>
-              <Link to="/">Signup</Link>
-            </span>
-          </div>
+          <p className={style.signupLink}>
+            Don't have an account? <Link to="/">Signup</Link>
+          </p>
         </div>
       </div>
     </div>

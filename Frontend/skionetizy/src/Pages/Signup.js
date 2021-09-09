@@ -12,6 +12,7 @@ import baseURL from "../utils/baseURL";
 import createFlaskError from "../utils/createFlaskError";
 import Spinner from "../Components/Spinner";
 import { LOGGED_IN_PROFILE_USERNAME } from "../utils/localStorageKeys";
+import Divider from "../Components/Divider";
 
 const googleOAuthURL = createAuthURL("/auth/authToken");
 
@@ -64,22 +65,17 @@ function Signup(props) {
   return (
     <div className={styles.wrapper}>
       <h1 className={styles.title}>SIGNUP</h1>
-
       <img className={styles.heroImage} src={AddUserRafikiImage} alt="" />
-
       <p className={styles.lead}>
         Cheese and biscuits halloumi cauliflower cheese cottage cheese swiss
         boursin fondue caerphilly. Cow port-salut camembert de normandie
         macaroni cheese feta who moved my cheese babybel boursin.
       </p>
-
       <a className={styles.googleBtn} href={googleOAuthURL}>
         <FcGoogle fontSize="1.5em" /> Signup With Google
       </a>
 
-      <p className={styles.divider}>
-        <span> OR SIGNUP WITH </span>
-      </p>
+      <Divider>OR SIGNUP WITH</Divider>
 
       <form className={styles.emailInputWrapper} onSubmit={handleSubmit}>
         <input
@@ -95,10 +91,12 @@ function Signup(props) {
         </button>
       </form>
       <p className={styles.error}>{error || <>&nbsp;</>}</p>
-
-      <Link className={styles.loginLink} to="/login">
-        Already have an account
-      </Link>
+      <p>
+        Already have an account,{" "}
+        <Link className={styles.loginLink} to="/login">
+          Login
+        </Link>
+      </p>
     </div>
   );
 }
