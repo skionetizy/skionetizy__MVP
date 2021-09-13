@@ -8,8 +8,7 @@ import styles from "./LoginFormModal.module.css";
 import Modal from "./Modal";
 import Spinner from "./Spinner";
 
-function GoogleOAuthModal() {
-  const [isVisible, setIsVisible] = useState(false);
+function LoginFormModal({ ...props }) {
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
   const googleOAuthURL = createAuthURL("/auth/authToken", {
@@ -18,14 +17,9 @@ function GoogleOAuthModal() {
   });
   const { state } = useLocation();
 
-  function onClose() {
-    setIsVisible(false);
-  }
-
   useEffect(() => {
     const { callbackURL } = state || {};
     if (callbackURL) {
-      setIsVisible(true);
       setStatus("loading");
       sendGoogleAuthCode({ callbackURL })
         .then((userData) => {
@@ -40,10 +34,6 @@ function GoogleOAuthModal() {
           // clearing react router state
           window.history.replaceState({}, document.title);
           setStatus("success");
-
-          setTimeout(() => {
-            onClose();
-          }, 2000);
         })
         .catch((error) => {
           if (!error.isAxiosError) throw error;
@@ -56,21 +46,17 @@ function GoogleOAuthModal() {
 
           console.info(error);
         });
-    } else {
-      setTimeout(() => {
-        setIsVisible(true);
-      }, 8000);
     }
   }, [state]);
 
-  useEffect(() => {
-    if (isVisible) {
-      document.body.classList.add("noscroll");
-    }
-    return () => document.body.classList.remove("noscroll");
-  }, [isVisible]);
+  // useEffect(() => {
+  //   if (isVisible) {
+  //     document.body.classList.add("noscroll");
+  //   }
+  //   return () => document.body.classList.remove("noscroll");
+  // }, [isVisible]);
 
-  return isVisible ? (
+  return (
     <Modal>
       <div className={styles.wrapper}>
         {status === "loading" ? (
@@ -101,21 +87,14 @@ function GoogleOAuthModal() {
               </div>
 
               <div className={styles.loginForm}>
-                <LoginForm
-                  googleOAuthURL={googleOAuthURL}
-                  onLogin={(_user, error) => {
-                    if (error) return;
-
-                    onClose();
-                  }}
-                />
+                <LoginForm {...props} googleOAuthURL={googleOAuthURL} />
               </div>
             </div>
           </>
         )}
       </div>
     </Modal>
-  ) : null;
+  );
 }
 
-export default GoogleOAuthModal;
+export default LoginFormModal;

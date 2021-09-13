@@ -71,6 +71,9 @@
   font-size: 0.9rem;
 }
 
+.loginLinkWrapper {
+  margin: 0;
+}
 .loginLink {
   color: var(--dark-blue);
 }

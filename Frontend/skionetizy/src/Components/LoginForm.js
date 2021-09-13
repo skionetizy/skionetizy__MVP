@@ -2,7 +2,7 @@ import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { createAuthURL } from "../auth/googleOauth";
 import Divider from "../Components/Divider";
 import baseURL from "../utils/baseURL";
@@ -16,12 +16,14 @@ const noop = () => {};
 export default function LoginForm({
   googleOAuthURL = defaultGoogleOauthURL,
   onLogin = noop,
+  onSignupClick,
 } = {}) {
   const [details, setDetails] = useState({
     emailID: "",
     password: "",
   });
   const [status, setStatus] = useState("idle");
+  const history = useHistory();
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -125,7 +127,18 @@ export default function LoginForm({
           </button>
         </form>
         <p className={style.signupLink}>
-          Don't have an account? <Link to="/">Signup</Link>
+          Don't have an account?{" "}
+          <a
+            href="/"
+            onClick={(ev) => {
+              ev.preventDefault();
+              if (onSignupClick) {
+                onSignupClick();
+              } else history.push("/");
+            }}
+          >
+            Signup
+          </a>
         </p>
       </div>
     </div>

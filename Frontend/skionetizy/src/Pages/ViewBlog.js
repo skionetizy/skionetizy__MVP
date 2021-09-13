@@ -31,11 +31,12 @@ import ShareIcon from "@material-ui/icons/Share";
 import Comments from "../Components/comments";
 import Moment from "react-moment";
 import LoginFormModal from "../Components/LoginFormModal";
-import Modal from "../Components/Modal";
 import ShareBlogModal from "../Components/ShareBlogModal";
 import FollowButton from "../Components/FollowButton";
 import { Helmet } from "react-helmet";
-import LoginForm from "../Components/LoginForm";
+import SignupForm from "../Components/SignupForm";
+import Modal from "../Components/Modal";
+import VerifyEmailModal from "../Components/VerifyEmailModal";
 
 const KEYWORDS_LOCAL_KEY = "blogsKeywords";
 
@@ -49,7 +50,7 @@ const ViewBlog = () => {
   const [showComment, setShowComment] = useState(true);
   const [length, setLength] = useState(3);
   const [viewMore, setViewMore] = useState("View more");
-  const [shouldShowShareModal, setShouldShowShareModal] = useState(false);
+  const [showModal, setShowModal] = useState("");
   const [hasLiked, setHasLiked] = useState(false);
   const [hasDisliked, setHasDisliked] = useState(false);
   const [commentStatusMessage, setCommentStatusMessage] = useState("");
@@ -142,6 +143,12 @@ const ViewBlog = () => {
         setComments(response2.data.comments);
       })
     );
+
+    if (!isAuthenticated() && showModal === "") {
+      setTimeout(() => {
+        setShowModal("LOGIN_FORM");
+      }, 8000);
+    }
   }, []);
 
   // whenever statusupdates and is not empty
@@ -211,7 +218,9 @@ const ViewBlog = () => {
   const handleLike = () => {
     console.log("clicked");
     //handling loggedInUser , also handle not logged in User
-    if (hasLiked === false && hasDisliked === false) {
+    if (!loggedInUserProfile) {
+      setShowModal("LOGIN_FORM");
+    } else if (hasLiked === false && hasDisliked === false) {
       likeOnBlogAPIHandler(blogID, loggedInUserProfile).then((res) => {
         const blogResponse = res.blog;
         blogResponse &&
@@ -271,7 +280,9 @@ const ViewBlog = () => {
   const handleDislike = () => {
     console.log("disliked");
 
-    if (hasDisliked === false && hasLiked === false) {
+    if (!loggedInUserProfile) {
+      setShowModal("LOGIN_FORM");
+    } else if (hasDisliked === false && hasLiked === false) {
       dislikeOnBlogAPIHandler(blogID, loggedInUserProfile)
         .then((res) => {
           const blogResponse = res.blog;
@@ -338,14 +349,21 @@ const ViewBlog = () => {
     setLength(length + 5);
   };
 
-  // eslint-disable-next-line no-lone-blocks
-
   return (
     <>
       <div className={`${style.main} ${style.container}`}>
-        <Helmet>
-          <meta name="description" content={blog.keywords} />
-        </Helmet>
+        {blog.blogID && (
+          <Helmet>
+            <meta name="description" content={blog.keywords} />
+            <meta name="twitter:image" content={blog.blogImageURL} />
+            <meta name="twitter:title" content={blog.blogTitle} />
+            <meta
+              name="twitter:description"
+              content={blog.blogDescription.substr(0, 70) + "..."}
+            />
+            <meta name="twitter:site" content={window.location.href} />
+          </Helmet>
+        )}
         <div className={style.blogHeader}>
           <h1 className={style.title}>{blog.blogTitle}</h1>
           <div className={style.author}>
@@ -367,18 +385,17 @@ const ViewBlog = () => {
               {!!blog.blogID && (
                 <FollowButton othersProfileID={blog.profileID} />
               )}
+
               <button
                 className={`${style.button} ${style.shareButton}`}
-                onClick={() => setShouldShowShareModal(true)}
+                onClick={() => setShowModal("SHARE_BLOG")}
+                disabled={!blog.blogID}
               >
                 Share <ShareIcon fontSize="small" />
               </button>
 
-              {shouldShowShareModal && (
-                <ShareBlogModal
-                  isVisible={shouldShowShareModal}
-                  onClose={() => setShouldShowShareModal(false)}
-                />
+              {showModal === "SHARE_BLOG" && (
+                <ShareBlogModal blog={blog} onClose={() => setShowModal("")} />
               )}
             </div>
           </div>
@@ -445,6 +462,11 @@ const ViewBlog = () => {
           <form
             onSubmit={(e) => {
               e.preventDefault();
+              if (!loggedInUserProfile) {
+                setShowModal("LOGIN_FORM");
+                return;
+              }
+
               const commentDescription = e.target.elements.input.value;
 
               setCommentStatusMessage("");
@@ -514,7 +536,31 @@ const ViewBlog = () => {
         )}
       </div>
 
-      {!isAuthenticated() && <LoginFormModal />}
+      {/* Modals */}
+      {showModal === "LOGIN_FORM" ? (
+        <LoginFormModal
+          onLogin={(_user, error) => {
+            if (error) return;
+            setShowModal("");
+          }}
+          onSignupClick={() => {
+            setShowModal("SIGNUP_FORM");
+          }}
+        />
+      ) : showModal === "SIGNUP_FORM" ? (
+        <Modal>
+          <SignupForm
+            className={style.signupModalWrapper}
+            onLoginClick={() => setShowModal("LOGIN_FORM")}
+            onSignup={(user, error) => {
+              if (error) return;
+              setShowModal("VERIFY_EMAIL");
+            }}
+          />
+        </Modal>
+      ) : showModal === "VERIFY_EMAIL" ? (
+        <VerifyEmailModal onClose={() => setShowModal("")} />
+      ) : null}
     </>
   );
 };

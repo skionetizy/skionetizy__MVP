@@ -4,7 +4,7 @@ import clsx from "../utils/clsx";
 
 export default function Divider({ className, children }) {
   return (
-    <p className={clsx(className, styles.divider)}>
+    <p className={clsx(className, styles.divider)} data-divider={true}>
       <span>{children}</span>
     </p>
   );
