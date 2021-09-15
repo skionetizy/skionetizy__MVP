@@ -43,7 +43,11 @@ const markdownSchema = yup.object().shape({
       "test-blog-words",
       "Blog Description should alleast contain 200 words",
       (value) => value.split(" ").filter(characterLike).length >= 200
-    ),
+    )
+    .test("test-2", "Description must not contain any url", (value) => {
+      const hasUrl = value.split(" ").some((word) => isValidUrl(word));
+      return !hasUrl;
+    }),
 });
 
 function MarkDown(props) {
@@ -198,3 +202,9 @@ function characterLike(word) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MarkDown);
+
+function isValidUrl(urlString) {
+  return /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(
+    urlString
+  );
+}
