@@ -13,6 +13,7 @@ import styles from "./addBlogDetailsMarkdown.module.css";
 import Spinner from "../Components/Spinner";
 import baseURL from "../utils/baseURL";
 import { CURRENT_EDITING_BLOG } from "../utils/localStorageKeys";
+import clsx from "../utils/clsx";
 
 const addBlogDescriptionAndTitleAPI = (data) => {
   return axios.post(`${baseURL}/blog/addBlogDescriptionAndTitle`, {
@@ -60,6 +61,7 @@ function MarkDown(props) {
     );
   });
   const [errors, setErrors] = useState({});
+  const [isGrammarVisible, setIsGrammarVisible] = useState(false);
   const [status, setStatus] = useState("idle");
   const location = useLocation();
   const history = useHistory();
@@ -136,20 +138,33 @@ function MarkDown(props) {
         </div>
 
         <div className={styles.footer}>
-          <div className={styles.descriptionInput}>
-            <label>
-              <p className={styles.label}>Blog Description</p>
-              <Editor
-                className={styles.input}
-                initialData={data.blogDescription}
-                onChange={(text) =>
-                  handleChange("blogDescription")({ target: { value: text } })
-                }
-              />
-            </label>
-            <p className={styles.descriptionTextLength}>
+          <label>
+            <p className={styles.label}>Blog Description</p>
+            <Editor
+              className={styles.input}
+              initialData={data.blogDescription}
+              onChange={(text) =>
+                handleChange("blogDescription")({ target: { value: text } })
+              }
+              onGrammarCheck={(error, _prediction) =>
+                setIsGrammarVisible(!error)
+              }
+            />
+          </label>
+
+          <div className={styles.descriptionInfos}>
+            {isGrammarVisible && (
+              <span
+                className={styles.grammarCheckIcon}
+                data-grammar-desc="Ensure yourself of polished and error-free grammar with our grammar checker that checks for all types of typos and composition of sentences."
+              >
+                G
+              </span>
+            )}
+
+            <span className={styles.descriptionLength}>
               {data.blogDescription.length}/5000
-            </p>
+            </span>
           </div>
           <p>{errors.blogDescription}</p>
         </div>

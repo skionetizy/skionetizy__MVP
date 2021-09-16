@@ -12,6 +12,7 @@ import {
 import "draft-js/dist/Draft.css";
 import React, { useEffect, useRef, useState } from "react";
 import { NEW_useDebounceGeneral as useDebounce } from "../hooks/useDebounceGeneral";
+import noop from "../utils/noop";
 
 const decorators = new CompositeDecorator([
   {
@@ -28,7 +29,12 @@ const decorators = new CompositeDecorator([
   },
 ]);
 
-export default function MyEditor({ onChange, className, initialData = "" }) {
+export default function MyEditor({
+  onChange,
+  onGrammarCheck = noop,
+  className,
+  initialData = "",
+}) {
   const [text, setText] = useState(() =>
     EditorState.createWithContent(
       ContentState.createFromText(initialData, "\\n"),
@@ -93,7 +99,10 @@ export default function MyEditor({ onChange, className, initialData = "" }) {
         });
 
         setText(finalEditorState);
-      } catch (error) {}
+        onGrammarCheck(null, prediction);
+      } catch (error) {
+        onGrammarCheck(error, null);
+      }
     },
     2000
   );
