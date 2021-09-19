@@ -1,10 +1,15 @@
 .wrapper {
   padding: 1rem 3rem 3rem;
   min-width: 40rem;
-  background-color: var(--dark-blue);
+  background-color: var(--primary-blue);
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
   border-radius: 1rem;
   color: white;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
 }
 
 .body {
@@ -14,10 +19,17 @@
   margin-top: 2rem;
 }
 
+.headTitle {
+  flex: 1;
+  font-size: 1.25rem;
+}
+
 .closeBtn {
+  flex: none;
   display: block;
-  margin-left: auto;
-  padding: 0.5rem;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
   color: inherit;
   background: none;
   border: none;
@@ -34,16 +46,41 @@
   transform: rotate(90deg);
 }
 
+.icon {
+  width: 3rem;
+  height: 3rem;
+  margin: 0.5rem;
+
+  border-radius: 999px;
+}
+
+.urlWrapper {
+  display: flex;
+  font-size: 1.1rem;
+}
+
+.url {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  background-color: #fff;
+  border-radius: 0.3rem 0 0 0.3rem;
+
+  color: var(--primary-blue);
+}
+
 .copyBtn {
-  padding: 0.4rem 0.5rem;
-  background-color: var(--primary-blue);
+  flex: none;
+  padding: 0.5rem 0.75rem;
+
+  background-color: #fff;
   border: none;
-  border-radius: 0.5rem;
-  color: #fff8;
+  border-radius: 0 0.3rem 0.3rem 0;
+
+  font: inherit;
   transition: color 250ms ease-in-out;
   cursor: pointer;
 }
 
 .copyBtn:hover {
-  color: #fff;
+  color: #666;
 }

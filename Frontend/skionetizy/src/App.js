@@ -22,17 +22,7 @@ function App() {
     <Router>
       <Nav />
       <Switch>
-        <Route exact path="/">
-          {({ history }) => (
-            <Signup
-              onSignup={(_user, error) => {
-                // after success ful signup, goto `/details` page
-                if (error) return;
-                history.push("/details");
-              }}
-            />
-          )}
-        </Route>
+        <Route exact path="/" component={Signup}></Route>
         <Route exact path="/editor_example" component={Editor} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/forgotPassword" component={ForgotPassword} />
