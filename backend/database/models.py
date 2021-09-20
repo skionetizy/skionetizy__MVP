@@ -59,6 +59,13 @@ class Comment(db.EmbeddedDocument):
     commentDescription=db.StringField(required=True,min_length=6,max_length=500)
     timestamp=db.DateTimeField(required=False,default=datetime.datetime.utcnow)
     
+class MetaData(db.EmbeddedDocument):
+    metaID=db.UUIDField(required=True,binary=False)
+    metaTitle=db.StringField(required=True,max_length=64)
+    metaDescription=db.StringField(required=True,max_length=300)
+    metaKeywords=db.StringField(required=True,max_length=500)
+
+
 class Blog(db.Document):
     blogID = db.UUIDField(required=True,binary=False)
     blogTitle=db.StringField(required=True,min_length=6)
@@ -77,12 +84,13 @@ class Blog(db.Document):
     # sampleList=db.ListField(db.StringField(required=True),required=False)
     comments =db.ListField(db.EmbeddedDocumentField(Comment),required=False,default=[])
     blogStatus=db.StringField(required=False,binary=False, default="DRAFTED")
-    # meta={'indexes': [
-    #     {'fields': ['$blogTitle', "$blogDescription"],
-    #      'default_language': 'english',
-    #      'weights': {'blogTitle': 10, 'blogDescription': 5}
-    #     }
-    # ]}
+    metaData=db.EmbeddedDocumentField(MetaData,required=False)
+    meta={'indices': [
+        {'fields': ['$blogTitle', "$blogDescription"],
+         'default_language': 'english',
+         'weights': {'blogTitle': 10, 'blogDescription': 5}
+        }
+    ]}
 
 # class Follower(db.Document):
 #     userID=db.UUIDField(required=True,binary=False)

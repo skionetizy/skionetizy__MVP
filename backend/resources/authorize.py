@@ -1,5 +1,4 @@
-from flask import json, make_response,jsonify,request
-import requests
+from flask import json, make_response, jsonify, request, send_from_directory
 from flask_restful import Resource
 from flask_mail import Message
 from  backend.database.models import Profile, User
@@ -62,25 +61,13 @@ class AuthorizeSignup(Resource):
         auth_token = newUser.encode_auth_token()
         print(f'{auth_token} here')
         redirect_url = f'https://skionetizymvp-staging.herokuapp.com/emailVerification/{auth_token}'
-
         send_email("Skionetizy Email Verification for creating account",os.environ.get('MAIL_USERNAME'),recipients=[body["emailID"]],html=f"<a href={redirect_url}>and easy to do anywhere, even with Python</a>")
-        # message = Mail(
-        #     from_email='skionetizyofficial@gmail.com',
-        #     to_emails=emailID,
-        #     subject='Skionetizy Email Verification for creating account',
-        #     html_content=f"<a href={redirect_url}>and easy to do anywhere, even with Python</a>")
-        # # try:
-        # sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-        # response = sg.send(message)
-        # # print(response.status_code)
-        # # print(response.body)
-        # # print(response.headers)
+        
         x=newUser.generate_password()
         newUser.save()
         print(x)
         return make_response(jsonify({"emailID":newUser["emailID"],"statusCode":200,"password":x}))
-        # except Exception as e:
-        #     print(e.message)
+    
 
 class AuthorizeEmailVerification(Resource):
     def patch(self,token):
@@ -112,7 +99,22 @@ class ReverificationToken(Resource):
         return make_response(jsonify({'Message':'Reverification Mail Sent','success':True}))
         
 
-
+class ForgotPassword(Resource):
+    def post(self):
+        '''
+        1.Read email from json body
+        2.Check if user is already registered
+        3.If user not registered redirect return message
+        4.else fetch person object from User
+        5.encode jwt token
+        6.send email
+        '''
+    def put(self):
+        '''
+        1.Reveice token
+        2.deode token
+        3.if successfull update password
+        '''
 
 
 class AuthorizeLogin(Resource):

@@ -1,5 +1,5 @@
 from backend.resources.authorize import ReverificationToken,AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails,GoogleAuth
-from backend.resources.blog import SearchBlog,AddKeywordsBlog,AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogsAndProfileDetails,GetBlogByBlogID,GetFeed,AddView,GetCommentsByBlogID,GetBlogsAndProfileDetailsPagination,GetBlogStatus,UpdateBlogStatus
+from backend.resources.blog import AddMetaData,SearchBlog,AddKeywordsBlog,AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogsAndProfileDetails,GetBlogByBlogID,GetFeed,AddView,GetCommentsByBlogID,GetBlogsAndProfileDetailsPagination,GetBlogStatus,UpdateBlogStatus
 from backend.resources.profile import GetHoverDetails,AddProfileUsernameBioUserDetails, UpdateProfile, CheckProfileUsernameIsAvailableAPIHandler, GetProfileDetails, AddFollower,GetBlogsAndProfile,RemoveFollower,GetProfileandBlogsPaginated
 from backend.resources.ai_models import GrammarCheck,KeywordsAI
 from flask import send_from_directory
@@ -66,7 +66,7 @@ def initialize_routes(api):
     api.add_resource(SearchBlog,'/blog/searchBlog')
     api.add_resource(GetProfileandBlogsPaginated,'/profile/getBlogsPaginated/<int:number>')
     api.add_resource(GetHoverDetails,'/profile/getHover/<profileID>')
-
+    api.add_resource(AddMetaData,'/blog/addMeta')
     
 @app.route('/')
 @app.route('/home',methods=['GET'])

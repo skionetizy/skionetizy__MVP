@@ -3,11 +3,10 @@ from flask.globals import request
 from flask_restful import Resource
 import json
 from bson import json_util
-
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 import pandas as pd
-from backend.database.models import Blog,Comment,Profile,User
+from backend.database.models import Blog,Comment,Profile,User,MetaData
 from backend import client
 from backend.resources.gads import gads
 from datetime import datetime
@@ -437,3 +436,19 @@ class SearchBlog(Resource):
         objects = Blog.objects.search_text(search).order_by('$text_score')
         return make_response(jsonify({'Queried Data':objects}))
 
+class AddMetaData(Resource):
+    def post(self):
+        body=request.get_json()
+        blogID=body['blogID']
+        blog=Blog.objects.get_or_404(blogID=blogID)
+        m=MetaData()
+        m.metaID=uuid.uuid4()
+        if len(body['metaTitle'])<6:
+            return make_response(jsonify({'Message':'Invalid Length of Title','status':'failed'}))
+        if len(body['metaDescription'])<50:
+            return make_response(jsonify({'Message':'Invalid length for description','status':'failed'}))
+        m.metaTitle=body['metaTitle']
+        m.metaDescription=body['metaDescription']
+        m.metaKeywords=body['metaKeywords']
+        blog.metaData=m
+        blog.save()
