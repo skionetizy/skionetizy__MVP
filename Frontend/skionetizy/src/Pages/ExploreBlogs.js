@@ -1,17 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-
-import style from "../Pages/exploreBlogs.module.css";
-import BlogCard from "../Components/BlogCard";
-import BlogNavigation from "../Components/BlogNavigation";
-
 import axios from "axios";
-import useIObserver from "../hooks/useIntersectionObserver";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import BlogCard from "../Components/BlogCard";
 import Spinner from "../Components/Spinner";
 import ViewMore from "../Components/ViewMore";
+import style from "../Pages/exploreBlogs.module.css";
 import baseURL from "../utils/baseURL";
+import ExploreHeroBannerSrc from "../Assets/explore_hero_banner.png";
 
-const blogsPerPage = 6;
 const url = `${baseURL}/blog/getBlogsPaginated`;
 
 function MyBlogs(props) {
@@ -55,17 +51,21 @@ function MyBlogs(props) {
   }, [blogs.length, hasMoreBlogs, isVisible, status]);
 
   return (
-    <div>
+    <div className={style.main}>
+      <img
+        className={style.heroBanner}
+        src={ExploreHeroBannerSrc}
+        width="100%"
+        alt="notebook's pages flipping by wind"
+      />
+
+      <h1 className={style.title}>Trending</h1>
+
       <div
         className={`${style.blogCardContainer} ${style.container} ${style.body}`}
       >
         {blogs && blogs.map((blog) => <BlogCard blog={blog} />)}
       </div>
-      {/* <BlogNavigation
-        blogsPerPage={blogsPerPage}
-        blogsLength={blogs.length}
-        setCurrentBlog={(currBlog) => setCurrentBlogHandler(currBlog)}
-      /> */}
 
       {/* Show after initial fetching 9-12 blogs */}
       {blogs.length > 0 && (

@@ -93,11 +93,30 @@ body {
   text-decoration-thickness: 3px;
 }
 
+.main {
+  color: white;
+}
+
+.title {
+  padding-top: 2rem;
+  padding-left: 4rem;
+  color: var(--primary-blue);
+}
+
+.heroBanner {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
 .blogCardContainer {
   margin-top: 5em;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
   gap: 2em;
 }
 
@@ -128,11 +147,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-}
-.title {
-  margin-top: -0.6em;
-  inline-size: 300px;
-  overflow-wrap: break-word;
 }
 
 .dayLikesDislikes {
