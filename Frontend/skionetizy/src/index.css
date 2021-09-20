@@ -193,6 +193,11 @@ nav ul li h3 {
   display: none;
 }
 
+.error {
+  color: red;
+  font-size: 0.875rem;
+}
+
 .ani-spinner {
   animation: spinner var(--speed, 2s) linear infinite;
 }

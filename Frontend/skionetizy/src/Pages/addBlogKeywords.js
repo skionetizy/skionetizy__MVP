@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
-import styles from "./addBlogKeywords.module.css";
-import BlogSteps from "../Components/BlogSteps";
-import KeywordsIllustration from "../Assets/add_keywords.svg";
+import { AiOutlineFall, AiOutlineLine, AiOutlineRise } from "react-icons/ai";
 import { FiSearch, FiX } from "react-icons/fi";
-import { getKeywords, getKeywordsByAI } from "../API/blogAPIHandler";
-import { Link, useLocation } from "react-router-dom";
-import { AiOutlineFall, AiOutlineRise, AiOutlineLine } from "react-icons/ai";
-import { CURRENT_EDITING_BLOG } from "../utils/localStorageKeys";
+import { Link } from "react-router-dom";
+import {
+  addKeywords,
+  getKeywords,
+  getKeywordsByAI,
+} from "../API/blogAPIHandler";
+import useMutate from "../API/useMutate";
+import KeywordsIllustration from "../Assets/add_keywords.svg";
+import BlogSteps from "../Components/BlogSteps";
+import Button from "../Components/Button";
 import { getLoggedInProfileUserName } from "../utils/AuthorisationUtils";
+import { CURRENT_EDITING_BLOG } from "../utils/localStorageKeys";
+import styles from "./addBlogKeywords.module.css";
+import * as yup from "yup";
 
 function calcTrend(currentMonthSearches, pastMonthSearches) {
   let score = 0;
@@ -23,13 +30,41 @@ function AddBlogKeywords() {
   // const [selectedBlogID, setSelectedBlogID] = useState("");
   const blog = JSON.parse(localStorage.getItem(CURRENT_EDITING_BLOG));
 
-  const [keywords, setKeywords] = useState([]);
+  const [keywords, setKeywords] = useState(
+    () => blog?.metaData?.metaKeywords.split(",") || []
+  );
   const [aiKeywords, setAiKeywords] = useState([]);
   const [keywordValue, setKeywordValue] = useState("");
   const [keywordSearchValue, setKeywordSearchValue] = useState("");
   const [searchedKeywords, setSearchedKeywords] = useState({
     list: [],
     data: {},
+  });
+
+  const blogMutate = useMutate({
+    mutateFn: () =>
+      blogKeywordsSchemaValidate({
+        blogID: blog.blogID,
+        metaTitle: blog.blogTitle,
+        metaDescription: blog.blogDescription.substr(0, 140),
+        metaKeywords: keywords.filter(Boolean).toString(),
+      })
+        .then((data) => addKeywords(data))
+        .then((res) => res.data),
+
+    onSuccess: () => {
+      localStorage.setItem(
+        CURRENT_EDITING_BLOG,
+        JSON.stringify({
+          ...blog,
+          metaData: {
+            metaTitle: blog.blogTitle,
+            metaDescription: blog.blogDescription.substr(0, 140),
+            metaKeywords: keywords.toString(),
+          },
+        })
+      );
+    },
   });
 
   function handleAddKeywords(inputValue) {
@@ -80,7 +115,7 @@ function AddBlogKeywords() {
     );
 
   function handleProfile() {
-    alert("NOT IMPLEMENTED YET ⚠");
+    blogMutate.mutate();
   }
 
   return (
@@ -104,24 +139,6 @@ function AddBlogKeywords() {
         <section className={styles.flexWrap}>
           <div className={styles.flexItem}>
             <h3 className={styles.label}>Tags</h3>
-
-            <div className={styles.keywordsList}>
-              {keywords.map((keyword) => (
-                <span key={keyword} className={styles.keyword}>
-                  {keyword}
-                  <button
-                    className={styles.keywordDeleteBtn}
-                    onClick={() =>
-                      setKeywords((prev) =>
-                        prev.filter((word) => word !== keyword)
-                      )
-                    }
-                  >
-                    <FiX width="1em" />
-                  </button>
-                </span>
-              ))}
-            </div>
 
             <form
               onSubmit={(ev) => {
@@ -147,7 +164,25 @@ function AddBlogKeywords() {
               />
             </form>
 
-            <p>Enter a comma after each tag</p>
+            <div className={styles.keywordsList}>
+              {keywords.map((keyword) => (
+                <span key={keyword} className={styles.keyword}>
+                  {keyword}
+                  <button
+                    className={styles.keywordDeleteBtn}
+                    onClick={() =>
+                      setKeywords((prev) =>
+                        prev.filter((word) => word !== keyword)
+                      )
+                    }
+                  >
+                    <FiX width="1em" />
+                  </button>
+                </span>
+              ))}
+            </div>
+
+            <p className="error">{blogMutate.errors.metaKeywords}</p>
 
             <p>
               Tags can be useful if content in your video is commonly
@@ -237,9 +272,15 @@ function AddBlogKeywords() {
             Back to Profile
           </Link>
 
-          <button onClick={handleProfile} className={styles.button}>
+          {/* <button onClick={handleProfile} className={styles.button}> */}
+          <Button
+            size="normal"
+            variant="primary"
+            isLoading={blogMutate.isLoading}
+            onClick={handleProfile}
+          >
             Publish
-          </button>
+          </Button>
         </div>
       </div>
     </>
@@ -255,4 +296,19 @@ function Temp({ trend }) {
     <AiOutlineLine />
   );
 }
+
+const blogKeywordsSchemaValidate = (data) =>
+  yup
+    .object({
+      blogID: yup.string().required(),
+      metaTitle: yup.string().min(6).required(),
+      metaDescription: yup.string().min(50).required(),
+      metaKeywords: yup.string().min(20).required(),
+    })
+    .validate(data, {
+      stripUnknown: true,
+      abortEarly: false,
+      context: true,
+    });
+
 export default AddBlogKeywords;

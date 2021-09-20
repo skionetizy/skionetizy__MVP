@@ -123,3 +123,7 @@ export const getKeywords = (keywordPrediction) => {
 export const getKeywordsByAI = ({ blogDescription }) => {
   return axios.post(`${baseURL}/ai/keywords`, { input: blogDescription });
 };
+
+export const addKeywords = (data) => {
+  return axios.post(`${baseURL}/blog/addMeta`, data);
+};
