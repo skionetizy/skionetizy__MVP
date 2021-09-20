@@ -1,0 +1,46 @@
+.base {
+  padding: 0;
+  background-color: #fff;
+  color: #111;
+  border-width: 0;
+  font: inherit;
+
+  transition: 150ms ease-in-out;
+  transition-property: background-color, color, opacity;
+  cursor: pointer;
+}
+
+.base:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.loadingIcon {
+  margin-right: 0.75em;
+}
+
+/* variant */
+.primary {
+  background-color: var(--primary-blue);
+  color: #fff;
+}
+
+.secondary {
+  background-color: transparent;
+  color: var(--primary-blue);
+}
+
+.secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* size */
+.small {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.4rem;
+}
+
+.normal {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+}

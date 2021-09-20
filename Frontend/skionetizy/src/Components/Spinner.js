@@ -6,6 +6,7 @@ export default function Spinner(props) {
     <AiOutlineLoading3Quarters
       style={{
         animation: "spinner 1.75s linear forwards infinite",
+        verticalAlign: "middle",
       }}
       width="1em"
       fontSize="inherit"
