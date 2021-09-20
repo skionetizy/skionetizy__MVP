@@ -441,21 +441,19 @@ class AddMetaData(Resource):
         body=request.get_json()
         blogID=body['blogID']
         blog=Blog.objects.get_or_404(blogID=blogID)
-        if blog.metaData is None:
-            m=MetaData()
-            m.metaID=uuid.uuid4()
-            if len(body['metaTitle'])<6:
-                return make_response(jsonify({'Message':'Invalid Length of Title','status':'failed'}))
-            if len(body['metaDescription'])<50:
-                return make_response(jsonify({'Message':'Invalid length for description','status':'failed'}))
-            if len(body['metaKeywords'])<20:
-                return make_response(jsonify({'Message':'Invalid length for description','status':'failed'}))
-            m.metaTitle=body['metaTitle']
-            m.metaDescription=body['metaDescription']
-            m.metaKeywords=body['metaKeywords']
-            blog.metaData=m
-            blog.save()
-            return make_response(jsonify({'Message':"Successfull"}),200)
-        else:
-            return make_response(jsonify({'Message':"Metadata Already Exists"}),200)
+        m=MetaData()
+        m.metaID=uuid.uuid4()
+        if len(body['metaTitle'])<6:
+            return make_response(jsonify({'Message':'Invalid Length of Title','status':'failed'}))
+        if len(body['metaDescription'])<50:
+            return make_response(jsonify({'Message':'Invalid length for description','status':'failed'}))
+        if len(body['metaKeywords'])<20:
+            return make_response(jsonify({'Message':'Invalid length for description','status':'failed'}))
+        m.metaTitle=body['metaTitle']
+        m.metaDescription=body['metaDescription']
+        m.metaKeywords=body['metaKeywords']
+        blog.metaData=m
+        blog.save()
+        return make_response(jsonify({'Message':"Successfull"}),200)
+    
             
