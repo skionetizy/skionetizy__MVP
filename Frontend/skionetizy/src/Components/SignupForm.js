@@ -75,8 +75,7 @@ function SignupForm({ className, onLoginClick = noop, onSignup = noop }) {
       <img className={styles.heroImage} src={AddUserRafikiImage} alt="" />
       <p className={styles.lead}>
         Cheese and biscuits halloumi cauliflower cheese cottage cheese swiss
-        boursin fondue caerphilly. Cow port-salut camembert de normandie
-        macaroni cheese feta who moved my cheese babybel boursin.
+        boursin
       </p>
       <a className={styles.googleBtn} href={googleOAuthURL}>
         <FcGoogle fontSize="1.5em" /> Signup With Google

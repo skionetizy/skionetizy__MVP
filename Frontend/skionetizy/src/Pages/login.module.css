@@ -16,7 +16,8 @@
 .header {
   color: #fff;
   text-align: left;
-  margin-bottom: 2em;
+  margin: 0;
+  margin-bottom: 1em;
 }
 .header_text {
   max-width: 70%;
@@ -56,12 +57,15 @@
 
   .signin {
     flex: 1;
+    flex-basis: 50%;
     align-self: flex-start;
     text-align: center;
-    padding: 2em 5em;
+    padding: 1rem 5rem;
   }
+
   .coverImage_login {
     flex: 1;
+    flex-basis: 50%;
     display: flex;
     flex-direction: column;
 
@@ -75,7 +79,9 @@
   }
 
   .coverImage_svgLogin {
+    margin: 0 auto;
     margin-top: 5rem;
+    width: 50%;
     /* height: 40em; */
   }
 }

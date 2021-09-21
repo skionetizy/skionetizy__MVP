@@ -21,6 +21,7 @@ function Login(props) {
           </p>
           <img src={Vector} alt="" className={style.coverImage_svgLogin} />
         </div>
+
         <div className={`${style.container} ${style.signin}`}>
           <h1 className={style.header}>Login</h1>
           <LoginForm
