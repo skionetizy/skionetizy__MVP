@@ -62,7 +62,7 @@ function Upload() {
       localStorage.setItem(
         CURRENT_EDITING_BLOG,
         JSON.stringify({
-          ...data,
+          ...data.blog,
           blogImageURL: data.blog.blogImageURL,
         })
       );

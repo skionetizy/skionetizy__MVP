@@ -14,6 +14,7 @@ import Spinner from "../Components/Spinner";
 import baseURL from "../utils/baseURL";
 import { CURRENT_EDITING_BLOG } from "../utils/localStorageKeys";
 import clsx from "../utils/clsx";
+import Button from "../Components/Button";
 
 const addBlogDescriptionAndTitleAPI = (data) => {
   return axios.post(`${baseURL}/blog/addBlogDescriptionAndTitle`, {
@@ -88,11 +89,12 @@ function MarkDown(props) {
         });
       }
 
-      const blogDetails = (await promise).data.blog;
+      await promise;
 
-      localStorage.setItem(CURRENT_EDITING_BLOG, JSON.stringify(blogDetails));
+      localStorage.setItem(CURRENT_EDITING_BLOG, JSON.stringify(validatedData));
       history.push("/addBlogImage");
     } catch (error) {
+      setStatus("error");
       if (error instanceof yup.ValidationError) {
         setErrors(getYupErrors(error));
         window.scrollTo({ behavior: "smooth", left: 0, top: 0 });
@@ -163,28 +165,16 @@ function MarkDown(props) {
             )}
 
             <span className={styles.descriptionLength}>
-              {data.blogDescription.length}/5000
+              {data.blogDescription.split(" ").filter(Boolean).length}/5000
             </span>
           </div>
-          <p>{errors.blogDescription}</p>
+          <p>&nbsp; {errors.blogDescription}</p>
         </div>
 
         <div className={styles.actions}>
-          <button
-            className={styles.button}
-            onClick={() => {
-              handleUpload();
-            }}
-          >
-            {status === "loading" ? (
-              <>
-                <Spinner />
-                {data.blogStatus === "DRAFTED" ? "Saving as Draft" : "Saving"}
-              </>
-            ) : (
-              "Next"
-            )}
-          </button>
+          <Button isLoading={status === "loading"} onClick={handleUpload}>
+            {status === "loading" ? "Saving" : "Next"}
+          </Button>
         </div>
 
         <div className={styles.blogPreview}>
