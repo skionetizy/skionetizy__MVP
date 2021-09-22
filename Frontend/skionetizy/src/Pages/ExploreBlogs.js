@@ -7,6 +7,7 @@ import ViewMore from "../Components/ViewMore";
 import style from "../Pages/exploreBlogs.module.css";
 import baseURL from "../utils/baseURL";
 import ExploreHeroBannerSrc from "../Assets/explore_hero_banner.png";
+import Footer from "../Components/Footer";
 
 const url = `${baseURL}/blog/getBlogsPaginated`;
 
@@ -51,47 +52,51 @@ function MyBlogs(props) {
   }, [blogs.length, hasMoreBlogs, isVisible, status]);
 
   return (
-    <div className={style.main}>
-      <img
-        className={style.heroBanner}
-        src={ExploreHeroBannerSrc}
-        width="100%"
-        alt="notebook's pages flipping by wind"
-      />
-
-      <h1 className={style.title}>Trending</h1>
-
-      <div
-        className={`${style.blogCardContainer} ${style.container} ${style.body}`}
-      >
-        {blogs && blogs.map((blog) => <BlogCard blog={blog} />)}
-      </div>
-
-      {/* Show after initial fetching 9-12 blogs */}
-      {blogs.length > 0 && (
-        <ViewMore
-          className={style.viewMore}
-          onVisiblityChange={(isVisible) => setIsVisible(isVisible)}
+    <>
+      {" "}
+      <div className={style.main}>
+        <img
+          className={style.heroBanner}
+          src={ExploreHeroBannerSrc}
+          width="100%"
+          alt="notebook's pages flipping by wind"
         />
-      )}
 
-      {/* Loading Spinner */}
-      {status === "loading" && (
-        <>
-          <div className={style.spinnerWrapper}>
-            <Spinner color="white" />
-            <span className={style.statusMessage}>
-              Loading <span className="ani-typing">...</span>
-            </span>
-          </div>
-        </>
-      )}
+        <h1 className={style.title}>Trending</h1>
 
-      {/* Status Message */}
-      {hasMoreBlogs === false && (
-        <p className={style.statusMessage}>🎉You have reached to end</p>
-      )}
-    </div>
+        <div
+          className={`${style.blogCardContainer} ${style.container} ${style.body}`}
+        >
+          {blogs && blogs.map((blog) => <BlogCard blog={blog} />)}
+        </div>
+
+        {/* Show after initial fetching 9-12 blogs */}
+        {blogs.length > 0 && (
+          <ViewMore
+            className={style.viewMore}
+            onVisiblityChange={(isVisible) => setIsVisible(isVisible)}
+          />
+        )}
+
+        {/* Loading Spinner */}
+        {status === "loading" && (
+          <>
+            <div className={style.spinnerWrapper}>
+              <Spinner color="white" />
+              <span className={style.statusMessage}>
+                Loading <span className="ani-typing">...</span>
+              </span>
+            </div>
+          </>
+        )}
+
+        {/* Status Message */}
+        {hasMoreBlogs === false && (
+          <p className={style.statusMessage}>🎉You have reached to end</p>
+        )}
+      </div>
+      <Footer />
+    </>
   );
 }
 

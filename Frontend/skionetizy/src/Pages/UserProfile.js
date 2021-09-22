@@ -7,6 +7,7 @@ import PeopleOutlineIcon from "@material-ui/icons/PeopleOutline";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
+import Footer from "../Components/Footer";
 import {
   Link,
   useParams,
@@ -386,6 +387,8 @@ const UserProfile = () => {
           {/* Drafts */}
         </Switch>
       </div>
+
+      <Footer />
     </div>
   );
 };
