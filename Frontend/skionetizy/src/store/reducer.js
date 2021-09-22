@@ -9,6 +9,10 @@ const initialState = {
   profile: null,
 };
 
+export const AUTH = {
+  SAVE_PROFILE: "SAVE_PROFILE",
+};
+
 const Reducer = (state = initialState, action) => {
   switch (action.type) {
     case "SAVE_USER_ID":
@@ -47,7 +51,7 @@ const Reducer = (state = initialState, action) => {
         filteredBlogs,
       };
 
-    case "SAVE_PROFILE": {
+    case AUTH.SAVE_PROFILE: {
       return {
         ...state,
         profile: action.payload,

@@ -7,7 +7,7 @@ import {
   getKeywords,
   getKeywordsByAI,
 } from "../API/blogAPIHandler";
-import useMutate from "../API/useMutate";
+import useMutate from "../hooks/useMutate";
 import KeywordsIllustration from "../Assets/add_keywords.svg";
 import BlogSteps from "../Components/BlogSteps";
 import Button from "../Components/Button";

@@ -6,6 +6,11 @@ import App from "./App";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import Reducer from "./store/reducer";
+import { AUTHORIZATION_HEADER } from "./utils/localStorageKeys";
+import axios from "axios";
+
+axios.defaults.headers["Authorization"] =
+  localStorage.getItem(AUTHORIZATION_HEADER);
 
 const store = createStore(Reducer);
 

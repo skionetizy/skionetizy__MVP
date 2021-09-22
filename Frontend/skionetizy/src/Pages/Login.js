@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { useHistory } from "react-router";
 import Vector from "../Assets/bro.svg";
 import LoginForm from "../Components/LoginForm";
-import Modal from "../Components/Modal";
 import VerifyEmailModal from "../Components/VerifyEmailModal";
 import style from "../Pages/login.module.css";
 
@@ -26,7 +25,7 @@ function Login(props) {
           <h1 className={style.header}>Login</h1>
           <LoginForm
             onLogin={(_user, error) => {
-              if (error.message === "Verfy Email Account") {
+              if (error?.message === "Verfy Email Account") {
                 setShowModal("VERIFY_EMAIL");
                 return;
               }

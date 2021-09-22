@@ -12,3 +12,7 @@ export function sendUnfollowUser(profileID, toUnfollowID) {
     to_remove_from_following: toUnfollowID,
   });
 }
+
+export function sendLogin(data) {
+  return axios.post(`${baseURL}/login`, data).then((res) => res.data);
+}

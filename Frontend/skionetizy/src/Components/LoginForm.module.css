@@ -51,17 +51,8 @@
 .signinButton {
   margin-top: 2rem;
   align-self: center;
-  border: none;
-  background: transparent;
   font-family: "Montserrat", sans-serif;
-  background-color: var(--dark-blue);
-  color: white;
-  padding: 1rem 2rem;
-  cursor: pointer;
-  font-weight: 700;
-  letter-spacing: 0.09rem;
-  outline: none;
-  border-radius: 0.6em;
+  font-size: 1.3rem !important;
 }
 
 .signinButton svg {

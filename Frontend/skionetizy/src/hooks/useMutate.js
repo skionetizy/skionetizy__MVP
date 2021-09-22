@@ -3,13 +3,6 @@ import noop from "../utils/noop";
 import * as yup from "yup";
 import getYupErrors from "../utils/getYupErrors";
 
-/**
- *
- * @param {{
- *  validationSchema: yup.ObjectSchema
- * }} param0
- * @returns
- */
 function useMutate({ mutateFn, onSuccess = noop, onFailure = noop } = {}) {
   const [status, setStatus] = useState("idle");
   const [errors, setErrors] = useState({});
@@ -20,7 +13,9 @@ function useMutate({ mutateFn, onSuccess = noop, onFailure = noop } = {}) {
       setErrors({});
 
       const resData = await mutateFn(data);
+      console.log("after mutate");
       await onSuccess(resData);
+      console.log("after success");
       setStatus("success");
     } catch (error) {
       setStatus("error");

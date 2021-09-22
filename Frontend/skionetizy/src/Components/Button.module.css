@@ -25,6 +25,11 @@
   color: #fff;
 }
 
+.dark {
+  background-color: var(--dark-blue);
+  color: #fff;
+}
+
 .secondary {
   background-color: transparent;
   color: var(--primary-blue);

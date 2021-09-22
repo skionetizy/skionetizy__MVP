@@ -105,6 +105,9 @@ export const addCommentAPIHandler = ({ commentDescription, blogID }) => {
   });
 };
 
+export const getBlogsAndProfileDetails = () =>
+  axios.get(`${baseURL}/blog/getBlogsAndProfileDetails`).then((r) => r.data);
+
 export const addViewApiHandler = (blogID) => {
   return axios.patch(`/api/blog/addView/${blogID}`);
 };
