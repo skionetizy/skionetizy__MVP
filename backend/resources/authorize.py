@@ -4,6 +4,8 @@ from flask_mail import Message
 from  backend.database.models import Profile, User
 from backend import mail,app
 from threading import Thread
+import requests
+from functools import wraps
 #sendgrid
 import os
 from sendgrid import SendGridAPIClient
@@ -31,7 +33,22 @@ GOOGLE_DISCOVERY_URL="https://accounts.google.com/.well-known/openid-configurati
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
-
+def token_required(f):
+    @wraps(f)
+    def decorated(*args,**kwargs):
+        token=None
+        if 'x-access-token' in request.headers:
+            token=request.headers['x-access-token']
+        if not token:
+            return make_response(jsonify({'Message':'Token is missing!!'}),401)
+        
+        try:
+            data=jwt.decode(token,'SECRET_KEY',algorithms='HS256')
+            current_user=User.objects.get(emailID=data['emailID'])
+        except:
+            return make_response(jsonify({'message':'Token is Invalid'}),401)
+        return f(*args,**kwargs)
+    return decorated
 
 class AuthorizeSignup(Resource):
     def post(self):
@@ -120,9 +137,8 @@ class ForgotPassword(Resource):
 class AuthorizeLogin(Resource):
     def post(self):
         body = request.get_json()
-        
         user = User.objects.get(emailID = body["emailID"])
-        profile=Profile.objects.get_or_404(userID=user.userID)
+    
         if not user:
             return make_response({"message":"create an account, before you login","status":500})
         # elif user["isVerified"]==False:
@@ -132,9 +148,8 @@ class AuthorizeLogin(Resource):
         isAuthorized = user.check_password(body.get('password'))
         if not isAuthorized:
             return make_response(jsonify({"message":"password is incorrect,please try again","statusCode":500}))
-        user=user.to_mongo().to_dict()
-        user['profileID']=str(profile.profileID)
-        return make_response({"user":json.loads(json_util.dumps(user)),"message":"Logged in Successfully","status":200})
+        token=user.encode_signin_token()
+        return make_response({"token":token,"message":"Logged in Successfully","status":200})
 
 # class getUserFirstName(Resource):
 #     def get(self,userID):

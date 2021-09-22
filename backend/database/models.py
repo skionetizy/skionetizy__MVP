@@ -29,7 +29,12 @@ class User(db.Document):
 
     def check_password(self,password):
         return check_password_hash(self.password,password)
-
+    def encode_signin_token(self):
+        payload={
+            'emailID':self.emailID
+        }
+        return jwt.encode(payload,'SECRET_KEY',algorithm='HS256')
+        
     def encode_auth_token(self):
         payload={
             'emailID':self.emailID,
@@ -48,10 +53,9 @@ class User(db.Document):
             return 'Singnature Expired.Please Signup Again'
         except jwt.InvalidTokenError:
             return 'Invalid Token'
-    # def decode_auth_token(auth_token):
-    #     payload = jwt.decode(auth_token,'SECRET_KEY')
-    #     return payload['emailID']
 
+    
+    
 class Comment(db.EmbeddedDocument):
     commentID=db.UUIDField(required=True,binary=False)
     blogID=db.UUIDField(required=True,binary=False)

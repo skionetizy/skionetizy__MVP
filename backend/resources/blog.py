@@ -8,6 +8,7 @@ from cloudinary.utils import cloudinary_url
 import pandas as pd
 from backend.database.models import Blog,Comment,Profile,User,MetaData
 from backend import client
+from backend.resources import authorize
 from backend.resources.gads import gads
 from datetime import datetime
 import uuid
@@ -289,6 +290,7 @@ class RemoveCommentonBlog(Resource):
         return make_response(jsonify({"message":"you have successfully added comment on the    blog","statusCode":"200","blog":blog,"success":True}))
 
 class GetBlogsAndProfileDetails(Resource):
+    decorators=[authorize.token_required]
     def get(self):
         # blogs=Blog.objects().exclude("blogDescription","comments","likedByUsersList","dislikedByUsersList")
         blogs=Blog.objects(blogStatus='PUBLISHED').exclude("comments","likedByUsersList","dislikedByUsersList","blogDescription")
