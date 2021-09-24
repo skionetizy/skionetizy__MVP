@@ -6,7 +6,7 @@ import useAsync from "../hooks/useAsync";
 
 export default function EmailVerification() {
   const { token } = useParams();
-  const verifyEmail = useAsync();
+  const verifyEmail = useAsync(() => sendEmailVerification(token));
 
   return (
     <div style={{ display: "grid", placeItems: "center", minHeight: "80vh" }}>
@@ -16,7 +16,7 @@ export default function EmailVerification() {
         <p>Failure. check console for now</p>
       ) : (
         <Button
-          onClick={verifyEmail.run(sendEmailVerification(token))}
+          onClick={() => verifyEmail.run()}
           type="button"
           isLoading={verifyEmail.isLoading}
         >

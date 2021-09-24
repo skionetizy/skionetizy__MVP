@@ -4,38 +4,33 @@ import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import PeopleOutlineIcon from "@material-ui/icons/PeopleOutline";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { FiCamera } from "react-icons/fi";
 import Moment from "react-moment";
-import Footer from "../Components/Footer";
 import {
-  Link,
-  useParams,
-  useRouteMatch,
   NavLink,
   Redirect,
+  Route,
+  Switch,
+  useParams,
+  useRouteMatch,
 } from "react-router-dom";
 import {
   getProfileDetailsAPIHandler,
   updateProfileDetails,
 } from "../API/profileAPIHandler";
 import EditProfileDetails from "../Components/EditProfileDetails";
+import FollowButton from "../Components/FollowButton";
+import Footer from "../Components/Footer";
 import Modal from "../Components/Modal";
 import Spinner from "../Components/Spinner";
-import UserBlogsCard from "../Components/UserBlogsCard";
 import usePreviewImage from "../hooks/usePreviewImage";
 import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
-import baseURL from "../utils/baseURL";
 import clsx from "../utils/clsx";
 import validateImage from "../utils/validateImage";
 import style from "./UserProfile.module.css";
-import { Switch, Route } from "react-router-dom";
-import DraftCard from "../Components/DraftCard";
-import UserProfileDrafts from "./UserProfileDrafts";
-import { FiEdit2, FiCamera } from "react-icons/fi";
 import UserProfileBlogs from "./UserProfileBlogs";
-import { sendFollowUser, sendUnfollowUser } from "../API/userAPIHandler";
-import FollowButton from "../Components/FollowButton";
+import UserProfileDrafts from "./UserProfileDrafts";
 
 Moment.globalFormat = "MMM D , YYYY";
 
@@ -337,7 +332,7 @@ const UserProfile = () => {
               </button>
             </div>
           )} */}
-          {showEditModal && (
+          {!showEditModal && (
             // this class makes it look like page on mobile
             <Modal className={style.modal}>
               <EditProfileDetails

@@ -7,7 +7,9 @@ function useMutate({ mutateFn, onSuccess = noop, onFailure = noop } = {}) {
   const [status, setStatus] = useState("idle");
   const [errors, setErrors] = useState({});
 
-  const mutate = async (data) => {
+  const mutate = async (data, event) => {
+    if (event) event.preventDefault();
+
     try {
       setStatus("loading");
       setErrors({});

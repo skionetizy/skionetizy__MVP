@@ -62,18 +62,23 @@ function AddBlogKeywords() {
     setKeywords((prev) => [...prev, ...newKeywords]);
   }
 
-  const searchKeywords = useAsync({ data: { list: [], data: null } });
+  const searchKeywords = useAsync(() => {
+    if (keywordSearchValue)
+      return getKeywords(keywordSearchValue).then((res) => res.data.data);
+  }, null);
 
   const blogDescription = blog?.blogDescription;
-  const aiKeywords = useAsync({ data: [] });
 
-  useEffect(() => {
-    if (blogDescription) {
-      aiKeywords.run(
-        getKeywordsByAI({ blogDescription }).then((r) => r.data.Keywords)
-      );
-    }
-  }, [aiKeywords.run, blogDescription]);
+  const aiKeywords = useAsync(
+    () => {
+      if (blogDescription)
+        return getKeywordsByAI({ blogDescription }).then(
+          (r) => r.data.Keywords
+        );
+    },
+    [],
+    [blogDescription]
+  );
 
   if (blog == null)
     return (
@@ -189,9 +194,7 @@ function AddBlogKeywords() {
               className={styles.searchInput}
               onSubmit={(e) => {
                 e.preventDefault();
-                searchKeywords.run(
-                  getKeywords(keywordSearchValue).then((res) => res.data.data)
-                );
+                searchKeywords.run();
               }}
             >
               <input

@@ -1,46 +1,41 @@
-import { useCallback, useReducer, useRef } from "react";
+import { useEffect, useState } from "react";
 
-const defaultInitialState = { status: "idle", data: null, error: null };
+function useAsync(asyncFn, initialData, deps) {
+  const [data, setData] = useState(initialData);
+  const [error, setError] = useState(null);
+  const [status, setStatus] = useState("idle");
 
-function useAsync(initialState) {
-  const initialStateRef = useRef({
-    ...defaultInitialState,
-    ...initialState,
-  });
-  const [{ status, data, error }, setState] = useReducer(
-    (s, a) => ({ ...s, ...a }),
-    initialStateRef.current
-  );
+  async function run() {
+    setStatus("loading");
+    try {
+      const results = await asyncFn();
 
-  const run = useCallback((promise) => {
-    if (!promise || !promise.then) {
-      throw new Error(
-        `The argument passed to useAsync().run must be a promise. Maybe a function that's passed isn't returning anything?`
-      );
+      // check if we got undefined
+      if (results === undefined) return;
+
+      setData(results);
+      setStatus("success");
+    } catch (error) {
+      setStatus("error");
+      setError(error);
     }
+  }
 
-    setState({ status: "pending" });
-    return promise.then(
-      (data) => {
-        setState({ data, status: "resolved" });
-        return data;
-      },
-      (error) => {
-        setState({ status: "rejected", error });
-        return error;
-      }
-    );
-  }, []);
+  useEffect(() => {
+    if (deps != null) {
+      run();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
 
   return {
     isIdle: status === "idle",
-    isLoading: status === "pending",
-    isError: status === "rejected",
-    isSuccess: status === "resolved",
-
+    isLoading: status === "loading",
+    isError: status === "error",
+    isSuccess: status === "success",
+    data,
     error,
     status,
-    data,
     run,
   };
 }

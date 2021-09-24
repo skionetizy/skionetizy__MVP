@@ -1,0 +1,9 @@
+.stack > * + * {
+  margin-top: var(--spacing, 1rem);
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
