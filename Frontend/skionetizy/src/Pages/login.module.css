@@ -53,8 +53,13 @@
 @media (min-width: 1200px) {
   .cover_login {
     display: flex;
-    /* align-items: center; */
     gap: 3rem;
+
+    margin: 1rem 10rem;
+  }
+
+  .header {
+    font-size: 2rem;
   }
 
   .signin {
