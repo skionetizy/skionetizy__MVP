@@ -19,6 +19,10 @@
   font-size: 2rem;
 }
 
+.socialsLead {
+  font-size: 1.75rem;
+}
+
 .socials a {
   display: block;
   margin: 0;
@@ -47,7 +51,7 @@
 
   color: #fff;
   text-decoration: none;
-  font-size: 1.75rem;
+  font-size: 1.25rem;
 }
 
 .footerFlex {

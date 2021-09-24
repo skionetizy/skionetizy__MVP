@@ -15,6 +15,7 @@ import Editor from "./Components/Editor";
 import OAuthPage from "./Pages/OAuthPage";
 import AddBlogKeywords from "./Pages/addBlogKeywords";
 import ForgotPassword from "./Pages/ForgotPassword";
+import LandingPage from "./Pages/Landing";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <Nav />
       <Switch>
         <Route exact path="/" component={Signup}></Route>
+        <Route exact path="/landing" component={LandingPage}></Route>
         <Route exact path="/editor_example" component={Editor} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/forgotPassword" component={ForgotPassword} />

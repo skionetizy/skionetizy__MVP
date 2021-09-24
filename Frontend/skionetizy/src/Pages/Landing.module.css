@@ -1,0 +1,144 @@
+:root {
+  --inverted: #fff;
+  --border-color: #94c8ff;
+}
+.wrapper {
+  padding-top: 14rem;
+  background-color: var(--dark-blue);
+}
+
+.heading {
+  color: var(--primary-blue);
+}
+
+.hero__grid {
+  position: relative;
+  margin: 0 8rem;
+  /* gap: 6rem; */
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  scroll-margin-top: 5.5rem;
+}
+/* Everyone Except First  */
+.hero__grid:not(:first-child) {
+  margin-top: 12.5rem;
+}
+
+.hero__grid--left-border::after {
+  content: "";
+  position: absolute;
+  left: -1rem;
+  top: 2rem;
+
+  width: 0.15rem;
+  height: 60%;
+
+  background: var(--primary-blue);
+  border-radius: 999px;
+}
+
+.hero__img {
+  display: block;
+  width: 100%;
+  padding: 4rem 6rem;
+  justify-self: center;
+}
+.hero__img--large {
+  padding: 0rem;
+}
+
+.hero__subtitle {
+  margin-top: 3rem;
+  padding: 0 1rem;
+
+  color: var(--inverted);
+  font-size: 1.125rem;
+  line-height: 1.9;
+}
+
+.hero__subtitle--large {
+  padding: 0 1rem;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.hero__subtitle--primary-blue {
+  color: var(--primary-blue);
+}
+.bold {
+  font-weight: bold;
+}
+
+.subscribe-form {
+  margin-top: 8rem;
+  padding: 2rem 1rem;
+  scroll-margin-top: 5.5rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background: var(--primary-blue);
+}
+
+.subscribe-form__title {
+  color: var(--dark-blue);
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.subscribe-form__subtitle {
+  margin-top: 1.75rem;
+  max-width: min(60rem, 90%);
+
+  color: var(--inverted);
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.subscribe-form__control {
+  margin-top: 4rem;
+}
+
+.subscribe-form__control > * {
+  margin: 0 2rem;
+}
+
+.donation-form {
+  background: var(--inverted);
+  border-top: 0.3rem solid var(--secondary);
+}
+.donation-form__subtitle {
+  color: var(--primary-blue);
+}
+.donation-form__title {
+  max-width: 30rem;
+}
+
+/* Mobile */
+@media only screen and (max-width: 960px) {
+  .hero__grid {
+    margin: 0 2rem;
+
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas: "img" "text";
+    gap: 3.5rem 0;
+  }
+
+  .hero__img {
+    padding: 0;
+    grid-area: img;
+  }
+  .hero__text {
+    grid-area: text;
+  }
+
+  .hero__subtitle--large {
+    padding: 0;
+  }
+}

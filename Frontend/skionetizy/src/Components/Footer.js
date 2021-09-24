@@ -13,7 +13,7 @@ function Footer() {
   return (
     <footer className={styles.footerWrapper}>
       <section className={styles.socials}>
-        <span>Follow us</span>
+        <span className={styles.socialsLead}>Follow us</span>
 
         <Link>
           <RiTwitterFill />
