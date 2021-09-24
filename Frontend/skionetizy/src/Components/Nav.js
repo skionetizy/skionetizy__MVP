@@ -49,7 +49,9 @@ function Nav() {
           </li>
         </ul>
 
-        <ProfileDropdown />
+        <div className={style.profileIconWrapper}>
+          <ProfileDropdown />
+        </div>
       </nav>
     </div>
   );

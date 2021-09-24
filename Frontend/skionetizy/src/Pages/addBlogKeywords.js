@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { AiOutlineFall, AiOutlineLine, AiOutlineRise } from "react-icons/ai";
 import { FiSearch, FiX } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import {
@@ -14,32 +13,19 @@ import Button from "../Components/Button";
 import { getLoggedInProfileUserName } from "../utils/AuthorisationUtils";
 import { CURRENT_EDITING_BLOG } from "../utils/localStorageKeys";
 import styles from "./addBlogKeywords.module.css";
+import useAsync from "../hooks/useAsync";
 import * as yup from "yup";
 
-function calcTrend(currentMonthSearches, pastMonthSearches) {
-  let score = 0;
-  for (let i = 0; i < 11; i++) {
-    score += Math.sign(currentMonthSearches[i] - pastMonthSearches[i]);
-  }
-
-  return Math.sign(score);
-}
-
 function AddBlogKeywords() {
-  // const [blogs, setBlogs] = useState(null);
-  // const [selectedBlogID, setSelectedBlogID] = useState("");
-  const blog = JSON.parse(localStorage.getItem(CURRENT_EDITING_BLOG));
+  const [blog] = useState(() =>
+    JSON.parse(localStorage.getItem(CURRENT_EDITING_BLOG))
+  );
 
   const [keywords, setKeywords] = useState(
     () => blog?.metaData?.metaKeywords.split(",") || []
   );
-  const [aiKeywords, setAiKeywords] = useState([]);
   const [keywordValue, setKeywordValue] = useState("");
   const [keywordSearchValue, setKeywordSearchValue] = useState("");
-  const [searchedKeywords, setSearchedKeywords] = useState({
-    list: [],
-    data: {},
-  });
 
   const blogMutate = useMutate({
     mutateFn: () =>
@@ -76,25 +62,18 @@ function AddBlogKeywords() {
     setKeywords((prev) => [...prev, ...newKeywords]);
   }
 
-  function handleSearchKeywords(ev) {
-    ev.preventDefault();
+  const searchKeywords = useAsync({ data: { list: [], data: null } });
 
-    getKeywords(keywordSearchValue).then((res) =>
-      setSearchedKeywords({
-        list: Object.entries(res.data.data),
-        data: res.data.data,
-      })
-    );
-  }
+  const blogDescription = blog?.blogDescription;
+  const aiKeywords = useAsync({ data: [] });
 
   useEffect(() => {
-    const blogDescription = blog?.blogDescription;
-    if (!blogDescription) return;
-
-    getKeywordsByAI({ blogDescription }).then((res) =>
-      setAiKeywords(res.data.Keywords)
-    );
-  }, [blog?.blogDescription]);
+    if (blogDescription) {
+      aiKeywords.run(
+        getKeywordsByAI({ blogDescription }).then((r) => r.data.Keywords)
+      );
+    }
+  }, [aiKeywords.run, blogDescription]);
 
   if (blog == null)
     return (
@@ -114,10 +93,6 @@ function AddBlogKeywords() {
       </div>
     );
 
-  function handleProfile() {
-    blogMutate.mutate();
-  }
-
   return (
     <>
       <div className="center">
@@ -128,11 +103,18 @@ function AddBlogKeywords() {
         <h1 className={styles.title}>Keywords</h1>
 
         <div className={styles.keywordsList}>
-          {aiKeywords.map((word) => (
-            <span key={word} className={styles.keyword}>
-              {word}
-            </span>
-          ))}
+          {aiKeywords.isLoading ? (
+            <span>Generating...</span>
+          ) : aiKeywords.isError ? (
+            <span>: (</span>
+          ) : aiKeywords.data?.length > 0 ? (
+            (console.log(aiKeywords.data),
+            aiKeywords.data.map((word) => (
+              <span key={word} className={styles.keyword}>
+                {word}
+              </span>
+            )))
+          ) : null}
         </div>
 
         {/* flex wrap */}
@@ -205,7 +187,12 @@ function AddBlogKeywords() {
             {/* Search Input */}
             <form
               className={styles.searchInput}
-              onSubmit={handleSearchKeywords}
+              onSubmit={(e) => {
+                e.preventDefault();
+                searchKeywords.run(
+                  getKeywords(keywordSearchValue).then((res) => res.data.data)
+                );
+              }}
             >
               <input
                 value={keywordSearchValue}
@@ -223,38 +210,35 @@ function AddBlogKeywords() {
                 <thead className={styles.keywordsTableHeader}>
                   <tr>
                     <th>Keyword</th>
-                    <th>Monthly Volumn</th>
-                    <th>Ad Words CPU</th>
-                    <th>Ad Words Comp</th>
-                    <th>Trend</th>
+                    <th>Average Searches</th>
+                    <th>Competition Index</th>
+                    <th>Competition Level</th>
+                    <th>Annotation</th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  {searchedKeywords.list.length > 0 &&
+                  {searchKeywords.isSuccess &&
                     Array(5)
                       .fill()
                       .map((_, idx) => (
                         <tr className={styles.keywordRow}>
-                          <td>{searchedKeywords.data["Keyword"][idx]}</td>
+                          <td>{searchKeywords.data["Keyword"][idx]}</td>
                           <td>
-                            {searchedKeywords.data["Average Searches"][idx]}
+                            {searchKeywords.data["Average Searches"][idx]}
                           </td>
                           <td>
-                            {searchedKeywords.data["Competition Index"][idx]}
+                            {searchKeywords.data["Competition Index"][idx]}
                           </td>
                           <td>
-                            {searchedKeywords.data["Competition Level"][idx]}
+                            {searchKeywords.data["Competition Level"][idx]}
                           </td>
                           <td>
-                            <Temp
-                              trend={calcTrend(
-                                searchedKeywords.data["Average Searches"][idx],
-                                searchedKeywords.data["Searches Past Months"][
-                                  idx
-                                ]
-                              )}
-                            />
+                            {searchKeywords.data["List Annotations"][
+                              idx
+                            ]?.toString() || (
+                              <span style={{ opacity: 0.4 }}>None</span>
+                            )}
                           </td>
                         </tr>
                       ))}
@@ -272,28 +256,17 @@ function AddBlogKeywords() {
             Back to Profile
           </Link>
 
-          {/* <button onClick={handleProfile} className={styles.button}> */}
           <Button
             size="normal"
             variant="primary"
             isLoading={blogMutate.isLoading}
-            onClick={handleProfile}
+            onClick={blogMutate.mutate}
           >
             Publish
           </Button>
         </div>
       </div>
     </>
-  );
-}
-
-function Temp({ trend }) {
-  return trend > 0 ? (
-    <AiOutlineRise />
-  ) : trend < 0 ? (
-    <AiOutlineFall />
-  ) : (
-    <AiOutlineLine />
   );
 }
 

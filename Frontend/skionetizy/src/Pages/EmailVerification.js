@@ -1,29 +1,32 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
+import Button from "../Components/Button";
+import useAsync from "../hooks/useAsync";
 
 export default function EmailVerification() {
-  const [status, setStatus] = useState("idle");
   const { token } = useParams();
-
-  function handleVerify() {
-    axios
-      .patch(`/api/emailVerification/${token}`)
-      .then(() => setStatus("verified"))
-      .catch(() => setStatus("failure"));
-  }
+  const verifyEmail = useAsync();
 
   return (
     <div style={{ display: "grid", placeItems: "center", minHeight: "80vh" }}>
-      {status === "verified" ? (
+      {verifyEmail.isSuccess ? (
         <p>Verifed</p>
-      ) : status === "failure" ? (
+      ) : verifyEmail.isError ? (
         <p>Failure. check console for now</p>
       ) : (
-        <button onClick={handleVerify} type="button">
+        <Button
+          onClick={verifyEmail.run(sendEmailVerification(token))}
+          type="button"
+          isLoading={verifyEmail.isLoading}
+        >
           Verify
-        </button>
+        </Button>
       )}
     </div>
   );
+}
+
+function sendEmailVerification(token) {
+  return axios.patch(`/api/emailVerification/${token}`).then((res) => res.data);
 }

@@ -15,7 +15,7 @@
 }
 
 .divider {
-  margin: 1.5rem 0 !important;
+  margin: 1rem 0 !important;
 }
 
 .signin_form {
@@ -32,27 +32,29 @@
 
 .email,
 .password {
-  padding: 1.25rem 0.85rem;
-  font-family: "Montserrat", sans-serif;
+  width: 100%;
+  padding: 0.9rem 1.25rem;
   border: none;
   outline: none;
-  border-radius: 1rem;
-  font-size: inherit;
+  border-radius: 0.625rem;
+
+  font: inherit;
+  font-family: "Montserrat", sans-serif;
 }
 
 .forgotPasswordLink {
-  margin-top: 0.5rem;
   display: block;
+  width: max-content;
+  margin-left: auto;
 
   color: #fff;
-  text-align: right;
 }
 
 .signinButton {
-  margin-top: 2rem;
+  margin-top: 0.5rem;
   align-self: center;
   font-family: "Montserrat", sans-serif;
-  font-size: 1.3rem !important;
+  font-size: 1rem !important;
 }
 
 .signinButton svg {
@@ -60,7 +62,8 @@
 }
 
 .signupLink {
-  margin-top: 2.75rem;
+  margin: 0;
+  margin-top: 2.5rem;
   color: #fff;
 }
 .signupLink a {
@@ -70,6 +73,10 @@
 @media (min-width: 700px) {
   .signin_form {
     gap: 0;
+  }
+
+  .divider {
+    margin: 1.5rem 0 !important;
   }
 
   .email_password {

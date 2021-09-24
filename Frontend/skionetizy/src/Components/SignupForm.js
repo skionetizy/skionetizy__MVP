@@ -71,7 +71,7 @@ function SignupForm({ className, onLoginClick = noop, onSignup = noop }) {
 
   return (
     <div className={clsx(className, styles.wrapper)}>
-      <h1 className={styles.title}>SIGNUP</h1>
+      <h1 className={styles.title}>Signup</h1>
       <img className={styles.heroImage} src={AddUserRafikiImage} alt="" />
       <p className={styles.lead}>
         Cheese and biscuits halloumi cauliflower cheese cottage cheese swiss
@@ -81,7 +81,7 @@ function SignupForm({ className, onLoginClick = noop, onSignup = noop }) {
         <FcGoogle fontSize="1.5em" /> Signup With Google
       </a>
 
-      <Divider>OR SIGNUP WITH</Divider>
+      <Divider className={styles.divider}>OR SIGNUP WITH</Divider>
 
       <form className={styles.emailInputWrapper} onSubmit={handleSubmit}>
         <input
@@ -96,7 +96,7 @@ function SignupForm({ className, onLoginClick = noop, onSignup = noop }) {
           {isLoading ? <Spinner /> : <FiArrowRight width="1em" />}
         </button>
       </form>
-      <p className={styles.error}>{error || <>&nbsp;</>}</p>
+      {!!error && <p className={styles.error}>{error}</p>}
 
       <p className={styles.loginLinkWrapper}>
         Already have an account,{" "}

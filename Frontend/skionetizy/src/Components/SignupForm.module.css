@@ -1,5 +1,5 @@
 .wrapper {
-  padding: 1.5rem 2rem;
+  padding: 1.25rem 1.5rem;
   margin: 1rem;
   background-color: var(--primary-blue);
   border-radius: 1.125rem;
@@ -9,12 +9,38 @@
 
 .title {
   margin: 0;
+  font-size: 1.5rem;
 }
 
 .heroImage {
   display: block;
   margin: 0 auto;
+  margin-top: 0.5rem;
+  max-height: 7rem;
+}
+
+.lead {
+  margin: 0;
+  margin-top: 1rem;
+}
+
+.googleBtn {
   margin-top: 2rem;
+  padding: 0.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  background-color: #fff;
+  border-radius: 0.675rem;
+
+  color: var(--dark-blue);
+  text-decoration: none;
+}
+
+.divider {
+  margin: 1rem 0;
 }
 
 .emailInputWrapper {
@@ -24,7 +50,7 @@
 .emailInput {
   width: 100%;
   flex: 1;
-  padding: 0.75rem 1.25rem;
+  padding: 0.9rem 1.25rem;
   border: none;
   background-color: #fff;
   border-radius: 0.625rem 0 0 0.625rem;
@@ -51,29 +77,19 @@
   cursor: pointer;
 }
 
-.googleBtn {
-  margin-top: 2.375rem;
-  padding: 0.75rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-
-  background-color: #fff;
-  border-radius: 0.675rem;
-
-  color: var(--dark-blue);
-  text-decoration: none;
-}
-
 .error {
   color: red;
   font-size: 0.9rem;
+  margin: 0;
+  padding-top: 0.2rem;
+  padding-left: 0.5rem;
 }
 
 .loginLinkWrapper {
   margin: 0;
+  margin-top: 2.5rem;
 }
+
 .loginLink {
   color: var(--dark-blue);
 }
@@ -90,18 +106,23 @@
 
   .title {
     align-self: flex-start;
+    font-size: 2rem;
   }
 
   .heroImage {
     margin-top: 0;
     max-width: 20vw;
+    max-height: 14rem;
   }
 
   .lead {
-    margin-top: 2rem;
     max-width: 50vw;
     font-size: 1.5rem;
     font-weight: lighter;
+  }
+
+  .divider {
+    margin: 1.5rem 0;
   }
 
   .googleBtn,

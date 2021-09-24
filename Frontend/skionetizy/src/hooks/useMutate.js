@@ -1,7 +1,7 @@
-import { useCallback, useState } from "react";
-import noop from "../utils/noop";
+import { useState } from "react";
 import * as yup from "yup";
 import getYupErrors from "../utils/getYupErrors";
+import noop from "../utils/noop";
 
 function useMutate({ mutateFn, onSuccess = noop, onFailure = noop } = {}) {
   const [status, setStatus] = useState("idle");
@@ -13,14 +13,11 @@ function useMutate({ mutateFn, onSuccess = noop, onFailure = noop } = {}) {
       setErrors({});
 
       const resData = await mutateFn(data);
-      console.log("after mutate");
-      await onSuccess(resData);
-      console.log("after success");
+
       setStatus("success");
+      onSuccess(resData);
     } catch (error) {
-      setStatus("error");
       let derivedErrors = {};
-      console.log(error);
 
       switch (true) {
         case error instanceof yup.ValidationError: {
@@ -39,9 +36,9 @@ function useMutate({ mutateFn, onSuccess = noop, onFailure = noop } = {}) {
           throw error;
       }
 
-      console.log(errors);
       setErrors(derivedErrors);
-      await onFailure(derivedErrors);
+      setStatus("error");
+      onFailure(derivedErrors);
     }
   };
 
@@ -49,6 +46,7 @@ function useMutate({ mutateFn, onSuccess = noop, onFailure = noop } = {}) {
     mutate,
     status,
     errors,
+    isIdle: status === "idle",
     isLoading: status === "loading",
     isError: status === "error",
     isSuccess: status === "success",
