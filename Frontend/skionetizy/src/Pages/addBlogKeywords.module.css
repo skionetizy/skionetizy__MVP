@@ -95,6 +95,7 @@
 
 .searchInput input {
   flex: 1;
+  width: 100%;
   background-color: transparent;
   border: none;
   color: inherit;
@@ -153,6 +154,7 @@
 }
 
 .button {
+  display: inline-block;
   margin: 1rem;
   margin-top: 4rem;
   padding: 0.5rem 0.75rem;
@@ -164,4 +166,11 @@
   cursor: pointer;
 
   font: inherit;
+}
+
+/* mobile */
+@media (max-width: 1000px) {
+  .wrapper {
+    padding: 3.5rem 1.5rem;
+  }
 }
