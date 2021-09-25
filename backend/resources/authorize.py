@@ -107,6 +107,14 @@ class AuthorizeEmailVerification(Resource):
         if user:
             user.update(isVerified=True)
             user.save()
+            p=Profile()
+            u=user
+            p.profileID=uuid.uuid4()
+            p.userID=u.userID
+            p.randomize()
+            p.profileName=u.firstName
+            p.profileUserName=u.emailID.split('@')[0].replace('.','_')
+            p.save()
             return make_response(jsonify({"user":user,"message":"User is now verified","status":200}))
         return make_response(jsonify({"message":"User verification failed","status":500}))
 
@@ -157,7 +165,8 @@ class AuthorizeLogin(Resource):
         if not isAuthorized:
             return make_response(jsonify({"message":"password is incorrect,please try again","statusCode":500}))
         token=user.encode_signin_token()
-        return make_response({"token":token,"message":"Logged in Successfully","status":200})
+        profile=Profile.objects.get(userID=user.userID)
+        return make_response({"token":token,"profileID":profile.profileID,"message":"Logged in Successfully","status":200})
 
 # class getUserFirstName(Resource):
 #     def get(self,userID):

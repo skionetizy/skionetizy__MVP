@@ -46,7 +46,7 @@ def initialize_routes(api):
     api.add_resource(AddFollower,'/api/profile/addFollower/<profileID>')
     api.add_resource(RemoveFollower,'/profile/removeFollower/<profileID>')
     #Feeds API
-    api.add_resource(GetFeed,'/api/blog/getFeed/<profileID>')
+    api.add_resource(GetFeed,'/api/blog/getFeed/<profileID>/<int:number>')
     #AddCount
     api.add_resource(AddView,'/api/blog/addView/<blogID>')
     #
