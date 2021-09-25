@@ -62,7 +62,7 @@ function MyBlogs(props) {
           alt="notebook's pages flipping by wind"
         />
 
-        <h1 className={style.title}>Trending</h1>
+        <h1 className={style.headerTitle}>Trending</h1>
 
         <div
           className={`${style.blogCardContainer} ${style.container} ${style.body}`}

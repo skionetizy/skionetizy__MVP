@@ -28,9 +28,7 @@ const BlogCard = ({ blog }) => {
             />
             <div className={style.blogDetails}>
               <div className={style.text}>
-                <div className={style.title}>
-                  <h3>{blog.blogTitle}</h3>
-                </div>
+                <h3 className={style.title}>{blog.blogTitle}</h3>
                 <div className={style.author}>
                   <img
                     className={style.avatar}

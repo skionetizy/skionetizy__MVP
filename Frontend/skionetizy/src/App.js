@@ -22,7 +22,7 @@ function App() {
     <Router>
       <Nav />
       <Switch>
-        <Route exact path="/" component={Signup}></Route>
+        <Route exact path="/signup" component={Signup}></Route>
         <Route exact path="/landing" component={LandingPage}></Route>
         <Route exact path="/editor_example" component={Editor} />
         <Route exact path="/login" component={Login} />
@@ -42,7 +42,7 @@ function App() {
           component={ViewBlog}
         />
 
-        <Route exact path="/explore-blogs" component={ExploreBlogs} />
+        <Route exact path="/" component={ExploreBlogs} />
 
         <Route exact path="/details" component={DetailsPage} />
 

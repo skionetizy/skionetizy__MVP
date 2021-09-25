@@ -332,7 +332,7 @@ const UserProfile = () => {
               </button>
             </div>
           )} */}
-          {!showEditModal && (
+          {showEditModal && (
             // this class makes it look like page on mobile
             <Modal className={style.modal}>
               <EditProfileDetails

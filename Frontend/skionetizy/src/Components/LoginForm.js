@@ -109,12 +109,12 @@ export default function LoginForm({
         <p className={style.signupLink}>
           Don't have an account?{" "}
           <a
-            href="/"
+            href="/signup"
             onClick={(ev) => {
               ev.preventDefault();
               if (onSignupClick) {
                 onSignupClick();
-              } else history.push("/");
+              } else history.push("/signup");
             }}
           >
             Signup

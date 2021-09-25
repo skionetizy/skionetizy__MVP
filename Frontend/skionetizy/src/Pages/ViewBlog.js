@@ -421,7 +421,7 @@ const ViewBlog = () => {
                   position: "absolute",
                   bottom: "25%",
                   left: 0,
-                  backgroundColor: "red",
+                  backgroundColor: "transparent",
                   display: "inline-block",
                   width: 32,
                   height: 32,
