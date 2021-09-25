@@ -5,6 +5,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import style from "../Components/nav.module.css";
 import SearchBar from "./searchBar";
 import ProfileDropdown from "./ProfileDropdown";
+import LogoIcon from "../Assets/logo.svg";
 
 function Nav() {
   const path = useLocation();
@@ -13,11 +14,14 @@ function Nav() {
     <div className={style.container}>
       <nav className={style.nav}>
         <div className={style.header}>
-          <h1 className={style.logo}>
-            <Link className={style.logoLink} to="/">
-              Logo
-            </Link>
-          </h1>
+          <Link className={style.logoLink} to="/">
+            <img
+              src={LogoIcon}
+              alt="fountain pen with tip as hotspot"
+              width="64"
+              height="64"
+            />
+          </Link>
         </div>
         <input type="checkbox" id="nav-toggle" className={style.navToggle} />
         <label className={style.hamburger} htmlFor="nav-toggle">

@@ -1,6 +1,6 @@
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
-import Nav from "./Components/Nav";
+import Nav from "./Components/NavMenuBar";
 import addBlogDetailsMarkdown from "./Pages/addBlogDetailsMarkdown";
 import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
 import addBlogImage from "./Pages/addBlogImage";
@@ -16,6 +16,7 @@ import OAuthPage from "./Pages/OAuthPage";
 import AddBlogKeywords from "./Pages/addBlogKeywords";
 import ForgotPassword from "./Pages/ForgotPassword";
 import LandingPage from "./Pages/Landing";
+import UserNotFound from "./Pages/UserNotFound";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           path="/addBlogDetailsMarkdown"
           component={addBlogDetailsMarkdown}
         />
+        <Route exact path="/userNotFound" component={UserNotFound} />
         <Route exact path="/addBlogImage" component={addBlogImage} />
         <Route exact path="/addBlogKeywords" component={AddBlogKeywords} />
         <Route exact path="/final" component={FinalPage} />

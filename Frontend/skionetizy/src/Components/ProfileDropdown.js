@@ -2,22 +2,26 @@ import React, { useState, useEffect } from "react";
 import styles from "./Profiledropdown.module.css";
 import Dropdown from "./Dropdown";
 import { Link } from "react-router-dom";
-import { FaUser, FaNewspaper, FaEdit } from "react-icons/fa";
-import { getProfileDetailsAPIHandler } from "../API/profileAPIHandler";
-import { getLoggedInProfileUserName } from "../utils/AuthorisationUtils";
+import { FaUser, FaNewspaper, FaEdit, FaDoorOpen } from "react-icons/fa";
+import { getHoverProfileDetails } from "../API/profileAPIHandler";
+import {
+  getLoggedInProfileID,
+  getLoggedInProfileUserName,
+} from "../utils/AuthorisationUtils";
 import DefaultUserAvatar from "../Assets/avtar.png";
 
 export default function ProfileDropdown() {
   const [profile, setProfile] = useState(null);
-  const profileUserName = getLoggedInProfileUserName();
+  const profileUserName = profile?.profileUserName;
+  const profileID = getLoggedInProfileID();
 
   useEffect(() => {
-    if (!profileUserName) return;
+    if (!profileID) return;
 
-    getProfileDetailsAPIHandler(profileUserName).then((res) => {
-      setProfile(res.profile);
+    getHoverProfileDetails(profileID).then((profile) => {
+      setProfile(profile);
     });
-  }, [profileUserName]);
+  }, [profileID]);
 
   return profile == null ? (
     <img
@@ -60,6 +64,12 @@ export default function ProfileDropdown() {
           <div className={styles.linksWrapper}>
             <ul className={styles.links}>
               <li>
+                <FaDoorOpen width="1em" />{" "}
+                <Link variant="link" onClick={() => logout()} to={`/`}>
+                  Logout
+                </Link>
+              </li>
+              <li>
                 <FaUser width="1em" />{" "}
                 <Link to={`/${profileUserName}`}>View Profile</Link>
               </li>
@@ -77,4 +87,8 @@ export default function ProfileDropdown() {
       </Dropdown.Body>
     </Dropdown>
   );
+}
+
+function logout() {
+  localStorage.removeItem("profileID");
 }

@@ -28,6 +28,10 @@
   align-items: center;
   gap: 0.7em;
 }
+
+.authorContents a {
+  text-decoration: none;
+}
 .authorName {
   color: #fff;
   font-size: 1rem;

@@ -8,6 +8,7 @@
   transition: 150ms ease-in-out;
   transition-property: background-color, color, opacity;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .base:disabled {

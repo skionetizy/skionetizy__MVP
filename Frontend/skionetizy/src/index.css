@@ -1,6 +1,7 @@
 :root {
   --primary-blue: #3498db;
   --primary-blue-washed: #67b1e4;
+  --black-blue: #16233f;
 }
 
 * {
@@ -191,7 +192,7 @@ nav ul li h3 {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .error {
