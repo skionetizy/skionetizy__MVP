@@ -5,12 +5,12 @@ import clsx from "../utils/clsx";
 import LogoIcon from "../Assets/logo.svg";
 import { FaBars, FaHamburger, FaSearch } from "react-icons/fa";
 import ProfileDropdown from "./ProfileDropdown";
-import { getLoggedInProfileUserName } from "../utils/AuthorisationUtils";
+import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
 
 function NavMenuBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const isLoggedIn = !!getLoggedInProfileUserName();
+  const isLoggedIn = !!getLoggedInProfileID();
 
   return (
     <>
@@ -55,7 +55,10 @@ function NavMenuBar() {
             </Link>
           </li>
           <li>
-            <Link className={styles.link} to="/addBlogDetailsMarkdown">
+            <Link
+              className={styles.link}
+              to={isLoggedIn ? "/addBlogDetailsMarkdown" : "/login"}
+            >
               Add Blog
             </Link>
           </li>
@@ -68,17 +71,17 @@ function NavMenuBar() {
             </a>
           </li>
           <li>
-            <Link
+            <a
               className={styles.link}
-              to="http://skionetizy-staging.herokuapp.com/#mission"
+              href="http://skionetizy-staging.herokuapp.com/#mission"
             >
               Mission
-            </Link>
+            </a>
           </li>
           <li>
             <a
               className={clsx(styles.link, styles.linkHighlight)}
-              href="http://skionetizy-staging.herokuapp.com/subscribe"
+              href="http://skionetizy-staging.herokuapp.com/contact-us"
             >
               Support
             </a>
@@ -86,15 +89,9 @@ function NavMenuBar() {
         </ul>
 
         {!isLoggedIn && (
-          <>
-            <Link className={clsx(styles.link, styles.rightItem)} to="/login">
-              Login
-            </Link>
-
-            <Link className={clsx(styles.link, styles.rightItem)} to="/signup">
-              Signup
-            </Link>
-          </>
+          <Link className={clsx(styles.link, styles.rightItem)} to="/login">
+            Login
+          </Link>
         )}
       </nav>
     </>
