@@ -202,5 +202,5 @@ class GetProfileandBlogsPaginated(Resource):
 
 class GetHoverDetails(Resource):
     def get(self,profileID):
-        p=Profile.objects(profileID=profileID).only('profilePicImageURL','profileBannerImageURL','profileName')
-        return jsonify({'details':p})
+        p=Profile.objects(profileID=profileID).only('profilePicImageURL','profileBannerImageURL','profileName','profileUserName')
+        return jsonify({'details':p[0]})
