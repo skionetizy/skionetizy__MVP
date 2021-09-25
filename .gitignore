@@ -8,3 +8,5 @@ __pycache__/
  *.pyc
 
 my_setup.exe
+/backend/resources/__pycache__
+/backend/database/__pycache__
