@@ -50,16 +50,24 @@ function NavMenuBar() {
       >
         <ul className={styles.links}>
           <li>
-            <Link className={styles.link}> Read Blogs</Link>
+            <Link className={styles.link} to="/">
+              Read Blogs
+            </Link>
           </li>
           <li>
-            <Link className={styles.link}> Add Blog</Link>
+            <Link className={styles.link} to="/addBlogDetailsMarkdown">
+              Add Blog
+            </Link>
           </li>
           <li>
-            <Link className={styles.link}> About Us</Link>
+            <Link className={styles.link} to="/aboutUs">
+              About Us
+            </Link>
           </li>
           <li>
-            <Link className={styles.link}> Mission</Link>
+            <Link className={styles.link} to="/our-mission">
+              Mission
+            </Link>
           </li>
           <li>
             <Link className={clsx(styles.link, styles.linkHighlight)}>
