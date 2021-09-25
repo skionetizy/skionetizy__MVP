@@ -12,14 +12,14 @@ import DefaultUserAvatar from "../Assets/avtar.png";
 
 export default function ProfileDropdown() {
   const [profile, setProfile] = useState(null);
-  const profileUserName = getLoggedInProfileUserName();
+  const profileUserName = profile?.profileUserName;
   const profileID = getLoggedInProfileID();
 
   useEffect(() => {
     if (!profileID) return;
 
-    getHoverProfileDetails(profileID).then((res) => {
-      setProfile(res.profile);
+    getHoverProfileDetails(profileID).then((profile) => {
+      setProfile(profile);
     });
   }, [profileID]);
 
