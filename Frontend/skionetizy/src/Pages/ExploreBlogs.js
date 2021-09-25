@@ -10,6 +10,7 @@ import ExploreHeroBannerSrc from "../Assets/explore_hero_banner.png";
 import Footer from "../Components/Footer";
 import FrameBorder from "../Components/FrameBorder";
 import clsx from "../utils/clsx";
+import FeedBlogs from "./FeedBlogs";
 
 const url = `${baseURL}/blog/getBlogsPaginated`;
 
@@ -80,24 +81,29 @@ function MyBlogs(props) {
           </ExploreButton>
         </div>
 
-        <FrameBorder
-          className={blogs.length === 0 && "hidden"}
-          title={<h1 className={style.headerTitle}>Trending</h1>}
-        >
-          <div
-            className={`${style.blogCardContainer} ${style.container} ${style.body}`}
-          >
-            {blogs && blogs.map((blog) => <BlogCard blog={blog} />)}
-          </div>
-
-          {/* Show after initial fetching 9-12 blogs */}
-          {blogs.length > 0 && (
-            <ViewMore
-              className={style.viewMore}
-              onVisiblityChange={(isVisible) => setIsVisible(isVisible)}
-            />
-          )}
-        </FrameBorder>
+        {view === "trending" ? (
+          blogs.length > 0 && (
+            <>
+              <FrameBorder
+                className={blogs.length === 0 && "hidden"}
+                title={<h1 className={style.headerTitle}>Trending</h1>}
+              >
+                <div
+                  className={`${style.blogCardContainer} ${style.container} ${style.body}`}
+                >
+                  {blogs && blogs.map((blog) => <BlogCard blog={blog} />)}
+                </div>
+              </FrameBorder>
+              {/* Show after initial fetching 9-12 blogs */}
+              <ViewMore
+                className={style.viewMore}
+                onVisiblityChange={(isVisible) => setIsVisible(isVisible)}
+              />
+            </>
+          )
+        ) : (
+          <FeedBlogs />
+        )}
 
         {/* Loading Spinner */}
         {status === "loading" && (

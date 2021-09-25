@@ -130,3 +130,7 @@ export const getKeywordsByAI = ({ blogDescription }) => {
 export const addKeywords = (data) => {
   return axios.post(`${baseURL}/blog/addMeta`, data);
 };
+
+export const getFeedBlogs = ({ profileID, page }) => {
+  return axios.get(`${baseURL}/api/blog/getFeed/${profileID}/${page}`);
+};
