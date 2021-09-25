@@ -320,6 +320,7 @@ class GetBlogByBlogID(Resource):
         blog=blog.to_mongo().to_dict()
         blog['profilePicImageURL']=profile.profilePicImageURL
         blog['profileName']=profile.profileName
+        blog['profileUserName']=profile.profileUserName
         return make_response(jsonify({"blog":json.loads(json_util.dumps(blog)),"statusCode":200,"success":True}))
 
 
