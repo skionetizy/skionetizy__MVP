@@ -220,7 +220,7 @@ class GoogleAuth(Resource):
         
             if User.objects(emailID=users_email).first():
                 #Existing User
-                profile=Profile.objects.get(emailID=users_email)
+                profile=Profile.objects.get(userID=User.objects(emailID=users_email).first().userID)
                 return make_response(jsonify({'user':User.objects.get(emailID=users_email),'profile':profile,'sucess':True}))
             else:
                 #New User
