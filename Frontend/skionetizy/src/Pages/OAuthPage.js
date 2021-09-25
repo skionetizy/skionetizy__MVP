@@ -23,10 +23,11 @@ export default function OAuthPage() {
 
     setStatus("loading");
     sendGoogleAuthCode({ callbackURL })
-      .then((userData) => {
-        const { userID, emailID, profile } = userData.user;
+      .then(({ user, profile }) => {
+        const { userID, emailID } = user;
+        const { profileID } = profile;
         localStorage.setItem("userID", JSON.stringify(userID));
-        localStorage.setItem("profileID", JSON.parse(profile.profileID));
+        localStorage.setItem("profileID", JSON.parse(profileID));
         localStorage.setItem(
           "profileUserName",
           JSON.stringify(emailID.replace(/\./g, "_").split("@")[0])
@@ -34,7 +35,7 @@ export default function OAuthPage() {
         setStatus("success");
 
         setTimeout(() => {
-          history.push("/explore-blogs");
+          history.push("/");
         }, 2000);
       })
       .catch((error) => {
