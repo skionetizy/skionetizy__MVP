@@ -7,7 +7,7 @@ import {
   RiLinkedinFill,
   RiInstagramLine,
 } from "react-icons/ri";
-import LogoImg from "../Assets/logo.png";
+import LogoIcon from "../Assets/logo.svg";
 
 function Footer() {
   return (
@@ -45,7 +45,7 @@ function Footer() {
         <p className={styles.footerLogo}>
           <img
             className={styles.footerLogoImg}
-            src={LogoImg}
+            src={LogoIcon}
             alt="fountain pen's tip camera closeup"
           />
           Skionetizy
