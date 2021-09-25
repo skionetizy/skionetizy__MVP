@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Login from "../Pages/Login";
 
 import axios from "axios";
@@ -368,13 +368,17 @@ const ViewBlog = () => {
           <h1 className={style.title}>{blog.blogTitle}</h1>
           <div className={style.author}>
             <div className={style.authorContents}>
-              <img
-                className={style.avatar}
-                src={blog.profilePicImageURL}
-                alt=" "
-              />
+              <Link to={`/${blog.profileUserName}`}>
+                <img
+                  className={style.avatar}
+                  src={blog.profilePicImageURL}
+                  alt=" "
+                />
+              </Link>
               <div className={style.published}>
-                <small className={style.authorName}>{blog.profileName}</small>
+                <Link to={`/${blog.profileUserName}`}>
+                  <small className={style.authorName}>{blog.profileName}</small>
+                </Link>
                 <small className={style.publishedDate}>
                   Published on
                   <Moment>{blog?.timestamp?.$date}</Moment>
