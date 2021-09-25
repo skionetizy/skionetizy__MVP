@@ -15,6 +15,7 @@ import baseURL from "../utils/baseURL";
 import { CURRENT_EDITING_BLOG } from "../utils/localStorageKeys";
 import clsx from "../utils/clsx";
 import Button from "../Components/Button";
+import useAuth from "../hooks/useAuth";
 
 const addBlogDescriptionAndTitleAPI = (data) => {
   return axios.post(`${baseURL}/blog/addBlogDescriptionAndTitle`, {
@@ -67,6 +68,7 @@ function MarkDown(props) {
   const location = useLocation();
   const history = useHistory();
   const debounceData = useDebounce(data, 300000); //5min is 300000 ms
+  const { isLoggedIn } = useAuth();
 
   const handleUpload = async (e) => {
     try {

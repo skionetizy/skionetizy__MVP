@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FiSearch, FiX } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   addKeywords,
   getKeywords,
@@ -15,6 +15,7 @@ import { CURRENT_EDITING_BLOG } from "../utils/localStorageKeys";
 import styles from "./addBlogKeywords.module.css";
 import useAsync from "../hooks/useAsync";
 import * as yup from "yup";
+import useAuth from "../hooks/useAuth";
 
 function AddBlogKeywords() {
   const [blog] = useState(() =>
@@ -26,6 +27,8 @@ function AddBlogKeywords() {
   );
   const [keywordValue, setKeywordValue] = useState("");
   const [keywordSearchValue, setKeywordSearchValue] = useState("");
+  const { isLoggedIn } = useAuth();
+  const history = useHistory();
 
   const blogMutate = useMutate({
     mutateFn: () =>
@@ -98,6 +101,9 @@ function AddBlogKeywords() {
       </div>
     );
 
+  if (isLoggedIn === false) {
+    history.push("/login");
+  }
   return (
     <>
       <div className="center">

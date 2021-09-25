@@ -7,6 +7,7 @@ import BlogSteps from "../Components/BlogSteps";
 import { CURRENT_EDITING_BLOG } from "../utils/localStorageKeys";
 import baseURL from "../utils/baseURL";
 import Spinner from "../Components/Spinner";
+import useAuth from "../hooks/useAuth";
 
 function Upload() {
   const [uploaded, setUploaded] = useState(false);
@@ -19,6 +20,7 @@ function Upload() {
   const [isLoading, setIsLoading] = useState(false);
 
   const history = useHistory();
+  const { isLoggedIn } = useAuth();
 
   const handleProfile = async (e) => {
     e.preventDefault();
@@ -76,6 +78,11 @@ function Upload() {
       setIsLoading(false);
     }
   };
+
+  if (!isLoggedIn) {
+    history.push("/login");
+  }
+
   return (
     <div className="upload_page">
       <div className="center">
