@@ -33,13 +33,13 @@ export default function LoginForm({
 
   const loginMutation = useMutate({
     mutateFn: async () => {
-      const { token } = await sendLogin(details);
+      const { token, profileID } = await sendLogin(details);
 
       localStorage.setItem(AUTHORIZATION_HEADER, token);
       axios.defaults.headers["Authorization"] = token;
 
-      const { profile } = await getBlogsAndProfileDetails();
-      return profile;
+      localStorage.setItem("profileID", JSON.stringify(profileID));
+      return profileID;
     },
 
     onSuccess: (profile) => {

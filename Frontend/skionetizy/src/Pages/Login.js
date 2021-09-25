@@ -32,7 +32,7 @@ function Login(props) {
                   return;
                 }
                 // after successful login goto `explore-blogs`
-                history.push("/explore-blogs");
+                history.push("/");
               }}
             />
           </div>
