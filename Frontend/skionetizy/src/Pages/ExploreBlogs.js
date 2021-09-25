@@ -82,44 +82,44 @@ function MyBlogs(props) {
         </div>
 
         {view === "trending" ? (
-          blogs.length > 0 && (
-            <>
-              <FrameBorder
-                className={blogs.length === 0 && "hidden"}
-                title={<h1 className={style.headerTitle}>Trending</h1>}
-              >
-                <div
-                  className={`${style.blogCardContainer} ${style.container} ${style.body}`}
+          <>
+            {blogs.length > 0 && (
+              <>
+                <FrameBorder
+                  className={blogs.length === 0 && "hidden"}
+                  title={<h1 className={style.headerTitle}>Trending</h1>}
                 >
-                  {blogs && blogs.map((blog) => <BlogCard blog={blog} />)}
+                  <div
+                    className={`${style.blogCardContainer} ${style.container} ${style.body}`}
+                  >
+                    {blogs && blogs.map((blog) => <BlogCard blog={blog} />)}
+                  </div>
+                </FrameBorder>
+                {/* Show after initial fetching 9-12 blogs */}
+                <ViewMore
+                  className={style.viewMore}
+                  onVisiblityChange={(isVisible) => setIsVisible(isVisible)}
+                />
+              </>
+            )}
+            {/* Loading Spinner */}
+            {status === "loading" && (
+              <>
+                <div className={style.spinnerWrapper}>
+                  <Spinner color="white" />
+                  <span className={style.statusMessage}>
+                    Loading <span className="ani-typing">...</span>
+                  </span>
                 </div>
-              </FrameBorder>
-              {/* Show after initial fetching 9-12 blogs */}
-              <ViewMore
-                className={style.viewMore}
-                onVisiblityChange={(isVisible) => setIsVisible(isVisible)}
-              />
-            </>
-          )
+              </>
+            )}
+            {/* Status Message */}
+            {hasMoreBlogs === false && (
+              <p className={style.statusMessage}>🎉You have reached to end</p>
+            )}
+          </>
         ) : (
           <FeedBlogs />
-        )}
-
-        {/* Loading Spinner */}
-        {status === "loading" && (
-          <>
-            <div className={style.spinnerWrapper}>
-              <Spinner color="white" />
-              <span className={style.statusMessage}>
-                Loading <span className="ani-typing">...</span>
-              </span>
-            </div>
-          </>
-        )}
-
-        {/* Status Message */}
-        {hasMoreBlogs === false && (
-          <p className={style.statusMessage}>🎉You have reached to end</p>
         )}
       </div>
       <Footer />

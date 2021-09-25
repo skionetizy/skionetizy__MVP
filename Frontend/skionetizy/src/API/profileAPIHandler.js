@@ -37,5 +37,5 @@ export const updateProfileDetails = (profileID, formData) => {
 export const getHoverProfileDetails = (profileID) => {
   return axios
     .get(`${baseURL}/profile/getHover/${profileID}`)
-    .then((r) => r.data.details[0]);
+    .then((r) => r.data.details);
 };
