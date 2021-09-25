@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import styles from "./NavMenuBar.module.css";
+import { FaBars, FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import clsx from "../utils/clsx";
 import LogoIcon from "../Assets/logo.svg";
-import { FaBars, FaHamburger, FaSearch } from "react-icons/fa";
+import useAuth from "../hooks/useAuth";
+import clsx from "../utils/clsx";
+import styles from "./NavMenuBar.module.css";
 import ProfileDropdown from "./ProfileDropdown";
-import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
 
 function NavMenuBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const isLoggedIn = !!getLoggedInProfileID();
+  const { isLoggedIn } = useAuth();
 
   return (
     <>

@@ -1,29 +1,16 @@
-import React, { useState, useEffect } from "react";
-import styles from "./Profiledropdown.module.css";
-import Dropdown from "./Dropdown";
+import React from "react";
+import { FaDoorOpen, FaEdit, FaNewspaper, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { FaUser, FaNewspaper, FaEdit, FaDoorOpen } from "react-icons/fa";
-import { getHoverProfileDetails } from "../API/profileAPIHandler";
-import {
-  getLoggedInProfileID,
-  getLoggedInProfileUserName,
-} from "../utils/AuthorisationUtils";
 import DefaultUserAvatar from "../Assets/avtar.png";
+import useAuth from "../hooks/useAuth";
+import Dropdown from "./Dropdown";
+import styles from "./Profiledropdown.module.css";
 
 export default function ProfileDropdown() {
-  const [profile, setProfile] = useState(null);
+  const { isLoggedIn, profile, logout } = useAuth();
   const profileUserName = profile?.profileUserName;
-  const profileID = getLoggedInProfileID();
 
-  useEffect(() => {
-    if (!profileID) return;
-
-    getHoverProfileDetails(profileID).then((profile) => {
-      setProfile(profile);
-    });
-  }, [profileID]);
-
-  return profile == null ? (
+  return isLoggedIn === false ? (
     <img
       src={DefaultUserAvatar}
       style={{
@@ -87,8 +74,4 @@ export default function ProfileDropdown() {
       </Dropdown.Body>
     </Dropdown>
   );
-}
-
-function logout() {
-  localStorage.removeItem("profileID");
 }
