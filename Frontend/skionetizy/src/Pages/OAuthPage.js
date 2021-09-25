@@ -24,9 +24,9 @@ export default function OAuthPage() {
     setStatus("loading");
     sendGoogleAuthCode({ callbackURL })
       .then((userData) => {
-        const { userID, emailID } = userData.user;
+        const { userID, emailID, profile } = userData.user;
         localStorage.setItem("userID", JSON.stringify(userID));
-        // localStorage.setItem("profileID", JSON.parse(profileID));
+        localStorage.setItem("profileID", JSON.parse(profile.profileID));
         localStorage.setItem(
           "profileUserName",
           JSON.stringify(emailID.replace(/\./g, "_").split("@")[0])

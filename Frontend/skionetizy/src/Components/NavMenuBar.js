@@ -60,19 +60,28 @@ function NavMenuBar() {
             </Link>
           </li>
           <li>
-            <Link className={styles.link} to="/aboutUs">
+            <a
+              className={styles.link}
+              href="http://skionetizy-staging.herokuapp.com/"
+            >
               About Us
-            </Link>
+            </a>
           </li>
           <li>
-            <Link className={styles.link} to="/our-mission">
+            <Link
+              className={styles.link}
+              to="http://skionetizy-staging.herokuapp.com/#mission"
+            >
               Mission
             </Link>
           </li>
           <li>
-            <Link className={clsx(styles.link, styles.linkHighlight)}>
+            <a
+              className={clsx(styles.link, styles.linkHighlight)}
+              href="http://skionetizy-staging.herokuapp.com/subscribe"
+            >
               Support
-            </Link>
+            </a>
           </li>
         </ul>
 
