@@ -1,0 +1,80 @@
+.bottomDivider,
+.divider {
+  --space: 0rem;
+  --width: 0.1em;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  padding: 1rem 0;
+
+  color: white;
+}
+
+.divider > :first-child {
+  margin: 0;
+  flex: none;
+  width: max-content;
+}
+
+/* horizontal line */
+.bottomDivider::before,
+.divider::after {
+  content: "";
+  height: var(--width);
+  flex: 1;
+  background-color: currentColor;
+  margin-right: calc(var(--space) * -1);
+}
+.divider::after {
+  margin-left: calc(var(--space) * -1);
+}
+.bottomDivider::before {
+  flex: 0.8 !important;
+  margin-left: calc(var(--space) * -1);
+}
+
+/* vertical line */
+.bottomDivider::after,
+.divider::before {
+  content: "";
+
+  position: absolute;
+  width: var(--width);
+  height: max(50vh, 512px);
+
+  flex: none;
+  justify-self: flex-start;
+  align-self: flex-start;
+
+  background-color: currentColor;
+}
+
+.divider::before {
+  top: 1.9rem;
+  right: 0;
+  /* right: calc(var(--space) * -1); */
+}
+.bottomDivider::after {
+  bottom: 1rem;
+  left: calc(var(--space) * -1);
+}
+
+/* desktop */
+@media (min-width: 1000px) {
+  .bottomDivider,
+  .divider {
+    --space: -2rem;
+    padding: 3rem 0;
+  }
+
+  .divider::before {
+    top: 50%;
+    right: calc(var(--space) * -1);
+  }
+  .bottomDivider::after {
+    bottom: 3rem;
+    left: calc(var(--space) * -1);
+  }
+}

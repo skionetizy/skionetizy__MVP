@@ -8,6 +8,8 @@ import style from "../Pages/exploreBlogs.module.css";
 import baseURL from "../utils/baseURL";
 import ExploreHeroBannerSrc from "../Assets/explore_hero_banner.png";
 import Footer from "../Components/Footer";
+import FrameBorder from "../Components/FrameBorder";
+import clsx from "../utils/clsx";
 
 const url = `${baseURL}/blog/getBlogsPaginated`;
 
@@ -18,6 +20,8 @@ function MyBlogs(props) {
   const [loading, setLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [hasMoreBlogs, setHasMoreBlogs] = useState(true);
+
+  const [view, setView] = useState("trending");
 
   useEffect(() => {
     const loadBlogs = () => {
@@ -53,7 +57,6 @@ function MyBlogs(props) {
 
   return (
     <>
-      {" "}
       <div className={style.main}>
         <img
           className={style.heroBanner}
@@ -62,21 +65,39 @@ function MyBlogs(props) {
           alt="notebook's pages flipping by wind"
         />
 
-        <h1 className={style.headerTitle}>Trending</h1>
-
-        <div
-          className={`${style.blogCardContainer} ${style.container} ${style.body}`}
-        >
-          {blogs && blogs.map((blog) => <BlogCard blog={blog} />)}
+        <div className={style.exploreBtnGroup}>
+          <ExploreButton
+            isActive={view === "trending"}
+            onClick={() => setView("trending")}
+          >
+            Trending
+          </ExploreButton>
+          <ExploreButton
+            isActive={view === "my_feed"}
+            onClick={() => setView("my_feed")}
+          >
+            My Feed
+          </ExploreButton>
         </div>
 
-        {/* Show after initial fetching 9-12 blogs */}
-        {blogs.length > 0 && (
-          <ViewMore
-            className={style.viewMore}
-            onVisiblityChange={(isVisible) => setIsVisible(isVisible)}
-          />
-        )}
+        <FrameBorder
+          className={blogs.length === 0 && "hidden"}
+          title={<h1 className={style.headerTitle}>Trending</h1>}
+        >
+          <div
+            className={`${style.blogCardContainer} ${style.container} ${style.body}`}
+          >
+            {blogs && blogs.map((blog) => <BlogCard blog={blog} />)}
+          </div>
+
+          {/* Show after initial fetching 9-12 blogs */}
+          {blogs.length > 0 && (
+            <ViewMore
+              className={style.viewMore}
+              onVisiblityChange={(isVisible) => setIsVisible(isVisible)}
+            />
+          )}
+        </FrameBorder>
 
         {/* Loading Spinner */}
         {status === "loading" && (
@@ -97,6 +118,18 @@ function MyBlogs(props) {
       </div>
       <Footer />
     </>
+  );
+}
+
+function ExploreButton({ isActive, children, ...props }) {
+  return (
+    <button
+      className={clsx(style.exploreBtn, isActive && style.exploreBtnActive)}
+      type="button"
+      {...props}
+    >
+      {children}
+    </button>
   );
 }
 

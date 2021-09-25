@@ -97,7 +97,7 @@ body {
 }
 
 .headerTitle {
-  padding-top: 2rem;
+  /* padding-top: 2rem; */
   padding-left: 4rem;
   color: var(--primary-blue);
 }
@@ -118,6 +118,28 @@ body {
   height: 100%;
 
   object-fit: cover;
+}
+
+.exploreBtnGroup {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.exploreBtn {
+  margin: 0 2rem;
+  padding: 0.5rem 3rem;
+  background-color: transparent;
+  color: #fff;
+  border: 0.1rem solid var(--primary-blue);
+  border-radius: 1rem;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.exploreBtnActive {
+  background-color: #fff;
+  color: var(--dark-blue);
 }
 
 .blogCardContainer {
