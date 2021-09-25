@@ -107,6 +107,14 @@ class AuthorizeEmailVerification(Resource):
         if user:
             user.update(isVerified=True)
             user.save()
+            p=Profile()
+            u=user
+            p.profileID=uuid.uuid4()
+            p.userID=u.userID
+            p.randomize()
+            p.profileName=u.firstName
+            p.profileUserName=u.emailID.split('@')[0].replace('.','_')
+            p.save()
             return make_response(jsonify({"user":user,"message":"User is now verified","status":200}))
         return make_response(jsonify({"message":"User verification failed","status":500}))
 
