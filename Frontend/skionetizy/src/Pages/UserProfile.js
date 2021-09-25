@@ -13,6 +13,7 @@ import {
   Route,
   Switch,
   useParams,
+  useHistory,
   useRouteMatch,
 } from "react-router-dom";
 import {
@@ -54,6 +55,7 @@ const UserProfile = () => {
   const userCoverSrc = usePreviewImage(userCoverImage, placeholderImageSrc);
 
   const [showEditModal, setShowEditModal] = useState(false);
+  const history = useHistory();
 
   const isAuthorisedUser = () => {
     return profileID === profile.profileID;
@@ -64,6 +66,10 @@ const UserProfile = () => {
     setStatus("loading");
     getProfileDetailsAPIHandler(profileUserName)
       .then((resProfile) => {
+        if (resProfile == null) {
+          return history.push("/userNotFound");
+        }
+
         const profileData = resProfile.profile;
         setProfile(profileData);
 
