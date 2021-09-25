@@ -344,7 +344,7 @@ class GetFeed(Resource):
             i=0
             temp=[]
             for i in blogs:
-                if len(temp)==5:
+                if len(temp)==9:
                     blogs_paginated.append(temp)
                     temp=[]
                 else:
@@ -365,7 +365,7 @@ class GetFeed(Resource):
             i=0
             temp=[]
             for i in blogs:
-                if len(temp)==5:
+                if len(temp)==9:
                     blogs_paginated.append(temp)
                     temp=[]
                 else:
@@ -430,7 +430,7 @@ class GetBlogsAndProfileDetailsPagination(Resource):
         i=0
         temp=[]
         for i in blogs:
-            if len(temp)==5:
+            if len(temp)==9:
                 blogs_paginated.append(temp)
                 temp=[]
             else:
