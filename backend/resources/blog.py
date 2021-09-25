@@ -324,21 +324,56 @@ class GetBlogByBlogID(Resource):
 
 
 class GetFeed(Resource):
-    def get(self,profileID):
+    def get(self,profileID,number):
         profile=Profile.objects.get_or_404(profileID=profileID)
         profile_following=profile.Following
         blogs=[]
-        print(profile_following[0])
-        for i in list(profile_following):
-            p=Profile.objects.get_or_404(profileID=i)
-            b=Blog.objects(profileID=p.profileID).exclude("comments","likedByUsersList","dislikedByUsersList")
-            b=[x.to_mongo().to_dict() for x in b]
-            for k in b:
-                k['profilePicImageURL']=p.profilePicImageURL
-                k['profileName']=p.profileName
-            blogs.extend(b)
-        blogs.sort(key=lambda x:x['timestamp'],reverse=True)
-        return jsonify({'blogs':json.loads(json_util.dumps(blogs)),"success":True})
+        if(len(profile_following)):
+            for i in list(profile_following):
+                p=Profile.objects.get_or_404(profileID=i)
+                b=Blog.objects(profileID=p.profileID).exclude("comments","likedByUsersList","dislikedByUsersList")
+                b=[x.to_mongo().to_dict() for x in b]
+                for k in b:
+                    k['profilePicImageURL']=p.profilePicImageURL
+                    k['profileName']=p.profileName
+                blogs.extend(b)
+            blogs.sort(key=lambda x:x['timestamp'],reverse=True)
+            blogs_paginated=[]
+            index=0
+            i=0
+            temp=[]
+            for i in blogs:
+                if len(temp)==5:
+                    blogs_paginated.append(temp)
+                    temp=[]
+                else:
+                    temp.append(i)
+            blogs_paginated.append(temp)
+            if(len(blogs_paginated)<=number or number<0):
+                return make_response(jsonify({'message':'exceeded bounds'}), 404)
+            return make_response(jsonify({"blogs":json.loads(json_util.dumps(blogs_paginated[number])),"success":True}))
+        else:
+            blogs=Blog.objects().exclude("comments","likedByUsersList","dislikedByUsersList")
+            blogs=[x.to_mongo().to_dict() for x in blogs]
+            for i in blogs:
+                p=Profile.objects.get(profileID=i['profileID'])
+                i['profilePicImageURL']=p.profilePicImageURL
+                i['profileName']=p.profileName
+            blogs_paginated=[]
+            index=0
+            i=0
+            temp=[]
+            for i in blogs:
+                if len(temp)==5:
+                    blogs_paginated.append(temp)
+                    temp=[]
+                else:
+                    temp.append(i)
+            blogs_paginated.append(temp)
+            if(len(blogs_paginated)<=number or number<0):
+                return make_response(jsonify({'message':'exceeded bounds'}), 404)
+            return make_response(jsonify({"blogs":json.loads(json_util.dumps(blogs_paginated[number])),"success":True}))
+                
 
 class AddView(Resource):
     def patch(self,blogID):
