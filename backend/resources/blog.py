@@ -85,6 +85,7 @@ class AddBlogImage(Resource):
             blogImageURL=photo_url,
             timestamp= current_datetime
         )
+        blog=Blog.objects.get(blogID= blogID)
         # return make_response(jsonify(upload_result,photo_url,options))
         return make_response(jsonify({"blog":blog,"statusCode":200,"success":True}))
 
