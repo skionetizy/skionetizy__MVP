@@ -6,7 +6,11 @@ import {
 } from "../API/profileAPIHandler";
 import { useDispatch, useSelector } from "react-redux";
 import { AUTH } from "../store/reducer";
-import { AUTHORIZATION_HEADER } from "../utils/localStorageKeys";
+import {
+  AUTHORIZATION_HEADER,
+  LOGGED_IN_PROFILE_ID,
+} from "../utils/localStorageKeys";
+import axios from "axios";
 
 function useAuth() {
   const dispatch = useDispatch();
@@ -20,12 +24,14 @@ function useAuth() {
     }
   });
 
-  async function login({ email, password }) {
-    const res = await sendLogin({ email, password });
+  async function login({ emailID, password }) {
+    const res = await sendLogin({ emailID, password });
     const { profileID, token } = res;
 
+    axios.defaults.headers["Authorization"] = token;
     setToken(token);
     localStorage.setItem(AUTHORIZATION_HEADER, token);
+    localStorage.setItem(LOGGED_IN_PROFILE_ID, profileID);
     saveProfile(profileID);
 
     return res;
@@ -33,7 +39,9 @@ function useAuth() {
 
   function logout() {
     setToken("");
-    localStorage.removeItem(AUTHORIZATION_HEADER);
+    localStorage.setItem(LOGGED_IN_PROFILE_ID, "");
+    localStorage.removeItem(AUTHORIZATION_HEADER, "");
+    delete axios.defaults.headers["Authorization"];
 
     dispatch({
       type: AUTH.SAVE_PROFILE,
@@ -57,7 +65,7 @@ function useAuth() {
   useEffect(() => {
     let profileID;
     try {
-      profileID = JSON.parse(localStorage.getItem("profileID"));
+      profileID = localStorage.getItem("profileID");
     } catch {
       profileID = null;
     }

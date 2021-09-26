@@ -96,8 +96,11 @@ export const deleteCommentAPIHandler = ({ comment, blogID }) => {
   });
 };
 
-export const addCommentAPIHandler = ({ commentDescription, blogID }) => {
-  const profileID = getLoggedInProfileID();
+export const addCommentAPIHandler = ({
+  profileID,
+  commentDescription,
+  blogID,
+}) => {
   return axios.patch(`/blog/addCommentToBlog`, {
     commentDescription,
     blogID,

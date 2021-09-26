@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import "./addBlogImage.css";
-import { Link, useHistory, useLocation } from "react-router-dom";
-import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
-import validateImage from "../utils/validateImage";
+import { useHistory } from "react-router-dom";
 import BlogSteps from "../Components/BlogSteps";
-import { CURRENT_EDITING_BLOG } from "../utils/localStorageKeys";
-import baseURL from "../utils/baseURL";
 import Spinner from "../Components/Spinner";
 import useAuth from "../hooks/useAuth";
+import baseURL from "../utils/baseURL";
+import { CURRENT_EDITING_BLOG } from "../utils/localStorageKeys";
+import validateImage from "../utils/validateImage";
+import "./addBlogImage.css";
 
 function Upload() {
   const [uploaded, setUploaded] = useState(false);
@@ -18,6 +17,7 @@ function Upload() {
     () => JSON.parse(localStorage.getItem(CURRENT_EDITING_BLOG)) || {}
   );
   const [isLoading, setIsLoading] = useState(false);
+  const auth = useAuth();
 
   const history = useHistory();
   const { isLoggedIn } = useAuth();
@@ -35,7 +35,7 @@ function Upload() {
       formData.append("file", file);
       formData.append("blogID", data.blogID);
       // formData.append("userID", JSON.parse(localStorage.getItem("userID")));
-      formData.append("profileID", getLoggedInProfileID());
+      formData.append("profileID", auth.profile?.profileID);
       setFormData(formData);
       console.log(formData);
     }

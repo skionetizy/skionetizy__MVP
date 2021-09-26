@@ -10,6 +10,7 @@ import { sendLogin } from "../API/userAPIHandler";
 import { createAuthURL } from "../auth/googleOauth";
 import Button from "../Components/Button";
 import Divider from "../Components/Divider";
+import useAuth from "../hooks/useAuth";
 import useForm from "../hooks/useForm";
 import useMutate from "../hooks/useMutate";
 import { AUTH } from "../store/reducer";
@@ -30,24 +31,16 @@ export default function LoginForm({
   });
   const history = useHistory();
   const dispatch = useDispatch();
+  const { login } = useAuth();
 
   const loginMutation = useMutate({
     mutateFn: async () => {
-      const { token, profileID } = await sendLogin(details);
-
-      localStorage.setItem(AUTHORIZATION_HEADER, token);
-      axios.defaults.headers["Authorization"] = token;
-
-      localStorage.setItem("profileID", JSON.stringify(profileID));
+      const { profileID } = await login(details);
       return profileID;
     },
 
-    onSuccess: (profile) => {
-      dispatch({
-        type: AUTH.SAVE_PROFILE,
-        payload: profile,
-      });
-      onLogin(profile, null);
+    onSuccess: (profileID) => {
+      onLogin(profileID, null);
     },
 
     onFailure: (error) => {

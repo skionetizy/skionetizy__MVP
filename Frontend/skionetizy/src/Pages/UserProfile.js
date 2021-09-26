@@ -12,8 +12,8 @@ import {
   Redirect,
   Route,
   Switch,
-  useParams,
   useHistory,
+  useParams,
   useRouteMatch,
 } from "react-router-dom";
 import {
@@ -25,8 +25,8 @@ import FollowButton from "../Components/FollowButton";
 import Footer from "../Components/Footer";
 import Modal from "../Components/Modal";
 import Spinner from "../Components/Spinner";
+import useAuth from "../hooks/useAuth";
 import usePreviewImage from "../hooks/usePreviewImage";
-import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
 import clsx from "../utils/clsx";
 import validateImage from "../utils/validateImage";
 import style from "./UserProfile.module.css";
@@ -41,7 +41,9 @@ const placeholderImageSrc =
 const UserProfile = () => {
   const { profileUserName } = useParams();
   const [profile, setProfile] = useState({});
-  const profileID = getLoggedInProfileID();
+  const { profile: loggedProfile } = useAuth();
+
+  const profileID = loggedProfile?.profileID;
   const { url: userProfileRoute } = useRouteMatch();
 
   const [userProfileImage, setUserProfileImage] = useState(null);
@@ -56,6 +58,7 @@ const UserProfile = () => {
 
   const [showEditModal, setShowEditModal] = useState(false);
   const history = useHistory();
+  const auth = useAuth();
 
   const isAuthorisedUser = () => {
     return profileID === profile.profileID;
@@ -239,7 +242,7 @@ const UserProfile = () => {
                   onUpdate={(res, err) => {
                     if (err) return;
 
-                    const profileID = getLoggedInProfileID();
+                    const profileID = auth.profile?.profileID;
                     const Followers = res.isFollowing
                       ? profile.Followers.filter((_id) => _id === profileID)
                       : [...profile.Followers, profileID];

@@ -1,42 +1,34 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Link, useParams } from "react-router-dom";
-import Login from "../Pages/Login";
-
-import axios from "axios";
-
-import baseURL from "../utils/baseURL";
-import {
-  likeOnBlogAPIHandler,
-  dislikeOnBlogAPIHandler,
-  removeLikeOnBlogAPIHandler,
-  removeDislikeOnBlogAPIHandler,
-  addCommentAPIHandler,
-  addViewApiHandler,
-} from "../API/blogAPIHandler";
-
-import {
-  getLoggedInProfileID,
-  isAuthenticated,
-} from "../utils/AuthorisationUtils";
-
-import style from "./ViewBlog.module.css";
-import styles from "../Components/comments.module.css";
-import ThumbUp from "@material-ui/icons/ThumbUp";
-import ThumbUpOutlined from "@material-ui/icons/ThumbUpOutlined";
+import ShareIcon from "@material-ui/icons/Share";
 import ThumbDown from "@material-ui/icons/ThumbDown";
 import ThumbDownOutlined from "@material-ui/icons/ThumbDownOutlined";
+import ThumbUp from "@material-ui/icons/ThumbUp";
+import ThumbUpOutlined from "@material-ui/icons/ThumbUpOutlined";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import ShareIcon from "@material-ui/icons/Share";
-
-import Comments from "../Components/comments";
-import Moment from "react-moment";
-import LoginFormModal from "../Components/LoginFormModal";
-import ShareBlogModal from "../Components/ShareBlogModal";
-import FollowButton from "../Components/FollowButton";
+import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet";
-import SignupForm from "../Components/SignupForm";
+import Moment from "react-moment";
+import { Link, useParams } from "react-router-dom";
+import {
+  addCommentAPIHandler,
+  addViewApiHandler,
+  dislikeOnBlogAPIHandler,
+  likeOnBlogAPIHandler,
+  removeDislikeOnBlogAPIHandler,
+  removeLikeOnBlogAPIHandler,
+} from "../API/blogAPIHandler";
+import Comments from "../Components/comments";
+import styles from "../Components/comments.module.css";
+import FollowButton from "../Components/FollowButton";
+import LoginFormModal from "../Components/LoginFormModal";
 import Modal from "../Components/Modal";
+import ShareBlogModal from "../Components/ShareBlogModal";
+import SignupForm from "../Components/SignupForm";
 import VerifyEmailModal from "../Components/VerifyEmailModal";
+import useAuth from "../hooks/useAuth";
+import { isAuthenticated } from "../utils/AuthorisationUtils";
+import baseURL from "../utils/baseURL";
+import style from "./ViewBlog.module.css";
 
 const KEYWORDS_LOCAL_KEY = "blogsKeywords";
 
@@ -44,8 +36,9 @@ Moment.globalFormat = "MMM D , YYYY";
 
 const ViewBlog = () => {
   const { blogID, profileID } = useParams();
+  const auth = useAuth();
 
-  const loggedInUserProfile = getLoggedInProfileID();
+  const loggedInUserProfile = auth.profile?.profileID;
   const [blog, setBlog] = useState({});
   const [showComment, setShowComment] = useState(true);
   const [length, setLength] = useState(3);
@@ -475,6 +468,7 @@ const ViewBlog = () => {
 
               setCommentStatusMessage("");
               addCommentAPIHandler({
+                profileID: auth.profile?.profileID,
                 commentDescription,
                 blogID,
               })

@@ -1,27 +1,24 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { connect } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import * as yup from "yup";
 import BlogSteps from "../Components/BlogSteps";
-import Editor from "../Components/Editor";
-import useDebounce from "../hooks/useDebounce";
-import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
-import getYupErrors from "../utils/getYupErrors";
-import styles from "./addBlogDetailsMarkdown.module.css";
-import Spinner from "../Components/Spinner";
-import baseURL from "../utils/baseURL";
-import { CURRENT_EDITING_BLOG } from "../utils/localStorageKeys";
-import clsx from "../utils/clsx";
 import Button from "../Components/Button";
+import Editor from "../Components/Editor";
 import useAuth from "../hooks/useAuth";
+import useDebounce from "../hooks/useDebounce";
+import baseURL from "../utils/baseURL";
+import getYupErrors from "../utils/getYupErrors";
+import { CURRENT_EDITING_BLOG } from "../utils/localStorageKeys";
+import styles from "./addBlogDetailsMarkdown.module.css";
 
 const addBlogDescriptionAndTitleAPI = (data) => {
   return axios.post(`${baseURL}/blog/addBlogDescriptionAndTitle`, {
     blogTitle: data.blogTitle,
     blogDescription: data.blogDescription,
-    profileID: getLoggedInProfileID(),
+    profileID: data.profileID,
   });
 };
 
@@ -30,7 +27,7 @@ const updateBlogDescriptionAndTitleAPI = (data) => {
     blogID: data.blogID,
     blogTitle: data.blogTitle,
     blogDescription: data.blogDescription,
-    profileID: getLoggedInProfileID(),
+    profileID: data.profileID,
   });
 };
 
@@ -69,6 +66,7 @@ function MarkDown(props) {
   const history = useHistory();
   const debounceData = useDebounce(data, 300000); //5min is 300000 ms
   const { isLoggedIn } = useAuth();
+  const auth = useAuth();
 
   const handleUpload = async (e) => {
     try {
@@ -77,16 +75,20 @@ function MarkDown(props) {
         abortEarly: false,
         context: true,
       });
+      const payloadData = {
+        ...validatedData,
+        profileID: auth.profile?.profileID,
+      };
 
       setErrors({});
 
       const blogID = data.blogID;
       let promise;
       if (!blogID) {
-        promise = addBlogDescriptionAndTitleAPI(validatedData);
+        promise = addBlogDescriptionAndTitleAPI(payloadData);
       } else {
         promise = updateBlogDescriptionAndTitleAPI({
-          ...validatedData,
+          ...payloadData,
           blogID,
         });
       }

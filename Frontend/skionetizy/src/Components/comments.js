@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-import styles from "../Components/comments.module.css";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { deleteCommentAPIHandler } from "../API/blogAPIHandler";
-
+import React from "react";
 import { useParams } from "react-router-dom";
-import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
+import { deleteCommentAPIHandler } from "../API/blogAPIHandler";
+import styles from "../Components/comments.module.css";
+import useAuth from "../hooks/useAuth";
 
 const Comments = ({
   comment,
@@ -15,9 +14,9 @@ const Comments = ({
 }) => {
   const { blogID } = useParams();
   console.log(comment, blogID);
-  const [showDelete, setShowDelete] = useState(false);
+  const auth = useAuth();
 
-  const handleDelete = (e) => {
+  const handleDelete = () => {
     deleteCommentAPIHandler({
       comment,
       blogID,
@@ -30,16 +29,10 @@ const Comments = ({
       .catch((err) => console.log(err));
   };
 
-  const handleShowDelete = () => {
-    if (
-      comment.profileID == getLoggedInProfileID() ||
-      getLoggedInProfileID() == authorProfileID
-    ) {
-      setShowDelete(true);
-    } else {
-      setShowDelete(false);
-    }
-  };
+  const showDelete =
+    comment.profileID == auth.profile?.profileID ||
+    auth.profile?.profileID == authorProfileID;
+
   return (
     <div>
       <div className={styles.user_comments}>
@@ -65,7 +58,7 @@ const Comments = ({
           <p>{comment.commentDescription}</p>
         </div>
 
-        {handleShowDelete && (
+        {showDelete && (
           <button className={styles.comment_delete} onClick={handleDelete}>
             <DeleteIcon />
           </button>

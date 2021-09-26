@@ -14,7 +14,8 @@ export const getLoggedInUserID = () => {
 };
 
 export const getLoggedInProfileID = () => {
-  const loggedInUser = JSON.parse(localStorage.getItem("profileID"));
+  const loggedInUser = localStorage.getItem("profileID");
+
   return loggedInUser;
 };
 

@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { getFeedBlogs } from "../API/blogAPIHandler";
-import useAsync from "../hooks/useAsync";
-import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
-import axios from "axios";
 import BlogCard from "../Components/BlogCard";
 import FrameBorder from "../Components/FrameBorder";
-import style from "./exploreBlogs.module.css";
 import Spinner from "../Components/Spinner";
+import useAuth from "../hooks/useAuth";
+import style from "./exploreBlogs.module.css";
 
 export default function FeedBlogs() {
   const [status, setStatus] = useState("idle");
@@ -16,8 +14,8 @@ export default function FeedBlogs() {
   const [isVisible, setIsVisible] = useState(false);
   const [hasMoreBlogs, setHasMoreBlogs] = useState(true);
 
-  const [page, setPage] = useState(0);
-  const profileID = getLoggedInProfileID();
+  const auth = useAuth();
+  const profileID = auth.profile?.profileID;
 
   useEffect(() => {
     const loadBlogs = () => {
@@ -25,7 +23,7 @@ export default function FeedBlogs() {
       setStatus("loading");
       getFeedBlogs({
         profileID,
-        page,
+        currentBlog,
       })
         .then((res) => {
           // console.log(Object.values(res.data.blogs);
@@ -45,13 +43,17 @@ export default function FeedBlogs() {
     if (hasMoreBlogs) {
       loadBlogs();
     }
-  }, [currentBlog, hasMoreBlogs]);
+  }, [currentBlog, hasMoreBlogs, profileID]);
 
   useEffect(() => {
     if (isVisible && status === "idle" && blogs.length > 0 && hasMoreBlogs) {
       setCurrentBlog((prev) => prev + 1);
     }
   }, [blogs.length, hasMoreBlogs, isVisible, status]);
+
+  if (!profileID) {
+    return <h3>Not logged in</h3>;
+  }
 
   return (
     <>

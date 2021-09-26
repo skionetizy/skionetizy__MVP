@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import styles from "./FollowButton.module.css";
-import clsx from "../utils/clsx";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { sendFollowUser, sendUnfollowUser } from "../API/userAPIHandler";
 import { getProfileDetailsAPIHandler } from "../API/profileAPIHandler";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getLoggedInProfileID,
-  getLoggedInProfileUserName,
-} from "../utils/AuthorisationUtils";
+import { sendFollowUser, sendUnfollowUser } from "../API/userAPIHandler";
+import useAuth from "../hooks/useAuth";
+import clsx from "../utils/clsx";
+import styles from "./FollowButton.module.css";
 
 function saveProfile(dispatch, profile) {
   dispatch({ type: "SAVE_PROFILE", payload: profile });
@@ -22,14 +19,14 @@ export default function FollowButton({
   ...props
 }) {
   const [status, setStatus] = useState("idle");
-  const profile = useSelector((state) => state.profile);
+  const { profile } = useAuth();
   const dispatch = useDispatch();
   const history = useHistory();
 
   const isFollowing = profile?.Following?.includes(othersProfileID);
   const isLoading = status === "loading";
-  const loggedProfileID = getLoggedInProfileID();
-  const loggedProfileUserName = getLoggedInProfileUserName();
+  const loggedProfileID = profile?.profileID;
+  const loggedProfileUserName = profile?.profileUserName;
   const isProfileLoading = loggedProfileUserName && profile == null;
 
   useEffect(() => {
