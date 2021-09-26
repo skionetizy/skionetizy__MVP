@@ -23,7 +23,7 @@ export default function FeedBlogs() {
       setStatus("loading");
       getFeedBlogs({
         profileID,
-        currentBlog,
+        page: currentBlog,
       })
         .then((res) => {
           // console.log(Object.values(res.data.blogs);
