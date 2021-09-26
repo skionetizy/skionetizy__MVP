@@ -15,6 +15,9 @@ const SearchPage = (props) => {
   useEffect(() => {
     const loadBlogs = () => {
       setLoading(true);
+      if (params.searchInput.length < 5)
+        return window.alert("Search length atleast be 5");
+
       axios
         .post(`${baseURL}/blog/searchBlog`, { search: params.searchInput })
         .then((res) => {
