@@ -37,7 +37,7 @@ function App() {
         <Route exact path="/addBlogImage" component={addBlogImage} />
         <Route exact path="/addBlogKeywords" component={AddBlogKeywords} />
         <Route exact path="/final" component={FinalPage} />
-        <Route exact path="/searchpage" component={SearchPage} />
+        <Route exact path="/searchpage/:searchInput" component={SearchPage} />
         <Route
           exact
           path="/view-blog/:blogID/:profileID"

@@ -140,7 +140,7 @@ const ViewBlog = () => {
     if (!isAuthenticated() && showModal === "") {
       setTimeout(() => {
         setShowModal("LOGIN_FORM");
-      }, 8000);
+      }, 20000);
     }
   }, []);
 

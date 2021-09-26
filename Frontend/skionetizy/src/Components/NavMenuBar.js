@@ -1,16 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaBars, FaSearch } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { Link, withRouter } from "react-router-dom";
 import LogoIcon from "../Assets/logo.svg";
 import useAuth from "../hooks/useAuth";
+import useDebounceGeneral from "../hooks/useDebounceGeneral";
 import clsx from "../utils/clsx";
 import styles from "./NavMenuBar.module.css";
 import ProfileDropdown from "./ProfileDropdown";
 
-function NavMenuBar() {
+function NavMenuBar(props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const { isLoggedIn } = useAuth();
+
+  const [searchInput, setSearchInput] = useState("");
+  const [filteredBlogs, setFilteredBlogs] = useState("");
+
+  const handleSearchInput = (e) => {
+    setSearchInput(e.target.value);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    console.log("in handle search submit");
+    console.log({ filteredBlogsInHS: filteredBlogs });
+
+    props.saveFilteredBlogs(filteredBlogs);
+    // return <Redirect to="/searchpage" />;
+    props.history.push(`/searchpage/${searchInput}`);
+  };
+
+  const debouncedSearch = useDebounceGeneral(searchInput, 2000);
+  console.log({ debouncedSearchAfterUseDebounceGeneral: debouncedSearch });
+
+  useEffect(() => {
+    if (debouncedSearch) {
+      const loweredDebounceSearch = debouncedSearch.toLowerCase();
+      const slicedBlogs = props.slicedBlogs;
+      console.log({ slicedBlogsInUE: slicedBlogs });
+      const filteredData = slicedBlogs.filter((blog) => {
+        return (
+          blog.blogTitle.toLowerCase().includes(loweredDebounceSearch) ||
+          blog.blogDescription
+            .substring(0, 100)
+            .toLowerCase()
+            .includes(loweredDebounceSearch)
+        );
+      });
+      console.log({ filteredBlogsInUE: filteredData });
+      setFilteredBlogs(filteredData);
+    }
+  }, [debouncedSearch]);
 
   return (
     <>
@@ -32,9 +73,9 @@ function NavMenuBar() {
           <p className={styles.headerTitle}>Skionetizy</p>
         </Link>
 
-        <form className={styles.inputContainer}>
-          <input />
-          <button>
+        <form className={styles.inputContainer} onSubmit={handleSearchSubmit}>
+          <input onChange={handleSearchInput} />
+          <button type="submit">
             <FaSearch />
           </button>
         </form>
@@ -97,4 +138,18 @@ function NavMenuBar() {
     </>
   );
 }
-export default NavMenuBar;
+const mapStateToProps = (state) => {
+  return {
+    slicedBlogs: state.slicedBlogs,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveFilteredBlogs: (filteredBlogs) =>
+      dispatch({ type: "SAVE_FILTERED_BLOGS", payload: filteredBlogs }),
+  };
+};
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(NavMenuBar)
+);

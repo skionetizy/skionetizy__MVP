@@ -25,7 +25,7 @@ const SearchBar = (props) => {
 
     props.saveFilteredBlogs(filteredBlogs);
     // return <Redirect to="/searchpage" />;
-    props.history.push("/searchpage");
+    props.history.push(`/searchpage/${searchInput}`);
   };
 
   const debouncedSearch = useDebounceGeneral(searchInput, 2000);
