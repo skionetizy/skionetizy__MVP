@@ -93,9 +93,17 @@ function MarkDown(props) {
         });
       }
 
-      await promise;
+      const res = await promise;
+      const { blog } = res.data;
 
-      localStorage.setItem(CURRENT_EDITING_BLOG, JSON.stringify(validatedData));
+      if (blogID) {
+        localStorage.setItem(
+          CURRENT_EDITING_BLOG,
+          JSON.stringify(validatedData)
+        );
+      } else {
+        localStorage.setItem(CURRENT_EDITING_BLOG, JSON.stringify(blog));
+      }
       history.push("/addBlogImage");
     } catch (error) {
       setStatus("error");
