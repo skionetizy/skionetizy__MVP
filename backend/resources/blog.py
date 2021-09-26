@@ -58,7 +58,7 @@ class UpdateBlogDescriptionAndText(Resource):
             blogDescription=body["blogDescription"]
         )
         blog.save()
-
+        blog=Blog.objects.get(blogID=blog.blogID)
         return make_response(jsonify({"blog":blog,"statusCode":200,"success":True}))
     
 class AddBlogImage(Resource):
