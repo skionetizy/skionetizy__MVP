@@ -20,19 +20,19 @@ function LoginFormModal({ ...props }) {
   useEffect(() => {
     const { callbackURL } = state || {};
     if (callbackURL) {
+      // clearing react router state
+      window.history.replaceState({}, document.title);
       setStatus("loading");
       sendGoogleAuthCode({ callbackURL })
         .then((userData) => {
           const { userID, emailID } = userData.user;
+          const profileID = userData.profile?.profileID;
           localStorage.setItem("userID", JSON.stringify(userID));
           localStorage.setItem(
             "profileUserName",
             JSON.stringify(emailID.replace(/\./g, "_").split("@")[0])
           );
-          // localStorage.setItem("profileID", JSON.stringify(profileID));
-
-          // clearing react router state
-          window.history.replaceState({}, document.title);
+          localStorage.setItem("profileID", profileID);
           setStatus("success");
         })
         .catch((error) => {

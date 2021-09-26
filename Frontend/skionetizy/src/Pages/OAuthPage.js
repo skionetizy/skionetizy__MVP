@@ -27,7 +27,7 @@ export default function OAuthPage() {
         const { userID, emailID } = user;
         const { profileID } = profile;
         localStorage.setItem("userID", JSON.stringify(userID));
-        localStorage.setItem("profileID", JSON.stringify(profileID));
+        localStorage.setItem("profileID", profileID);
         localStorage.setItem(
           "profileUserName",
           JSON.stringify(emailID.replace(/\./g, "_").split("@")[0])
