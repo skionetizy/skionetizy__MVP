@@ -84,3 +84,22 @@
 .copyBtn:hover {
   color: #666;
 }
+
+@media (max-width: 960px) {
+  .wrapper {
+    min-width: auto;
+    margin: 0 1.5rem;
+    padding: 1rem 1.5rem;
+  }
+  .headTitle {
+    margin: 0;
+  }
+  .icon {
+    width: 2rem;
+    height: 2rem;
+    margin: 0.75rem;
+  }
+  .url {
+    word-break: break-word;
+  }
+}
