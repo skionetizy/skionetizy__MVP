@@ -400,6 +400,8 @@ class AddKeywordsBlog(Resource):
     def get(self,word):
         l=[]
         l.append(str(word))
+        if client=='':
+            return make_response(jsonify({'message':'GADS TOKEN EXPIRED'}),500)
         list_keywords= gads(client, "5304812837", ["2840"], "1000",l, None)
         list_to_excel = []
         for x in range(len(list_keywords)):

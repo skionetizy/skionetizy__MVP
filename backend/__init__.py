@@ -1,3 +1,4 @@
+from backend.resources.authorize import send_email
 from flask import Flask,send_from_directory
 from flask_restful import Api
 from flask_cors import CORS
@@ -8,6 +9,7 @@ import os
 from gingerit.gingerit import GingerIt
 from google.ads.googleads.client import GoogleAdsClient
 from oauthlib.oauth2 import WebApplicationClient
+
 #cloudinary
 # from cloudinary.uploader import upload
 # from cloudinary.utils import cloudinary_url
@@ -39,8 +41,12 @@ app.config.from_object("config."+env_config)
 mail=Mail(app)
 DB_URI='mongodb+srv://rohandevaki:joOlDai1Ey0ccazD@cluster0.gnqpe.mongodb.net/skionetizymvp?retryWrites=true&w=majority'
 client=''
-if(os.environ.get('USE_GADS')):
-    client = GoogleAdsClient.load_from_storage("backend/skio.yaml")
+try:
+    if(os.environ.get('USE_GADS')):
+        client = GoogleAdsClient.load_from_storage("backend/skio.yaml")
+except:
+    print("GADS TOKEN EXPIRED")
+
 
 authclient=WebApplicationClient('1009912481477-rumk7lv3njmf7l3asoo7ee6808htfdtd.apps.googleusercontent.com')
 app.config["MONGODB_HOST"]=DB_URI
