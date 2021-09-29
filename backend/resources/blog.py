@@ -288,7 +288,7 @@ class RemoveCommentonBlog(Resource):
                 comments.remove(comment)
             
         blog.save()
-        return make_response(jsonify({"message":"you have successfully added comment on the    blog","statusCode":"200","blog":blog,"success":True}))
+        return make_response(jsonify({"message":"you have successfully removed comment on the blog","statusCode":"200","blog":blog,"success":True}),200)
 
 class GetBlogsAndProfileDetails(Resource):
     decorators=[authorize.token_required]
