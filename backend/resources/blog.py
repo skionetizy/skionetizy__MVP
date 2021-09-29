@@ -288,7 +288,7 @@ class RemoveCommentonBlog(Resource):
                 comments.remove(comment)
             
         blog.save()
-        return make_response(jsonify({"message":"you have successfully added comment on the    blog","statusCode":"200","blog":blog,"success":True}))
+        return make_response(jsonify({"message":"you have successfully removed comment on the blog","statusCode":"200","blog":blog,"success":True}),200)
 
 class GetBlogsAndProfileDetails(Resource):
     decorators=[authorize.token_required]
@@ -400,6 +400,8 @@ class AddKeywordsBlog(Resource):
     def get(self,word):
         l=[]
         l.append(str(word))
+        if client=='':
+            return make_response(jsonify({'message':'GADS TOKEN EXPIRED'}),500)
         list_keywords= gads(client, "5304812837", ["2840"], "1000",l, None)
         list_to_excel = []
         for x in range(len(list_keywords)):
