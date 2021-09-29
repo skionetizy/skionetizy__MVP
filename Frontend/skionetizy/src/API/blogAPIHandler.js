@@ -86,13 +86,11 @@ export const getAllBlogsByProfileAPIHandler = (profileUserName) => {
     .catch((err) => console.log(err));
 };
 
-export const deleteCommentAPIHandler = ({ comment, blogID }) => {
+export const deleteCommentAPIHandler = (data) => {
   const userID = getLoggedInUserID();
-  console.log({ comment, blogID, userID });
   return axios.patch(`${baseURL}/blog/removeCommentOnBlog`, {
-    commentID: comment.commentID,
     userID: userID,
-    blogID: blogID,
+    ...data,
   });
 };
 

@@ -54,7 +54,7 @@ export default function UserProfileBlogs({ profile }) {
           <div className={style.draftWrapper}>
             <UserBlogsCard key={index} blog={blog} profile={profile} />
 
-            <Link
+            {/* <Link
               to="/addBlogDetailsMarkdown"
               onClick={() => {
                 localStorage.setItem(
@@ -65,7 +65,7 @@ export default function UserProfileBlogs({ profile }) {
               className={style.editDraftBtn}
             >
               <FiEdit2 width="1em" />
-            </Link>
+            </Link> */}
           </div>
         ))}
       </div>

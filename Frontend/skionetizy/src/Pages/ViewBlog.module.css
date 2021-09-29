@@ -183,8 +183,12 @@
   border-left: 0.2rem solid rgba(var(--o-dark-blue), 0.2);
 
   font: inherit;
-
+  line-height: 0;
   cursor: pointer;
+}
+
+.commentBtn > svg {
+  margin-right: 1rem;
 }
 
 .commentBtn:hover {
@@ -193,6 +197,10 @@
 
 .commentBtn:focus {
   box-shadow: 0 0 0 0.2rem var(--primary-blue);
+}
+
+.commentBtn:disabled {
+  opacity: 0.5;
 }
 
 /* wrapper */
@@ -296,6 +304,7 @@
   font-weight: 500;
   border-radius: 10px;
   float: right;
+  margin: 0 auto;
   margin-top: 10px;
   color: white;
   cursor: pointer;

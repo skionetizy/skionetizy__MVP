@@ -1,6 +1,7 @@
 import React from "react";
 import { FiEdit2 } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import BlogStatusBadge from "../Components/BlogStatusBadge";
 import styles from "./UserBlogsCard.module.css";
 
 export default function UserBlogsCard({ blog, profile }) {
@@ -39,7 +40,9 @@ export default function UserBlogsCard({ blog, profile }) {
           </div>
 
           {blogStatus && (
-            <span className={styles.blogStatus}>{blogStatus}</span>
+            <BlogStatusBadge variant={blogStatus} className={styles.blogStatus}>
+              {blogStatus}
+            </BlogStatusBadge>
           )}
         </div>
 
@@ -47,6 +50,16 @@ export default function UserBlogsCard({ blog, profile }) {
           {blogDescription.substr(0, 200)}...
         </p>
       </div>
+
+      <Link
+        to="/addBlogDetailsMarkdown"
+        onClick={() => {
+          localStorage.setItem("CURRENT_EDITING_BLOG", JSON.stringify(blog));
+        }}
+        className={styles.editDraftBtn}
+      >
+        <FiEdit2 width="1em" />
+      </Link>
     </div>
   );
 }

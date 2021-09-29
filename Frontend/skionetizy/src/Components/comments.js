@@ -18,8 +18,9 @@ const Comments = ({
 
   const handleDelete = () => {
     deleteCommentAPIHandler({
-      comment,
+      commentID: comment.commentID,
       blogID,
+      profileID: auth.profile?.profileID,
     })
       .then((res) => {
         console.log(res.data);

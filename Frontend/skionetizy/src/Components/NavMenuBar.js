@@ -7,6 +7,8 @@ import useAuth from "../hooks/useAuth";
 import useDebounceGeneral from "../hooks/useDebounceGeneral";
 import clsx from "../utils/clsx";
 import styles from "./NavMenuBar.module.css";
+import Button from "../Components/Button";
+import DonateButton from "../Components/DonateButton";
 import ProfileDropdown from "./ProfileDropdown";
 
 function NavMenuBar(props) {
@@ -23,16 +25,12 @@ function NavMenuBar(props) {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    console.log("in handle search submit");
-    console.log({ filteredBlogsInHS: filteredBlogs });
-
     props.saveFilteredBlogs(filteredBlogs);
     // return <Redirect to="/searchpage" />;
     props.history.push(`/searchpage/${searchInput}`);
   };
 
   const debouncedSearch = useDebounceGeneral(searchInput, 2000);
-  console.log({ debouncedSearchAfterUseDebounceGeneral: debouncedSearch });
 
   useEffect(() => {
     if (debouncedSearch) {
@@ -107,6 +105,8 @@ function NavMenuBar(props) {
             <a
               className={styles.link}
               href="http://skionetizy-staging.herokuapp.com/"
+              target="_blank"
+              rel="noreferrer noopener"
             >
               About Us
             </a>
@@ -115,17 +115,14 @@ function NavMenuBar(props) {
             <a
               className={styles.link}
               href="http://skionetizy-staging.herokuapp.com/#mission"
+              target="_blank"
+              rel="noreferrer noopener"
             >
               Mission
             </a>
           </li>
           <li>
-            <a
-              className={clsx(styles.link, styles.linkHighlight)}
-              href="http://skionetizy-staging.herokuapp.com/contact-us"
-            >
-              Support
-            </a>
+            <DonateButton>Support Us</DonateButton>
           </li>
         </ul>
 

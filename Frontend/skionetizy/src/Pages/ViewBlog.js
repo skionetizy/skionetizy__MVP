@@ -17,6 +17,8 @@ import {
   removeDislikeOnBlogAPIHandler,
   removeLikeOnBlogAPIHandler,
 } from "../API/blogAPIHandler";
+import Spinner from "../Components/Spinner";
+import { Center } from "../Components/Layouts";
 import Comments from "../Components/comments";
 import styles from "../Components/comments.module.css";
 import FollowButton from "../Components/FollowButton";
@@ -26,6 +28,7 @@ import ShareBlogModal from "../Components/ShareBlogModal";
 import SignupForm from "../Components/SignupForm";
 import VerifyEmailModal from "../Components/VerifyEmailModal";
 import useAuth from "../hooks/useAuth";
+import useMutate from "../hooks/useMutate";
 import { isAuthenticated } from "../utils/AuthorisationUtils";
 import baseURL from "../utils/baseURL";
 import style from "./ViewBlog.module.css";
@@ -53,6 +56,25 @@ const ViewBlog = () => {
     hasSent: false,
   });
   const [comments, setComments] = useState();
+  const addCommentMutation = useMutate({
+    mutateFn: (commentDescription) => {
+      return addCommentAPIHandler({
+        profileID: auth.profile?.profileID,
+        commentDescription,
+        blogID,
+      });
+    },
+
+    onSuccess: (res) => {
+      setCommentStatusMessage(res.data.message);
+      // re-fetch comments for blog when successful
+      if (res.data.success === true) getComments();
+    },
+
+    onFailure: () => {
+      setCommentStatusMessage("Failed to upload");
+    },
+  });
   const scrollTargetRef = useRef();
 
   const [hasLikedIcon, setHasLikedIcon] = useState(
@@ -83,6 +105,12 @@ const ViewBlog = () => {
   function getBlogs() {
     axios.get(`${baseURL}/blog/getBlogByBlogID/${blogID}`).then((res) => {
       setBlog(res.data.blog);
+    });
+  }
+
+  function getComments() {
+    axios.get(`${baseURL}/blog/getComments/${blogID}`).then((res) => {
+      setComments(res.data.comments);
     });
   }
 
@@ -465,23 +493,10 @@ const ViewBlog = () => {
               }
 
               const commentDescription = e.target.elements.input.value;
-
               setCommentStatusMessage("");
-              addCommentAPIHandler({
-                profileID: auth.profile?.profileID,
-                commentDescription,
-                blogID,
-              })
-                .then((response) => {
-                  console.log(JSON.stringify(response));
-                  setCommentStatusMessage(response.data.message);
-                  // re-fetch comments for blog when successful
-                  if (response.data.success === true) getBlogs();
-                  this.text.value = "";
-                })
-                .catch((error) => {
-                  console.log("It is not working");
-                });
+              addCommentMutation.mutate(commentDescription).then(() => {
+                e.target.reset();
+              });
             }}
             className={style.commentForm}
           >
@@ -491,9 +506,14 @@ const ViewBlog = () => {
               name="input"
               type="text"
               placeholder="Add to the dicussion..."
-            ></input>
+            />
 
-            <button className={style.commentBtn} type="submit">
+            <button
+              className={style.commentBtn}
+              disabled={addCommentMutation.isLoading}
+              type="submit"
+            >
+              {addCommentMutation.isLoading && <Spinner />}
               Submit
             </button>
           </form>
@@ -518,7 +538,7 @@ const ViewBlog = () => {
                   authorProfileID={profileID}
                   onDelete={(response) => {
                     // re-fetch comments for blog when successful
-                    if (response.data.success === true) getBlogs();
+                    if (response.data.success === true) getComments();
                   }}
                   updateCommentStatusMessage={(commentStatusMessage) =>
                     updateCommentStatusMessageParent(commentStatusMessage)
@@ -528,9 +548,11 @@ const ViewBlog = () => {
           </div>
         </div>
         {length < blog?.comments?.length && (
-          <button onClick={viewAllHandler} className={style.view_all}>
-            {viewMore}
-          </button>
+          <Center>
+            <button onClick={viewAllHandler} className={style.view_all}>
+              {viewMore}
+            </button>
+          </Center>
         )}
       </div>
 

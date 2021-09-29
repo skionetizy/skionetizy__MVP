@@ -15,7 +15,6 @@ import Frame5 from "../Assets/landing-page/frame-5.svg";
 function Homepage() {
   return (
     <>
-      {" "}
       <main className={styles.wrapper}>
         {/* <motion.div
         initial={{ opacity: 0 }}

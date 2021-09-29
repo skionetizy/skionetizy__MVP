@@ -1,13 +1,14 @@
 .wrapper {
   display: flex;
   flex-wrap: wrap;
-  border-radius: 1rem;
-  overflow: hidden;
+
+  position: relative;
 }
 
 .blogImage {
   flex: 1;
   max-width: 26rem;
+  border-radius: 1rem 0 0 1rem;
 }
 
 .detailsWrapper {
@@ -16,6 +17,7 @@
   padding: 1rem 4rem;
 
   background-color: var(--primary-blue);
+  border-radius: 0 1rem 1rem 0;
   color: white;
 }
 
@@ -70,6 +72,25 @@
   line-clamp: 5;
   overflow-y: hidden;
   text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+.editDraftBtn {
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 2rem;
+  height: 2rem;
+
+  background-color: #f1f1f3;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+  border-radius: 999px;
+  transform: translate(25%, -25%);
 }
 
 @media screen and (max-width: 1000px) {
