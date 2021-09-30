@@ -391,6 +391,7 @@ class GetCommentsByBlogID(Resource):
         comments=blog.comments
         comments=[x.to_mongo().to_dict() for x in comments]
         for x in comments:
+            p=Profile.objects.get_or_404(profileID=x['profileID'])
             x['profilePicImageURL']=p.profilePicImageURL
             x['profileName']=p.profileName
         return jsonify({'comments':json.loads(json_util.dumps(comments)),'status_code':200,'success':'true'})
