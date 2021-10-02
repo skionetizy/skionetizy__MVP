@@ -1,6 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
+import Button from "../Components/Button";
 
-function DonateButton() {
+function DonateButton({ className, children }) {
+  /**
+   * @type {{ current: HTMLFormElement }}
+   */
+  const formRef = useRef(null);
+
   useEffect(() => {
     const Script = document.createElement("script");
     const Form = document.getElementById("donate");
@@ -12,9 +18,18 @@ function DonateButton() {
     Form.appendChild(Script);
   }, []);
   return (
-    <div>
-      <form id="donate"></form>
-    </div>
+    <>
+      <div className={className}>
+        <form ref={formRef} className="hidden" id="donate"></form>
+      </div>
+      <Button
+        onClick={() =>
+          formRef.current?.getElementsByTagName("a")?.item(0)?.click()
+        }
+      >
+        {children}
+      </Button>
+    </>
   );
 }
 

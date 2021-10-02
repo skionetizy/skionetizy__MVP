@@ -1,4 +1,5 @@
 export const CURRENT_EDITING_BLOG = "CURRENT_EDITING_BLOG";
+export const CURRENT_NEW_ADD_BLOG = "CURRENT_NEW_ADD_BLOG";
 
 export const LOGGED_IN_PROFILE_USERNAME = "profileUserName";
 export const LOGGED_IN_PROFILE_ID = "profileID";

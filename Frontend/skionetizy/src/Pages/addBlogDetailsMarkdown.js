@@ -1,54 +1,20 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { connect } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation, Prompt } from "react-router-dom";
 import * as yup from "yup";
+import BlogStatusBadge from "../Components/BlogStatusBadge";
 import BlogSteps from "../Components/BlogSteps";
 import Button from "../Components/Button";
 import Editor from "../Components/Editor";
 import useAuth from "../hooks/useAuth";
 import useDebounce from "../hooks/useDebounce";
+import useDebounceGeneral from "../hooks/useDebounceGeneral";
 import baseURL from "../utils/baseURL";
 import getYupErrors from "../utils/getYupErrors";
 import { CURRENT_EDITING_BLOG } from "../utils/localStorageKeys";
 import styles from "./addBlogDetailsMarkdown.module.css";
-
-const addBlogDescriptionAndTitleAPI = (data) => {
-  return axios.post(`${baseURL}/blog/addBlogDescriptionAndTitle`, {
-    blogTitle: data.blogTitle,
-    blogDescription: data.blogDescription,
-    profileID: data.profileID,
-  });
-};
-
-const updateBlogDescriptionAndTitleAPI = (data) => {
-  return axios.patch(`${baseURL}/blog/updateBlogDescriptionAndTitle`, {
-    blogID: data.blogID,
-    blogTitle: data.blogTitle,
-    blogDescription: data.blogDescription,
-    profileID: data.profileID,
-  });
-};
-
-const markdownSchema = yup.object().shape({
-  blogTitle: yup
-    .string()
-    .required("Blog Title is required")
-    .min(6, "Blog Title should atleast be of 6 characters"),
-  blogDescription: yup
-    .string()
-    .required("Blog description is required")
-    .test(
-      "test-blog-words",
-      "Blog Description should alleast contain 200 words",
-      (value) => value.split(" ").filter(characterLike).length >= 200
-    )
-    .test("test-2", "Description must not contain any url", (value) => {
-      const hasUrl = value.split(" ").some((word) => isValidUrl(word));
-      return !hasUrl;
-    }),
-});
 
 function MarkDown(props) {
   const [data, setData] = useState(() => {
@@ -59,12 +25,13 @@ function MarkDown(props) {
       }
     );
   });
+  const [hasNewChanges, setHasNewChanges] = useState(false);
   const [errors, setErrors] = useState({});
   const [isGrammarVisible, setIsGrammarVisible] = useState(false);
   const [status, setStatus] = useState("idle");
   const location = useLocation();
   const history = useHistory();
-  const debounceData = useDebounce(data, 300000); //5min is 300000 ms
+  const debounce = useDebounceGeneral(data, 4000);
   const { isLoggedIn } = useAuth();
   const auth = useAuth();
 
@@ -95,15 +62,9 @@ function MarkDown(props) {
 
       const res = await promise;
       const { blog } = res.data;
+      const resBlog = blogID ? validatedData : blog;
 
-      if (blogID) {
-        localStorage.setItem(
-          CURRENT_EDITING_BLOG,
-          JSON.stringify(validatedData)
-        );
-      } else {
-        localStorage.setItem(CURRENT_EDITING_BLOG, JSON.stringify(blog));
-      }
+      localStorage.setItem(CURRENT_EDITING_BLOG, JSON.stringify(resBlog));
       history.push("/addBlogImage");
     } catch (error) {
       setStatus("error");
@@ -122,6 +83,7 @@ function MarkDown(props) {
 
   const handleChange = (name) => (e) => {
     // e.preventDefault();
+    setHasNewChanges(true);
     setData((data) => ({
       ...data,
       [name]: e.target.value,
@@ -129,14 +91,31 @@ function MarkDown(props) {
     console.log({ name });
   };
 
+  useEffect(() => {
+    localStorage.setItem(CURRENT_EDITING_BLOG, JSON.stringify(debounce));
+    setHasNewChanges(false);
+  }, [debounce]);
+
   return (
     <>
+      <Prompt
+        when={hasNewChanges}
+        message={(location) =>
+          `New changes are not saved yet. Still want to proceed "${location.pathname}"?`
+        }
+      />
       <div className="center">
         <BlogSteps noOfSteps={3} currentStep={1} />
       </div>
 
       <div className={styles.wrapper}>
         <div className={styles.header}>
+          <p>
+            <BlogStatusBadge variant={data.blogID ? data.blogStatus : "LOCAL"}>
+              {data.blogStatus || "LOCAL"}
+            </BlogStatusBadge>
+          </p>
+          <p>{hasNewChanges ? "unsaved changes" : <>&nbsp;</>}</p>
           <h1 className={styles.title}>Blog Details</h1>
 
           <label>
@@ -200,6 +179,42 @@ function MarkDown(props) {
     </>
   );
 }
+
+const addBlogDescriptionAndTitleAPI = (data) => {
+  return axios.post(`${baseURL}/blog/addBlogDescriptionAndTitle`, {
+    blogTitle: data.blogTitle,
+    blogDescription: data.blogDescription,
+    profileID: data.profileID,
+  });
+};
+
+const updateBlogDescriptionAndTitleAPI = (data) => {
+  return axios.patch(`${baseURL}/blog/updateBlogDescriptionAndTitle`, {
+    blogID: data.blogID,
+    blogTitle: data.blogTitle,
+    blogDescription: data.blogDescription,
+    profileID: data.profileID,
+  });
+};
+
+const markdownSchema = yup.object().shape({
+  blogTitle: yup
+    .string()
+    .required("Blog Title is required")
+    .min(6, "Blog Title should atleast be of 6 characters"),
+  blogDescription: yup
+    .string()
+    .required("Blog description is required")
+    .test(
+      "test-blog-words",
+      "Blog Description should alleast contain 200 words",
+      (value) => value.split(" ").filter(characterLike).length >= 200
+    )
+    .test("test-2", "Description must not contain any url", (value) => {
+      const hasUrl = value.split(" ").some((word) => isValidUrl(word));
+      return !hasUrl;
+    }),
+});
 
 const mapStateToProps = (state) => {
   console.log(state);

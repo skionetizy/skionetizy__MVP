@@ -12,7 +12,7 @@ export function linkedin({ url, description }) {
 
 export function whatsapp({ url, description }) {
   const params = new URLSearchParams({
-    phone: undefined,
+    phone: "",
     text: encodeURIComponent(
       description.substr(0, MAX_DESC) + "..." + encodeURIComponent(url)
     ),

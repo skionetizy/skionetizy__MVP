@@ -1,0 +1,36 @@
+.baseBadge {
+  padding: 0.5rem 1rem;
+  background-color: var(--bgc, #fff);
+  border: 0.1rem solid var(--text, #111);
+  border-radius: 999px;
+
+  color: var(--text, #111);
+}
+
+.local {
+  --bgc: #ffeaed;
+  --text: #aaa;
+}
+
+.cancelled {
+  --bgc: #ffeaed;
+  --text: #f3364d;
+}
+.published {
+  --bgc: #ecffea;
+  --text: #0cc914;
+}
+
+.in_review {
+  --bgc: #fffeea;
+  --text: #edc807;
+}
+
+.moderator_modifying {
+  --text: #8a06b8;
+  --bgc: #fceaff;
+}
+.drafted {
+  --text: #863800;
+  --bgc: #fff3ea;
+}
