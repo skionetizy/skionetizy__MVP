@@ -49,10 +49,10 @@ def token_required(f):
         
         try:
             data=jwt.decode(token,'SECRET_KEY',algorithms='HS256')
-            current_user=User.objects.get(emailID=data['emailID'])
+            current_profile=Profile.objects.get(profileID=data['profileID'])
         except:
             return make_response(jsonify({'message':'Token is Invalid'}),401)
-        return f(*args,**kwargs)
+        return f(current_profile,*args,**kwargs)
     return decorated
 
 class AuthorizeSignup(Resource):
@@ -105,16 +105,19 @@ class AuthorizeEmailVerification(Resource):
             return make_response(jsonify({"message":result,"status":500}))
         user= User.objects.get(emailID=result)
         if user:
-            user.update(isVerified=True)
-            user.save()
             p=Profile()
+            p.randomize()
+            print(p.profilePicImageURL)
+            print(p.profileBannerImageURL)
             u=user
             p.profileID=uuid.uuid4()
             p.userID=u.userID
-            p.randomize()
             p.profileName=u.firstName
+            print(u.emailID)
             p.profileUserName=u.emailID.split('@')[0].replace('.','_')
             p.save()
+            user.update(isVerified=True)
+            user.save()
             return make_response(jsonify({"user":user,"message":"User is now verified","status":200}))
         return make_response(jsonify({"message":"User verification failed","status":500}))
 
@@ -235,6 +238,7 @@ class GoogleAuth(Resource):
                 u.isVerified=True
                 u.save()
                 p=Profile()
+                p.randomize()
                 p.profileID=uuid.uuid4()
                 p.userID=u.userID
                 p.profilePicImageURL=picture
