@@ -15,8 +15,8 @@ import uuid
 import random
 
 class AddBlogDescriptionAndTitle(Resource):
-    
-    def post(self):
+    decorators=[authorize.token_required]
+    def post(self,current_profile):
         body = request.get_json()
         print(f"body: {body}")
         if len(body["blogTitle"])<=6:
@@ -33,23 +33,24 @@ class AddBlogDescriptionAndTitle(Resource):
             blogID = uuid.uuid4(),
             blogTitle=body["blogTitle"],
             blogDescription=body["blogDescription"],
-            profileID=body["profileID"],
+            profileID=current_profile.profileID,
             blogImageURL=blogImageURL
         )
-
         newBlog.save()
-
         return make_response(jsonify({"blog":newBlog,"statusCode":201,"success":True}))
 
 class UpdateBlogDescriptionAndText(Resource):
-    def patch(self):
+    decorators=[authorize.token_required]
+    def patch(self,current_profile):
         body = request.get_json()
 
         blogID = body["blogID"]
         
         blog = Blog.objects.get(blogID=blogID)
        
-        profileID=body['profileID']
+        profileID=current_profile.profileID
+        if blog.profileID!=profileID:
+            return make_response(jsonify({"Message":"Permission Denied"}),403)
         # if(userID!= blog['userID']):
         #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
 
@@ -291,7 +292,6 @@ class RemoveCommentonBlog(Resource):
         return make_response(jsonify({"message":"you have successfully removed comment on the blog","statusCode":"200","blog":blog,"success":True}),200)
 
 class GetBlogsAndProfileDetails(Resource):
-    decorators=[authorize.token_required]
     def get(self):
         # blogs=Blog.objects().exclude("blogDescription","comments","likedByUsersList","dislikedByUsersList")
         blogs=Blog.objects(blogStatus='PUBLISHED').exclude("comments","likedByUsersList","dislikedByUsersList","blogDescription")
@@ -390,7 +390,9 @@ class GetCommentsByBlogID(Resource):
         p=Profile.objects.get_or_404(profileID=blog.profileID)
         comments=blog.comments
         comments=[x.to_mongo().to_dict() for x in comments]
+        comments.sort(key=lambda x:x['timestamp'],reverse=True)
         for x in comments:
+            p=Profile.objects.get_or_404(profileID=x['profileID'])
             x['profilePicImageURL']=p.profilePicImageURL
             x['profileName']=p.profileName
         return jsonify({'comments':json.loads(json_util.dumps(comments)),'status_code':200,'success':'true'})

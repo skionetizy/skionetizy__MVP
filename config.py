@@ -3,6 +3,7 @@ import os
 
 class Config:
     DEBUG=False
+    SECRET_KEY='koijoU*(&&YHIGUYF'
     MAIL_SERVER=os.environ.get('MAIL_SERVER') or 'smtp.gmail.com'
     MAIL_USE_TLS=os.environ.get('MAIL_USE_TLS') or 0
     MAIL_USE_SSL=os.environ.get('MAIL_USE_SSL') or 1
