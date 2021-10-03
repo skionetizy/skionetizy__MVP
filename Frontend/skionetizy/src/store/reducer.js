@@ -7,6 +7,7 @@ const initialState = {
   slicedBlogs: [],
   filteredBlogs: [],
   profile: null,
+  markdownMode: "add",
 };
 
 export const AUTH = {
@@ -15,6 +16,12 @@ export const AUTH = {
 
 const Reducer = (state = initialState, action) => {
   switch (action.type) {
+    case "MARKDOWN_MODE":
+      return {
+        ...state,
+        markdownMode: action.payload,
+      };
+
     case "SAVE_USER_ID":
       // console.log({ userIDFromReducer: action.userID });
       return {

@@ -2,6 +2,10 @@
   margin: 0 auto;
   width: 95vw;
 }
+.white {
+  color: white;
+}
+
 .upload_page label {
   padding: 10px;
   background-color: #3498db;
@@ -12,30 +16,20 @@
 }
 .upload_page img {
   position: relative;
+  display: block;
   margin: 0 auto;
-  margin-left: -25%;
-  width: 60%;
+  width: 40%;
   height: 60%;
 }
 .upload-btn-wrapper {
   position: relative;
-  margin-left: 45%;
-  padding-top: 10%;
+  padding-top: 4rem;
 }
 
 .next {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  margin: 10rem 0;
+}
 
-  padding: 10px;
-  background-color: #3498db;
-  color: white;
-  padding: 0.5rem;
-  border-radius: 0.3rem;
-  border: transparent;
-  cursor: pointer;
-  margin: 150px 10px 20px 0;
-  text-decoration: none;
-  color: white;
+.next > * + * {
+  margin-left: 1rem;
 }

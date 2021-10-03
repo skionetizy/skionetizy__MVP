@@ -16,19 +16,24 @@ import styles from "./addBlogKeywords.module.css";
 import useAsync from "../hooks/useAsync";
 import * as yup from "yup";
 import useAuth from "../hooks/useAuth";
+import PublishBlogModal from "../Components/PublishBlogModal";
+import {
+  getMarkdownFromLocalStorage,
+  setMarkdownToLocalStorage,
+} from "./addBlogDetailsMarkdown";
+import { useSelector } from "react-redux";
 
 function AddBlogKeywords() {
-  const [blog] = useState(() =>
-    JSON.parse(localStorage.getItem(CURRENT_EDITING_BLOG))
-  );
-
+  const mode = useSelector((store) => store.markdownMode);
+  const [blog] = useState(() => getMarkdownFromLocalStorage(mode));
   const [keywords, setKeywords] = useState(
     () => blog?.metaData?.metaKeywords.split(",") || []
   );
   const [keywordValue, setKeywordValue] = useState("");
   const [keywordSearchValue, setKeywordSearchValue] = useState("");
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, profile } = useAuth();
   const history = useHistory();
+  const [message, setMessage] = useState("");
 
   const blogMutate = useMutate({
     mutateFn: () =>
@@ -42,17 +47,8 @@ function AddBlogKeywords() {
         .then((res) => res.data),
 
     onSuccess: () => {
-      localStorage.setItem(
-        CURRENT_EDITING_BLOG,
-        JSON.stringify({
-          ...blog,
-          metaData: {
-            metaTitle: blog.blogTitle,
-            metaDescription: blog.blogDescription.substr(0, 140),
-            metaKeywords: keywords.toString(),
-          },
-        })
-      );
+      setMarkdownToLocalStorage(mode, null);
+      setMessage("Published Blog");
     },
   });
 
@@ -78,10 +74,17 @@ function AddBlogKeywords() {
         return getKeywordsByAI({ blogDescription }).then(
           (r) => r.data.Keywords
         );
+      else return [];
     },
     [],
     [blogDescription]
   );
+
+  useEffect(() => {
+    if (message !== "") {
+      setTimeout(() => setMessage(""), 5000);
+    }
+  }, [message]);
 
   if (blog == null)
     return (
@@ -104,6 +107,7 @@ function AddBlogKeywords() {
   if (isLoggedIn === false) {
     history.push("/login");
   }
+
   return (
     <>
       <div className="center">
@@ -153,7 +157,7 @@ function AddBlogKeywords() {
                     setKeywordValue(ev.target.value);
                   }
                 }}
-                placeholder="Add tags"
+                placeholder="Ex. Delicious, Sea Food, Tuna Sushi Roll"
               />
             </form>
 
@@ -257,21 +261,38 @@ function AddBlogKeywords() {
           </div>
         </section>
 
+        {message && (
+          <p style={{ color: "white", margin: 0 }} className="center">
+            {message}
+          </p>
+        )}
+
         <div className={styles.actions}>
-          <Link
+          <Button
+            link
             className={styles.button}
-            to={`/${getLoggedInProfileUserName()}`}
+            to={`/${profile?.profileUserName}`}
           >
             Back to Profile
-          </Link>
+          </Button>
 
           <Button
             size="normal"
             variant="primary"
             isLoading={blogMutate.isLoading}
             onClick={blogMutate.mutate}
+            className={styles.button}
           >
-            Publish
+            Publish for Review
+          </Button>
+
+          <Button
+            className={styles.button}
+            size="normal"
+            variant="primary"
+            disabled
+          >
+            Publish for Draft
           </Button>
         </div>
       </div>

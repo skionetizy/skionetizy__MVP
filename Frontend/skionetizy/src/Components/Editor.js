@@ -30,6 +30,8 @@ const decorators = new CompositeDecorator([
 ]);
 
 export default function MyEditor({
+  shouldLoadData,
+  handleStopLoadData,
   onChange,
   onGrammarCheck = noop,
   className,
@@ -41,6 +43,7 @@ export default function MyEditor({
       decorators
     )
   );
+  const isFirstRender = useRef(true);
   const editorStateRef = useRef(text);
   const isEditing = useRef(false);
   const isInFocus = useRef(true);
@@ -108,8 +111,25 @@ export default function MyEditor({
   );
 
   useEffect(() => {
-    onChange?.(text.getCurrentContent().getPlainText());
+    if (!isFirstRender.current) {
+      onChange?.(text.getCurrentContent().getPlainText());
+    } else {
+      isFirstRender.current = false;
+    }
   }, [text]);
+
+  useEffect(() => {
+    if (shouldLoadData === true) {
+      isFirstRender.current = true;
+      setText(
+        EditorState.createWithContent(
+          ContentState.createFromText(initialData, "\\n"),
+          decorators
+        )
+      );
+      handleStopLoadData();
+    }
+  }, [shouldLoadData]);
 
   return (
     <div className={className}>

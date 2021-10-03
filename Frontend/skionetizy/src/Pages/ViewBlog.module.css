@@ -95,8 +95,8 @@
 
 .metaContent {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 3rem;
 }
 .viewIcon,
 .thumbUp,
@@ -107,14 +107,6 @@
 	top: 10px; */
   cursor: pointer;
 }
-/* .thumbUp:active,
-.thumbDown:active
- {
-	color: #162f63;
-} */
-.pushRight {
-  margin-left: 60em;
-}
 
 .viewCount,
 .likesCount,
@@ -124,6 +116,10 @@
 .likesCount {
   position: relative;
   top: 2px;
+}
+
+.views {
+  flex: 1;
 }
 
 .views,
