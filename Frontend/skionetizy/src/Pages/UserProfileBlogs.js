@@ -7,6 +7,10 @@ import ViewMore from "../Components/ViewMore";
 import baseURL from "../utils/baseURL";
 import clsx from "../utils/clsx";
 import style from "./UserProfileDrafts.module.css";
+import START_CREATING_BLOG_SRC from "../Assets/start_creating_blog.svg";
+import { Center } from "../Components/Layouts";
+import Button from "../Components/Button";
+import { useDispatch } from "react-redux";
 
 export default function UserProfileDrafts({ profile }) {
   const [status, setStatus] = useState("idle");
@@ -15,6 +19,7 @@ export default function UserProfileDrafts({ profile }) {
   const [hasMoreBlog, setHasMoreBlog] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
   const { profileUserName } = useParams();
+  const dispatch = useDispatch();
   console.log("hellow");
 
   useEffect(() => {
@@ -60,11 +65,42 @@ export default function UserProfileDrafts({ profile }) {
         <h2>My Blogs</h2>
       </div>
 
-      <div className={style.userBlogs}>
-        {blogs.map((blog, index) => (
-          <UserBlogsCard key={index} blog={blog} profile={profile} />
-        ))}
-      </div>
+      {status === "loading" ? (
+        <p className={style.loadingStatus}>
+          <Spinner />
+          &nbsp; Loading Blogs
+        </p>
+      ) : blogs.length > 0 ? (
+        <div className={style.noBlogWrapper}>
+          <p className="center">No Blogs Yet..</p>
+
+          <img
+            src={START_CREATING_BLOG_SRC}
+            className={style.noBlogIllustration}
+            alt="user taking a holographical post summary card by hand and pasting on blog feed holographic wall"
+          />
+
+          <p className="center">Start creating. click on the button</p>
+
+          <Center>
+            <Button
+              link
+              to="/addBlogDetailsMarkdown"
+              onClick={() => {
+                dispatch({ type: "MARKDOWN_MODE", payload: "add" });
+              }}
+            >
+              Add Blog
+            </Button>
+          </Center>
+        </div>
+      ) : (
+        <div className={style.userBlogs}>
+          {blogs.map((blog, index) => (
+            <UserBlogsCard key={index} blog={blog} profile={profile} />
+          ))}
+        </div>
+      )}
 
       <div
         className={clsx(
