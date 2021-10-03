@@ -30,6 +30,7 @@ function MarkDown(props) {
   const auth = useAuth();
   const [shouldLoadData, setShouldLoadData] = useState(false);
   const isFirstRender = useRef(true);
+  const { isLoggedIn } = useAuth();
 
   const handleUpload = async (e) => {
     console.log("handleUpload");
@@ -111,6 +112,11 @@ function MarkDown(props) {
       isFirstRender.current = false;
     }
   }, [mode]);
+
+  if (!isLoggedIn) {
+    history.push("/login");
+    return;
+  }
 
   return (
     <>

@@ -70,7 +70,7 @@ export default function UserProfileDrafts({ profile }) {
           <Spinner />
           &nbsp; Loading Blogs
         </p>
-      ) : blogs.length > 0 ? (
+      ) : blogs.length === 0 ? (
         <div className={style.noBlogWrapper}>
           <p className="center">No Blogs Yet..</p>
 

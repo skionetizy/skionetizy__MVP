@@ -123,7 +123,9 @@ function Upload() {
           </p>
         </Center>
 
-        <Divider className="white">Or</Divider>
+        <Center>
+          <Divider className="white divider">Or</Divider>
+        </Center>
 
         <Center>
           <Button
