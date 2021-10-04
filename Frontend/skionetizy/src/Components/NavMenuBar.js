@@ -112,14 +112,9 @@ function NavMenuBar(props) {
             </NavLink>
           </li>
           <li>
-            <a
-              className={styles.link}
-              href="http://skionetizy-staging.herokuapp.com/"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
+            <Link className={styles.link} to="/landing">
               About Us
-            </a>
+            </Link>
           </li>
           <li>
             <a

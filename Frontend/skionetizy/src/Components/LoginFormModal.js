@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { sendGoogleAuthCode } from "../API/oauthAPIHandler";
 import Vector from "../Assets/bro.svg";
 import { createAuthURL } from "../auth/googleOauth";
+import useAuth from "../hooks/useAuth";
 import LoginForm from "./LoginForm";
 import styles from "./LoginFormModal.module.css";
 import Modal from "./Modal";
@@ -15,6 +15,7 @@ function LoginFormModal({ ...props }) {
     utmSource: "blog",
     redirectURL: window.location.pathname,
   });
+  const { googleOAuth } = useAuth();
   const { state } = useLocation();
 
   useEffect(() => {
@@ -23,7 +24,7 @@ function LoginFormModal({ ...props }) {
       // clearing react router state
       window.history.replaceState({}, document.title);
       setStatus("loading");
-      sendGoogleAuthCode({ callbackURL })
+      googleOAuth({ callbackURL })
         .then((userData) => {
           const { userID, emailID } = userData.user;
           const profileID = userData.profile?.profileID;
