@@ -77,7 +77,11 @@ export default function FollowButton({
       disabled={isLoading || isProfileLoading}
       {...props}
     >
-      {isProfileLoading ? "Loading..." : isFollowing ? "Following" : "Follow"}
+      {isProfileLoading
+        ? "Loading..."
+        : isFollowing
+        ? "Subscribed"
+        : "Subscribe"}
     </button>
   );
 }

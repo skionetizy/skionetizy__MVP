@@ -60,6 +60,20 @@
   left: calc(var(--space) * -1);
 }
 
+.noBlogWrapper {
+  color: #fff;
+}
+
+.noBlogWrapper > * + * {
+  margin-top: 2rem;
+}
+
+.loadingStatus {
+  width: max-content;
+  margin: 0 auto;
+  color: white;
+}
+
 .userBlogs > * + * {
   margin-top: 6rem;
 }
@@ -106,5 +120,11 @@
   .bottomDivider::after {
     bottom: 3rem;
     left: calc(var(--space) * -1);
+  }
+  .noBlogIllustration {
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+    max-width: 46.375rem;
   }
 }

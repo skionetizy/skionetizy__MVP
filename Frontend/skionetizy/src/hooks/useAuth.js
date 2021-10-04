@@ -1,16 +1,17 @@
-import React, { useEffect, useReducer, useState } from "react";
-import { sendLogin } from "../API/userAPIHandler";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { sendGoogleAuthCode } from "../API/oauthAPIHandler";
 import {
   getHoverProfileDetails,
   getProfileDetailsAPIHandler,
 } from "../API/profileAPIHandler";
-import { useDispatch, useSelector } from "react-redux";
+import { sendLogin } from "../API/userAPIHandler";
 import { AUTH } from "../store/reducer";
 import {
   AUTHORIZATION_HEADER,
   LOGGED_IN_PROFILE_ID,
 } from "../utils/localStorageKeys";
-import axios from "axios";
 
 function useAuth() {
   const dispatch = useDispatch();
@@ -33,6 +34,23 @@ function useAuth() {
     localStorage.setItem(AUTHORIZATION_HEADER, token);
     localStorage.setItem(LOGGED_IN_PROFILE_ID, profileID);
     saveProfile(profileID);
+
+    return res;
+  }
+
+  async function googleOAuth(body) {
+    const res = await sendGoogleAuthCode(body);
+    const { profile, token } = res;
+
+    axios.defaults.headers["Authorization"] = token;
+    setToken(token);
+    localStorage.setItem(AUTHORIZATION_HEADER, token);
+    localStorage.setItem(LOGGED_IN_PROFILE_ID, profile.profileID);
+
+    dispatch({
+      type: AUTH.SAVE_PROFILE,
+      payload: profile,
+    });
 
     return res;
   }
@@ -73,7 +91,7 @@ function useAuth() {
     if (profileID) saveProfile(profileID);
   }, []);
 
-  return { profile, login, logout, isLoggedIn: !!profile, token };
+  return { profile, login, logout, isLoggedIn: !!profile, token, googleOAuth };
 }
 
 export default useAuth;

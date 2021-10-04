@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaBars, FaSearch } from "react-icons/fa";
-import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
+import { connect, useDispatch } from "react-redux";
+import { Link, NavLink, withRouter } from "react-router-dom";
 import LogoIcon from "../Assets/logo.svg";
 import useAuth from "../hooks/useAuth";
 import useDebounceGeneral from "../hooks/useDebounceGeneral";
@@ -18,6 +18,7 @@ function NavMenuBar(props) {
 
   const [searchInput, setSearchInput] = useState("");
   const [filteredBlogs, setFilteredBlogs] = useState("");
+  const dispatch = useDispatch();
 
   const handleSearchInput = (e) => {
     setSearchInput(e.target.value);
@@ -89,27 +90,31 @@ function NavMenuBar(props) {
       >
         <ul className={styles.links}>
           <li>
-            <Link className={styles.link} to="/">
+            <NavLink
+              exact
+              activeClassName={styles.linkHighlight}
+              className={styles.link}
+              to="/"
+            >
               Read Blogs
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
+              activeClassName={styles.linkHighlight}
               className={styles.link}
               to={isLoggedIn ? "/addBlogDetailsMarkdown" : "/login"}
+              onClick={() => {
+                dispatch({ type: "MARKDOWN_MODE", payload: "add" });
+              }}
             >
               Add Blog
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <a
-              className={styles.link}
-              href="http://skionetizy-staging.herokuapp.com/"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
+            <Link className={styles.link} to="/landing">
               About Us
-            </a>
+            </Link>
           </li>
           <li>
             <a
@@ -127,9 +132,13 @@ function NavMenuBar(props) {
         </ul>
 
         {!isLoggedIn && (
-          <Link className={clsx(styles.link, styles.rightItem)} to="/login">
+          <NavLink
+            activeClassName={styles.linkHighlight}
+            className={clsx(styles.link, styles.rightItem)}
+            to="/login"
+          >
             Login
-          </Link>
+          </NavLink>
         )}
       </nav>
     </>

@@ -107,10 +107,7 @@
 }
 
 .linkHighlight {
-  padding: 0.5rem 0.75rem;
   background-color: var(--primary-blue);
-
-  border-radius: 0.625rem;
 }
 
 .rightItem {

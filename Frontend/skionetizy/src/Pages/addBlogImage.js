@@ -1,21 +1,29 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import BlogSteps from "../Components/BlogSteps";
 import Spinner from "../Components/Spinner";
 import useAuth from "../hooks/useAuth";
 import baseURL from "../utils/baseURL";
 import { CURRENT_EDITING_BLOG } from "../utils/localStorageKeys";
+import Divider from "../Components/Divider";
+import { FcGoogle } from "react-icons/fc";
 import validateImage from "../utils/validateImage";
+import Button from "../Components/Button";
+import {
+  setMarkdownToLocalStorage,
+  getMarkdownFromLocalStorage,
+} from "./addBlogDetailsMarkdown";
 import "./addBlogImage.css";
+import { Center } from "../Components/Layouts";
+import { useSelector } from "react-redux";
 
 function Upload() {
   const [uploaded, setUploaded] = useState(false);
   const [proImage, setProImage] = useState();
   const [formData, setFormData] = useState("");
   const [success, setSuccess] = useState(false);
-  const [data, setData] = useState(
-    () => JSON.parse(localStorage.getItem(CURRENT_EDITING_BLOG)) || {}
-  );
+  const mode = useSelector((store) => store.markdownMode);
+  const [data] = useState(() => getMarkdownFromLocalStorage(mode));
   const [isLoading, setIsLoading] = useState(false);
   const auth = useAuth();
 
@@ -49,29 +57,30 @@ function Upload() {
       e.preventDefault();
 
       console.log({ body: formData });
-
+      if (uploaded === false) throw new Error("Select a image to upload");
+      if (formData.get("blogID") != null)
+        throw new Error(
+          "Your blog is currently local only. Please publish before uploading image"
+        );
       const response = await fetch(url, {
         method: "PATCH",
         body: formData,
       });
 
       console.log(response);
+
       if (!response.ok) throw new Error("Image Upload Failed");
       const data = await response.json();
 
       if (data.success !== true) throw new Error("Image Upload Failed");
 
-      localStorage.setItem(
-        CURRENT_EDITING_BLOG,
-        JSON.stringify({
-          ...data.blog,
-          blogImageURL: data.blog.blogImageURL,
-        })
-      );
+      setMarkdownToLocalStorage(mode, {
+        ...data.blog,
+        blogImageURL: data.blog.blogImageURL,
+      });
 
       setIsLoading(false);
       setSuccess(true);
-      history.push("/addBlogKeywords");
     } catch (error) {
       alert(error.message);
       console.log(error);
@@ -84,49 +93,89 @@ function Upload() {
   }
 
   return (
-    <div className="upload_page">
+    <div className="upload_page white">
       <div className="center">
         <BlogSteps noOfSteps={3} currentStep={2} />
       </div>
+
+      <p className="center">Choose a 1920x1080 size image</p>
+
       <div className="upload-btn-wrapper">
-        <img src={proImage || data.blogImageURL} alt="Blog Hero Thumbnail" />
-        <br />
-        <input
-          type="file"
-          onChange={(e) => handleProfile(e)}
-          id="actual-btn"
-          hidden
-          name="file"
-        />
-        <br />
-        <label
-          htmlFor="actual-btn"
-          style={{ visibility: uploaded ? "hidden" : "block" }}
-        >
-          {"Choose a file"}
-        </label>
-        <br />
-        {/* {uploaded && ( */}
-        <div>
-          {success && (
+        {proImage || data.blogImageURL ? (
+          <img src={proImage || data.blogImageURL} alt="Blog Hero Thumbnail" />
+        ) : null}
+
+        <Center>
+          <p>
+            <input
+              type="file"
+              onChange={(e) => handleProfile(e)}
+              id="actual-btn"
+              hidden
+              name="file"
+            />
+            <label
+              htmlFor="actual-btn"
+              style={{ visibility: uploaded ? "hidden" : "block" }}
+            >
+              Choose a Thumbnail
+            </label>
+          </p>
+        </Center>
+
+        <Center>
+          <Divider className="white divider">Or</Divider>
+        </Center>
+
+        <Center>
+          <Button
+            link
+            isExternalLink
+            target="_blank"
+            rel="noopener noreferrer"
+            to="https://www.google.com/search?q=1920x1080+thumbnail&sxsrf=AOaemvLa0vDPE71muIofWUlbGVO4uQ7bMg:1633242634540&source=lnms&tbm=isch&sa=X&ved=2ahUKEwi_yMD4zq3zAhWPyTgGHU4tCoYQ_AUoAXoECAEQAw&biw=1280&bih=595&dpr=1.5"
+            variant="secondary"
+          >
+            <FcGoogle fontSize="1.2em" />
+            &nbsp; Search For Thumbnail
+          </Button>
+        </Center>
+
+        {success && (
+          <div>
             <h2
-              style={{ position: "relative", left: "-12%", color: "#3498db" }}
+              style={{
+                position: "relative",
+                left: "-12%",
+                color: "#3498db",
+              }}
             >
               Uploaded successfully
             </h2>
-          )}
+          </div>
+        )}
 
-          <button onClick={handlePublishBlog} className="next">
-            {isLoading ? (
-              <>
-                <Spinner /> Saving
-              </>
-            ) : (
-              "Next"
-            )}
-          </button>
-        </div>
-        {/* )} */}
+        <Center>
+          <div className="next">
+            <Button onClick={handlePublishBlog}>
+              {isLoading ? (
+                <>
+                  <Spinner /> Uploading
+                </>
+              ) : (
+                "Upload"
+              )}
+            </Button>
+
+            <Button
+              disabled={isLoading}
+              variant="primary"
+              onClick={() => history.push("/addBlogKeywords")}
+            >
+              Next
+            </Button>
+          </div>
+        </Center>
       </div>
     </div>
   );

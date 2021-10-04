@@ -218,7 +218,7 @@ const UserProfile = () => {
               </div>
               <PeopleOutlineIcon className={style.followIcon} />
               <div className={style.follow}>
-                <small>Followers</small>
+                <small>Subscribers</small>
                 <h1>{profile.FollowersCount}</h1>
               </div>
             </div>

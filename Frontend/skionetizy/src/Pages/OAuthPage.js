@@ -1,18 +1,18 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { sendGoogleAuthCode } from "../API/oauthAPIHandler";
-import Spinner from "../Components/Spinner";
-import styles from "./OAuth.module.css";
 import { useHistory } from "react-router-dom";
+import Spinner from "../Components/Spinner";
+import useAuth from "../hooks/useAuth";
+import styles from "./OAuth.module.css";
 
 export default function OAuthPage() {
   const [error, setError] = useState("");
   const [status, setStatus] = useState("idle");
   const history = useHistory();
+  const { googleOAuth } = useAuth();
 
   useLayoutEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const { utmSource, redirectURL } = JSON.parse(params.get("state") || "{}");
-    console.log({ utmSource, redirectURL });
     if (utmSource === "blog") {
       history.push(redirectURL, { callbackURL: window.location.toString() });
     }
@@ -22,16 +22,8 @@ export default function OAuthPage() {
     const callbackURL = window.location.toString();
 
     setStatus("loading");
-    sendGoogleAuthCode({ callbackURL })
+    googleOAuth({ callbackURL })
       .then(({ user, profile }) => {
-        const { userID, emailID } = user;
-        const { profileID } = profile;
-        localStorage.setItem("userID", JSON.stringify(userID));
-        localStorage.setItem("profileID", profileID);
-        localStorage.setItem(
-          "profileUserName",
-          JSON.stringify(emailID.replace(/\./g, "_").split("@")[0])
-        );
         setStatus("success");
 
         setTimeout(() => {

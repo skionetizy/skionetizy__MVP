@@ -17,3 +17,45 @@
 .wrapper::after {
   opacity: 1;
 }
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headTitle {
+  flex: 1;
+  font-size: 1.25rem;
+}
+
+.closeBtn {
+  flex: none;
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  color: inherit;
+  background: none;
+  border: none;
+  border-radius: 999px;
+
+  /* make children's text center vertically center  */
+  line-height: 0;
+  transition: transform 250ms ease-in-out;
+  cursor: pointer;
+}
+
+.closeBtn:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+  transform: rotate(90deg);
+}
+
+.body {
+  min-width: 30rem;
+  padding: 1rem 1.25rem;
+
+  background-color: var(--primary-blue, skyblue);
+  border-radius: 1rem;
+  color: #fff;
+}

@@ -401,8 +401,7 @@ const ViewBlog = () => {
                   <small className={style.authorName}>{blog.profileName}</small>
                 </Link>
                 <small className={style.publishedDate}>
-                  Published on
-                  <Moment>{blog?.timestamp?.$date}</Moment>
+                  Published on <Moment>{blog?.timestamp?.$date}</Moment>
                 </small>
               </div>
             </div>
@@ -459,27 +458,21 @@ const ViewBlog = () => {
           <div className={style.metaContent}>
             <div className={style.views}>
               <span className={style.viewCount}>{blog.viewCount}</span>
-
               <VisibilityIcon fontSize="large" className={style.viewIcon} />
             </div>
-            <div className={`${style.pushRight} ${style.likes}`}>
+
+            <div className={`${style.likes}`}>
               <span className={style.likesCount}>{blog.likesCount}</span>
               <div className={style.thumbUp} onClick={handleLike}>
                 {hasLikedIcon}
               </div>
             </div>
+
             <div className={style.dislikes}>
               <span className={style.dislikesCount}>{blog.dislikesCount}</span>
               <div className={style.thumbDown} onClick={handleDislike}>
                 {hasDislikedIcon}
               </div>
-              {console.log({
-                intheAppLiked: hasLiked,
-                intheAppDiskLiked: hasDisliked,
-                blogInApp: blog,
-                inTheAppBlogLikesCount: blog.likesCount,
-                intheAppBlogDislikes: blog.dislikesCount,
-              })}
             </div>
           </div>
         </div>
