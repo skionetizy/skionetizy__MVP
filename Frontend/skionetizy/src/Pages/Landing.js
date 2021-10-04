@@ -11,8 +11,11 @@ import Frame2 from "../Assets/landing-page/frame-2.svg";
 import Frame3 from "../Assets/landing-page/frame-3.svg";
 import Frame4 from "../Assets/landing-page/frame-4.svg";
 import Frame5 from "../Assets/landing-page/frame-5.svg";
+import useAuth from "../hooks/useAuth";
 
 function Homepage() {
+  const { isLoggedIn } = useAuth();
+
   return (
     <>
       <main className={styles.wrapper}>
@@ -39,8 +42,8 @@ function Homepage() {
               </p>
             </div>
 
-            <Link to="/contact-us">
-              <Button variant="primary">Contact Us</Button>
+            <Link to={isLoggedIn ? "/" : "/login"}>
+              <Button variant="primary">Get Started</Button>
             </Link>
           </div>
         </div>
@@ -91,11 +94,11 @@ function Homepage() {
           </p>
 
           <div className={styles["subscribe-form__control"]}>
-            <Link to="/subscribe">
+            <a href="/subscribe">
               <Button variant="dark" type="button">
                 Subscribe
               </Button>
-            </Link>
+            </a>
 
             <Button variant="none" type="button">
               Demo
@@ -208,7 +211,7 @@ function Homepage() {
 
           <div className={styles["subscribe-form__control"]}>
             <div class="donateBtn">
-              <Donate />
+              <Donate variant="primary">Support Us</Donate>
             </div>
           </div>
         </div>

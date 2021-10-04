@@ -1,22 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
-
-import style from "../Pages/detailsPage.module.css";
-import Vector from "../Assets/bro.svg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-
-import {
-  checkProfileUsernameIsAvailableAPIHandler,
-  addProfileUsernameBioUserDetailsAPIHandler,
-} from "../API/profileAPIHandler";
-import baseURL from "../utils/baseURL";
+import React, { useEffect, useState } from "react";
+import { connect, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { checkProfileUsernameIsAvailableAPIHandler } from "../API/profileAPIHandler";
+import Vector from "../Assets/bro.svg";
 import useDebounceGeneral from "../hooks/useDebounceGeneral";
-import { getLoggedInUserID } from "../utils/AuthorisationUtils";
+import style from "../Pages/detailsPage.module.css";
+import { AUTH } from "../store/reducer";
+import baseURL from "../utils/baseURL";
 
 const DetailsPage = (props) => {
   const [details, setDetails] = useState({
@@ -29,7 +22,9 @@ const DetailsPage = (props) => {
 
   // console.log({ profileUserNameBeforeUseDebounce: details.profileUserName });
   const debounceData = useDebounceGeneral(details.profileUserName, 5000); //2seconds
+  const dispatch = useDispatch();
   console.log({ profileUserNameAfterUseDebounce: debounceData });
+  const history = useHistory();
 
   useEffect(() => {
     console.log("entered debounce useEffect");
@@ -74,14 +69,15 @@ const DetailsPage = (props) => {
     };
     console.log({ newDataInDetails: newData });
 
-    validateSpaceInUsername() &&
+    !validateSpaceInUsername() &&
       axios
         .post(`${baseURL}/profile/addProfileUsernameBioUserDetails/`, {
           ...newData,
         })
         .then((res) => {
           console.log("Success:", res.data);
-          <Redirect to="/login" />;
+          dispatch({ type: AUTH.SAVE_PROFILE, payload: res.data.profile });
+          history.push("/");
         })
         .catch((error) => {
           console.error("Error:", error);

@@ -1,10 +1,12 @@
 import React from "react";
 import { FiEdit2 } from "react-icons/fi";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import BlogStatusBadge from "../Components/BlogStatusBadge";
 import styles from "./UserBlogsCard.module.css";
 
 export default function UserBlogsCard({ blog, profile }) {
+  const dispatch = useDispatch();
   const { blogImageURL, blogTitle, blogDescription, blogStatus, timestamp } =
     blog;
   const { profilePicImageURL, profileName } = profile;
@@ -54,6 +56,7 @@ export default function UserBlogsCard({ blog, profile }) {
       <Link
         to="/addBlogDetailsMarkdown"
         onClick={() => {
+          dispatch({ type: "MARKDOWN_MODE", payload: "update" });
           localStorage.setItem("CURRENT_EDITING_BLOG", JSON.stringify(blog));
         }}
         className={styles.editDraftBtn}

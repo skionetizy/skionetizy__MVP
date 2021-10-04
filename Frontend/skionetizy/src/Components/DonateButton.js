@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Button from "../Components/Button";
 
-function DonateButton({ className, children }) {
+function DonateButton({ children }) {
   /**
    * @type {{ current: HTMLFormElement }}
    */
@@ -19,10 +19,11 @@ function DonateButton({ className, children }) {
   }, []);
   return (
     <>
-      <div className={className}>
+      <div>
         <form ref={formRef} className="hidden" id="donate"></form>
       </div>
       <Button
+        variant="secondary"
         onClick={() =>
           formRef.current?.getElementsByTagName("a")?.item(0)?.click()
         }
