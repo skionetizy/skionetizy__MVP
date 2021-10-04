@@ -231,7 +231,10 @@ class GoogleAuth(Resource):
                 #New User
                 u=User()
                 u.firstName=userinfo_response.json()["given_name"]
-                u.lastName=userinfo_response.json()["family_name"]
+                try:
+                    u.lastName=userinfo_response.json()["family_name"]
+                except:
+                    u.lastName=''
                 u.emailID=users_email
                 u.password="LOGGEDINWITHGOOGLE"
                 u.hash_password()
