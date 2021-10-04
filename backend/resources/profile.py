@@ -7,8 +7,9 @@ import uuid
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 from bson import json_util
+from mongoengine.queryset.visitor import Q
 from backend.database.models import Profile,Blog
-
+from backend.resources import authorize
 # from datetime import datetime
 
 class AddProfileUsernameBioUserDetails(Resource):
@@ -204,3 +205,19 @@ class GetHoverDetails(Resource):
     def get(self,profileID):
         p=Profile.objects(profileID=profileID).only('profilePicImageURL','profileBannerImageURL','profileName','profileUserName')
         return jsonify({'details':p[0]})
+
+class AddInterest(Resource):
+    decorators=[authorize.token_required]
+    def post(self,current_profile):
+        body=request.get_json()
+        interests=body['interests']
+        current_profile.interests.extend(interests)
+        current_profile.save()
+        return make_response(jsonify({'Message':'Successfully Added Interests'}),200)
+    
+    def patch(self,current_profile):
+        body=request.get_json()
+        interests=body['interests']
+        current_profile.interests.extend(interests)
+        current_profile.save()
+        return make_response(jsonify({'Message':'Successfully Modified Interests'}),200)

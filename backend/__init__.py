@@ -38,7 +38,7 @@ api = Api(app)
 env_config = os.environ.get("APP_SETTINGS") or "DevelopmentConfig"
 app.config.from_object("config."+env_config)
 mail=Mail(app)
-DB_URI='mongodb+srv://rohandevaki:joOlDai1Ey0ccazD@cluster0.gnqpe.mongodb.net/skionetizymvp?retryWrites=true&w=majority'
+DB_URI='mongodb+srv://rohandevaki:joOlDai1Ey0ccazD@cluster0.gnqpe.mongodb.net/skionetizymvp?ssl=true&ssl_cert_reqs=CERT_NONE&retryWrites=true&w=majority'
 client=''
 try:
     if(os.environ.get('USE_GADS')):
