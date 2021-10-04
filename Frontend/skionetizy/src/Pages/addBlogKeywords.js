@@ -34,14 +34,16 @@ function AddBlogKeywords() {
   const { isLoggedIn, profile } = useAuth();
   const history = useHistory();
   const [message, setMessage] = useState("");
+  const [showLoadingToBtn, setShowLoadingToBtn] = useState("");
 
   const blogMutate = useMutate({
-    mutateFn: () =>
+    mutateFn: (type) =>
       blogKeywordsSchemaValidate({
         blogID: blog.blogID,
         metaTitle: blog.blogTitle,
         metaDescription: blog.blogDescription.substr(0, 140),
         metaKeywords: keywords.filter(Boolean).toString(),
+        type,
       })
         .then((data) => addKeywords(data))
         .then((res) => res.data),
@@ -279,8 +281,12 @@ function AddBlogKeywords() {
           <Button
             size="normal"
             variant="primary"
-            isLoading={blogMutate.isLoading}
-            onClick={blogMutate.mutate}
+            isLoading={showLoadingToBtn === "REVIEW" && blogMutate.isLoading}
+            disabled={blogMutate.isLoading}
+            onClick={() => {
+              setShowLoadingToBtn("REVIEW");
+              blogMutate.mutate("REVIEW");
+            }}
             className={styles.button}
           >
             Publish for Review
@@ -290,7 +296,12 @@ function AddBlogKeywords() {
             className={styles.button}
             size="normal"
             variant="primary"
-            disabled
+            isLoading={showLoadingToBtn === "DRAFTED" && blogMutate.isLoading}
+            disabled={blogMutate.isLoading}
+            onClick={() => {
+              setShowLoadingToBtn("DRAFTED");
+              blogMutate.mutate("DRAFTED");
+            }}
           >
             Publish for Draft
           </Button>
@@ -307,6 +318,7 @@ const blogKeywordsSchemaValidate = (data) =>
       metaTitle: yup.string().min(6).required(),
       metaDescription: yup.string().min(50).required(),
       metaKeywords: yup.string().min(20).required(),
+      type: yup.string().required().oneOf(["DRAFTED", "REVIEW"]),
     })
     .validate(data, {
       stripUnknown: true,
