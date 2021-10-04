@@ -223,8 +223,10 @@ class GoogleAuth(Resource):
         
             if User.objects(emailID=users_email).first():
                 #Existing User
+                user=User.objects(emailID=users_email).first()
                 profile=Profile.objects.get(userID=User.objects(emailID=users_email).first().userID)
-                return make_response(jsonify({'user':User.objects.get(emailID=users_email),'profile':profile,'sucess':True}))
+                token=user.encode_signin_token()
+                return make_response(jsonify({'token':token,'user':User.objects.get(emailID=users_email),'profile':profile,'sucess':True}))
             else:
                 #New User
                 u=User()
@@ -245,7 +247,8 @@ class GoogleAuth(Resource):
                 p.profileName=userinfo_response.json()["name"]
                 p.profileUserName=u.emailID.split('@')[0].replace('.','_')
                 p.save()
-                return make_response(jsonify({'user':u,'profile':p,'success':1}))                
+                token=u.encode_signin_token()
+                return make_response(jsonify({'token':token,'user':u,'profile':p,'success':1}))                
         else:
             return make_response(jsonify({"Message":"User email not available or not verified by Google."}))
             # first_name=users_name.split()[0]
