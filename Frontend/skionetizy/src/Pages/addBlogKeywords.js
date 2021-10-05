@@ -281,7 +281,7 @@ function AddBlogKeywords() {
           <Button
             size="normal"
             variant="primary"
-            isLoading={showLoadingToBtn === "REVIEW" && blogMutate.isLoading}
+            isLoading={showLoadingToBtn === "IN_REVIEW" && blogMutate.isLoading}
             disabled={blogMutate.isLoading}
             onClick={() => {
               setShowLoadingToBtn("IN_REVIEW");
@@ -318,7 +318,7 @@ const blogKeywordsSchemaValidate = (data) =>
       metaTitle: yup.string().min(6).required(),
       metaDescription: yup.string().min(50).required(),
       metaKeywords: yup.string().min(20).required(),
-      type: yup.string().required().oneOf(["DRAFTED", "REVIEW"]),
+      type: yup.string().required().oneOf(["DRAFTED", "IN_REVIEW"]),
     })
     .validate(data, {
       stripUnknown: true,
