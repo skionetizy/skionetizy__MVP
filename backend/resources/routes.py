@@ -16,7 +16,7 @@ def initialize_routes(api):
     api.add_resource(getUserDetails,'/user/getUserDetails/<userID>')
     #______blog-routes________
     #post
-    api.add_resource(AddBlogDescriptionAndTitle,'/blog/addBlogDescriptionAndTitle/<type>')
+    api.add_resource(AddBlogDescriptionAndTitle,'/blog/addBlogDescriptionAndTitle')
     api.add_resource(AddBlogImage,'/blog/addBlogImage')
     #patch
     api.add_resource(UpdateBlogDescriptionAndText,'/blog/updateBlogDescriptionAndTitle')
