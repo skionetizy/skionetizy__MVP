@@ -45,7 +45,7 @@ class AddProfileUsernameBioUserDetails(Resource):
             profileGender=body['profileGender']
         )
         
-        newProfile.save()
+        #newProfile.save()
 
         return make_response(jsonify({"profile":newProfile,"statusCode":201,"success":True}))
     
