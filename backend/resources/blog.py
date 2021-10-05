@@ -44,7 +44,6 @@ class UpdateBlogDescriptionAndText(Resource):
         body = request.get_json()
 
         blogID = body["blogID"]
-        
         blog = Blog.objects.get(blogID=blogID)
        
         profileID=current_profile.profileID
@@ -52,14 +51,24 @@ class UpdateBlogDescriptionAndText(Resource):
             return make_response(jsonify({"Message":"Permission Denied"}),403)
         # if(userID!= blog['userID']):
         #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
+        try:
+            blog.update(
+                blogTitle=body["blogTitle"],
+                blogDescription=body["blogDescription"],
+                blogStatus=body["type"]
+            )
+            blog.save()
+            blog=Blog.objects.get(blogID=blog.blogID)
+            return make_response(jsonify({"blog":blog,"statusCode":200,"success":True}))
+        except:
+            blog.update(
+                blogTitle=body["blogTitle"],
+                blogDescription=body["blogDescription"]
+            )
+            blog.save()
+            blog=Blog.objects.get(blogID=blog.blogID)
+            return make_response(jsonify({"blog":blog,"statusCode":200,"success":True}))
 
-        blog.update(
-            blogTitle=body["blogTitle"],
-            blogDescription=body["blogDescription"]
-        )
-        blog.save()
-        blog=Blog.objects.get(blogID=blog.blogID)
-        return make_response(jsonify({"blog":blog,"statusCode":200,"success":True}))
     
 class AddBlogImage(Resource):
     def patch(self):
@@ -482,6 +491,7 @@ class AddMetaData(Resource):
     def post(self):
         body=request.get_json()
         blogID=body['blogID']
+        type_=body['type']
         blog=Blog.objects.get_or_404(blogID=blogID)
         m=MetaData()
         m.metaID=uuid.uuid4()
@@ -495,6 +505,7 @@ class AddMetaData(Resource):
         m.metaDescription=body['metaDescription']
         m.metaKeywords=body['metaKeywords']
         blog.metaData=m
+        blog.blogStatus=type_
         blog.save()
         return make_response(jsonify({'Message':"Successfull"}),200)
     
