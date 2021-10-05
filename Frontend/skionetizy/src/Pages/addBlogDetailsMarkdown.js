@@ -43,6 +43,7 @@ function MarkDown(props) {
       const payloadData = {
         ...validatedData,
         profileID: auth.profile?.profileID,
+        type: data.type || "DRAFTED",
       };
 
       setErrors({});
@@ -206,20 +207,11 @@ function MarkDown(props) {
 }
 
 const addBlogDescriptionAndTitleAPI = (data) => {
-  return axios.post(`${baseURL}/blog/addBlogDescriptionAndTitle`, {
-    blogTitle: data.blogTitle,
-    blogDescription: data.blogDescription,
-    profileID: data.profileID,
-  });
+  return axios.post(`${baseURL}/blog/addBlogDescriptionAndTitle`, data);
 };
 
 const updateBlogDescriptionAndTitleAPI = (data) => {
-  return axios.patch(`${baseURL}/blog/updateBlogDescriptionAndTitle`, {
-    blogID: data.blogID,
-    blogTitle: data.blogTitle,
-    blogDescription: data.blogDescription,
-    profileID: data.profileID,
-  });
+  return axios.patch(`${baseURL}/blog/updateBlogDescriptionAndTitle`, data);
 };
 
 const markdownSchema = yup.object().shape({

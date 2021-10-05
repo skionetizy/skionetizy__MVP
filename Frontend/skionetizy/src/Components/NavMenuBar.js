@@ -54,7 +54,7 @@ function NavMenuBar(props) {
 
   return (
     <>
-      <header className={styles.header}>
+      <div className={styles.grid}>
         <button
           className={styles.hamburger}
           onClick={() => setIsMenuOpen((p) => !p)}
@@ -79,8 +79,10 @@ function NavMenuBar(props) {
           </button>
         </form>
 
-        <ProfileDropdown />
-      </header>
+        <div className={styles.profile}>
+          <ProfileDropdown />
+        </div>
+      </div>
 
       <nav
         className={clsx(
@@ -88,6 +90,8 @@ function NavMenuBar(props) {
           isMenuOpen ? styles.navOpen : styles.navClose
         )}
       >
+        <div></div>
+
         <ul className={styles.links}>
           <li>
             <NavLink
@@ -134,7 +138,7 @@ function NavMenuBar(props) {
         {!isLoggedIn && (
           <NavLink
             activeClassName={styles.linkHighlight}
-            className={clsx(styles.link, styles.rightItem)}
+            className={clsx(styles.link, styles.rightItem, styles.loginBtn)}
             to="/login"
           >
             Login
