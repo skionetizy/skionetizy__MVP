@@ -284,8 +284,8 @@ function AddBlogKeywords() {
             isLoading={showLoadingToBtn === "REVIEW" && blogMutate.isLoading}
             disabled={blogMutate.isLoading}
             onClick={() => {
-              setShowLoadingToBtn("REVIEW");
-              blogMutate.mutate("REVIEW");
+              setShowLoadingToBtn("IN_REVIEW");
+              blogMutate.mutate("IN_REVIEW");
             }}
             className={styles.button}
           >
