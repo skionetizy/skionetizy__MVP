@@ -65,7 +65,7 @@ export default function UserProfileDrafts({ profile }) {
         <h2>My Blogs</h2>
       </div>
 
-      {status === "loading" ? (
+      {status === "loading" && blogs.length === 0 ? (
         <p className={style.loadingStatus}>
           <Spinner />
           &nbsp; Loading Blogs
