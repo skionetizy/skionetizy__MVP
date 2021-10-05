@@ -6,12 +6,13 @@ import useAuth from "../hooks/useAuth";
 import Dropdown from "./Dropdown";
 import styles from "./Profiledropdown.module.css";
 
-export default function ProfileDropdown() {
+export default function ProfileDropdown({ className }) {
   const { isLoggedIn, profile, logout } = useAuth();
   const profileUserName = profile?.profileUserName;
 
   return isLoggedIn === false ? (
     <img
+      className={className}
       src={DefaultUserAvatar}
       style={{
         width: "2rem",
