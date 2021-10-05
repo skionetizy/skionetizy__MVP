@@ -212,7 +212,7 @@ function AddBlogKeywords() {
               <input
                 value={keywordSearchValue}
                 onChange={(ev) => setKeywordSearchValue(ev.target.value)}
-                placeholder="Enter up to 5 keywords here"
+                placeholder="Enter a keyword here"
               />
               <button>
                 <FiSearch width="1em" />

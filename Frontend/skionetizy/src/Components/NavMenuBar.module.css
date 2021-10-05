@@ -1,3 +1,13 @@
+.grid {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+
+  column-gap: 1rem;
+  /* grid-template-columns: auto 1fr auto; */
+  grid-template-areas: "menubtn logo profile" "searchbar searchbar searchbar";
+}
+
 .header {
   display: flex;
   align-items: center;
@@ -7,6 +17,8 @@
 }
 
 .hamburger {
+  grid-area: menubtn;
+
   background-color: transparent;
   border: none;
   color: #fff;
@@ -14,6 +26,7 @@
 }
 
 .logoLink {
+  grid-area: logo;
   display: flex;
   gap: 1rem;
   text-decoration: none;
@@ -25,6 +38,7 @@
 }
 
 .inputContainer {
+  grid-area: searchbar;
   order: 3;
   flex: 1;
   flex-basis: 100%;
@@ -54,6 +68,10 @@
 }
 .inputContainer button:hover {
   background-color: rgba(255, 255, 255, 0.2);
+}
+
+.profile {
+  grid-area: profile;
 }
 
 /*  */
@@ -86,6 +104,7 @@
 }
 
 .links {
+  grid-area: navlinks;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -97,6 +116,10 @@
   padding: 1rem 3rem;
 
   list-style: none;
+}
+
+.loginBtn {
+  grid-area: loginbtn;
 }
 
 .link {
@@ -144,9 +167,21 @@
     flex: 1;
   }
 
+  .grid {
+    column-gap: 1rem;
+    grid-template-columns: 4rem 768px 4rem;
+    grid-template-areas: "logo searchbar profile";
+  }
+
   .nav {
+    display: grid;
+    grid-template-columns: 4rem 768px 4rem;
+    grid-template-areas: ".. navlinks loginbtn";
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+
     position: static;
-    flex-direction: row;
     padding: 0.5rem 4rem;
     margin: 0;
     border-radius: 0;
@@ -155,7 +190,7 @@
 
   .navClose,
   .navOpen {
-    display: flex !important;
+    display: grid !important;
   }
 
   .links {

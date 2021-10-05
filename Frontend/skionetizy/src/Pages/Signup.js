@@ -23,7 +23,7 @@ export default function Signup() {
       {showModal === "VERIFY_EMAIL" && (
         <VerifyEmailModal
           onClose={() => {
-            history.push("/details");
+            history.push("/login");
           }}
         />
       )}

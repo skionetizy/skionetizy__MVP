@@ -16,8 +16,8 @@ function VerifyEmailModal({ onClose }) {
         />
 
         <p className={styles.para}>
-          Over 500+ people have logged in Over 500+ people have logged in Over
-          500+ people have logged in
+          Thanks for been part of skionetizy please check your Email to Verify
+          your Account
         </p>
 
         <button className={styles.btn} type="button" onClick={onClose}>
