@@ -123,15 +123,15 @@ class ReverificationToken(Resource):
         body=request.get_json()
         email=body['emailID']
         user=User.objects.get_or_404(emailID=email)
-        # if user.isVerified==1:
-        #     return make_response(jsonify({'Message':'Already Verified','status':200}))
-        # else:
-        auth_token=user.encode_auth_token()
-        template=env.get_template('emailVerification.html')
-        redirect_url = f'https://skionetizymvp-staging.herokuapp.com/emailVerification/{auth_token}'
-        rendered_html=template.render(username=user.firstName,link=redirect_url)
-        send_email("Skionetizy Email Verification for creating account",os.environ.get('MAIL_USERNAME'),recipients=[body["emailID"]],html=rendered_html)
-        return make_response(jsonify({'Message':'Reverification Mail Sent','success':True}))
+        if user.isVerified==1:
+            return make_response(jsonify({'Message':'Already Verified','status':200}))
+        else:
+            auth_token=user.encode_auth_token()
+            template=env.get_template('emailVerification.html')
+            redirect_url = f'https://skionetizymvp-staging.herokuapp.com/emailVerification/{auth_token}'
+            rendered_html=template.render(username=user.firstName,link=redirect_url)
+            send_email("Skionetizy Email Verification for creating account",os.environ.get('MAIL_USERNAME'),recipients=[body["emailID"]],html=rendered_html)
+            return make_response(jsonify({'Message':'Reverification Mail Sent','success':True}))
         
 
 class ForgotPassword(Resource):
