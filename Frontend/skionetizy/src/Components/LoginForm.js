@@ -17,6 +17,7 @@ import { AUTH } from "../store/reducer";
 import { AUTHORIZATION_HEADER } from "../utils/localStorageKeys";
 import noop from "../utils/noop";
 import style from "./LoginForm.module.css";
+import ReverifyEmail from "./ReverifyEmail";
 
 const defaultGoogleOauthURL = createAuthURL("/auth/authToken");
 
@@ -87,6 +88,8 @@ export default function LoginForm({
           <Link className={style.forgotPasswordLink} to="/forgotPassword">
             Forgot Password
           </Link>
+
+          <ReverifyEmail emailID={details.emailID} />
 
           <Button
             className={style.signinButton}

@@ -1,28 +1,72 @@
 import axios from "axios";
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom";
 import Button from "../Components/Button";
+import Spinner from "../Components/Spinner";
 import useAsync from "../hooks/useAsync";
+import useMutate from "../hooks/useMutate";
+import createFlaskError from "../utils/createFlaskError";
+import { AUTH } from "../store/reducer";
+import { useDispatch } from "react-redux";
+import {
+  AUTHORIZATION_HEADER,
+  LOGGED_IN_PROFILE_ID,
+} from "../utils/localStorageKeys";
 
 export default function EmailVerification() {
   const { token } = useParams();
-  const verifyEmail = useAsync(() => sendEmailVerification(token));
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const verifyEmail = useMutate({
+    mutateFn: () =>
+      sendEmailVerification(token).then((res) => {
+        if (res.status === 500) {
+          throw createFlaskError(res.message);
+        }
+      }),
+    onSuccess: (res) => {
+      const { profile, token } = res.data;
+
+      dispatch({
+        type: AUTH.SAVE_PROFILE,
+        payload: profile,
+      });
+      localStorage.setItem(AUTHORIZATION_HEADER, token);
+      localStorage.setItem(LOGGED_IN_PROFILE_ID, profile.profileID);
+
+      history.push("/");
+    },
+  });
+
+  useEffect(() => {
+    verifyEmail.mutate();
+  }, []);
 
   return (
-    <div style={{ display: "grid", placeItems: "center", minHeight: "80vh" }}>
-      {verifyEmail.isSuccess ? (
-        <p>Verifed</p>
-      ) : verifyEmail.isError ? (
-        <p>Failure. check console for now</p>
-      ) : (
-        <Button
-          onClick={() => verifyEmail.run()}
-          type="button"
-          isLoading={verifyEmail.isLoading}
-        >
-          Verify
-        </Button>
-      )}
+    <div
+      style={{
+        display: "grid",
+        placeItems: "center",
+        minHeight: "80vh",
+        color: "white",
+      }}
+    >
+      <div className="center">
+        {verifyEmail.isSuccess ? (
+          <>
+            <Spinner />
+            <p>Verifed. Redirecting.</p>
+          </>
+        ) : verifyEmail.isError ? (
+          <p>{verifyEmail.errors.flaskError}</p>
+        ) : verifyEmail.isLoading ? (
+          <>
+            <Spinner />
+            <p>Verifing Email.</p>
+          </>
+        ) : null}
+      </div>
     </div>
   );
 }
