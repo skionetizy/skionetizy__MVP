@@ -64,7 +64,7 @@ export default function FollowButton({
           isFollowing,
         });
       })
-      .catch((err) => onUpdate(null, err));
+      .catch((err) => onUpdate?.(null, err));
   }
 
   return (

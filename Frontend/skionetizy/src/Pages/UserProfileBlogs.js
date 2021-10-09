@@ -27,24 +27,15 @@ export default function UserProfileDrafts({ profile }) {
 
     setStatus("loading");
     Promise.all([
-      axios
-        .get(
-          `${baseURL}/profile/getBlogsAndProfile/${page}/${profileUserName}/PUBLISHED`
-        )
-        .catch(() => null),
+      [],
       axios
         .get(
           `${baseURL}/profile/getBlogsAndProfile/${page}/${profileUserName}/NON_DRAFTS`
         )
-        .catch(() => null),
+        .then((res) => res.data.blogs)
+        .catch(() => []),
     ]).then(([resPublished, resNonDrafts]) => {
-      let mergeBlogs = [];
-      console.log("$$$$$$$$$$$$$$$##############", resPublished, resNonDrafts);
-      if (resPublished != null)
-        mergeBlogs = [...mergeBlogs, ...resPublished.data.blogs];
-
-      if (resNonDrafts != null)
-        mergeBlogs = [...mergeBlogs, ...resNonDrafts.data.blogs];
+      let mergeBlogs = [...resPublished, ...resNonDrafts];
 
       if (mergeBlogs.length > 0) setBlogs((prev) => [...prev, ...mergeBlogs]);
       else setHasMoreBlog(false);
