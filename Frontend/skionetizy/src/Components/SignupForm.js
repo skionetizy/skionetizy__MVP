@@ -74,8 +74,13 @@ function SignupForm({ className, onLoginClick = noop, onSignup = noop }) {
       <h1 className={styles.title}>Signup</h1>
       <img className={styles.heroImage} src={AddUserRafikiImage} alt="" />
       <p className={styles.lead}>
-        Cheese and biscuits halloumi cauliflower cheese cottage cheese swiss
-        boursin
+        Welcome to PaperDrop, a place to learn, create and share!
+      </p>
+
+      <p className={styles.lead}>
+        Create your free PaperDrop account to explore all the tools and services
+        you need to create seo friendly content. Join us to read what the world
+        is writing.
       </p>
       <a className={styles.googleBtn} href={googleOAuthURL}>
         <FcGoogle fontSize="1.5em" /> Signup With Google
@@ -111,7 +116,7 @@ function SignupForm({ className, onLoginClick = noop, onSignup = noop }) {
             }
           }}
         >
-          Login
+          Log in here
         </Link>
       </p>
     </div>
