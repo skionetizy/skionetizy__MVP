@@ -432,11 +432,9 @@ class AddKeywordsBlog(Resource):
 
 class GetBlogsAndProfileDetailsPagination(Resource):
     def get(self,number):
-        blogs=Blog.objects().exclude("comments","likedByUsersList","dislikedByUsersList")
+        blogs=Blog.objects(blogStatus='PUBLISHED').exclude("comments","likedByUsersList","dislikedByUsersList")
         blogs=[x.to_mongo().to_dict() for x in blogs]
         for i in blogs:
-            if i.blogStatus!='PUBLISHED':
-                continue
             p=Profile.objects.get(profileID=i['profileID'])
             i['profilePicImageURL']=p.profilePicImageURL
             i['profileName']=p.profileName
