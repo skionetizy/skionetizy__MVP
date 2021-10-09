@@ -58,7 +58,10 @@ function Upload() {
 
       console.log({ body: formData });
       if (uploaded === false) throw new Error("Select a image to upload");
-      if (formData.get("blogID") != null)
+      if (
+        formData.get("blogID") == null ||
+        formData.get("blogID") === "undefined"
+      )
         throw new Error(
           "Your blog is currently local only. Please publish before uploading image"
         );
