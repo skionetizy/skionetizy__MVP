@@ -37,6 +37,7 @@ function BlogSteps({ noOfSteps, currentStep, onStepClick = noop }) {
               onClick={() => {
                 const path = stepsPathMap[idx + 1];
                 history.push(path, location.state);
+                onStepClick(idx);
               }}
             >
               {idx + 1}
