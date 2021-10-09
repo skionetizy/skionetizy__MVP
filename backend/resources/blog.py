@@ -341,7 +341,7 @@ class GetFeed(Resource):
         if(len(profile_following)):
             for i in list(profile_following):
                 p=Profile.objects.get_or_404(profileID=i)
-                b=Blog.objects(profileID=p.profileID).exclude("comments","likedByUsersList","dislikedByUsersList")
+                b=Blog.objects().filter(profileID=p.profileID).filter(blogStatus='PUBLISHED').exclude("comments","likedByUsersList","dislikedByUsersList")
                 b=[x.to_mongo().to_dict() for x in b]
                 for k in b:
                     k['profilePicImageURL']=p.profilePicImageURL
@@ -363,7 +363,7 @@ class GetFeed(Resource):
                 return make_response(jsonify({'message':'exceeded bounds'}), 404)
             return make_response(jsonify({"blogs":json.loads(json_util.dumps(blogs_paginated[number])),"success":True}))
         else:
-            blogs=Blog.objects().exclude("comments","likedByUsersList","dislikedByUsersList")
+            blogs=Blog.objects(blogStatus='PUBLISHED').exclude("comments","likedByUsersList","dislikedByUsersList")
             blogs=[x.to_mongo().to_dict() for x in blogs]
             for i in blogs:
                 p=Profile.objects.get(profileID=i['profileID'])

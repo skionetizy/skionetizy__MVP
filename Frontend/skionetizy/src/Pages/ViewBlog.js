@@ -32,6 +32,7 @@ import useMutate from "../hooks/useMutate";
 import { isAuthenticated } from "../utils/AuthorisationUtils";
 import baseURL from "../utils/baseURL";
 import style from "./ViewBlog.module.css";
+import ReactMarkdown from "react-markdown";
 
 const KEYWORDS_LOCAL_KEY = "blogsKeywords";
 
@@ -385,8 +386,10 @@ const ViewBlog = () => {
             <meta name="twitter:site" content={window.location.href} />
           </Helmet>
         )}
+
         <div className={style.blogHeader}>
           <h1 className={style.title}>{blog.blogTitle}</h1>
+
           <div className={style.author}>
             <div className={style.authorContents}>
               <Link to={`/${blog.profileUserName}`}>
@@ -396,6 +399,7 @@ const ViewBlog = () => {
                   alt=" "
                 />
               </Link>
+
               <div className={style.published}>
                 <Link to={`/${blog.profileUserName}`}>
                   <small className={style.authorName}>{blog.profileName}</small>
@@ -434,7 +438,7 @@ const ViewBlog = () => {
           </div>
           {/* for now giving inline style because they might accordingly our strategy */}
           <div style={{ position: "relative" }} className={style.blogContent}>
-            <article>{blog.blogDescription}</article>
+            <ReactMarkdown source={blog.blogDescription} />
             {/* when this span comes into view then after `x`
            minutes we will send view count patch request to backend */}
             {blog.blogDescription && (

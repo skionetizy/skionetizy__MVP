@@ -43,7 +43,6 @@ function MarkDown(props) {
       const payloadData = {
         ...validatedData,
         profileID: auth.profile?.profileID,
-        type: data.type || "DRAFTED",
       };
 
       setErrors({});
