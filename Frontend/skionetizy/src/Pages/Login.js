@@ -17,8 +17,8 @@ function Login(props) {
         <div className={`${style.cover_login}`}>
           <div className={style.coverImage_login}>
             <p>
-              Over 500+ people have logged in Over 500+ people have logged in
-              Over 500+ people have logged in
+              Login to write and create amazing blogs and discover other
+              accounts that you will love to read.
             </p>
             <img src={Vector} alt="" className={style.coverImage_svgLogin} />
           </div>
