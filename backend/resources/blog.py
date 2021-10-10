@@ -26,7 +26,7 @@ class AddBlogDescriptionAndTitle(Resource):
         banners=["https://res.cloudinary.com/duqnxcc4l/image/upload/v1630574985/jason-leung-Xaanw0s0pMk-unsplash_maapht.jpg","https://res.cloudinary.com/duqnxcc4l/image/upload/v1630574972/keith-misner-h0Vxgz5tyXA-unsplash_by5add.jpg","https://res.cloudinary.com/dd8470vy4/image/upload/tedyg2kmtgw7dkrhcq9r"]
         i=random.randint(0,2)
         blogImageURL=banners[i]
-        type_blog=body['type']
+        type_blog='DRAFTED'
         newBlog= Blog(
             blogID = uuid.uuid4(),
             blogTitle=body["blogTitle"],
@@ -54,8 +54,7 @@ class UpdateBlogDescriptionAndText(Resource):
         try:
             blog.update(
                 blogTitle=body["blogTitle"],
-                blogDescription=body["blogDescription"],
-                blogStatus=body["type"]
+                blogDescription=body["blogDescription"]
             )
             blog.save()
             blog=Blog.objects.get(blogID=blog.blogID)
