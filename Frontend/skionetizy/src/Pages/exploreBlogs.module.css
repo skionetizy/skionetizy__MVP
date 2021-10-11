@@ -389,6 +389,10 @@ body {
 
 /* tablets */
 @media (max-width: 960px) {
+  .exploreBtnGroup {
+    row-gap: 1rem;
+  }
+
   .blogCardContainer {
     grid-template-columns: repeat(2, minmax(14rem, 25.5rem));
   }
