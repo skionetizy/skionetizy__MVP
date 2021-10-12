@@ -7,7 +7,7 @@ import {
   RiLinkedinFill,
   RiInstagramLine,
 } from "react-icons/ri";
-import LogoIcon from "../Assets/logo.svg";
+import LogoIcon from "../Assets/logo-new.svg";
 
 function Footer() {
   return (

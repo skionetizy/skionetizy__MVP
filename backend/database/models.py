@@ -76,7 +76,7 @@ class MetaData(db.EmbeddedDocument):
 class Blog(db.Document):
     blogID = db.UUIDField(required=True,binary=False)
     blogTitle=db.StringField(required=True,min_length=6)
-    blogDescription=db.StringField(required=True,min_length=200,max_length=5000)
+    blogDescription=db.StringField(required=True,min_length=200,max_length=10000)
     blogImageURL=db.URLField(required=False)
     timestamp=db.DateTimeField(required=False,default=datetime.datetime.utcnow)
     profileID=db.UUIDField(required=True,binary=False)
