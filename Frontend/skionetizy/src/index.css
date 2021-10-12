@@ -21,6 +21,7 @@
 	top: -150px;
 } */
 body {
+  margin: 0;
   background-color: #142850;
 }
 /* .login {

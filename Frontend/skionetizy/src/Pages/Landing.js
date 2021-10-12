@@ -37,7 +37,7 @@ function Homepage() {
               )}
             >
               <p>
-                Skionetizy : A place to create, a place to
+                PaperDrop : A place to create, a place to
                 <span className={styles["hero__subtitle--accent"]}> earn.</span>
               </p>
             </div>
@@ -58,21 +58,20 @@ function Homepage() {
         >
           {/* Text */}
           <div className={styles["hero__text"]}>
-            <h1 className={styles["heading"]}>What is Skionetizy?</h1>
+            <h1 className={styles["heading"]}>What is PaperDrop?</h1>
 
             <div className={styles["hero__subtitle"]}>
               <p>
-                Every individual has a mind and a voice of it's own. There are
-                millions out there who want to read and listen what you have got
-                to say. We at skionetizy believe that every thought that crosses
-                your mind is unique and it needs to be shared with the world.
+                PaperDrop, a place to learn, create and share thoughts and voice
+                of your own. A person can create amazing content with just a
+                splash of ink. We at PaperDrop wants to serve as a medium for
+                you to write.
               </p>
               <p>
-                With us, your opinion matters and we are here to give you a
-                platform so that you can create a magic of your own. We provide
-                you with features like SEO tools, a space of your own and while
-                you are at it, we give you an opportunity to monitise your
-                skills.
+                With us, your opinion matters and we provide you with various
+                seo tools and features to write beautiful and engaging content.
+                With every drop of ink, we give you a platform to create content
+                like never before.
               </p>
             </div>
           </div>
@@ -94,11 +93,17 @@ function Homepage() {
           </p>
 
           <div className={styles["subscribe-form__control"]}>
-            <a href="/subscribe">
-              <Button variant="dark" type="button">
-                Subscribe
-              </Button>
-            </a>
+            <Button
+              link
+              to="https://skionetizy-staging.herokuapp.com/subscribe"
+              isExternalLink
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="dark"
+              type="button"
+            >
+              Subscribe
+            </Button>
 
             <Button variant="none" type="button">
               Demo
@@ -197,7 +202,7 @@ function Homepage() {
               styles["donation-form__title"]
             )}
           >
-            Do you think you can make your content better?
+            Support Us
           </h2>
 
           <p
@@ -206,12 +211,24 @@ function Homepage() {
               styles["donation-form__subtitle"]
             )}
           >
-            Join us and see how easy it is to improve the content you create
+            We are proudly a group of ambitious students who saw a problem and
+            decided to come up with a solution.
+          </p>
+
+          <p
+            className={clsx(
+              styles["subscribe-form__subtitle"],
+              styles["donation-form__subtitle"]
+            )}
+          >
+            But we can't complete it without you. We rely on donations to carry
+            out our mission. Every penny you donate will be used in the
+            development of this website.
           </p>
 
           <div className={styles["subscribe-form__control"]}>
             <div class="donateBtn">
-              <Donate variant="primary">Support Us</Donate>
+              <Donate variant="default">Support Us</Donate>
             </div>
           </div>
         </div>

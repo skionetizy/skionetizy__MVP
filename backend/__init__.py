@@ -1,7 +1,8 @@
 from flask import Flask,send_from_directory
 from flask_restful import Api
 from flask_cors import CORS
-from flask_mail import Mail
+from flask_mail import Mail,Message
+from threading import Thread
 import config
 import cloudinary
 import os
@@ -38,12 +39,26 @@ api = Api(app)
 env_config = os.environ.get("APP_SETTINGS") or "DevelopmentConfig"
 app.config.from_object("config."+env_config)
 mail=Mail(app)
-DB_URI='mongodb+srv://rohandevaki:joOlDai1Ey0ccazD@cluster0.gnqpe.mongodb.net/skionetizymvp?ssl=true&ssl_cert_reqs=CERT_NONE&retryWrites=true&w=majority'
+DB_URI='mongodb+srv://rohandevaki:joOlDai1Ey0ccazD@cluster0.gnqpe.mongodb.net/'+app.config['DB_NAME']+'?ssl=true&ssl_cert_reqs=CERT_NONE&retryWrites=true&w=majority'
+print(DB_URI)
 client=''
+def send_async_email(app, msg):
+    with app.app_context():
+        mail.send(msg)
+
+#Mail Sending
+def send_email(subject, sender, recipients, html):
+    msg = Message(subject, sender=sender, recipients=recipients)
+    msg.html = html
+    thr = Thread(target=send_async_email, args=[app, msg])
+    thr.start()
 try:
     if(os.environ.get('USE_GADS')):
         client = GoogleAdsClient.load_from_storage("backend/skio.yaml")
 except:
+    send_email("CRITICAL ISSUE: GADS EXPIRED",os.environ.get('MAIL_USERNAME'),recipients=["adithyanarayan1234@gmail.com","jagandevaki1@gmail.com"],html="<strong>GADS TOKEN EXPIRED</strong>")
+    os.environ['USE_GADS']='0'
+    client=''
     print("GADS TOKEN EXPIRED")
 
 

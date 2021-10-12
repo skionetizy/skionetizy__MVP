@@ -16,23 +16,25 @@ import {
   likeOnBlogAPIHandler,
   removeDislikeOnBlogAPIHandler,
   removeLikeOnBlogAPIHandler,
-} from "../API/blogAPIHandler";
-import Spinner from "../Components/Spinner";
-import { Center } from "../Components/Layouts";
-import Comments from "../Components/comments";
-import styles from "../Components/comments.module.css";
-import FollowButton from "../Components/FollowButton";
-import LoginFormModal from "../Components/LoginFormModal";
-import Modal from "../Components/Modal";
-import ShareBlogModal from "../Components/ShareBlogModal";
-import SignupForm from "../Components/SignupForm";
-import VerifyEmailModal from "../Components/VerifyEmailModal";
-import useAuth from "../hooks/useAuth";
-import useMutate from "../hooks/useMutate";
-import { isAuthenticated } from "../utils/AuthorisationUtils";
-import baseURL from "../utils/baseURL";
-import style from "./ViewBlog.module.css";
+} from "../../API/blogAPIHandler";
+import Spinner from "../../Components/Spinner";
+import { Center } from "../../Components/Layouts";
+import Comments from "../../Components/comments";
+import styles from "../../Components/comments.module.css";
+import FollowButton from "../../Components/FollowButton";
+import LoginFormModal from "../../Components/LoginFormModal";
+import Modal from "../../Components/Modal";
+import ShareBlogModal from "../../Components/ShareBlogModal";
+import SignupForm from "../../Components/SignupForm";
+import VerifyEmailModal from "../../Components/VerifyEmailModal";
+import useAuth from "../../hooks/useAuth";
+import useMutate from "../../hooks/useMutate";
+import { isAuthenticated } from "../../utils/AuthorisationUtils";
+import baseURL from "../../utils/baseURL";
+import style from "../ViewBlog.module.css";
 import ReactMarkdown from "react-markdown";
+import BlogStatusBadge from "../../Components/BlogStatusBadge";
+import BlogChangeStatusModal from "../../Components/BlogChangeStatusModal";
 
 const KEYWORDS_LOCAL_KEY = "blogsKeywords";
 
@@ -387,6 +389,19 @@ const ViewBlog = () => {
           </Helmet>
         )}
 
+        <p style={{ textAlign: "right", marginTop: "2rem" }}>
+          <button
+            style={{ border: "none", background: "none" }}
+            onClick={() => {
+              setShowModal("BLOG_STATUS_MODAL");
+            }}
+          >
+            <BlogStatusBadge variant={blog.blogStatus || "Draft"}>
+              {blog.blogStatus || "Draft"}
+            </BlogStatusBadge>
+          </button>
+        </p>
+
         <div className={style.blogHeader}>
           <h1 className={style.title}>{blog.blogTitle}</h1>
 
@@ -422,9 +437,14 @@ const ViewBlog = () => {
                 Share <ShareIcon fontSize="small" />
               </button>
 
-              {showModal === "SHARE_BLOG" && (
+              {showModal === "SHARE_BLOG" ? (
                 <ShareBlogModal blog={blog} onClose={() => setShowModal("")} />
-              )}
+              ) : showModal === "BLOG_STATUS_MODAL" ? (
+                <BlogChangeStatusModal
+                  currentStatus={blog.blogStatus}
+                  onClose={() => setShowModal("")}
+                />
+              ) : null}
             </div>
           </div>
         </div>

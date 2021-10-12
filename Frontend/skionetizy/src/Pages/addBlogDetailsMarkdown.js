@@ -43,7 +43,6 @@ function MarkDown(props) {
       const payloadData = {
         ...validatedData,
         profileID: auth.profile?.profileID,
-        type: data.type || "DRAFTED",
       };
 
       setErrors({});
@@ -133,7 +132,6 @@ function MarkDown(props) {
 
       <div className={styles.wrapper}>
         <div className={styles.header}>
-          <p>{String(mode)}</p>
           <p>
             <BlogStatusBadge variant={data.blogID ? data.blogStatus : "LOCAL"}>
               {data.blogStatus || "LOCAL"}

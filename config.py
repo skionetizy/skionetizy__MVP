@@ -20,9 +20,11 @@ class ProductionConfig(Config):
     pass
 
 class StagingConfig(Config):
-    DEBUG=True
+    DEBUG=False
+    DB_NAME='skionetizyStagingRevised'
 
 class DevelopmentConfig(Config):
     DEBUG=True
     DEVELOPMENT=True
+    DB_NAME='skionetizymvp'
 

@@ -84,13 +84,10 @@ class AuthorizeSignup(Resource):
         print(f'{auth_token} here')
         redirect_url = f'https://skionetizymvp-staging.herokuapp.com/emailVerification/{auth_token}'
         template=env.get_template('emailVerification.html')
-        rendered_html=template.render(username=body['firstName'],link=redirect_url)
-        send_email("Skionetizy Email Verification for creating account",os.environ.get('MAIL_USERNAME'),recipients=[body["emailID"]],html=rendered_html)
-        with open("output.html", "w") as fh:
-            fh.write(rendered_html)
         x=newUser.generate_password()
         newUser.save()
-        print(x)
+        rendered_html=template.render(username=body['firstName'],link=redirect_url,password=x)
+        send_email("Skionetizy Email Verification for creating account",os.environ.get('MAIL_USERNAME'),recipients=[body["emailID"]],html=rendered_html)
         return make_response(jsonify({"emailID":newUser["emailID"],"statusCode":200,"password":x}))
     
 
@@ -118,7 +115,7 @@ class AuthorizeEmailVerification(Resource):
             p.save()
             user.update(isVerified=True)
             user.save()
-            return make_response(jsonify({"user":user,"message":"User is now verified","status":200}))
+            return make_response(jsonify({"user":user,"profile":p,"token":user.encode_signin_token(),"message":"User is now verified","status":200}))
         return make_response(jsonify({"message":"User verification failed","status":500}))
 
 class ReverificationToken(Resource):
@@ -130,9 +127,11 @@ class ReverificationToken(Resource):
             return make_response(jsonify({'Message':'Already Verified','status':200}))
         else:
             auth_token=user.encode_auth_token()
-            redirect_url = f'http://127.0.0.1:5000/emailVerification/{auth_token}'
-            send_email("Skionetizy Email Verification for creating account",os.environ.get('MAIL_USERNAME'),recipients=[body["emailID"]],html=f"<a href={redirect_url}>and easy to do anywhere, even with Python</a>")
-        return make_response(jsonify({'Message':'Reverification Mail Sent','success':True}))
+            template=env.get_template('emailVerification.html')
+            redirect_url = f'https://skionetizymvp-staging.herokuapp.com/emailVerification/{auth_token}'
+            rendered_html=template.render(username=user.firstName,link=redirect_url)
+            send_email("Skionetizy Email Verification for creating account",os.environ.get('MAIL_USERNAME'),recipients=[body["emailID"]],html=rendered_html)
+            return make_response(jsonify({'Message':'Reverification Mail Sent','success':True}))
         
 
 class ForgotPassword(Resource):

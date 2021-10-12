@@ -12,12 +12,16 @@ import Moment from "react-moment";
 
 Moment.globalFormat = "MMM D , YYY ";
 
-const BlogCard = ({ blog }) => {
+const BlogCard = ({ blog, isAdmin = false }) => {
   return (
     <div>
       <Link
         style={{ textDecoration: "none" }}
-        to={`/view-blog/${blog.blogID}/${blog.profileID}`}
+        to={
+          isAdmin
+            ? `/admin/view-blog/${blog.blogID}/${blog.profileID}`
+            : `/view-blog/${blog.blogID}/${blog.profileID}`
+        }
       >
         <div className={style.main}>
           <div className={style.cardBox}>

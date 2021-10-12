@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router";
-import Vector from "../Assets/bro.svg";
-import LoginForm from "../Components/LoginForm";
-import VerifyEmailModal from "../Components/VerifyEmailModal";
-import style from "../Pages/login.module.css";
-import clsx from "../utils/clsx";
+import Vector from "../../Assets/bro.svg";
+import LoginForm from "../../Components/LoginForm";
+import VerifyEmailModal from "../../Components/VerifyEmailModal";
+import style from "../../Pages/login.module.css";
+import clsx from "../../utils/clsx";
 
-function Login(props) {
+function AdminLogin(props) {
   const [showModal, setShowModal] = useState("");
   const history = useHistory();
 
@@ -26,18 +26,22 @@ function Login(props) {
           <div className={`${style.signin}`}>
             <h1 className={style.header}>Login</h1>
             <LoginForm
+              onSignupClick={() => {
+                history.push("/admin/signup");
+              }}
               onLogin={(_user, error) => {
                 if (error?.message === "Verfy Email Account") {
                   setShowModal("VERIFY_EMAIL");
                   return;
                 }
-                // after successful login goto `explore-blogs`
-                history.push("/");
+                // after successful login goto `admin dashboard`
+                history.push("/admin/dashboard");
               }}
             />
           </div>
         </div>
       </div>
+
       {showModal === "VERFY_EMAIL" && (
         <VerifyEmailModal onClose={() => setShowModal("")} />
       )}
@@ -58,4 +62,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminLogin);

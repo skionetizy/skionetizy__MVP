@@ -34,6 +34,13 @@ function useMutate({ mutateFn, onSuccess = noop, onFailure = noop } = {}) {
           break;
         }
 
+        case error.isFlaskError: {
+          derivedErrors = {
+            flaskError: error.message || "Server Error",
+          };
+          break;
+        }
+
         default:
           throw error;
       }
@@ -44,8 +51,14 @@ function useMutate({ mutateFn, onSuccess = noop, onFailure = noop } = {}) {
     }
   };
 
+  function reset() {
+    setErrors({});
+    setStatus("idle");
+  }
+
   return {
     mutate,
+    reset,
     status,
     errors,
     isIdle: status === "idle",
