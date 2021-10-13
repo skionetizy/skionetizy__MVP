@@ -9,6 +9,6 @@
   },
   "dependencies": {},
   "scripts": {
-    "heroku-postbuild": "./heroku_postbuild.sh"
+    "heroku-postbuild": "bash heroku_postbuild.sh"
   }
 }
