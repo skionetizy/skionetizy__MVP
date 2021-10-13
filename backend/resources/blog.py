@@ -113,12 +113,9 @@ class LikeOnBlog(Resource):
         #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
 
         # print(blog["likedByUsersList"])
-        
-        if(len(blog['likedByUsersList'])==0):
-            blog.update(
-                likedByUsersList=[]
-            )
-        
+        print(blog['likedByUsersList'])
+        if uuid.UUID(profileID) in blog['likedByUsersList'] or uuid.UUID(profileID) in blog['dislikedByUsersList']:
+            return make_response(jsonify({"message":"Already Liked or disliked"}),200)
         # print(blog['likesCount'])
         newLikesCount=blog['likesCount']+1
         # print(newLikesCount)
@@ -131,7 +128,7 @@ class LikeOnBlog(Resource):
             # hasLiked = True
         )
         blog.save()
-        
+        blog=Blog.objects.get(blogID=blogID)
         return make_response(jsonify({"message":"you have successfully liked the blog","statusCode":"200","blog":blog,"success":True}))
 
 
@@ -146,10 +143,9 @@ def changeUUIDtoString2(uuidVar):
     
 class RemoveLikeOnBlog(Resource):
     def patch(self,blogID,profileID):
-        # body=request.get_json()
-        # blogID = body['blogID']
-        # userID=body['userID']
         blog =Blog.objects.get(blogID=blogID)
+        if uuid.UUID(profileID) not in blog['likedByUsersList']:
+            return make_response(jsonify({'message':'User Hasnt Liked the blog to dislike'}),200)
 
         likedByUsersList = blog['likedByUsersList']
         # print(likedByUsersList)
@@ -165,10 +161,7 @@ class RemoveLikeOnBlog(Resource):
                 # print("entered")
                 print(newUser)
                 likedByUsersList.remove(user)
-                blog.update(
-                    likesCount=blog['likesCount']-1,
-                    # hasLiked = False
-                )
+                blog.likesCount=blog.likesCount-1
         
         blog.save()
         
@@ -190,28 +183,16 @@ class DislikeOnBlog(Resource):
             blog.update(
                 dislikedByUsersList=[]
             )
-        
+        if uuid.UUID(profileID) in blog['dislikedByUsersList'] or uuid.UUID(profileID) in blog['likedByUsersList']:
+            return make_response(jsonify({'message':'Already Disliked or liked'}),200)
         # print(blog['likesCount'])
-        newDislikesCount=blog['dislikesCount']+1
         # print(newLikesCount)
         # newUserWhoDisliked  = body['userID']
         newUserWhoDisliked = profileID
-        newDislikedByUsersList= blog['dislikedByUsersList'].append(newUserWhoDisliked)
-        output1= blog.update(
-            dislikesCount= newDislikesCount,
-            dislikedByUsersList=newDislikedByUsersList,
-            # hasDisliked = True
-        )
-        print(f"output1 : {output1}")
-        output2= blog.save()
-        print(f"output2 : {output2}")
-        # sampleListItem="hello"
-        # sampleList=blog['sampleList'].append(sampleListItem)
-        # blog.update(
-        #     sampleList=sampleList
-        # )
-        # blog.save()
-        
+        blog['dislikedByUsersList'].append(newUserWhoDisliked)
+        blog.dislikesCount+=1
+        blog.save()
+        blog=Blog.objects.get(blogID=blogID)
         return make_response(jsonify({"message":"you have successfully dis liked the blog","statusCode":"200","blog":blog,"success":True}))
 
 class RemoveDislikeOnBlog(Resource):
@@ -221,7 +202,8 @@ class RemoveDislikeOnBlog(Resource):
         # userID=body['userID']
         blog =Blog.objects.get(blogID=blogID)
         print(f"blog {blog}")
-
+        if uuid.UUID(profileID) not in blog['dislikedByUsersList']:
+            return make_response(jsonify({'message':'User hasnt disliked to remove dislike'}),200)
         dislikedByUsersList = blog['dislikedByUsersList']
         print(f"dislikedByUsersList {dislikedByUsersList}")
         for user in dislikedByUsersList:
@@ -233,13 +215,9 @@ class RemoveDislikeOnBlog(Resource):
             # print(type(userID))
             if(newUser == profileID):
                 print(f"newUser {newUser}")
-                dislikedByUsersList.remove(user)
+                blog.dislikedByUsersList.remove(user)
                 print(f"dislikedByUsersList after removing {dislikedByUsersList} ")
-                blog.update(
-                    dislikesCount=blog['dislikesCount']-1,
-                    # hasDisliked = False
-                )
-        
+                blog.dislikesCount-=1
         blog.save()
         
         return make_response(jsonify({"message":"you have successfully removed your dis like on the blog","statusCode":"200","blog":blog,"success":True}))
