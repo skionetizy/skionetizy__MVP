@@ -1,0 +1,59 @@
+.relative {
+  position: relative;
+}
+
+.wrapper {
+  scroll-behavior: smooth;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  --space: 3rem;
+  display: flex;
+  margin: var(--space);
+  border-radius: 0.625rem;
+
+  gap: var(--space);
+  isolation: isolate;
+}
+
+.wrapper > *:not(.icon) {
+  flex: 1 0 30%;
+  width: 30%;
+}
+
+.icon {
+  --size: 3rem;
+  width: var(--size);
+  height: var(--size);
+
+  padding: 0;
+  margin: 0;
+
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+
+  border: none;
+  border-radius: 999px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  line-height: 0;
+  z-index: 1;
+  font-size: 1.5rem;
+
+  cursor: pointer;
+}
+
+.icon:active,
+.icon:focus {
+  opacity: 0.8;
+}
+
+.icon_left {
+  left: 0;
+  margin-left: calc(var(--space) * 0.5);
+}
+
+.icon_right {
+  right: 0;
+  margin-right: calc(var(--space) * 0.5);
+}

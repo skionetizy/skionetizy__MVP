@@ -130,3 +130,10 @@ class Profile(db.Document):
         female_ = random.randint(0,len(female)-1)
         self.profileBannerImageURL=banner[banner_]
         self.profilePicImageURL=male[male_]
+
+class contact(db.Document):
+    contactID=db.UUIDField(required=True,binary=False)
+    name=db.StringField(required=True)
+    email=db.EmailField(required=True)
+    description=db.StringField(required=True)
+    created_at=db.DateTimeField(default=datetime.datetime.utcnow)
