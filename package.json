@@ -9,7 +9,6 @@
   },
   "dependencies": {},
   "scripts": {
-    "heroku-postbuild": "cd Frontend && cd skionetizy && yarn install && yarn run staging",
-    "heroku-postbuild__NEW": "./heroku_postbuild.sh"
+    "heroku-postbuild": "./heroku_postbuild.sh"
   }
 }
