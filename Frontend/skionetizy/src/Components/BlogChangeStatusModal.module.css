@@ -1,0 +1,34 @@
+.statusBadgesGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem 1rem;
+  padding: 1rem 0;
+  max-width: 35vw;
+}
+
+.statusBadgesGroup > * {
+  display: inline-block;
+}
+
+.activeBlogStatus {
+  box-shadow: 0 0 0.25rem 0.2rem var(--dark-blue), 0 0 0 0.2rem var(--dark-blue);
+}
+
+.label {
+  color: var(--dark-blue);
+  font-size: 1.3rem;
+  margin: 0.5rem 0;
+}
+
+.textarea {
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  resize: none;
+
+  border: 0.2rem solid var(--dark-blue);
+}
+
+.actions {
+  text-align: right;
+}

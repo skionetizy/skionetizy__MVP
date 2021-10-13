@@ -1,14 +1,14 @@
 {
-    "name": "skionetizy",
-    "version": "0.1.0",
-    "private": true,
-    "engines": {
-        "node": "12.18.x",
-        "npm": "6.14.6",
-        "yarn": "1.22.x"
-    },
-    "dependencies": {},
-    "scripts": {
-        "heroku-postbuild": "cd Frontend && cd skionetizy && yarn install && yarn run staging"
-    }
+  "name": "skionetizy",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": "12.18.x",
+    "npm": "6.14.6",
+    "yarn": "1.22.x"
+  },
+  "dependencies": {},
+  "scripts": {
+    "heroku-postbuild": "bash heroku_postbuild.sh"
+  }
 }
