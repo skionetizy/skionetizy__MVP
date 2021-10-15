@@ -13,7 +13,6 @@ from backend.database.models import User
 def client():
     env_config = os.environ.get("APP_SETTINGS") or "DevelopmentConfig"
     app.config.from_object("config."+env_config)
-    print(app.config.get('MONGODB_HOST'))
     yield app.test_client()
 
 def test_simple_user(client):
@@ -23,3 +22,16 @@ def test_simple_user(client):
 def test_get_blogs(client):
     response=client.get('/profile/getBlogsPaginated/0')
     assert response.status_code==200
+
+def test_random_login(client):
+    mimetype = 'application/json'
+    headers = {
+        'Content-Type': mimetype,
+        'Accept': mimetype
+    }
+    data={
+        "emailID":"adithyanarayan200@gmail.com",
+        "password":"trial#1234"
+    }
+    response=client.post('/login',data=json.dumps(data),headers=headers)
+    assert response.json['message']=='password is incorrect,please try again'
