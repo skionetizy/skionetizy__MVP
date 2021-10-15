@@ -68,6 +68,11 @@ function useAuth() {
   }
 
   async function saveProfile(profileID) {
+    dispatch({
+      type: AUTH.SAVE_PROFILE,
+      payload: { profileID },
+    });
+
     const { profileUserName } = await getHoverProfileDetails(profileID);
     const profile = await getProfileDetailsAPIHandler(profileUserName).then(
       (r) => r.profile
@@ -80,18 +85,15 @@ function useAuth() {
     return profile;
   }
 
-  useEffect(() => {
-    let profileID;
-    try {
-      profileID = localStorage.getItem("profileID");
-    } catch {
-      profileID = null;
-    }
-
-    if (profileID) saveProfile(profileID);
-  }, []);
-
-  return { profile, login, logout, isLoggedIn: !!profile, token, googleOAuth };
+  return {
+    profile,
+    login,
+    saveProfile,
+    logout,
+    isLoggedIn: !!profile,
+    token,
+    googleOAuth,
+  };
 }
 
 export default useAuth;
