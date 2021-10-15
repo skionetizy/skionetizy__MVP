@@ -206,19 +206,19 @@ class DislikeOnBlog(Resource):
         if  uuid.UUID(profileID) in blog['likedByUsersList']:
             likedByUsersList = blog['likedByUsersList']
         # print(likedByUsersList)
-        for user in likedByUsersList:
-            # newUser = changeUUIDtoString(user)
-            newUser = changeUUIDtoString2(user)
+            for user in likedByUsersList:
+                # newUser = changeUUIDtoString(user)
+                newUser = changeUUIDtoString2(user)
 
-            # print(f"user : {user}" )
-            # print(f"userID :{userID}")
-            # print(f"user type: {type(user)}")
-            # print(f"userID type: {type(userID)}")
-            if(newUser == profileID):
-                # print("entered")
-                print(newUser)
-                likedByUsersList.remove(user)
-                blog.likesCount=blog.likesCount-1
+                # print(f"user : {user}" )
+                # print(f"userID :{userID}")
+                # print(f"user type: {type(user)}")
+                # print(f"userID type: {type(userID)}")
+                if(newUser == profileID):
+                    # print("entered")
+                    print(newUser)
+                    likedByUsersList.remove(user)
+                    blog.likesCount=blog.likesCount-1
         newUserWhoDisliked = profileID
         blog['dislikedByUsersList'].append(newUserWhoDisliked)
         blog.dislikesCount+=1
