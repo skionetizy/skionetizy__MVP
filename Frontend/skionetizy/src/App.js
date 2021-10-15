@@ -46,8 +46,7 @@ function App() {
                     <Route exact path="/auth/authToken" component={OAuthPage}/>
                     <Route path="/admin" component={AdminRoutes}/>
                     <Route path="/:profileUserName" component={UserProfile}/>
-                    <Route exact path={"/explore"} component={ExploreBlogs}/>
-                    <Route exact path="/" component={LandingPage}/>
+                    <Route exact path="/" component={ExploreBlogs}/>
                 </Switch>
             </Suspense>
         </Router>

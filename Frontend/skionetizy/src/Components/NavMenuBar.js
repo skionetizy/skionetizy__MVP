@@ -122,20 +122,12 @@ function NavMenuBar(props) {
                         </NavLink>
                     </li>
                     <li>
-                        <Link className={styles.link} to="/landing" onClick={closeBlog}>
+                        <Link className={styles.link} to={{pathname: "/landing", hash: "#about"}} onClick={closeBlog}>
                             About Us
                         </Link>
                     </li>
                     <li>
-                        {/*<a*/}
-                        {/*  className={styles.link}*/}
-                        {/*  href="http://skionetizy-staging.herokuapp.com/#mission"*/}
-                        {/*  target="_blank"*/}
-                        {/*  rel="noreferrer noopener"*/}
-                        {/*>*/}
-                        {/*  Mission*/}
-                        {/*</a>*/}
-                        <Link to={"/mission"} className={styles.link} onClick={closeBlog}>Mission</Link>
+                        <Link to={{pathname: "/landing", hash: "#mission"}}  className={styles.link} onClick={closeBlog}>Mission</Link>
                     </li>
                     <li>
                         <DonateButton>Support Us</DonateButton>

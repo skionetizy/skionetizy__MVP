@@ -1,8 +1,8 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Button from "../Components/Button";
 import styles from "./Landing.module.css";
 // import { motion } from "framer-motion";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import Donate from "../Components/DonateButton";
 import clsx from "../utils/clsx";
 import Footer from "../Components/Footer";
@@ -18,15 +18,20 @@ import InfiniteCarousel from "react-leaf-carousel";
 function Homepage() {
     const {isLoggedIn} = useAuth();
 
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.hash === "#about"){
+            document.getElementById("about").scrollIntoView()
+        } else if (location.hash === "#mission"){
+            document.getElementById("mission").scrollIntoView()
+        }
+    }, [location])
+
     return (
         <>
             <main className={styles.wrapper}>
-                {/* <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 1 }}
-      > */}
+
                 {/* Slide 1 */}
                 <div className={styles.hero__grid}>
                     <img className={styles.hero__img} src={Frame5} alt={""}/>
@@ -193,31 +198,31 @@ function Homepage() {
                     </div>
                 </div>
 
-              <InfiniteCarousel showSides={false}
-                                sidesOpacity={1}
-                                breakpoints={[
-                                  {
-                                    breakpoint: 768,
-                                    settings: {
-                                      sideSize:0,
-                                      slidesToScroll:1,
-                                      slidesToShow:1,
-                                    }
-                                  },
-                                ]}
+                <InfiniteCarousel showSides={false}
+                                  sidesOpacity={1}
+                                  breakpoints={[
+                                      {
+                                          breakpoint: 768,
+                                          settings: {
+                                              sideSize: 0,
+                                              slidesToScroll: 1,
+                                              slidesToShow: 1,
+                                          }
+                                      },
+                                  ]}
 
-                                autoCycle={true}
-                                slidesToShow={4}
-                                cycleInterval={3000}
-              >
-                <FeatureItem name={"Your Feed"} image={"/feed.png"}/>
-                <FeatureItem name={"SEO Tools"} image={"/seo.png"}/>
-                <FeatureItem name={"Grammar Checker"} image={"/grammar.png"}/>
-                <FeatureItem name={"View"} image={"/view.png"}/>
-              </InfiniteCarousel>
+                                  autoCycle={true}
+                                  slidesToShow={4}
+                                  cycleInterval={3000}
+                >
+                    <FeatureItem name={"Your Feed"} image={"/feed.png"}/>
+                    <FeatureItem name={"SEO Tools"} image={"/seo.png"}/>
+                    <FeatureItem name={"Grammar Checker"} image={"/grammar.png"}/>
+                    <FeatureItem name={"View"} image={"/view.png"}/>
+                </InfiniteCarousel>
 
 
-              {/* Bottom Donation Form */}
+                {/* Bottom Donation Form */}
                 <div
                     id="donation"
                     className={clsx(styles["subscribe-form"], styles["donation-form"])}
@@ -258,7 +263,6 @@ function Homepage() {
                         </div>
                     </div>
                 </div>
-                {/* </motion.div> */}
             </main>
             <Footer/>
         </>
