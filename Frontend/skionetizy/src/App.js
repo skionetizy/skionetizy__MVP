@@ -1,13 +1,14 @@
-import {lazy, Suspense} from "react";
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import { lazy, Suspense, useEffect } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import FullPageSpinner from "./Components/FullPageSpinner";
 import Nav from "./Components/NavMenuBar";
+import useAuth from "./hooks/useAuth";
 import AdminRoutes from "./Pages/admin/routes";
 import ViewBlog from "./Pages/ViewBlog";
 
 // Lazy loading pages
 const addBlogDetailsMarkdown = lazy(() =>
-    import("./Pages/addBlogDetailsMarkdown")
+  import("./Pages/addBlogDetailsMarkdown")
 );
 const addBlogImage = lazy(() => import("./Pages/addBlogImage"));
 const AddBlogKeywords = lazy(() => import("./Pages/addBlogKeywords"));
@@ -22,7 +23,7 @@ const SearchPage = lazy(() => import("./Pages/searchPage"));
 const Signup = lazy(() => import("./Pages/Signup"));
 const UserNotFound = lazy(() => import("./Pages/UserNotFound"));
 const UserProfile = lazy(() => import("./Pages/UserProfile"));
-const ExploreBlogs = lazy(() => import("./Pages/ExploreBlogs"))
+const ExploreBlogs = lazy(() => import("./Pages/ExploreBlogs"));
 
 function App() {
     return (
