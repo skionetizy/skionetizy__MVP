@@ -1,0 +1,17 @@
+.item__holder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 2vw;
+}
+
+.item__holder > div {
+    color: var(--primary-blue);
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 29px;
+    letter-spacing: 0;
+    padding-bottom: 2vw;
+}

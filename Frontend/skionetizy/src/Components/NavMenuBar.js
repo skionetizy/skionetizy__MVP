@@ -26,9 +26,14 @@ function NavMenuBar(props) {
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         props.saveFilteredBlogs(filteredBlogs);
+        closeBlog()
         // return <Redirect to="/searchpage" />;
         props.history.push(`/searchpage/${searchInput}`);
     };
+
+    const closeBlog = () => {
+        setIsMenuOpen(false)
+    }
 
     const debouncedSearch = useDebounceGeneral(searchInput, 2000);
 
@@ -49,7 +54,7 @@ function NavMenuBar(props) {
             console.log({filteredBlogsInUE: filteredData});
             setFilteredBlogs(filteredData);
         }
-    }, [debouncedSearch]);
+    }, [ debouncedSearch ]);
 
     return (
         <>
@@ -89,7 +94,7 @@ function NavMenuBar(props) {
                     isMenuOpen ? styles.navOpen : styles.navClose
                 )}
             >
-                <div></div>
+                {/*<div></div>*/}
 
                 <ul className={styles.links}>
                     <li>
@@ -98,6 +103,7 @@ function NavMenuBar(props) {
                             activeClassName={styles.linkHighlight}
                             className={styles.link}
                             to="/"
+                            onClick={closeBlog}
                         >
                             Read Blogs
                         </NavLink>
@@ -108,6 +114,7 @@ function NavMenuBar(props) {
                             className={styles.link}
                             to={isLoggedIn ? "/addBlogDetailsMarkdown" : "/login"}
                             onClick={() => {
+                                closeBlog()
                                 dispatch({type: "MARKDOWN_MODE", payload: "add"});
                             }}
                         >
@@ -115,20 +122,12 @@ function NavMenuBar(props) {
                         </NavLink>
                     </li>
                     <li>
-                        <Link className={styles.link} to="/landing">
+                        <Link className={styles.link} to={{pathname: "/landing", hash: "#about"}} onClick={closeBlog}>
                             About Us
                         </Link>
                     </li>
                     <li>
-                        {/*<a*/}
-                        {/*  className={styles.link}*/}
-                        {/*  href="http://skionetizy-staging.herokuapp.com/#mission"*/}
-                        {/*  target="_blank"*/}
-                        {/*  rel="noreferrer noopener"*/}
-                        {/*>*/}
-                        {/*  Mission*/}
-                        {/*</a>*/}
-                        <Link to={"/mission"} className={styles.link}>Mission</Link>
+                        <Link to={{pathname: "/landing", hash: "#mission"}}  className={styles.link} onClick={closeBlog}>Mission</Link>
                     </li>
                     <li>
                         <DonateButton>Support Us</DonateButton>
@@ -140,6 +139,7 @@ function NavMenuBar(props) {
                         activeClassName={styles.linkHighlight}
                         className={clsx(styles.link, styles.rightItem, styles.loginBtn)}
                         to="/login"
+                        onClick={closeBlog}
                     >
                         Login
                     </NavLink>
