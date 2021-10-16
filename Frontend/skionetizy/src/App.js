@@ -14,7 +14,7 @@ const addBlogImage = lazy(() => import("./Pages/addBlogImage"));
 const AddBlogKeywords = lazy(() => import("./Pages/addBlogKeywords"));
 const DetailsPage = lazy(() => import("./Pages/detailsPage"));
 const EmailVerification = lazy(() => import("./Pages/EmailVerification"));
-const { FinalPage } = lazy(() => import("./Pages/finalPage"));
+const {FinalPage} = lazy(() => import("./Pages/finalPage"));
 const ForgotPassword = lazy(() => import("./Pages/ForgotPassword"));
 const LandingPage = lazy(() => import("./Pages/Landing"));
 const Login = lazy(() => import("./Pages/Login"));
@@ -26,57 +26,32 @@ const UserProfile = lazy(() => import("./Pages/UserProfile"));
 const ExploreBlogs = lazy(() => import("./Pages/ExploreBlogs"));
 
 function App() {
-  const { saveProfile } = useAuth();
-  useEffect(() => {
-    let profileID;
-    try {
-      profileID = localStorage.getItem("profileID");
-    } catch {
-      profileID = null;
-    }
-
-    if (profileID) saveProfile(profileID);
-  }, []);
-
-  return (
-    <Router>
-      <Nav />
-      <Suspense fallback={<FullPageSpinner />}>
-        <Switch>
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/landing" component={LandingPage} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/forgotPassword" component={ForgotPassword} />
-          <Route
-            exact
-            path="/addBlogDetailsMarkdown"
-            component={addBlogDetailsMarkdown}
-          />
-          <Route exact path="/userNotFound" component={UserNotFound} />
-          <Route exact path="/addBlogImage" component={addBlogImage} />
-          <Route exact path="/addBlogKeywords" component={AddBlogKeywords} />
-          <Route exact path="/final" component={FinalPage} />
-          <Route exact path="/searchpage/:searchInput" component={SearchPage} />
-          <Route
-            exact
-            path="/view-blog/:blogID/:profileID"
-            component={ViewBlog}
-          />
-          <Route exact path="/details" component={DetailsPage} />
-          <Route
-            exact
-            path="/emailVerification/:token"
-            component={EmailVerification}
-          />
-          <Route exact path="/auth/authToken" component={OAuthPage} />
-          <Route path="/admin" component={AdminRoutes} />
-          <Route path="/:profileUserName" component={UserProfile} />
-          <Route exact path={"/"} component={ExploreBlogs} />
-          {/* <Route exact path="/" component={LandingPage}/> */}
-        </Switch>
-      </Suspense>
-    </Router>
-  );
+    return (
+        <Router>
+            <Nav/>
+            <Suspense fallback={<FullPageSpinner/>}>
+                <Switch>
+                    <Route exact path="/signup" component={Signup}/>
+                    <Route exact path="/landing" component={LandingPage}/>
+                    <Route exact path="/login" component={Login}/>
+                    <Route exact path="/forgotPassword" component={ForgotPassword}/>
+                    <Route exact path="/addBlogDetailsMarkdown" component={addBlogDetailsMarkdown}/>
+                    <Route exact path="/userNotFound" component={UserNotFound}/>
+                    <Route exact path="/addBlogImage" component={addBlogImage}/>
+                    <Route exact path="/addBlogKeywords" component={AddBlogKeywords}/>
+                    <Route exact path="/final" component={FinalPage}/>
+                    <Route exact path="/searchpage/:searchInput" component={SearchPage}/>
+                    <Route exact path="/view-blog/:blogID/:profileID" component={ViewBlog}/>
+                    <Route exact path="/details" component={DetailsPage}/>
+                    <Route exact path="/emailVerification/:token" component={EmailVerification}/>
+                    <Route exact path="/auth/authToken" component={OAuthPage}/>
+                    <Route path="/admin" component={AdminRoutes}/>
+                    <Route path="/:profileUserName" component={UserProfile}/>
+                    <Route exact path="/" component={ExploreBlogs}/>
+                </Switch>
+            </Suspense>
+        </Router>
+    );
 }
 
 export default App;

@@ -114,8 +114,23 @@ class LikeOnBlog(Resource):
 
         # print(blog["likedByUsersList"])
         print(blog['likedByUsersList'])
-        if uuid.UUID(profileID) in blog['likedByUsersList'] or uuid.UUID(profileID) in blog['dislikedByUsersList']:
+        if uuid.UUID(profileID) in blog['likedByUsersList']:
             return make_response(jsonify({"message":"Already Liked or disliked"}),200)
+        if uuid.UUID(profileID) in blog['dislikedByUsersList']:
+            dislikedByUsersList=blog['dislikedByUsersList']
+            for user in dislikedByUsersList:
+                newUser = changeUUIDtoString2(user)
+            # print(f"user {user}")
+            # print(f"newUser {newUser}")
+            # print(f"userID {userID}")
+            # print(type(newUser))
+            # print(type(userID))
+            if(newUser == profileID):
+                print(f"newUser {newUser}")
+                blog.dislikedByUsersList.remove(user)
+                print(f"dislikedByUsersList after removing {dislikedByUsersList} ")
+                blog.dislikesCount-=1
+
         # print(blog['likesCount'])
         newLikesCount=blog['likesCount']+1
         # print(newLikesCount)
@@ -183,11 +198,27 @@ class DislikeOnBlog(Resource):
             blog.update(
                 dislikedByUsersList=[]
             )
-        if uuid.UUID(profileID) in blog['dislikedByUsersList'] or uuid.UUID(profileID) in blog['likedByUsersList']:
+        if uuid.UUID(profileID) in blog['dislikedByUsersList']:
             return make_response(jsonify({'message':'Already Disliked or liked'}),200)
         # print(blog['likesCount'])
         # print(newLikesCount)
         # newUserWhoDisliked  = body['userID']
+        if  uuid.UUID(profileID) in blog['likedByUsersList']:
+            likedByUsersList = blog['likedByUsersList']
+        # print(likedByUsersList)
+            for user in likedByUsersList:
+                # newUser = changeUUIDtoString(user)
+                newUser = changeUUIDtoString2(user)
+
+                # print(f"user : {user}" )
+                # print(f"userID :{userID}")
+                # print(f"user type: {type(user)}")
+                # print(f"userID type: {type(userID)}")
+                if(newUser == profileID):
+                    # print("entered")
+                    print(newUser)
+                    likedByUsersList.remove(user)
+                    blog.likesCount=blog.likesCount-1
         newUserWhoDisliked = profileID
         blog['dislikedByUsersList'].append(newUserWhoDisliked)
         blog.dislikesCount+=1

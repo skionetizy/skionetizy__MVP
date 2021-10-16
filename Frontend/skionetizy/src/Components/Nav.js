@@ -15,12 +15,7 @@ function Nav() {
       <nav className={style.nav}>
         <div className={style.header}>
           <Link className={style.logoLink} to="/">
-            <img
-              src={LogoIcon}
-              alt="fountain pen with tip as hotspot"
-              width="64"
-              height="64"
-            />
+            <img src={LogoIcon} alt="fountain pen with tip as hotspot" width="64" height="64"/>
           </Link>
         </div>
         <input type="checkbox" id="nav-toggle" className={style.navToggle} />
@@ -37,10 +32,11 @@ function Nav() {
             </Link>
           </li>
           <li className={style.link}>
-            <Link className={style.navLink} to="#">
+            <Link className={style.navLink} to={"/landing#about"}>
               About us
             </Link>
           </li>
+          foobar
           <li className={style.link}>
             <Link className={style.navLink} to="#">
               Contact us
