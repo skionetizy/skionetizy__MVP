@@ -29,6 +29,7 @@ import SignupForm from "../Components/SignupForm";
 import VerifyEmailModal from "../Components/VerifyEmailModal";
 import useAuth from "../hooks/useAuth";
 import useMutate from "../hooks/useMutate";
+import { useLocation } from "react-router-dom";
 import { isAuthenticated } from "../utils/AuthorisationUtils";
 import baseURL from "../utils/baseURL";
 import style from "./ViewBlog.module.css";
@@ -41,6 +42,7 @@ Moment.globalFormat = "MMM D , YYYY";
 const ViewBlog = () => {
   const { blogID, profileID } = useParams();
   const auth = useAuth();
+  const { state } = useLocation();
 
   const loggedInUserProfile = auth.profile?.profileID;
   const [blog, setBlog] = useState({});
@@ -119,7 +121,10 @@ const ViewBlog = () => {
       })
     );
 
-    if (!isAuthenticated() && showModal === "") {
+    const { callbackURL } = state || {};
+    if (callbackURL) {
+      setShowModal("LOGIN_FORM");
+    } else if (!isAuthenticated() && showModal === "") {
       setTimeout(() => {
         setShowModal("LOGIN_FORM");
       }, 20000);
@@ -340,8 +345,16 @@ const ViewBlog = () => {
               </div>
             </div>
             <div className={style.buttons}>
-              {!!blog.blogID && (
-                <FollowButton othersProfileID={blog.profileID} />
+              {!!blog.blogID && blog.profileID !== auth.profile?.profileID && (
+                <FollowButton
+                  onClick={(ev) => {
+                    if (!auth.profile?.profileID) {
+                      ev.preventDefault();
+                      setShowModal("LOGIN_FORM");
+                    }
+                  }}
+                  othersProfileID={blog.profileID}
+                />
               )}
 
               <button
