@@ -35,6 +35,7 @@ function LoginFormModal({ ...props }) {
           );
           localStorage.setItem("profileID", profileID);
           setStatus("success");
+          props.onLogin?.(userData, null);
         })
         .catch((error) => {
           if (!error.isAxiosError) throw error;
@@ -45,6 +46,7 @@ function LoginFormModal({ ...props }) {
               JSON.stringify({ response: error.response?.data }, null, 4)
           );
 
+          props.onLogin?.(null, error);
           console.info(error);
         });
     }
