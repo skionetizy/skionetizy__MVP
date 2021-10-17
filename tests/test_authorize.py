@@ -185,7 +185,7 @@ def test_ReverificationToken(client):
 
 
 """
-Adithya - Routes.py - 12-15,17,20,21,23-29,45,47,48
+Adithya - Routes.py - 20,21,23-29,45,47,48
 """
 
 """
