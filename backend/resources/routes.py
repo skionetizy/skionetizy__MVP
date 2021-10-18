@@ -8,19 +8,31 @@ from backend import app,api
 
 
 def initialize_routes(api):
-    #_____authorisation-routes________
+    """
+    AUTHORIZATION ROUTES
+    ====================
+    """
+    #POST
     api.add_resource(AuthorizeSignup,'/signup')
-    api.add_resource(AuthorizeEmailVerification,'/api/emailVerification/<token>')
     api.add_resource(AuthorizeLogin,'/login')
     api.add_resource(ReverificationToken,'/auth/reverify')
-    # api.add_resource(getUserFirstName,'/user/getUserFirstName/<userID>')
+    #PATCH
+    api.add_resource(AuthorizeEmailVerification,'/api/emailVerification/<token>')
+    #GET
     api.add_resource(getUserDetails,'/user/getUserDetails/<userID>')
-    #______blog-routes________
-    #post
+    
+    """
+    BLOG ROUTES
+    ===========
+    """
+    
+    #POST
     api.add_resource(AddBlogDescriptionAndTitle,'/blog/addBlogDescriptionAndTitle')
-    api.add_resource(AddBlogImage,'/blog/addBlogImage')
-    #patch
+   
+    
+    #PATCH
     api.add_resource(UpdateBlogDescriptionAndText,'/blog/updateBlogDescriptionAndTitle')
+    api.add_resource(AddBlogImage,'/blog/addBlogImage')
     api.add_resource(LikeOnBlog,'/blog/likeOnBlog/<profileID>/<blogID>')
     api.add_resource(RemoveLikeOnBlog,'/blog/removeLikeOnBlog/<profileID>/<blogID>')
     api.add_resource(DislikeOnBlog,'/blog/dislikeOnBlog/<profileID>/<blogID>')
