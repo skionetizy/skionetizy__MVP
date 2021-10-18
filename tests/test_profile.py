@@ -47,6 +47,26 @@ def test_CheckProfileUsernameIsAvailableAPIHandler(client):
     response = client.post('/profile/checkProfileUsernameIsAvailable',data=json.dumps(data2),headers=headers)
     assert response.json['statusCode']==500
 
+def test_GetProfileandBlogsPaginated(client):
+    """
+    Route.py - 68
+
+    """
+    response = client.get('/profile/getBlogsPaginated/-1')
+    assert response.status_code==404
+
+    response = client.get('/profile/getBlogsPaginated/0')
+    assert response.json["success"]=="true"
+
+def test_GetHoverDetails(client):
+    """
+    Route.py - 69
+
+    """
+    response = client.get('/profile/getHover/e8c4835e-6c28-4969-abb1-5a25eebfac99')
+    x = response.json.parse(details)
+    assert x["profileUserName"]=="NarayanAdithya"
+
 #REDUNDANT ENDPOINT (NOT IN USE)
 # def test_AddProfileUsernameBioUserDetails(client):
 #     mimetype = 'application/json'

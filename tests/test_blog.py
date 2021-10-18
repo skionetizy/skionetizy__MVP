@@ -202,3 +202,38 @@ def test_like_dislike(client):
     assert str(profile.profileID) not in response.json['blog']['dislikedByUsersList']
     assert response.json['blog']['dislikesCount']==blog.dislikesCount
     delete_test_user(user)
+
+def test_GetBlogsAndProfileDetails(client):
+    """
+    Route.py - 31
+
+    """
+    response=client.get('/blog/getBlogsAndProfileDetails')
+    assert response.status_code==200
+
+def test_GetBlogByBlogID(client):
+    """
+    Route.py - 32
+
+    """
+    response=client.get('/blog/getBlogByBlogID/73f979a3-35d1-41b4-a30f-fb36754c6037')
+    assert response.json["statusCode"]==200
+
+def test_GetBlogsByProfile(client):
+    """
+    Route.py - 34
+
+    """
+    response=client.get('/blog/getBlogsByProfile/mrcherry012')
+    assert response.json["statusCode"]==200
+
+def test_GetBlogStatus(client):
+    """
+    Route.py-64
+
+    """
+    response=client.get('/blog/getBlogStatus/e8c4835e-6c28-4969-abb1-5a25eebfac99/73f979a3-35d1-41b4-a30f-fb36754c6037')
+    assert response.json["status"]=="Not Authorized"
+
+    response=client.get('/blog/getBlogStatus/96f59486-18b4-4f03-8923-9e4571e8e6b5/73f979a3-35d1-41b4-a30f-fb36754c6037')
+    assert response.json["status"]=="REVIEW"
