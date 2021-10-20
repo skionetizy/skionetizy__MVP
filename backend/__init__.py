@@ -10,26 +10,14 @@ from gingerit.gingerit import GingerIt
 from google.ads.googleads.client import GoogleAdsClient
 from oauthlib.oauth2 import WebApplicationClient
 
-#cloudinary
-# from cloudinary.uploader import upload
-# from cloudinary.utils import cloudinary_url
-
-
-
-
 app = Flask(__name__,static_folder='../Frontend/skionetizy/build',static_url_path='')
 
 
 cloudinary.config (
-    cloud_name="dd8470vy4",
-    api_key= "847441215945183",
-    api_secret="Aco4ou_V27HzreqOitABk0EMjpQ"
+    cloud_name=os.environ.get('CLOUDINARY_NAME'),
+    api_key= os.environ.get('CLOUDINARY_API_KEY'),
+    api_secret=os.environ.get('CLOUDINARY_API_SECRET')
 )
-# cloudinary.config(
-#     cloud_name=os.environ.get("CLOUD_NAME"),
-#     api_key=os.environ.get("API_KEY"),
-#     api_secret=os.environ.get("API_SECRET")
-# )
 
 
 CORS(app)
@@ -39,8 +27,8 @@ api = Api(app)
 env_config = os.environ.get("APP_SETTINGS") or "DevelopmentConfig"
 app.config.from_object("config."+env_config)
 mail=Mail(app)
-DB_URI='mongodb+srv://rohandevaki:joOlDai1Ey0ccazD@cluster0.gnqpe.mongodb.net/'+app.config['DB_NAME']+'?ssl=true&ssl_cert_reqs=CERT_NONE&retryWrites=true&w=majority'
-print(DB_URI)
+
+
 client=''
 def send_async_email(app, msg):
     with app.app_context():
@@ -52,6 +40,8 @@ def send_email(subject, sender, recipients, html):
     msg.html = html
     thr = Thread(target=send_async_email, args=[app, msg])
     thr.start()
+
+    
 try:
     if(os.environ.get('USE_GADS')):
         client = GoogleAdsClient.load_from_storage("backend/skio.yaml")
@@ -62,8 +52,8 @@ except:
     print("GADS TOKEN EXPIRED")
 
 
-authclient=WebApplicationClient('1009912481477-rumk7lv3njmf7l3asoo7ee6808htfdtd.apps.googleusercontent.com')
-app.config["MONGODB_HOST"]=DB_URI
+authclient=WebApplicationClient(app.config.get('GO_AUTH_CLIENT'))
+
 
 from flask_mongoengine import MongoEngine
 

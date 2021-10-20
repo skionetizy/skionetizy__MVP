@@ -39,6 +39,7 @@ def initialize_routes(api):
     api.add_resource(RemoveDislikeOnBlog,'/blog/removeDislikeOnBlog/<profileID>/<blogID>')
     api.add_resource(AddCommentToBlog,'/blog/addCommentToBlog')
     api.add_resource(RemoveCommentonBlog,'/blog/removeCommentOnBlog')
+    
     #get
     api.add_resource(GetBlogsAndProfileDetails,'/blog/getBlogsAndProfileDetails')
     api.add_resource(GetBlogByBlogID,'/blog/getBlogByBlogID/<blogID>')
