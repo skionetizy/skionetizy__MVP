@@ -203,33 +203,6 @@ def test_like_dislike(client):
     assert response.json['blog']['dislikesCount']==blog.dislikesCount
     delete_test_user(user)
 
-# def test_AddComment_RemoveComent(client):
-#     user, profile = manage_test_user()
-#     mimetype = 'application/json'
-#     headers = {
-#         'Content-Type': mimetype,
-#         'Accept': mimetype
-#     }
-#     data = {
-#         'blogID':'a93a7d1b-c852-481a-817b-293c24d1f148',
-#         'profileID':str(profile.profileID),
-#         'commentDescription':'Added a new comment test user'
-#     }
-#     blogID='a93a7d1b-c852-481a-817b-293c24d1f148'
-#     #Add Comments to Blog
-#     response = client.patch('/blog/addCommentToBlog',data=data,headers=headers)
-#     assert response.json['message'] == "you have successfully added comment on the    blog"
-#     assert response.json['comment']['commentDescription'] == "you have successfully removed comment on the blog"
-#     assert flag==1
-#     data = {
-#         'blogID':'a93a7d1b-c852-481a-817b-293c24d1f148',
-#         'profileID':str(profile.profileID),
-#         'commentID':commentID
-#     }
-#     response = client.patch('/blog/removeCommentOnBlog',data=data,headers=headers)
-#     assert response.json['message']=="you have successfully removed comment on the blog"
-#     delete_test_user(user)
-
 def test_GetBlogsAndProfileDetails(client):
     """
     Route.py - 31
