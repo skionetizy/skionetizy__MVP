@@ -411,6 +411,7 @@ class GetCommentsByBlogID(Resource):
             p=Profile.objects.get_or_404(profileID=x['profileID'])
             x['profilePicImageURL']=p.profilePicImageURL
             x['profileName']=p.profileName
+            x['profileUserName']=p.profileUserName
         return jsonify({'comments':json.loads(json_util.dumps(comments)),'status_code':200,'success':'true'})
 
 

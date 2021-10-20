@@ -1,4 +1,5 @@
 .env
+env
 venv/
 __pycache__/
 .vscode/
@@ -10,3 +11,5 @@ __pycache__/
 my_setup.exe
 /backend/resources/__pycache__
 /backend/database/__pycache__
+
+.pytest_cache
