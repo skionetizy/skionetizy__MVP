@@ -65,7 +65,7 @@ export default function ShareBlogModal({ onClose, blog }) {
           </div>
 
           <p className={styles.urlWrapper}>
-            <span className={styles.url}>{window.location.toString()}</span>
+            <span className={styles.url}>{window.location.toString().substr(0,35)}...</span>
 
             <Tooltip tip="Copied!!!">
               <button
