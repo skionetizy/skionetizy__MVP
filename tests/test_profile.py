@@ -52,11 +52,11 @@ def test_GetProfileandBlogsPaginated(client):
     Route.py - 68
 
     """
-    response = client.get('/profile/getBlogsPaginated/-1')
+    response = client.get('/profile/getBlogsPaginated/500')
     assert response.status_code==404
 
     response = client.get('/profile/getBlogsPaginated/0')
-    assert response.json["success"]=="true"
+    assert response.json["success"]==True
 
 def test_GetHoverDetails(client):
     """
@@ -64,8 +64,7 @@ def test_GetHoverDetails(client):
 
     """
     response = client.get('/profile/getHover/e8c4835e-6c28-4969-abb1-5a25eebfac99')
-    x = response.json.parse(details)
-    assert x["profileUserName"]=="NarayanAdithya"
+    assert response.json["details"]["profileUserName"]=="NarayanAdithya"
 
 #REDUNDANT ENDPOINT (NOT IN USE)
 # def test_AddProfileUsernameBioUserDetails(client):
