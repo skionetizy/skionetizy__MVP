@@ -230,3 +230,222 @@ def test_like_dislike(client):
 #     assert response.json['message']=="you have successfully removed comment on the blog"
 #     delete_test_user(user)
 
+def test_GetBlogsAndProfileDetails(client):
+    """
+    Route.py - 31
+
+    """
+    response=client.get('/blog/getBlogsAndProfileDetails')
+    assert response.status_code==200
+
+def test_GetBlogByBlogID(client):
+    """
+    Route.py - 32
+
+    """
+    response=client.get('/blog/getBlogByBlogID/73f979a3-35d1-41b4-a30f-fb36754c6037')
+    assert response.json["statusCode"]==200
+
+def test_GetBlogsByProfile(client):
+    """
+    Route.py - 34
+
+    """
+    response=client.get('/blog/getBlogsByProfile/mrcherry012')
+    assert response.json["statusCode"]==200
+
+def test_GetBlogStatus(client):
+    """
+    Route.py-64
+
+    """
+    response=client.get('/blog/getBlogStatus/e8c4835e-6c28-4969-abb1-5a25eebfac99/73f979a3-35d1-41b4-a30f-fb36754c6037')
+    assert response.json["status"]=="Not Authorized"
+
+    response=client.get('/blog/getBlogStatus/96f59486-18b4-4f03-8923-9e4571e8e6b5/73f979a3-35d1-41b4-a30f-fb36754c6037')
+    assert response.json["status"]=="REVIEW"
+
+def test_AddView(client):
+    user, profile = manage_test_user()
+    mimetype = 'application/json'
+    headers = {
+        'Content-Type': mimetype,
+        'Accept': mimetype,
+        'Authorization':user.encode_signin_token()
+    }
+    data3 = {
+        "blogTitle":"Testing",
+        "blogDescription":"Hello Test Random Test Hello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random Test"
+    }
+    response = client.post('/blog/addBlogDescriptionAndTitle',data=json.dumps(data3),headers=headers)
+    blogID=response.json['blog']['blogID']
+    response_patch = client.patch('/api/blog/addView/'+blogID)
+    assert response_patch.json["status_code"]==200
+    Blog.objects(blogID=response.json['blog']['blogID']).delete()
+    delete_test_user(user)
+
+def test_getCommentsByBlogID(client):
+    blogID = "e6aacb55-b75f-4820-b851-e66827a6035a"
+    response = client.get('/blog/getComments/'+blogID)
+    assert response.json["status_code"]==200
+
+def test_SearchBlog(client):
+    mimetype = 'application/json'
+    headers = {
+        'Content-Type': mimetype,
+        'Accept': mimetype
+    }
+    data1 = {
+        "search":"asdf"
+    }
+    response = client.post('/blog/searchBlog',data=json.dumps(data1),headers=headers)
+    assert response.json["Message"]=="Invalide Search String"
+
+    data2 = {
+        "search":"asdf asfas"
+    }
+    response = client.post('/blog/searchBlog',data=json.dumps(data2),headers=headers)
+    assert response.status_code==200
+
+def test_AddMetaData(client):
+    user, profile = manage_test_user()
+    mimetype = 'application/json'
+    headers = {
+        'Content-Type': mimetype,
+        'Accept': mimetype,
+        'Authorization':user.encode_signin_token()
+    }
+    data = {
+        "blogTitle":"Testing",
+        "blogDescription":"Hello Test Random Test Hello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random Test"
+    }
+    response = client.post('/blog/addBlogDescriptionAndTitle',data=json.dumps(data),headers=headers)
+    data2 = {
+        'blogID':response.json['blog']['blogID'],
+        'type':response.json['blog']['blogStatus'],
+        'metaTitle':"Test",
+        'metaDescription':"Test",
+        'metaKeywords':"Test"
+    }
+    response_post = client.post('/blog/addMeta',data=json.dumps(data2),headers=headers)
+    assert response_post.json['Message']=='Invalid Length of Title'
+    data3 = {
+        'blogID':response.json['blog']['blogID'],
+        'type':response.json['blog']['blogStatus'],
+        'metaTitle':"Testing",
+        'metaDescription':"Test",
+        'metaKeywords':"Test"
+    }
+    response_post = client.post('/blog/addMeta',data=json.dumps(data3),headers=headers)
+    assert response_post.json['Message']=='Invalid length for description'
+    data4 = {
+        'blogID':response.json['blog']['blogID'],
+        'type':response.json['blog']['blogStatus'],
+        'metaTitle':"Testing",
+        'metaDescription':"TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest",
+        'metaKeywords':"Test"
+    }
+    response_post = client.post('/blog/addMeta',data=json.dumps(data4),headers=headers)
+    assert response_post.json['Message']=='Invalid length for description'
+    data5 = {
+        'blogID':response.json['blog']['blogID'],
+        'type':response.json['blog']['blogStatus'],
+        'metaTitle':"Testing",
+        'metaDescription':"TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest",
+        'metaKeywords':"TestTestTestTestTestTestTest"
+    }
+    response_post = client.post('/blog/addMeta',data=json.dumps(data5),headers=headers)
+    assert response_post.json['Message']=='Successfull'
+    Blog.objects(blogID=response.json['blog']['blogID']).delete()
+    delete_test_user(user)
+
+def test_UpdateBlogStatus(client):
+    user, profile = manage_test_user()
+    mimetype = 'application/json'
+    headers = {
+        'Content-Type': mimetype,
+        'Accept': mimetype,
+        'Authorization':user.encode_signin_token()
+    }
+    data = {
+        "blogTitle":"Testing",
+        "blogDescription":"Hello Test Random Test Hello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random Test"
+    }
+    response = client.post('/blog/addBlogDescriptionAndTitle',data=json.dumps(data),headers=headers)
+    response_patch = client.patch('/blog/updateBlogStatus/'+str(profile.profileID)+'/'+response.json['blog']['blogID']+'/REVIEW')
+    assert response_patch.json['status']=='Not Authorized'
+    response_patch = client.patch('/blog/updateBlogStatus/96f59486-18b4-4f03-8923-9e4571e8e6b5/'+response.json['blog']['blogID']+'/REVIEW')
+    assert response_patch.json['message']=='STATUS FORMAT NOT ACCEPTED'
+    response_patch = client.patch('/blog/updateBlogStatus/96f59486-18b4-4f03-8923-9e4571e8e6b5/'+response.json['blog']['blogID']+'/DRAFTED')
+    assert response_patch.json['message']=='Status updated successfully'
+    Blog.objects(blogID=response.json['blog']['blogID']).delete()
+    delete_test_user(user)
+
+def test_GetBlogsAndProfileDetailsPagination(client):
+    response = client.get('/blog/getBlogsPaginated/500')
+    assert response.status_code==404
+
+    response = client.get('/profile/getBlogsPaginated/0')
+    assert response.json["success"]==True
+
+def test_GetFeed(client):
+    response = client.get('/api/blog/getFeed/96f59486-18b4-4f03-8923-9e4571e8e6b5/500')
+    assert response.status_code==404
+
+    response = client.get('/api/blog/getFeed/96f59486-18b4-4f03-8923-9e4571e8e6b5/0')
+    assert response.json["success"]==True 
+
+    response = client.get('/api/blog/getFeed/ef84fbcd-b413-4947-b2c5-30c03bf06e8e/500')
+    assert response.status_code==404
+
+    response = client.get('/api/blog/getFeed/ef84fbcd-b413-4947-b2c5-30c03bf06e8e/0')
+    assert response.json["success"]==True
+
+def test_AddComment_RemoveComment(client):
+    user,profile = manage_test_user()
+    mimetype = 'application/json'
+    headers = {
+        'Content-Type': mimetype,
+        'Accept': mimetype,
+        'Authorization':user.encode_signin_token()
+    }
+    data = {
+        "blogTitle":"Testing",
+        "blogDescription":"Hello Test Random Test Hello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random TestHello Test Random Test"
+    }
+    response = client.post('/blog/addBlogDescriptionAndTitle',data=json.dumps(data),headers=headers)
+    data1 = {
+        "blogID":response.json['blog']['blogID'],
+        "profileID":str(profile.profileID),
+        "commentDescription":"Test"
+    } 
+    response_patch = client.patch('/blog/addCommentToBlog',data=json.dumps(data1),headers=headers)
+    assert response_patch.json['message']=='comment must be more than 6 characters and less than 300 characters'
+    data2 = {
+        "blogID":response.json['blog']['blogID'],
+        "profileID":str(profile.profileID),
+        "commentDescription":"Testing for comment lengthTesting for comment lengthTesting for comment lengthTesting for comment lengthTesting for comment lengthTesting for comment lengthTesting for comment lengthTesting for comment lengthTesting for comment lengthTesting for comment lengthTesting for comment lengthTesting for comment lengthTesting for comment length"
+    } 
+    response_patch = client.patch('/blog/addCommentToBlog',data=json.dumps(data2),headers=headers)
+    assert response_patch.json['message']=='comment must be more than 6 characters and less than 300 characters'
+    data3 = {
+        "blogID":response.json['blog']['blogID'],
+        "profileID":str(profile.profileID),
+        "commentDescription":"Testing for comment lengthTesting for comment lengthTesting for comment lengthTesting for comment lengthTesting for comment length"
+    }
+    response_patch = client.patch('/blog/addCommentToBlog',data=json.dumps(data3),headers=headers)
+    assert response_patch.json['message']=='you have successfully added comment on the    blog'
+    
+    data4 = {
+        "commentID":response_patch.json['comment']['commentID'],
+        "profileID":str(profile.profileID),
+        "blogID":response.json['blog']['blogID']
+    }
+    response_patch = client.patch('/blog/removeCommentOnBlog',data=json.dumps(data4),headers=headers)
+    assert response_patch.json['message']=='you have successfully removed comment on the blog'
+    Blog.objects(blogID=response.json['blog']['blogID']).delete()
+    delete_test_user(user)
+
+def test_AddKeywords(client):
+    response = client.get('/blog/getKeywords/abc')
+    assert response.json['message']=='GADS TOKEN EXPIRED'

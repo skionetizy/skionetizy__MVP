@@ -1,6 +1,6 @@
 import DeleteIcon from "@material-ui/icons/Delete";
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { deleteCommentAPIHandler } from "../API/blogAPIHandler";
 import styles from "../Components/comments.module.css";
 import useAuth from "../hooks/useAuth";
@@ -38,17 +38,21 @@ const Comments = ({
     <div>
       <div className={styles.user_comments}>
         <div className={styles.userContents}>
-          <img
-            className={styles.user_avatar}
-            // src="//unsplash.it/40/40" //edit it with profile
-            src={comment.profilePicImageURL} //edit it with profile
-            alt=" "
-          />
+          <Link to={"/" + comment.profileUserName}>
+            <img
+              className={styles.user_avatar}
+              // src="//unsplash.it/40/40" //edit it with profile
+              src={comment.profilePicImageURL} //edit it with profile
+              alt=" "
+            />
+          </Link>
         </div>
 
         <div className={styles.comment_text}>
           <small className={styles.userName}>
-            {comment.profileName}{" "}
+            <Link to={"/" + comment.profileUserName} style={{color: "inherit", textDecoration: "none"}}>
+              {comment.profileName}{" "}
+            </Link>
             <span className={styles.date}>
               {comment.timestamp.$date
                 ? timestampToDateString(comment.timestamp.$date)
