@@ -195,7 +195,7 @@ class GoogleAuth(Resource):
         token_url, headers, body = authclient.prepare_token_request(
                                 token_endpoint,
                                 authorization_response=callback_uri,
-                                redirect_url=app.config.get('DOMAIN')+'/auth/authToken',
+                                redirect_url=app.config.get('DOMAIN')+'auth/authToken',
                                 code=code
                             )
         token_response = requests.post(
