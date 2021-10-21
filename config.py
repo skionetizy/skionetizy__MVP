@@ -15,7 +15,7 @@ class Config:
     MAIL_USERNAME=os.environ.get('MAIL_USERNAME') or 'xyz@gmail.com'
     MAIL_PASSWORD=os.environ.get("MAIL_PASSWORD") or 'xyz'
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
-
+    FRONTEND_DOMAIN = os.environ.get('FRONTEND_DOMAIN') or os.environ.get('DOMAIN')
 class ProductionConfig(Config):
     pass
 
