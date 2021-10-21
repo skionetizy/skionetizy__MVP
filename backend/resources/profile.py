@@ -1,9 +1,8 @@
 from flask import json, make_response,jsonify
 from flask.globals import request
 from flask_restful import Resource
-
+from flask import make_response
 import uuid 
-
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 from bson import json_util
@@ -45,8 +44,6 @@ class AddProfileUsernameBioUserDetails(Resource):
             profileGender=body['profileGender']
         )
         
-        #newProfile.save()
-
         return make_response(jsonify({"profile":newProfile,"statusCode":201,"success":True}))
     
 class UpdateProfile(Resource):
@@ -204,6 +201,7 @@ class GetProfileandBlogsPaginated(Resource):
 class GetHoverDetails(Resource):
     def get(self,profileID):
         p=Profile.objects(profileID=profileID).only('profilePicImageURL','profileBannerImageURL','profileName','profileUserName')
+        print(p)
         return jsonify({'details':p[0]})
 
 class AddInterest(Resource):

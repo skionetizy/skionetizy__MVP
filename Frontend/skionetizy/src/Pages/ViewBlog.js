@@ -34,7 +34,8 @@ import { isAuthenticated } from "../utils/AuthorisationUtils";
 import baseURL from "../utils/baseURL";
 import style from "./ViewBlog.module.css";
 import ReactMarkdown from "react-markdown";
-
+import useIntersectionObserver from "../hooks/useIntersectionObserver";
+import TriggerLoginPopup from "./TriggerLoginPopup";
 const KEYWORDS_LOCAL_KEY = "blogsKeywords";
 
 Moment.globalFormat = "MMM D , YYYY";
@@ -43,7 +44,6 @@ const ViewBlog = () => {
   const { blogID, profileID } = useParams();
   const auth = useAuth();
   const { state } = useLocation();
-
   const loggedInUserProfile = auth.profile?.profileID;
   const [blog, setBlog] = useState({});
   const [showComment, setShowComment] = useState(true);
@@ -51,6 +51,7 @@ const ViewBlog = () => {
   const [viewMore, setViewMore] = useState("View more");
   const [showModal, setShowModal] = useState("");
   const [commentStatusMessage, setCommentStatusMessage] = useState("");
+  const [isLoginPopupVisible , setIsLoginPopupVisible] = useState(false)
   const [viewCountData, setViewCountData] = useState({
     timeout: false,
     scroll: false,
@@ -103,8 +104,6 @@ const ViewBlog = () => {
     }
     const promise2 = axios.get(`${baseURL}/blog/getComments/${blogID}`);
 
-    console.log(promise1);
-
     axios.all([promise1, promise2]).then(
       axios.spread((...responses) => {
         const response1 = responses[0];
@@ -124,10 +123,6 @@ const ViewBlog = () => {
     const { callbackURL } = state || {};
     if (callbackURL) {
       setShowModal("LOGIN_FORM");
-    } else if (!isAuthenticated() && showModal === "") {
-      setTimeout(() => {
-        setShowModal("LOGIN_FORM");
-      }, 20000);
     }
   }, []);
 
@@ -139,7 +134,6 @@ const ViewBlog = () => {
       3000 /* 3 Seconds */
     );
 
-    console.log("im runnning");
     return () => clearTimeout(timerID);
   }, [commentStatusMessage]);
 
@@ -162,7 +156,6 @@ const ViewBlog = () => {
     // add scroll observer
     const io = new IntersectionObserver(([entry], _io) => {
       if (entry.isIntersecting) {
-        console.log("in view");
         setViewCountData((prev) => ({ ...prev, scroll: true }));
 
         _io.unobserve(entry.target);
@@ -249,8 +242,6 @@ const ViewBlog = () => {
   };
 
   const handleDislike = () => {
-    console.log("disliked");
-
     if (!loggedInUserProfile) {
       setShowModal("LOGIN_FORM");
     } else if (hasDisliked === false && hasLiked === false) {
@@ -305,6 +296,17 @@ const ViewBlog = () => {
   const viewAllHandler = () => {
     setLength(length + 5);
   };
+
+  useEffect(() => {
+    if (
+      isLoginPopupVisible &&
+      blog.blogDescription &&
+      !auth.profile?.profileID &&
+      showModal === ""
+    ) {
+      setShowModal("LOGIN_FORM");
+    }
+  }, [isLoginPopupVisible, auth.profile, showModal, blog.blogDescription]);
 
   return (
     <>
@@ -399,6 +401,22 @@ const ViewBlog = () => {
                 }}
               ></span>
             )}
+            {/* Login modal popup marker */}
+            {blog.blogDescription && (
+              <TriggerLoginPopup
+                onVisible={setIsLoginPopupVisible}
+                style={{
+                  // moving a bit up so ~75% scroll through blog is counted as a view
+                  position: "absolute",
+                  bottom: "50%",
+                  left: 0,
+                  backgroundColor: "transparent",
+                  display: "inline-block",
+                  width: 32,
+                  height: 32,
+                }}
+              />
+            )}
           </div>
         </div>
         <div className={style.meta}>
@@ -473,7 +491,6 @@ const ViewBlog = () => {
           <div className={styles.comment_count}>
             <h3>
               <span>{comments?.length}</span> Comments
-              {console.log({ commentStatusMessage })}
             </h3>
           </div>
 

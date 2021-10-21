@@ -82,11 +82,11 @@ class AuthorizeSignup(Resource):
 
         auth_token = newUser.encode_auth_token()
         print(f'{auth_token} here')
-        redirect_url = f'https://skionetizymvp-staging.herokuapp.com/emailVerification/{auth_token}'
+        redirect_url = app.config.get('DOMAIN')+f'emailVerification/{auth_token}'
         template=env.get_template('emailVerification.html')
         x=newUser.generate_password()
         newUser.save()
-        rendered_html=template.render(username=body['firstName'],link=redirect_url,password=x)
+        rendered_html=template.render(username=body['firstName'],link=redirect_url,password=x,domain=app.config.get('DOMAIN'))
         send_email("Skionetizy Email Verification for creating account",os.environ.get('MAIL_USERNAME'),recipients=[body["emailID"]],html=rendered_html)
         return make_response(jsonify({"emailID":newUser["emailID"],"statusCode":200,"password":x}))
     
@@ -128,8 +128,8 @@ class ReverificationToken(Resource):
         else:
             auth_token=user.encode_auth_token()
             template=env.get_template('emailVerification.html')
-            redirect_url = f'https://skionetizymvp-staging.herokuapp.com/emailVerification/{auth_token}'
-            rendered_html=template.render(username=user.firstName,link=redirect_url)
+            redirect_url = app.config.get('DOMAIN')+f'emailVerification/{auth_token}'
+            rendered_html=template.render(username=user.firstName,link=redirect_url,domain=app.config.get('DOMAIN'))
             send_email("Skionetizy Email Verification for creating account",os.environ.get('MAIL_USERNAME'),recipients=[body["emailID"]],html=rendered_html)
             return make_response(jsonify({'Message':'Reverification Mail Sent','success':True}))
         
@@ -155,12 +155,14 @@ class ForgotPassword(Resource):
 class AuthorizeLogin(Resource):
     def post(self):
         body = request.get_json()
-        user = User.objects.get(emailID = body["emailID"])
-    
-        if not user:
+        
+        try:
+            User.objects.get(emailID = body["emailID"])
+        except:
             return make_response({"message":"create an account, before you login","status":500})
         # elif user["isVerified"]==False:
-        elif user["isVerified"]==False:
+        user = User.objects.get(emailID = body["emailID"])
+        if user["isVerified"]==False:
             return make_response({"message":"Check your mail to verfiy, your email ID","status":500})
         
         isAuthorized = user.check_password(body.get('password'))
@@ -170,14 +172,6 @@ class AuthorizeLogin(Resource):
         profile=Profile.objects.get(userID=user.userID)
         return make_response({"token":token,"profileID":profile.profileID,"message":"Logged in Successfully","status":200})
 
-# class getUserFirstName(Resource):
-#     def get(self,userID):
-#         # body=request.get_json()
-
-#         print(f"userID:{userID}")
-#         user = User.objects.get(userID=userID).only("firstName")
-
-#         return make_response({"user":user,"message":"fetched user details  Successfully","status":200})
 
 class getUserDetails(Resource):
     def get(self,userID):
@@ -201,14 +195,14 @@ class GoogleAuth(Resource):
         token_url, headers, body = authclient.prepare_token_request(
                                 token_endpoint,
                                 authorization_response=callback_uri,
-                                redirect_url='https://skionetizymvp-staging.herokuapp.com/auth/authToken',
+                                redirect_url=app.config.get('FRONTEND_DOMAIN')+'auth/authToken',
                                 code=code
                             )
         token_response = requests.post(
             token_url,
             headers=headers,
             data=body,
-            auth=( "1009912481477-rumk7lv3njmf7l3asoo7ee6808htfdtd.apps.googleusercontent.com", "xVWz8LZBMnaXvr1YNXGtjvhH"),
+            auth=( app.config.get('GO_AUTH_CLIENT'), app.config.get('GO_AUTH_SECRET')),
         )
         authclient.parse_request_body_response(json.dumps(token_response.json()))
         userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
@@ -253,15 +247,4 @@ class GoogleAuth(Resource):
                 return make_response(jsonify({'token':token,'user':u,'profile':p,'success':1}))                
         else:
             return make_response(jsonify({"Message":"User email not available or not verified by Google."}))
-            # first_name=users_name.split()[0]
-            # second_name=''
-            # if users_name.split()[1]:
-            #     second_name=users_name.split()[1]
-            # newUser = User(
-            #     userID= uuid.uuid4(),
-            #     firstName=first_name,
-            #     lastName=second_name,
-            #     emailID=body['emailID'],
-            #     password=body['password'],
-            #     confirmPassword=body['confirmPassword']
-            # )
+          

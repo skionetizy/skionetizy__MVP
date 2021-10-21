@@ -419,6 +419,3 @@ def test_AddComment_RemoveComment(client):
     Blog.objects(blogID=response.json['blog']['blogID']).delete()
     delete_test_user(user)
 
-def test_AddKeywords(client):
-    response = client.get('/blog/getKeywords/abc')
-    assert response.json['message']=='GADS TOKEN EXPIRED'

@@ -14,7 +14,12 @@ export const getLoggedInUserID = () => {
 };
 
 export const getLoggedInProfileID = () => {
-  const loggedInUser = localStorage.getItem("profileID");
+  let loggedInUser;
+  try {
+    loggedInUser = localStorage.getItem("profileID");
+  }catch {
+    loggedInUser = ""
+  }
 
   return loggedInUser;
 };
