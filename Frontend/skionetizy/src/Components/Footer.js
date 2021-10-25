@@ -48,11 +48,11 @@ function Footer() {
             src={LogoIcon}
             alt="fountain pen's tip camera closeup"
           />
-          Skionetizy
+          PapersDrop
         </p>
 
         <p className={styles.footerCopyright}>
-          Copyright &copy; Skionetizy 2021
+          Copyright &copy; PapersDrop 2021
         </p>
       </section>
     </footer>
@@ -61,18 +61,20 @@ function Footer() {
 
 const siteLinks = [
   {
-    Services: "/service",
-    "About us": "/about-us",
+    // Services: "/service",
+    "About us": "/landing#about",
+    "Signup": "/signup",
   },
   {
-    Career: "/career",
-    Help: "/help",
-    "Contact Us": "/contact-us",
+    Mission: "/landing#mission",
+    "Create Blog": "/addBlogDetailsMarkdown"
+    // Help: "/help",
+    // "Contact Us": "/contact-us",
   },
   {
-    Terms: "/terms",
-    "Privacy Policy": "/privacy-policy",
-    "Copyright Policy": "/copyright-policy",
+    Login: "/login",
+    // "Privacy Policy": "/privacy-policy",
+    // "Copyright Policy": "/copyright-policy",
   },
 ];
 
