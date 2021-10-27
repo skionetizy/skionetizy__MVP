@@ -112,9 +112,9 @@ function Homepage() {
                             Subscribe
                         </Button>
 
-                        <Button variant="none" type="button">
-                            Demo
-                        </Button>
+                        {/*<Button variant="none" type="button">*/}
+                        {/*    Demo*/}
+                        {/*</Button>*/}
                     </div>
                 </div>
 
