@@ -132,18 +132,17 @@ function NavMenuBar(props) {
                     <li>
                         <DonateButton>Support Us</DonateButton>
                     </li>
+                    {!isLoggedIn && (
+                        <NavLink
+                            activeClassName={styles.linkHighlight}
+                            className={clsx(styles.link, styles.rightItem, styles.loginBtn)}
+                            to="/login"
+                            onClick={closeBlog}
+                        >
+                            Login
+                        </NavLink>
+                    )}
                 </ul>
-
-                {!isLoggedIn && (
-                    <NavLink
-                        activeClassName={styles.linkHighlight}
-                        className={clsx(styles.link, styles.rightItem, styles.loginBtn)}
-                        to="/login"
-                        onClick={closeBlog}
-                    >
-                        Login
-                    </NavLink>
-                )}
             </nav>
         </>
     );
