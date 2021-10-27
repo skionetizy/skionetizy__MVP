@@ -54,7 +54,7 @@ function NavMenuBar(props) {
             console.log({filteredBlogsInUE: filteredData});
             setFilteredBlogs(filteredData);
         }
-    }, [ debouncedSearch ]);
+    }, [debouncedSearch]);
 
     return (
         <>
@@ -70,8 +70,7 @@ function NavMenuBar(props) {
                     <img
                         src={LogoIcon}
                         alt="fountain pen with tip as hotspot"
-                        width="64"
-                        height="64"
+                        style={{width: "3rem", height: "3rem"}}
                     />
                     <p className={styles.headerTitle}>Skionetizy</p>
                 </Link>
@@ -127,7 +126,8 @@ function NavMenuBar(props) {
                         </Link>
                     </li>
                     <li>
-                        <Link to={{pathname: "/landing", hash: "#mission"}}  className={styles.link} onClick={closeBlog}>Mission</Link>
+                        <Link to={{pathname: "/landing", hash: "#mission"}} className={styles.link}
+                              onClick={closeBlog}>Mission</Link>
                     </li>
                     <li>
                         <DonateButton>Support Us</DonateButton>
