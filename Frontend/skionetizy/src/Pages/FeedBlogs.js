@@ -58,7 +58,13 @@ export default function FeedBlogs() {
   return (
     <>
       {blogs.length > 0 && (
-        <FrameBorder title={<h1>My Feed</h1>}>
+        <FrameBorder
+          title={
+            <h1 style={{ paddingLeft: "4rem", color: "var(--primary-blue)" }}>
+              My Feed
+            </h1>
+          }
+        >
           <div
             className={`${style.blogCardContainer} ${style.container} ${style.body}`}
           >

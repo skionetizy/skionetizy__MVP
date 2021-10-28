@@ -72,7 +72,7 @@ function NavMenuBar(props) {
                         alt="fountain pen with tip as hotspot"
                         style={{width: "3rem", height: "3rem"}}
                     />
-                    <p className={styles.headerTitle}>Skionetizy</p>
+                    <p className={styles.headerTitle}>PapersDrop</p>
                 </Link>
 
                 <form className={styles.inputContainer} onSubmit={handleSearchSubmit}>
