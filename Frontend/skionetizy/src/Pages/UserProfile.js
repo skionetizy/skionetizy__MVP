@@ -44,6 +44,7 @@ const UserProfile = () => {
   const { profile: loggedProfile } = useAuth();
 
   const profileID = loggedProfile?.profileID;
+  const isOwner = profileID === profile.profileID
   const { url: userProfileRoute } = useRouteMatch();
 
   const [userProfileImage, setUserProfileImage] = useState(null);
@@ -356,16 +357,16 @@ const UserProfile = () => {
             to={`${userProfileRoute}/blogs`}
             className={style.navBtn}
           >
-            My Blogs
+            {isOwner ? "My Blogs" : "Blogs"}
           </NavLink>
 
-          <NavLink
+          {isOwner && <NavLink
             activeClassName={style.navBtnActive}
             to={`${userProfileRoute}/drafts`}
             className={style.navBtn}
           >
             My Drafts
-          </NavLink>
+          </NavLink>}
         </nav>
 
         <Switch>
