@@ -15,7 +15,7 @@
 .heroImage {
   display: block;
   margin: 0 auto;
-  margin-top: 0.5rem;
+  padding-top: 0.5em;
   max-height: 7rem;
 }
 
@@ -103,6 +103,11 @@
 
     margin: 3rem 5.5rem;
     padding: 1rem 10rem;
+  }
+  
+  .title__imageWrapper {
+    display: flex;
+    width: 100%;
   }
 
   .title {

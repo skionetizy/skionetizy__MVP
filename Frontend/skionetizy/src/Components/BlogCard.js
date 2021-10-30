@@ -16,7 +16,7 @@ const BlogCard = ({ blog, isAdmin = false }) => {
   return (
     <div>
       <Link
-        style={{ textDecoration: "none" }}
+        style={{ textDecoration: "none", display: "inline-block", height: "100%" ,width: "100%"}}
         to={
           isAdmin
             ? `/admin/view-blog/${blog.blogID}/${blog.profileID}`

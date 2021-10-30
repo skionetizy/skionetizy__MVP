@@ -11,6 +11,7 @@ import Footer from "../Components/Footer";
 import FrameBorder from "../Components/FrameBorder";
 import clsx from "../utils/clsx";
 import FeedBlogs from "./FeedBlogs";
+import useAuth from "../hooks/useAuth";
 
 const url = `${baseURL}/blog/getBlogsPaginated`;
 
@@ -21,6 +22,7 @@ function MyBlogs(props) {
   const [loading, setLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [hasMoreBlogs, setHasMoreBlogs] = useState(true);
+  const auth = useAuth();
 
   const [view, setView] = useState("trending");
 
@@ -73,12 +75,15 @@ function MyBlogs(props) {
           >
             Trending
           </ExploreButton>
-          <ExploreButton
-            isActive={view === "my_feed"}
-            onClick={() => setView("my_feed")}
-          >
-            My Feed
-          </ExploreButton>
+
+          {auth.isLoggedIn && (
+            <ExploreButton
+              isActive={view === "my_feed"}
+              onClick={() => setView("my_feed")}
+            >
+              My Feed
+            </ExploreButton>
+          )}
         </div>
 
         {view === "trending" ? (
@@ -118,9 +123,9 @@ function MyBlogs(props) {
               <p className={style.statusMessage}>🎉You have reached to end</p>
             )}
           </>
-        ) : (
+        ) : view === "my_feed" ? (
           <FeedBlogs />
-        )}
+        ) : null}
       </div>
       <Footer />
     </>
