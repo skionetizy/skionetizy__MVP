@@ -1,12 +1,13 @@
-import Button from "@material-ui/core/Button";
+import Button from "../Components/Button";
 import EditIcon from "@material-ui/icons/Edit";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import PeopleOutlineIcon from "@material-ui/icons/PeopleOutline";
 import React, { useEffect, useState } from "react";
-import { FiCamera } from "react-icons/fi";
+import { FiCamera, FiLink } from "react-icons/fi";
 import Moment from "react-moment";
+import { RiLinkedinBoxLine } from "react-icons/ri";
 import {
   NavLink,
   Redirect,
@@ -44,6 +45,7 @@ const UserProfile = () => {
   const { profile: loggedProfile } = useAuth();
 
   const profileID = loggedProfile?.profileID;
+  const isOwner = profileID === profile.profileID;
   const { url: userProfileRoute } = useRouteMatch();
 
   const [userProfileImage, setUserProfileImage] = useState(null);
@@ -205,12 +207,33 @@ const UserProfile = () => {
           <div className={style.col2}>
             <h1>{profile.profileName}</h1>
             <div className={style.profileDes}>
-              <li>{profile.profileBio}</li>
-              <li></li>
-              <li></li>
+              <p>{profile.profileBio}</p>
             </div>
 
             <div className={style.profileFollow}>
+              <FollowButton
+                othersProfileID={profile.profileID}
+                outline
+                onUpdate={(res, err) => {
+                  if (err) return;
+
+                  const profileID = auth.profile?.profileID;
+                  const Followers = res.isFollowing
+                    ? profile.Followers.filter((_id) => _id === profileID)
+                    : [...profile.Followers, profileID];
+
+                  const FollowersCount = res.isFollowing
+                    ? profile.FollowersCount - 1
+                    : profile.FollowersCount + 1;
+
+                  setProfile((prev) => ({
+                    ...prev,
+                    Followers,
+                    FollowersCount,
+                  }));
+                }}
+              />
+
               <PeopleOutlineIcon className={style.followIcon} />
               <div className={style.follow}>
                 <small>Subscribers</small>
@@ -218,42 +241,20 @@ const UserProfile = () => {
               </div>
             </div>
 
-            <Moment>{profile?.profileTimestamp?.$date}</Moment>
-
             {/* Action Btns Group */}
             <div className={style.userButton}>
               {profile?.profileID == null ? null : isAuthorisedUser() ? (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<EditIcon />}
-                  onClick={() => setShowEditModal(true)}
-                >
+                <Button variant="dark" onClick={() => setShowEditModal(true)}>
+                  <EditIcon /> 
+                  &nbsp;&nbsp;
                   Edit Profile
                 </Button>
-              ) : (
-                <FollowButton
-                  othersProfileID={profile.profileID}
-                  onUpdate={(res, err) => {
-                    if (err) return;
+              ) : null}
 
-                    const profileID = auth.profile?.profileID;
-                    const Followers = res.isFollowing
-                      ? profile.Followers.filter((_id) => _id === profileID)
-                      : [...profile.Followers, profileID];
-
-                    const FollowersCount = res.isFollowing
-                      ? profile.FollowersCount - 1
-                      : profile.FollowersCount + 1;
-
-                    setProfile((prev) => ({
-                      ...prev,
-                      Followers,
-                      FollowersCount,
-                    }));
-                  }}
-                />
-              )}
+              <p className={style.profileTimestamp}>
+                <FiLink className={style.icon} />
+                <Moment>{profile?.profileTimestamp?.$date}</Moment>
+              </p>
             </div>
           </div>
 
@@ -261,10 +262,10 @@ const UserProfile = () => {
           <div className={style.social}>
             <h3>Social</h3>
             <ul>
-              <li>
+              <li className={style.socialItem}>
                 <LinkedInIcon className={style.socialIcons} /> LinkedIn
               </li>
-              <li>
+              <li className={style.socialItem}>
                 <GitHubIcon className={style.socialIcons} />
                 Website
               </li>
@@ -356,16 +357,18 @@ const UserProfile = () => {
             to={`${userProfileRoute}/blogs`}
             className={style.navBtn}
           >
-            My Blogs
+            {isOwner ? "My Blogs" : "Blogs"}
           </NavLink>
 
-          <NavLink
-            activeClassName={style.navBtnActive}
-            to={`${userProfileRoute}/drafts`}
-            className={style.navBtn}
-          >
-            My Drafts
-          </NavLink>
+          {isOwner && (
+            <NavLink
+              activeClassName={style.navBtnActive}
+              to={`${userProfileRoute}/drafts`}
+              className={style.navBtn}
+            >
+              My Drafts
+            </NavLink>
+          )}
         </nav>
 
         <Switch>

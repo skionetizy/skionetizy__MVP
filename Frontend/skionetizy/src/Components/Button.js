@@ -13,31 +13,33 @@ export default function Button({
   className,
   children,
   isExternalLink = false,
+  outline,
   ...props
 }) {
+  const design = clsx(
+    outline && styles.outline,
+    styles[variant],
+    styles[size],
+    className,
+    styles.base
+  );
+
   if (link === true && isExternalLink === false) {
     return (
-      <Link
-        className={clsx(styles[variant], styles[size], className, styles.base)}
-        {...props}
-      >
+      <Link className={design} {...props}>
         {children}
       </Link>
     );
   } else if (link === true && isExternalLink === true) {
     return (
-      <a
-        className={clsx(styles[variant], styles[size], className, styles.base)}
-        {...props}
-        href={props.to}
-      >
+      <a className={design} {...props} href={props.to}>
         {children}
       </a>
     );
   } else
     return (
       <button
-        className={clsx(styles[variant], styles[size], className, styles.base)}
+        className={design}
         type="button"
         disabled={disabled || isLoading}
         {...props}

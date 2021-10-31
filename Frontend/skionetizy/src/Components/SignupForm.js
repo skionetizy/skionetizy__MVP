@@ -71,8 +71,13 @@ function SignupForm({ className, onLoginClick = noop, onSignup = noop }) {
 
   return (
     <div className={clsx(className, styles.wrapper)}>
-      <h1 className={styles.title}>Signup</h1>
-      <img className={styles.heroImage} src={AddUserRafikiImage} alt="" />
+      <div style={{
+        display: "flex",
+        width:"100%",
+      }}>
+        <h1 className={styles.title}>Signup</h1>
+        <img className={styles.heroImage} src={AddUserRafikiImage} alt="" />
+      </div>
       <p className={styles.lead}>
         Welcome to PaperDrop, a place to learn, create and share!
       </p>
@@ -104,7 +109,7 @@ function SignupForm({ className, onLoginClick = noop, onSignup = noop }) {
       {!!error && <p className={styles.error}>{error}</p>}
 
       <p className={styles.loginLinkWrapper}>
-        Already have an account,{" "}
+        Already have an account?{" "}
         <Link
           className={styles.loginLink}
           to="/login"

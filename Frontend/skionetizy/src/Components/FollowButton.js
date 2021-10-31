@@ -5,6 +5,7 @@ import { getProfileDetailsAPIHandler } from "../API/profileAPIHandler";
 import { sendFollowUser, sendUnfollowUser } from "../API/userAPIHandler";
 import useAuth from "../hooks/useAuth";
 import clsx from "../utils/clsx";
+import Button from "./Button";
 import styles from "./FollowButton.module.css";
 
 function saveProfile(dispatch, profile) {}
@@ -68,8 +69,9 @@ export default function FollowButton({
   }
 
   return (
-    <button
-      className={clsx(styles.button, styles.followButton)}
+    <Button
+      // className={clsx(styles.button, styles.followButton)}
+      variant="primary"
       onClick={(ev) => {
         onClick?.(ev);
         if (!ev.defaultPrevented) {
@@ -84,6 +86,6 @@ export default function FollowButton({
         : isFollowing
         ? "Subscribed"
         : "Subscribe"}
-    </button>
+    </Button>
   );
 }
