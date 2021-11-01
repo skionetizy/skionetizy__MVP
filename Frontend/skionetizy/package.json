@@ -34,6 +34,7 @@
   "scripts": {
     "start": "react-scripts start",
     "production": "env-cmd -f .env.production react-scripts build",
+    "production_ssh":"env-cmd -f .env.sslproduction react-scripts build",
     "developer.heroku": "env-cmd -f .env.development.heroku react-scripts build",
     "staging": "env-cmd -f .env.staging react-scripts build",
     "build": "react-scripts build",
