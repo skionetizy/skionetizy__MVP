@@ -124,7 +124,7 @@ body {
 }
 
 .exploreBtnGroup {
-  margin-top: 2rem;
+  margin: 2rem 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -430,6 +430,18 @@ body {
   .navLink:hover {
     text-decoration: none;
   }
+
+  .exploreBtnGroup {
+    gap: 2rem;
+  }
+
+  .exploreBtn {
+    margin: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 1rem;
+  }
+
   .blogCardContainer {
     margin-top: 1em;
     padding: 0 1.5rem;

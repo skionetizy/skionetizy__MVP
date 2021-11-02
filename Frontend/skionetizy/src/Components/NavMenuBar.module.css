@@ -91,7 +91,7 @@
   align-items: center;
   gap: 2rem;
 
-  padding: 2rem 4rem;
+  padding: 2rem;
   background-color: var(--black-blue);
   border-radius: 1rem;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
@@ -114,7 +114,7 @@
   gap: 2rem;
 
   margin: 0;
-  padding: 1rem 3rem;
+  padding: 1rem;
 
   list-style: none;
 }
@@ -128,6 +128,7 @@
   text-decoration: none;
   padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
+  display: block;
 }
 
 .linkHighlight {
@@ -147,6 +148,7 @@
   }
 }
 
+/* desktop */
 @media (min-width: 768px) {
   .header {
     max-width: 70vw;
