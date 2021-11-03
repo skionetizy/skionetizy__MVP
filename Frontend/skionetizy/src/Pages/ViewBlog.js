@@ -345,7 +345,7 @@ const ViewBlog = () => {
         ) {
             setTimeout(() => {
                 setShowModal("LOGIN_FORM");
-            }, 200)
+            }, 20000)
         }
     }, [isLoginPopupVisible, auth.profile, showModal, blog.blogDescription]);
 
