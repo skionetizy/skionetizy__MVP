@@ -8,6 +8,16 @@
   padding: 0;
   font-family: "Montserrat", sans-serif;
 }
+
+p {
+  font-family:  "Gotham Pro", sans-serif;
+  font-weight: 400;
+  font-size: large;
+  line-height: 40.37px;
+  letter-spacing: 0.03em;
+}
+
+/**/
 /* .logo {
 	width: 80px;
 	height: 80px;
