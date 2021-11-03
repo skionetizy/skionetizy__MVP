@@ -309,7 +309,7 @@ const ViewBlog = () => {
             !auth.profile?.profileID &&
             showModal === ""
         ) {
-            setTimeout(() => {setShowModal("LOGIN_FORM");}, 5000)
+            setTimeout(() => {setShowModal("LOGIN_FORM");}, 20_000)
         }
     }, [isLoginPopupVisible, auth.profile, showModal, blog.blogDescription]);
 
