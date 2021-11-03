@@ -14,19 +14,11 @@
   position: relative;
 }
 
-.closeBtn {
-  position: absolute;
-  right: 0;
-  top: 0;
-
-  margin: 1rem;
-
-  background: none;
-  border: none;
-  color: inherit;
-  transition: transform 250ms ease-in-out;
-
-  cursor: pointer;
+.closeBtnHolder {
+  display: flex;
+  flex-direction: row-reverse;
+  width: 100%;
+  padding-bottom: 2%;
 }
 
 .closeBtn:hover {

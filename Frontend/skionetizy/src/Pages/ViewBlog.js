@@ -41,8 +41,42 @@ const KEYWORDS_LOCAL_KEY = "blogsKeywords";
 
 Moment.globalFormat = "MMM D , YYYY";
 
-const LoginModal = () => {
+const ModalMaker = ({showModal, setShowModal}) => {
 
+    switch (showModal) {
+        case "LOGIN_FORM": {
+            return <LoginFormModal
+                onLogin={(_user, error) => {
+                    if (error) return;
+                    setShowModal("");
+                }}
+                onSignupClick={() => {
+                    setShowModal("SIGNUP_FORM");
+                }}
+            />
+        }
+
+        case "SIGNUP_FORM": {
+            return <Modal>
+                <SignupForm
+                    className={style.signupModalWrapper}
+                    onLoginClick={() => setShowModal("LOGIN_FORM")}
+                    onSignup={(user, error) => {
+                        if (error) return;
+                        setShowModal("VERIFY_EMAIL");
+                    }}
+                />
+            </Modal>
+        }
+
+        case "VERIFY_EMAIL": {
+            return <VerifyEmailModal onClose={() => setShowModal("")}/>
+        }
+
+        default: {
+            return null
+        }
+    }
 }
 
 const ViewBlog = () => {
@@ -309,7 +343,9 @@ const ViewBlog = () => {
             !auth.profile?.profileID &&
             showModal === ""
         ) {
-            setTimeout(() => {setShowModal("LOGIN_FORM");}, 20_000)
+            setTimeout(() => {
+                setShowModal("LOGIN_FORM");
+            }, 200)
         }
     }, [isLoginPopupVisible, auth.profile, showModal, blog.blogDescription]);
 
@@ -527,30 +563,7 @@ const ViewBlog = () => {
             </div>
 
             {/* Modals */}
-            {showModal === "LOGIN_FORM" ? (
-                <LoginFormModal
-                    onLogin={(_user, error) => {
-                        if (error) return;
-                        setShowModal("");
-                    }}
-                    onSignupClick={() => {
-                        setShowModal("SIGNUP_FORM");
-                    }}
-                />
-            ) : showModal === "SIGNUP_FORM" ? (
-                <Modal>
-                    <SignupForm
-                        className={style.signupModalWrapper}
-                        onLoginClick={() => setShowModal("LOGIN_FORM")}
-                        onSignup={(user, error) => {
-                            if (error) return;
-                            setShowModal("VERIFY_EMAIL");
-                        }}
-                    />
-                </Modal>
-            ) : showModal === "VERIFY_EMAIL" ? (
-                <VerifyEmailModal onClose={() => setShowModal("")}/>
-            ) : null}
+            <ModalMaker showModal={showModal} setShowModal={setShowModal}/>
         </>
     );
 };
