@@ -79,7 +79,7 @@ rsa==4.7.2
 sendgrid==6.6.0
 six==1.15.0
 smart-open==5.2.1
-spacy==3.1.2
+spacy==3.0.0
 spacy-legacy==3.0.8
 srsly==2.4.1
 starkbank-ecdsa==1.1.0
