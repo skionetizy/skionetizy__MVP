@@ -49,14 +49,14 @@ const BlogCard = ({ blog, isAdmin = false }) => {
                     <h4 class={style.date}>
                       <Moment>{blog?.timestamp?.$date}</Moment>
                     </h4>
-                    <div className={style.pushRight}>
+                    <div>
                       <span>{blog.likesCount}</span>
                       <ThumbUpAltIcon className={style.ThumbUpAlt} />
                     </div>
-                    <div className={style.thumbDown}>
-                      <span>{blog.dislikesCount}</span>
-                      <ThumbDownAltIcon className={style.ThumbDownAlt} />
-                    </div>
+                    {/*<div className={style.thumbDown}>*/}
+                    {/*  <span>{blog.dislikesCount}</span>*/}
+                    {/*  <ThumbDownAltIcon className={style.ThumbDownAlt} />*/}
+                    {/*</div>*/}
                   </div>
                 </div>
               </div>
