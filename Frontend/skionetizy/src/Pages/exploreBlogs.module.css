@@ -224,15 +224,20 @@ body {
   align-items: flex-end;
   gap: 0.4em;
 }
-
-.thumbUpAlt {
+.likes {
+  display: flex;
+}
+.likesCount {
+  padding: 5px;
+}
+/* .thumbUpAlt {
   position: relative;
   top: 5px;
 }
 .thumbDownAlt {
   position: relative;
   top: 5px;
-}
+} */
 
 .avatar {
   border-radius: 2em;
