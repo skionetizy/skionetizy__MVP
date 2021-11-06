@@ -70,7 +70,8 @@ function NavMenuBar(props) {
           <img
             src={LogoIcon}
             alt="fountain pen with tip as hotspot"
-            style={{ width: "3rem", height: "3rem" }}
+            // style={{ width: "3rem", height: "3rem", marginTop: "20px" }}
+            className={styles.logo}
           />
           <p className={styles.headerTitle}>Papersdrop</p>
         </Link>
