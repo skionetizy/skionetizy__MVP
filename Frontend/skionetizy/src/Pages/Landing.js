@@ -42,10 +42,7 @@ function Homepage() {
                 styles["hero__subtitle--large"]
               )}
             >
-              <p>
-                PaperDrop : A place to create, a place to
-                <span className={styles["hero__subtitle--accent"]}> earn.</span>
-              </p>
+              <p>Papersdrop, a place to learn, create and share</p>
             </div>
 
             <Link to={isLoggedIn ? "/" : "/login"}>
@@ -68,10 +65,10 @@ function Homepage() {
 
             <div className={styles["hero__subtitle"]}>
               <p>
-                PaperDrop, a place to learn, create and share thoughts and voice
-                of your own. A person can create amazing content with just a
-                splash of ink. We at PaperDrop wants to serve as a medium for
-                you to write.
+                Papersdrop, a place to learn, create and share thoughts and
+                voices of your own. A person can create amazing content with
+                just a splash of ink. We at Papersdrop want to serve as a medium
+                for you to write.
               </p>
               <p>
                 With us, your opinion matters and we provide you with various
@@ -98,23 +95,23 @@ function Homepage() {
             create something beautiful and worth reading.
           </p>
 
-          <div className={styles["subscribe-form__control"]}>
-            <Button
-              link
-              to="https://skionetizy-staging.herokuapp.com/subscribe"
-              isExternalLink
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="dark"
-              type="button"
-            >
-              Subscribe
-            </Button>
+          {/* <div className={styles["subscribe-form__control"]}>
+                        <Button
+                            link
+                            to="https://skionetizy-staging.herokuapp.com/subscribe"
+                            isExternalLink
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            variant="dark"
+                            type="button"
+                        >
+                            Subscribe
+                        </Button>
 
-            {/*<Button variant="none" type="button">*/}
-            {/*  Demo*/}
-            {/*</Button>*/}
-          </div>
+                        <Button variant="none" type="button">
+                         Demo
+                        </Button>
+                    </div> */}
         </div>
 
         {/* Slide 3 */}
@@ -131,10 +128,9 @@ function Homepage() {
             <div className={styles["hero__subtitle"]}>
               <h1 className={styles["heading"]}>About us</h1>
               <p>
-                We are a group of aspiring students, who need to make something
-                that can help the limited scale scholars, essayists who are
-                obscure with regards to how to do and how to manage their
-                abilities.
+                Our mission drives us to do everything possible needed to make
+                something that can help the content writers who are obscure with
+                regards to how to do and how to manage their abilities.
               </p>
               <p>
                 Motivated by our own encounters, we comprehend the trouble and

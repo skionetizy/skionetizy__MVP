@@ -26,6 +26,10 @@
   font-size: 1.5rem;
 }
 
+.logo {
+  height: 3rem;
+  width: 3rem;
+}
 .logoLink {
   grid-area: logo;
   display: flex;
@@ -147,7 +151,11 @@
     background-color: var(--primary-blue);
   }
 }
-
+@media (max-width: 30rem) {
+  .logo {
+    margin-top: 20px;
+  }
+}
 /* desktop */
 @media (min-width: 768px) {
   .header {

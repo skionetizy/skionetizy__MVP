@@ -1,13 +1,28 @@
 :root {
-  --primary-blue: #3498db;
-  --primary-blue-washed: #67b1e4;
-  --black-blue: #16233f;
+    --primary-blue: #3498db;
+    --primary-blue-washed: #67b1e4;
+    --black-blue: #16233f;
 }
 
 * {
-  padding: 0;
-  font-family: "Montserrat", sans-serif;
+    padding: 0;
+    font-family: "Montserrat", sans-serif;
 }
+
+p {
+    font-family: "Gotham Pro", sans-serif;
+    font-weight: 400;
+    font-size: large;
+    line-height: 40.37px;
+    letter-spacing: 0.03em;
+}
+
+@font-face {
+    font-family: "Gotham Pro";
+    src: url("./Assets/GothamBook.ttf");
+}
+
+/**/
 /* .logo {
 	width: 80px;
 	height: 80px;
@@ -21,9 +36,10 @@
 	top: -150px;
 } */
 body {
-  margin: 0;
-  background-color: #142850;
+    margin: 0;
+    background-color: #142850;
 }
+
 /* .login {
 	position: relative;
 	top: 100px;
@@ -184,91 +200,92 @@ nav ul li h3 {
 } */
 
 .noscroll {
-  overflow: hidden;
+    overflow: hidden;
 }
 
 .center {
-  display: grid;
-  place-items: center;
+    display: grid;
+    place-items: center;
 }
 
 .hidden {
-  display: none !important;
+    display: none !important;
 }
 
 .error {
-  color: red;
-  font-size: 0.875rem;
+    color: red;
+    font-size: 0.875rem;
 }
 
 .ani-spinner {
-  animation: spinner var(--speed, 2s) linear infinite;
+    animation: spinner var(--speed, 2s) linear infinite;
 }
 
 .ani-typing {
-  --background: var(--dark-blue);
-  --color: white;
-  display: inline-block;
-  position: relative;
-  letter-spacing: 0.5ch;
-  color: var(--color);
+    --background: var(--dark-blue);
+    --color: white;
+    display: inline-block;
+    position: relative;
+    letter-spacing: 0.5ch;
+    color: var(--color);
 }
 
 .ani-typing::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
 
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-  background-color: var(--background);
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-color: var(--background);
 
-  font-family: monospace;
+    font-family: monospace;
 
-  animation: typing 3s steps(5) infinite;
+    animation: typing 3s steps(5) infinite;
 }
 
 @keyframes typing {
-  0% {
-    left: 0;
-  }
+    0% {
+        left: 0;
+    }
 
-  100% {
-    left: 100%;
-  }
+    100% {
+        left: 100%;
+    }
 }
 
 @keyframes spinner {
-  100% {
-    transform: rotate(359deg);
-  }
+    100% {
+        transform: rotate(359deg);
+    }
 }
 
 .ani-slideUp {
-  animation: slideUp 250ms ease-in-out forwards;
+    animation: slideUp 250ms ease-in-out forwards;
 }
-@keyframes slideUp {
-  from {
-    transform: translateY(0);
-    opacity: 0;
-  }
 
-  to {
-    opacity: 1;
-    transform: translateY(-25%);
-  }
+@keyframes slideUp {
+    from {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(-25%);
+    }
 }
 
 @media (min-width: 1280px) {
-  :root {
-    font-size: 13px;
-  }
+    :root {
+        font-size: 13px;
+    }
 }
 
 @media (min-width: 1920px) {
-  :root {
-    font-size: 16px;
-  }
+    :root {
+        font-size: 16px;
+    }
 }

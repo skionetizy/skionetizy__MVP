@@ -16,7 +16,12 @@ const BlogCard = ({ blog, isAdmin = false }) => {
   return (
     <div>
       <Link
-        style={{ textDecoration: "none", display: "inline-block", height: "100%" ,width: "100%"}}
+        style={{
+          textDecoration: "none",
+          display: "inline-block",
+          height: "100%",
+          width: "100%",
+        }}
         to={
           isAdmin
             ? `/admin/view-blog/${blog.blogID}/${blog.profileID}`
@@ -49,14 +54,16 @@ const BlogCard = ({ blog, isAdmin = false }) => {
                     <h4 class={style.date}>
                       <Moment>{blog?.timestamp?.$date}</Moment>
                     </h4>
-                    <div className={style.pushRight}>
-                      <span>{blog.likesCount}</span>
+                    <div className={style.likes}>
+                      <span className={style.likesCount}>
+                        {blog.likesCount}
+                      </span>
                       <ThumbUpAltIcon className={style.ThumbUpAlt} />
                     </div>
-                    <div className={style.thumbDown}>
-                      <span>{blog.dislikesCount}</span>
-                      <ThumbDownAltIcon className={style.ThumbDownAlt} />
-                    </div>
+                    {/*<div className={style.thumbDown}>*/}
+                    {/*  <span>{blog.dislikesCount}</span>*/}
+                    {/*  <ThumbDownAltIcon className={style.ThumbDownAlt} />*/}
+                    {/*</div>*/}
                   </div>
                 </div>
               </div>

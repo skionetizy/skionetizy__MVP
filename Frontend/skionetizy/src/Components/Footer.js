@@ -48,11 +48,11 @@ function Footer() {
             src={LogoIcon}
             alt="fountain pen's tip camera closeup"
           />
-          PapersDrop
+          Papersdrop
         </p>
 
         <p className={styles.footerCopyright}>
-          Copyright &copy; PapersDrop 2021
+          Copyright &copy; Papersdrop 2021
         </p>
       </section>
     </footer>
@@ -63,11 +63,11 @@ const siteLinks = [
   {
     // Services: "/service",
     "About us": "/landing#about",
-    "Signup": "/signup",
+    Signup: "/signup",
   },
   {
     Mission: "/landing#mission",
-    "Create Blog": "/addBlogDetailsMarkdown"
+    "Create Blog": "/addBlogDetailsMarkdown",
     // Help: "/help",
     // "Contact Us": "/contact-us",
   },

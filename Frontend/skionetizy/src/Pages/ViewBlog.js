@@ -36,9 +36,51 @@ import style from "./ViewBlog.module.css";
 import ReactMarkdown from "react-markdown";
 import useIntersectionObserver from "../hooks/useIntersectionObserver";
 import TriggerLoginPopup from "./TriggerLoginPopup";
+
 const KEYWORDS_LOCAL_KEY = "blogsKeywords";
 
 Moment.globalFormat = "MMM D , YYYY";
+
+const ModalMaker = ({ showModal, setShowModal }) => {
+  switch (showModal) {
+    case "LOGIN_FORM": {
+      return (
+        <LoginFormModal
+          onLogin={(_user, error) => {
+            if (error) return;
+            setShowModal("");
+          }}
+          onSignupClick={() => {
+            setShowModal("SIGNUP_FORM");
+          }}
+        />
+      );
+    }
+
+    case "SIGNUP_FORM": {
+      return (
+        <Modal>
+          <SignupForm
+            className={style.signupModalWrapper}
+            onLoginClick={() => setShowModal("LOGIN_FORM")}
+            onSignup={(user, error) => {
+              if (error) return;
+              setShowModal("VERIFY_EMAIL");
+            }}
+          />
+        </Modal>
+      );
+    }
+
+    case "VERIFY_EMAIL": {
+      return <VerifyEmailModal onClose={() => setShowModal("")} />;
+    }
+
+    default: {
+      return null;
+    }
+  }
+};
 
 const ViewBlog = () => {
   const { blogID, profileID } = useParams();
@@ -51,7 +93,7 @@ const ViewBlog = () => {
   const [viewMore, setViewMore] = useState("View more");
   const [showModal, setShowModal] = useState("");
   const [commentStatusMessage, setCommentStatusMessage] = useState("");
-  const [isLoginPopupVisible , setIsLoginPopupVisible] = useState(false)
+  const [isLoginPopupVisible, setIsLoginPopupVisible] = useState(false);
   const [viewCountData, setViewCountData] = useState({
     timeout: false,
     scroll: false,
@@ -126,7 +168,7 @@ const ViewBlog = () => {
     }
   }, []);
 
-  // whenever statusupdates and is not empty
+  // whenever status updates and is not empty
   useEffect(() => {
     if (commentStatusMessage === "") return;
     const timerID = setTimeout(
@@ -140,7 +182,7 @@ const ViewBlog = () => {
   useEffect(() => {
     // our logic is based on blogDescription. both
     // scroll target: position is based on blogDescription height
-    // timeout: is based on blogDescription charater length
+    // timeout: is based on blogDescription character length
 
     // if blog description is false we do nothing (no-op)
     if (!blog.blogDescription) return;
@@ -304,7 +346,9 @@ const ViewBlog = () => {
       !auth.profile?.profileID &&
       showModal === ""
     ) {
-      setShowModal("LOGIN_FORM");
+      setTimeout(() => {
+        setShowModal("LOGIN_FORM");
+      }, 20000);
     }
   }, [isLoginPopupVisible, auth.profile, showModal, blog.blogDescription]);
 
@@ -399,7 +443,7 @@ const ViewBlog = () => {
                   width: 32,
                   height: 32,
                 }}
-              ></span>
+              />
             )}
             {/* Login modal popup marker */}
             {blog.blogDescription && (
@@ -408,7 +452,7 @@ const ViewBlog = () => {
                 style={{
                   // moving a bit up so ~75% scroll through blog is counted as a view
                   position: "absolute",
-                  bottom: "50%",
+                  bottom: "75%",
                   left: 0,
                   backgroundColor: "transparent",
                   display: "inline-block",
@@ -471,7 +515,7 @@ const ViewBlog = () => {
               className={style.commentInput}
               name="input"
               type="text"
-              placeholder="Add to the dicussion..."
+              placeholder="Add to the discussion..."
             />
 
             <button
@@ -522,30 +566,7 @@ const ViewBlog = () => {
       </div>
 
       {/* Modals */}
-      {showModal === "LOGIN_FORM" ? (
-        <LoginFormModal
-          onLogin={(_user, error) => {
-            if (error) return;
-            setShowModal("");
-          }}
-          onSignupClick={() => {
-            setShowModal("SIGNUP_FORM");
-          }}
-        />
-      ) : showModal === "SIGNUP_FORM" ? (
-        <Modal>
-          <SignupForm
-            className={style.signupModalWrapper}
-            onLoginClick={() => setShowModal("LOGIN_FORM")}
-            onSignup={(user, error) => {
-              if (error) return;
-              setShowModal("VERIFY_EMAIL");
-            }}
-          />
-        </Modal>
-      ) : showModal === "VERIFY_EMAIL" ? (
-        <VerifyEmailModal onClose={() => setShowModal("")} />
-      ) : null}
+      <ModalMaker showModal={showModal} setShowModal={setShowModal} />
     </>
   );
 };
