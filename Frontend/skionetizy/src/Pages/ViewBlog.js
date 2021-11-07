@@ -53,6 +53,7 @@ const ModalMaker = ({ showModal, setShowModal }) => {
           onSignupClick={() => {
             setShowModal("SIGNUP_FORM");
           }}
+          onClose={() => setShowModal("")}
         />
       );
     }
@@ -75,6 +76,8 @@ const ModalMaker = ({ showModal, setShowModal }) => {
     case "VERIFY_EMAIL": {
       return <VerifyEmailModal onClose={() => setShowModal("")} />;
     }
+
+
 
     default: {
       return null;
