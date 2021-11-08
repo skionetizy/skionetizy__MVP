@@ -1,35 +1,35 @@
-import React, {useEffect, useState} from "react";
-import {useLocation} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Vector from "../Assets/bro.svg";
-import {createAuthURL} from "../auth/googleOauth";
+import { createAuthURL } from "../auth/googleOauth";
 import useAuth from "../hooks/useAuth";
 import LoginForm from "./LoginForm";
 import styles from "./LoginFormModal.module.css";
 import Modal from "./Modal";
 import Spinner from "./Spinner";
-import {FaTimes} from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
 
 let isVisible;
 
-function LoginFormModal({...props}) {
+function LoginFormModal(props) {
     const [status, setStatus] = useState("idle");
     const [error, setError] = useState("");
     const googleOAuthURL = createAuthURL("/auth/authToken", {
         utmSource: "blog",
         redirectURL: window.location.pathname,
     });
-    const {googleOAuth} = useAuth();
-    const {state} = useLocation();
+    const { googleOAuth } = useAuth();
+    const { state } = useLocation();
 
     useEffect(() => {
-        const {callbackURL} = state || {};
+        const { callbackURL } = state || {};
         if (callbackURL) {
             // clearing react router state
             window.history.replaceState({}, document.title);
             setStatus("loading");
-            googleOAuth({callbackURL})
+            googleOAuth({ callbackURL })
                 .then((userData) => {
-                    const {userID, emailID} = userData.user;
+                    const { userID, emailID } = userData.user;
                     const profileID = userData.profile?.profileID;
                     localStorage.setItem("userID", JSON.stringify(userID));
                     localStorage.setItem(
@@ -46,7 +46,7 @@ function LoginFormModal({...props}) {
                     setStatus("error");
                     setError(
                         error.response?.data.message ||
-                        JSON.stringify({response: error.response?.data}, null, 4)
+                        JSON.stringify({ response: error.response?.data }, null, 4)
                     );
 
                     props.onLogin?.(null, error);
@@ -66,18 +66,18 @@ function LoginFormModal({...props}) {
         <Modal>
             <div className={styles.wrapper}>
                 <div className={styles.closeBtnHolder} aria-roledescription={"button"}>
-                    <FaTimes width="1em" fontSize="1.5rem" />
+                    <FaTimes width="1em" fontSize="1.5rem" onClick={props.onClose} />
                 </div>
                 {status === "loading" ? (
                     <div>
-                        <Spinner/>
+                        <Spinner />
                         &nbsp; &nbsp; Verifying your Credientials{" "}
                         <span
-                            style={{"--background": "var(--primary-blue)"}}
+                            style={{ "--background": "var(--primary-blue)" }}
                             className="ani-typing"
                         >
-              ...
-            </span>
+                            ...
+                        </span>
                     </div>
                 ) : status === "error" ? (
                     <p className={styles.error}>{error}</p>
@@ -92,11 +92,11 @@ function LoginFormModal({...props}) {
                                     Over 500+ people have logged in Over 500+ people have logged
                                     in Over 500+ people have logged in
                                 </p>
-                                <img className={styles.image} src={Vector} alt=""/>
+                                <img className={styles.image} src={Vector} alt="" />
                             </div>
 
                             <div className={styles.loginForm}>
-                                <LoginForm {...props} googleOAuthURL={googleOAuthURL}/>
+                                <LoginForm {...props} googleOAuthURL={googleOAuthURL} />
                             </div>
                         </div>
                     </>

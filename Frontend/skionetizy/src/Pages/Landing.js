@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Button from "../Components/Button";
 import styles from "./Landing.module.css";
 // import { motion } from "framer-motion";
@@ -27,6 +27,7 @@ function Homepage() {
       document.getElementById("mission").scrollIntoView();
     }
   }, [location]);
+
 
   return (
     <>
@@ -84,7 +85,8 @@ function Homepage() {
         </div>
 
         {/* Middle Sign Up Form */}
-        <div id="subscribe" className={styles["subscribe-form"]}>
+
+        {/* <div id="subscribe" className={styles["subscribe-form"]}>
           <h2 className={styles["subscribe-form__title"]}>
             Do you think you can make <br /> your content better?
           </h2>
@@ -95,7 +97,7 @@ function Homepage() {
             create something beautiful and worth reading.
           </p>
 
-          {/* <div className={styles["subscribe-form__control"]}>
+          <div className={styles["subscribe-form__control"]}>
                         <Button
                             link
                             to="https://skionetizy-staging.herokuapp.com/subscribe"
@@ -111,8 +113,8 @@ function Homepage() {
                         <Button variant="none" type="button">
                          Demo
                         </Button>
-                    </div> */}
-        </div>
+                    </div> 
+        </div> */}
 
         {/* Slide 3 */}
         <div id="about" className={styles["hero__grid"]}>
