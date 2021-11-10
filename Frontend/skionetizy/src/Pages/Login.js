@@ -27,7 +27,7 @@ function Login(props) {
             <h1 className={style.header}>Login</h1>
             <LoginForm
               onLogin={(_user, error) => {
-                if (error?.message === "Verfy Email Account") {
+                if (error.status === 500) {
                   setShowModal("VERIFY_EMAIL");
                   return;
                 }
