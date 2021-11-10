@@ -37,6 +37,7 @@ export default function LoginForm({
   const loginMutation = useMutate({
     mutateFn: async (data) => {
       const response = await login(details);
+      console.log(response);
       return response;
     },
 

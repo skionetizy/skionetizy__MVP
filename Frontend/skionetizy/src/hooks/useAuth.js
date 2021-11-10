@@ -27,6 +27,7 @@ function useAuth() {
 
   async function login({ emailID, password }) {
     const res = await sendLogin({ emailID, password });
+    console.log("res", res);
     const { profileID, token } = res;
 
     axios.defaults.headers["Authorization"] = token;
