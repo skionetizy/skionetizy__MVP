@@ -4,6 +4,7 @@ import getYupErrors from "../utils/getYupErrors";
 import noop from "../utils/noop";
 
 function useMutate({ mutateFn, onSuccess = noop, onFailure = noop } = {}) {
+
   const [status, setStatus] = useState("idle");
   const [errors, setErrors] = useState({});
 
@@ -15,13 +16,18 @@ function useMutate({ mutateFn, onSuccess = noop, onFailure = noop } = {}) {
       setErrors({});
 
       const resData = await mutateFn(data);
-
-      setStatus("success");
-      onSuccess(resData);
+      if (resData.status === 500) {
+        setStatus("error")
+        onFailure(resData);
+      }
+      else {
+        setStatus("success");
+        onSuccess(resData);
+      }
     } catch (error) {
       let derivedErrors = {};
 
-      switch (true) {
+      switch (error) {
         case error instanceof yup.ValidationError: {
           derivedErrors = getYupErrors(error);
           break;
@@ -41,8 +47,9 @@ function useMutate({ mutateFn, onSuccess = noop, onFailure = noop } = {}) {
           break;
         }
 
-        default:
+        default: {
           throw error;
+        }
       }
 
       setErrors(derivedErrors);

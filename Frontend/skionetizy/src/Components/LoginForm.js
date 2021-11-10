@@ -35,9 +35,9 @@ export default function LoginForm({
   const { login } = useAuth();
 
   const loginMutation = useMutate({
-    mutateFn: async () => {
-      const { profileID } = await login(details);
-      return profileID;
+    mutateFn: async (data) => {
+      const response = await login(details);
+      return response;
     },
 
     onSuccess: (profileID) => {
@@ -53,7 +53,7 @@ export default function LoginForm({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    loginMutation.mutate();
+    loginMutation.mutate(details, e);
   };
 
   return (

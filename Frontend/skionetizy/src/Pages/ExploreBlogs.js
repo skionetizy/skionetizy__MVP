@@ -34,7 +34,6 @@ function MyBlogs(props) {
         .get(url + `/${currentBlog}`)
         .then((res) => {
           // console.log(Object.values(res.data.blogs);
-          console.log(res.data);
           setBlogs((prevBlogs) => [...prevBlogs, ...res.data.blogs]);
         })
         .catch((err) => {
