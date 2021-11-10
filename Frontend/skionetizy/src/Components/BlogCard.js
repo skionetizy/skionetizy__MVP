@@ -19,8 +19,6 @@ const BlogCard = ({ blog, isAdmin = false }) => {
     const res = await axios.get(`${baseURL}/blog/getComments`);
     console.log("comm", res);
   }, [])
-
-  console.log("bg", blog)
   return (
     <div>
       <Link
