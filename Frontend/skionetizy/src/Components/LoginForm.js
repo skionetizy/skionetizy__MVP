@@ -37,7 +37,7 @@ export default function LoginForm({
   const loginMutation = useMutate({
     mutateFn: async (data) => {
       const response = await login(details);
-      console.log(response);
+      //console.log(response);
       return response;
     },
 
@@ -54,6 +54,7 @@ export default function LoginForm({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    //console.log(details);
     loginMutation.mutate(details, e);
   };
 

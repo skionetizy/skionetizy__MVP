@@ -16,6 +16,7 @@ function useMutate({ mutateFn, onSuccess = noop, onFailure = noop } = {}) {
       setErrors({});
 
       const resData = await mutateFn(data);
+      //console.log("res", resData);
       if (resData.status === 500) {
         setStatus("error")
         onFailure(resData);
@@ -26,8 +27,8 @@ function useMutate({ mutateFn, onSuccess = noop, onFailure = noop } = {}) {
       }
     } catch (error) {
       let derivedErrors = {};
-
-      switch (error) {
+      //console.log("err", error.isFlaskError);
+      switch (true) {
         case error instanceof yup.ValidationError: {
           derivedErrors = getYupErrors(error);
           break;
@@ -41,6 +42,7 @@ function useMutate({ mutateFn, onSuccess = noop, onFailure = noop } = {}) {
         }
 
         case error.isFlaskError: {
+          //console.log("yes");
           derivedErrors = {
             flaskError: error.message || "Server Error",
           };
@@ -55,6 +57,8 @@ function useMutate({ mutateFn, onSuccess = noop, onFailure = noop } = {}) {
       setErrors(derivedErrors);
       setStatus("error");
       onFailure(derivedErrors);
+
+      //console.log("drror", derivedErrors);
     }
   };
 

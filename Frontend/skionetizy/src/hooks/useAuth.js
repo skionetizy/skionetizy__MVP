@@ -85,13 +85,18 @@ function useAuth() {
     });
     return profile;
   }
+  let isLoggedIn;
+  if (profile === null || profile.profileID === undefined || profile.profileID === "undefined") isLoggedIn = false;
+  else isLoggedIn = true;
+
+  //console.log("profile", profile);
 
   return {
     profile,
     login,
     saveProfile,
     logout,
-    isLoggedIn: !!profile,
+    isLoggedIn,
     token,
     googleOAuth,
   };
