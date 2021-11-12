@@ -21,13 +21,15 @@ export default function EmailVerification() {
   const verifyEmail = useMutate({
     mutateFn: () =>
       sendEmailVerification(token).then((res) => {
-        if (res.status === 500) {
-          throw createFlaskError(res.message);
+        console.log("24 emailverify,onsuccess", { res });
+        if (res || res.status === 500) {
+          // throw createFlaskError(res.message);
         }
       }),
+
     onSuccess: (res) => {
       const { profile, token } = res.data;
-
+      console.log({ res })
       dispatch({
         type: AUTH.SAVE_PROFILE,
         payload: profile,
@@ -35,8 +37,17 @@ export default function EmailVerification() {
       localStorage.setItem(AUTHORIZATION_HEADER, token);
       localStorage.setItem(LOGGED_IN_PROFILE_ID, profile.profileID);
 
+      console.log("success", res);
+
       history.push("/");
     },
+
+    onFailure: (res) => {
+      console.log("46 emailverify onfail", { res });
+      // if (res.flaskError === "User is now verified") {
+      //   history.push("/");
+      // }
+    }
   });
 
   useEffect(() => {

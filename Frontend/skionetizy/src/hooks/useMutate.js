@@ -14,16 +14,17 @@ function useMutate({ mutateFn, onSuccess = noop, onFailure = noop } = {}) {
     try {
       setStatus("loading");
       setErrors({});
-
+      console.log("dt", data)
       const resData = await mutateFn(data);
-      //console.log("res", resData);
-      if (resData.status === 500) {
-        setStatus("error")
-        onFailure(resData);
-      }
-      else {
+      console.log("res", resData);
+      if (resData) {
         setStatus("success");
         onSuccess(resData);
+      }
+      else {
+        console.log({ resData })
+        setStatus("error")
+        onFailure(resData);
       }
     } catch (error) {
       let derivedErrors = {};
