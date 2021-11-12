@@ -36,7 +36,9 @@ export default function LoginForm({
 
   const loginMutation = useMutate({
     mutateFn: async (data) => {
+      console.log("dt", data)
       const response = await login(details);
+      //console.log(response);
       return response;
     },
 
@@ -53,7 +55,10 @@ export default function LoginForm({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    loginMutation.mutate(details, e);
+    // console.log("from login form", details);
+    // if (details) {
+    //   loginMutation.mutate(details, e);
+    // }
   };
 
   return (
@@ -65,7 +70,7 @@ export default function LoginForm({
       <div>
         <form className={style.signin_form} onSubmit={handleSubmit}>
           <div className={style.email_password}>
-            <input
+            {/* <input
               type="email"
               name="emailID"
               placeholder=" Email"
@@ -73,8 +78,8 @@ export default function LoginForm({
               value={details.emailID}
               className={style.email}
               required
-            />
-            <input
+            /> */}
+            {/* <input
               type="password"
               name="password"
               placeholder=" Password"
@@ -82,16 +87,16 @@ export default function LoginForm({
               value={details.password}
               className={style.password}
               required
-            />
+            /> */}
           </div>
 
           <Link className={style.forgotPasswordLink} to="/forgotPassword">
             Forgot Password
           </Link>
 
-          <ReverifyEmail emailID={details.emailID} />
+          {/* <ReverifyEmail emailID={details.emailID} /> */}
 
-          <Button
+          {/* <Button
             className={style.signinButton}
             variant="dark"
             size="normal"
@@ -100,7 +105,7 @@ export default function LoginForm({
           >
             Login
             <FontAwesomeIcon icon={faSignInAlt} />
-          </Button>
+          </Button> */}
         </form>
         <p className={style.signupLink}>
           Don't have an account?{" "}
