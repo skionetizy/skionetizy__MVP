@@ -1,15 +1,15 @@
 import React from "react";
-import {FaDoorOpen, FaEdit, FaNewspaper, FaUser} from "react-icons/fa";
-import {Link} from "react-router-dom";
+import { FaDoorOpen, FaEdit, FaNewspaper, FaUser } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import DefaultUserAvatar from "../Assets/avtar.png";
 import useAuth from "../hooks/useAuth";
 import Dropdown from "./Dropdown";
 import styles from "./Profiledropdown.module.css";
 
-export default function ProfileDropdown({className}) {
-    const {isLoggedIn, profile, logout} = useAuth();
+export default function ProfileDropdown({ className }) {
+    const { isLoggedIn, profile, logout } = useAuth();
     const profileUserName = profile?.profileUserName;
-
+    //console.log("pp", isLoggedIn, profile);
     return isLoggedIn === false ? (
         <img
             className={className}
@@ -53,21 +53,21 @@ export default function ProfileDropdown({className}) {
                     <div className={styles.linksWrapper}>
                         <ul className={styles.links}>
                             <li>
-                                <FaDoorOpen width="1em"/>{" "}
+                                <FaDoorOpen width="1em" />{" "}
                                 <Link variant="link" onClick={() => logout()} to={`/`}>
                                     Logout
                                 </Link>
                             </li>
                             <li>
-                                <FaUser width="1em"/>{" "}
+                                <FaUser width="1em" />{" "}
                                 <Link to={`/${profileUserName}`}>View Profile</Link>
                             </li>
                             <li>
-                                <FaNewspaper width="1em"/>{" "}
+                                <FaNewspaper width="1em" />{" "}
                                 <Link to={`/${profileUserName}`}>My Blogs</Link>
                             </li>
                             <li>
-                                <FaEdit width="1em"/>{" "}
+                                <FaEdit width="1em" />{" "}
                                 <Link to={`/${profileUserName}`}>Edit Profile</Link>
                             </li>
                         </ul>

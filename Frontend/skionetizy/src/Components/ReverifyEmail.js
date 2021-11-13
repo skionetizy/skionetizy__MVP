@@ -10,6 +10,7 @@ export default function ReverifyEmail({ emailID }) {
 
   const verifyEmail = useMutate({
     mutateFn: () => {
+      console.log("email", emailID)
       if (emailID.length === 0) {
         throw createFlaskError("Enter Email ID in login input");
       }
@@ -39,6 +40,9 @@ export default function ReverifyEmail({ emailID }) {
   );
 }
 
+
 function sendReverifyEmail(data) {
+  console.log("from inside of revirify email", data);
+
   return axios.post(baseURL + "/auth/reverify", data);
 }
