@@ -1,0 +1,8 @@
+cd into backend folder and run:
+
+python refresh_skio.py --client_secrets_path=skio.json
+
+The link that follows copy it and paste it in the browser
+Login with SkionetizyGads Account and click continue to retrieve the authorization code. Copy paste the code in terminal to get the refresh token. 
+
+Copy paste this refresh token into skio.yaml refresh token area.
