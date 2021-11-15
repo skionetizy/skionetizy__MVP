@@ -57,7 +57,6 @@ function SignupForm({ className, onLoginClick = noop, onSignup = noop }) {
       } else if (error.isFlaskError) {
         errorMessage = error.message;
       } else if (error.isAxiosError) {
-
         errorMessage = error?.response.data.message || "Server Error";
         console.log("deded", error?.response.data.message);
       }
@@ -73,10 +72,12 @@ function SignupForm({ className, onLoginClick = noop, onSignup = noop }) {
 
   return (
     <div className={clsx(className, styles.wrapper)}>
-      <div style={{
-        display: "flex",
-        width: "100%",
-      }}>
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+        }}
+      >
         <h1 className={styles.title}>Signup</h1>
         <img className={styles.heroImage} src={AddUserRafikiImage} alt="" />
       </div>
@@ -102,12 +103,12 @@ function SignupForm({ className, onLoginClick = noop, onSignup = noop }) {
           name="emailID"
           value={emailID}
           onChange={(ev) => setEmailID(ev.target.value)}
-        /> */}
+        />
 
         <button className={styles.emailSubmitBtn}>
           {isLoading ? <Spinner /> : <FiArrowRight width="1em" />}
         </button>
-      </form>
+      </form> */}
       {!!error && <p className={styles.error}>{error}</p>}
 
       <p className={styles.loginLinkWrapper}>
