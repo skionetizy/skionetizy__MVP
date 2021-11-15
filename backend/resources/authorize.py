@@ -192,12 +192,20 @@ class GoogleAuth(Resource):
         code=parse_qs(parsed_url.query)['code'][0]
         google_provider_cfg = get_google_provider_cfg()
         token_endpoint = google_provider_cfg["token_endpoint"]
-        token_url, headers, body = authclient.prepare_token_request(
-                                token_endpoint,
-                                authorization_response=callback_uri,
-                                redirect_url=app.config.get('FRONTEND_DOMAIN')+'auth/authToken',
-                                code=code
-                            )
+        if str(app.config.get('FRONTEND_DOMAIN'))=='http://127.0.0.1:3000/':
+            token_url, headers, body = authclient.prepare_token_request(
+                                    token_endpoint,
+                                    authorization_response=callback_uri,
+                                    redirect_url='http://localhost:3000/auth/authToken',
+                                    code=code
+                                )
+        else:
+            token_url, headers, body = authclient.prepare_token_request(
+                                    token_endpoint,
+                                    authorization_response=callback_uri,
+                                    redirect_url=str(app.config.get('FRONTEND_DOMAIN'))+'auth/authToken',
+                                    code=code
+                                )
         token_response = requests.post(
             token_url,
             headers=headers,
