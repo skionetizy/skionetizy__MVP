@@ -33,13 +33,18 @@ function MyBlogs(props) {
       axios
         .get(url + `/${currentBlog}`)
         .then((res) => {
-          // console.log(Object.values(res.data.blogs);
+
           setBlogs((prevBlogs) => [...prevBlogs, ...res.data.blogs]);
+
+          console.log("res", { res });
+
         })
         .catch((err) => {
+
           if (err.response?.data.message === "exceeded bounds") {
             setHasMoreBlogs(false);
           }
+          console.log("in errror 46 exploreblogs", err);
         })
         .finally(() => {
           setStatus("idle");
@@ -55,6 +60,7 @@ function MyBlogs(props) {
     if (isVisible && status === "idle" && blogs.length > 0 && hasMoreBlogs) {
       setCurrentBlog((prev) => prev + 1);
     }
+    console.log({ currentBlog });
   }, [blogs.length, hasMoreBlogs, isVisible, status]);
 
   return (
