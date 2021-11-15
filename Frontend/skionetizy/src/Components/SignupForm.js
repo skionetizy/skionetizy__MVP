@@ -93,9 +93,9 @@ function SignupForm({ className, onLoginClick = noop, onSignup = noop }) {
         <FcGoogle fontSize="1.5em" /> Signup With Google
       </a>
 
-      {/* <Divider className={styles.divider}>OR SIGNUP WITH</Divider> */}
+      <Divider className={styles.divider}>OR SIGNUP WITH</Divider>
 
-      {/* <form className={styles.emailInputWrapper} onSubmit={handleSubmit}>
+      <form className={styles.emailInputWrapper} onSubmit={handleSubmit}>
         <input
           className={styles.emailInput}
           placeholder="Enter Email ID"
@@ -107,7 +107,7 @@ function SignupForm({ className, onLoginClick = noop, onSignup = noop }) {
         <button className={styles.emailSubmitBtn}>
           {isLoading ? <Spinner /> : <FiArrowRight width="1em" />}
         </button>
-      </form> */}
+      </form>
       {!!error && <p className={styles.error}>{error}</p>}
 
       <p className={styles.loginLinkWrapper}>

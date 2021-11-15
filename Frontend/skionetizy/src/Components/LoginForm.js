@@ -34,6 +34,8 @@ export default function LoginForm({
   const dispatch = useDispatch();
   const { login } = useAuth();
 
+
+
   const loginMutation = useMutate({
     mutateFn: async (data) => {
       console.log("dt", data)
@@ -55,10 +57,10 @@ export default function LoginForm({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log("from login form", details);
-    // if (details) {
-    //   loginMutation.mutate(details, e);
-    // }
+    console.log("from login form", details);
+    if (details) {
+      loginMutation.mutate(details, e);
+    }
   };
 
   return (
@@ -66,7 +68,7 @@ export default function LoginForm({
       <a className={style.googleBtn} href={googleOAuthURL}>
         <FcGoogle fontSize="1.5rem" /> Login with Google
       </a>
-      <Divider className={style.divider}>OR</Divider>
+      {/* <Divider className={style.divider}>OR</Divider> */}
       <div>
         <form className={style.signin_form} onSubmit={handleSubmit}>
           <div className={style.email_password}>
@@ -94,9 +96,9 @@ export default function LoginForm({
             Forgot Password
           </Link>
 
-          {/* <ReverifyEmail emailID={details.emailID} /> */}
+          {/* <ReverifyEmail emailID={details.emailID} />
 
-          {/* <Button
+          <Button
             className={style.signinButton}
             variant="dark"
             size="normal"
