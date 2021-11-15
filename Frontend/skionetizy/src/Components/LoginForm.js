@@ -34,8 +34,11 @@ export default function LoginForm({
   const dispatch = useDispatch();
   const { login } = useAuth();
 
+
+
   const loginMutation = useMutate({
     mutateFn: async (data) => {
+      console.log("dt", data)
       const response = await login(details);
       //console.log(response);
       return response;
@@ -54,8 +57,10 @@ export default function LoginForm({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //console.log(details);
-    loginMutation.mutate(details, e);
+    console.log("from login form", details);
+    if (details) {
+      loginMutation.mutate(details, e);
+    }
   };
 
   return (
@@ -63,11 +68,11 @@ export default function LoginForm({
       <a className={style.googleBtn} href={googleOAuthURL}>
         <FcGoogle fontSize="1.5rem" /> Login with Google
       </a>
-      <Divider className={style.divider}>OR</Divider>
+      {/* <Divider className={style.divider}>OR</Divider> */}
       <div>
         <form className={style.signin_form} onSubmit={handleSubmit}>
           <div className={style.email_password}>
-            <input
+            {/* <input
               type="email"
               name="emailID"
               placeholder=" Email"
@@ -75,8 +80,8 @@ export default function LoginForm({
               value={details.emailID}
               className={style.email}
               required
-            />
-            <input
+            /> */}
+            {/* <input
               type="password"
               name="password"
               placeholder=" Password"
@@ -84,14 +89,14 @@ export default function LoginForm({
               value={details.password}
               className={style.password}
               required
-            />
+            /> */}
           </div>
 
           <Link className={style.forgotPasswordLink} to="/forgotPassword">
             Forgot Password
           </Link>
 
-          <ReverifyEmail emailID={details.emailID} />
+          {/* <ReverifyEmail emailID={details.emailID} />
 
           <Button
             className={style.signinButton}
@@ -102,7 +107,7 @@ export default function LoginForm({
           >
             Login
             <FontAwesomeIcon icon={faSignInAlt} />
-          </Button>
+          </Button> */}
         </form>
         <p className={style.signupLink}>
           Don't have an account?{" "}

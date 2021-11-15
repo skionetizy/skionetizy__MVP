@@ -82,7 +82,7 @@ class AuthorizeSignup(Resource):
 
         auth_token = newUser.encode_auth_token()
         print(f'{auth_token} here')
-        redirect_url = app.config.get('DOMAIN')+f'emailVerification/{auth_token}'
+        redirect_url = app.config.get('FRONTEND_DOMAIN')+f'emailVerification/{auth_token}'
         template=env.get_template('emailVerification.html')
         x=newUser.generate_password()
         newUser.save()
@@ -128,7 +128,7 @@ class ReverificationToken(Resource):
         else:
             auth_token=user.encode_auth_token()
             template=env.get_template('emailVerification.html')
-            redirect_url = app.config.get('DOMAIN')+f'emailVerification/{auth_token}'
+            redirect_url = app.config.get('FRONTEND_DOMAIN')+f'emailVerification/{auth_token}'
             rendered_html=template.render(username=user.firstName,link=redirect_url,domain=app.config.get('DOMAIN'))
             send_email("Skionetizy Email Verification for creating account",os.environ.get('MAIL_USERNAME'),recipients=[body["emailID"]],html=rendered_html)
             return make_response(jsonify({'Message':'Reverification Mail Sent','success':True}))

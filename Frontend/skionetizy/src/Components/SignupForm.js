@@ -57,7 +57,9 @@ function SignupForm({ className, onLoginClick = noop, onSignup = noop }) {
       } else if (error.isFlaskError) {
         errorMessage = error.message;
       } else if (error.isAxiosError) {
+
         errorMessage = error?.response.data.message || "Server Error";
+        console.log("deded", error?.response.data.message);
       }
 
       // expected message
@@ -73,7 +75,7 @@ function SignupForm({ className, onLoginClick = noop, onSignup = noop }) {
     <div className={clsx(className, styles.wrapper)}>
       <div style={{
         display: "flex",
-        width:"100%",
+        width: "100%",
       }}>
         <h1 className={styles.title}>Signup</h1>
         <img className={styles.heroImage} src={AddUserRafikiImage} alt="" />

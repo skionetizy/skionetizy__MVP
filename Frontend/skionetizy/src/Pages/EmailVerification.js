@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import Button from "../Components/Button";
 import Spinner from "../Components/Spinner";
@@ -18,27 +18,49 @@ export default function EmailVerification() {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState("");
+  const [success, setSuccess] = useState("")
+
   const verifyEmail = useMutate({
     mutateFn: () =>
       sendEmailVerification(token).then((res) => {
-        if (res.status === 500) {
-          throw createFlaskError(res.message);
-        }
+        console.log("24 emailverify,onsuccess", { res });
+
+        return res;
+
+        // if (!res) {
+        //   throw createFlaskError(res.message);
+        // }
       }),
+
     onSuccess: (res) => {
-      const { profile, token } = res.data;
 
-      dispatch({
-        type: AUTH.SAVE_PROFILE,
-        payload: profile,
-      });
-      localStorage.setItem(AUTHORIZATION_HEADER, token);
-      localStorage.setItem(LOGGED_IN_PROFILE_ID, profile.profileID);
+      console.log("line 35 Emailvarify", { res });
 
-      history.push("/");
+      if (res.status === 200) {
+        const { profile, token } = res;
+        console.log({ res })
+        dispatch({
+          type: AUTH.SAVE_PROFILE,
+          payload: profile,
+        });
+        localStorage.setItem(AUTHORIZATION_HEADER, token);
+        localStorage.setItem(LOGGED_IN_PROFILE_ID, profile.profileID);
+        console.log("success", res);
+        history.push("/");
+      }
+      else {
+        alert(res.message)
+      }
     },
-  });
 
+    onFailure: (res) => {
+      console.log("46 emailverify onfail", { res });
+      alert("some thing went wrong");
+    }
+  });
+  ;
   useEffect(() => {
     verifyEmail.mutate();
   }, []);
