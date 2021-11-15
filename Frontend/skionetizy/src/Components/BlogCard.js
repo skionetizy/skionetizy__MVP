@@ -14,11 +14,10 @@ import Moment from "react-moment";
 Moment.globalFormat = "MMM D , YYY ";
 
 const BlogCard = ({ blog, isAdmin = false }) => {
-
   useEffect(async () => {
     const res = await axios.get(`${baseURL}/blog/getComments`);
     console.log("comm", res);
-  }, [])
+  }, []);
   return (
     <div>
       <Link
@@ -52,7 +51,9 @@ const BlogCard = ({ blog, isAdmin = false }) => {
                     alt=""
                   />
                   <div className={style.datenamecontainer}>
-                    <small className={style.authorName}>{blog.profileName}</small>
+                    <small className={style.authorName}>
+                      {blog.profileName}
+                    </small>
                     <small class={style.date}>
                       <Moment>{blog?.timestamp?.$date}</Moment>
                     </small>
@@ -67,15 +68,13 @@ const BlogCard = ({ blog, isAdmin = false }) => {
                     </div>
                     <div className={style.icon}>
                       <ThumbUpAltIcon className={style.ThumbUpAlt} />
-                      <span >
-                        {blog.likesCount}
-                      </span>
+                      <span>{blog.likesCount}</span>
                     </div>
 
-                    <div className={style.icon}>
+                    {/* <div className={style.icon}>
                       <ThumbDownAltIcon className={style.ThumbDownAlt} />
                       <span>{blog.dislikesCount}</span>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
