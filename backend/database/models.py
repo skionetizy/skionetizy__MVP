@@ -68,9 +68,9 @@ class Comment(db.EmbeddedDocument):
     
 class MetaData(db.EmbeddedDocument):
     metaID=db.UUIDField(required=True,binary=False)
-    metaTitle=db.StringField(required=True,max_length=64)
-    metaDescription=db.StringField(required=True,max_length=300)
-    metaKeywords=db.StringField(required=True,max_length=500)
+    metaTitle=db.StringField(required=True)
+    metaDescription=db.StringField(required=True)
+    metaKeywords=db.StringField(required=True)
 
 
 class Blog(db.Document):
