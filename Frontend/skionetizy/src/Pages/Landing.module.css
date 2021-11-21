@@ -11,6 +11,8 @@
 
 .heading {
   color: var(--primary-blue);
+  /* Sujay edit
+  padding-left: 14px; */
 }
 
 .hero__grid {
@@ -28,7 +30,9 @@
   margin-top: 12.5rem;
 }
 
-.hero__grid--left-border::after {
+/* //Take the left border */
+
+/* .hero__grid--left-border::after {
   content: "";
   position: absolute;
   left: -1rem;
@@ -39,7 +43,7 @@
 
   background: var(--primary-blue);
   border-radius: 999px;
-}
+} */
 
 .hero__img {
   display: block;
@@ -94,7 +98,7 @@
 
 .subscribe-form__subtitle {
   margin-top: 1.75rem;
-  max-width: min(60rem, 90%);
+  max-width: min(64rem, 90%);
   color: var(--inverted);
   font-size: 1.25rem;
   text-align: center;
