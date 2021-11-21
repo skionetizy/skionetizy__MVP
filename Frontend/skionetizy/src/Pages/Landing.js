@@ -62,9 +62,10 @@ function Homepage() {
         >
           {/* Text */}
           <div className={styles["hero__text"]}>
-            <h1 className={styles["heading"]}>What is PaperDrop?</h1>
-
             <div className={styles["hero__subtitle"]}>
+              <h1 className={styles["heading"]}>What is PaperDrop?</h1>
+
+
               <p>
                 Papersdrop, a place to learn, create and share thoughts and
                 voices of your own. A person can create amazing content with
@@ -149,9 +150,10 @@ function Homepage() {
         <div id="mission" className={styles["hero__grid"]}>
           {/* Text */}
           <div className={styles["hero__text"]}>
-            <h1 className={styles["heading"]}>Our mission</h1>
-
             <div className={styles["hero__subtitle"]}>
+              <h1 className={styles["heading"]}>Our mission</h1>
+
+
               <p>
                 As we see arising content authors and content creators
                 surrounding us, we expect to give them an environment where they
@@ -176,8 +178,9 @@ function Homepage() {
           <img className={styles["hero__img"]} src={Frame3} alt={""} />
           {/* Text */}
           <div className={styles["hero__text"]}>
-            <h1 className={styles["heading"]}>Why choose us?</h1>
             <div className={styles["hero__subtitle"]}>
+              <h1 className={styles["heading"]}>Why choose us?</h1>
+
               <p>
                 Everytime we create something, there is something special about
                 it, something that is never created before in our own unique
@@ -209,6 +212,9 @@ function Homepage() {
               },
             },
           ]}
+          // autoCycle={true}
+          // slidesToShow={4}
+          // cycleInterval={3000}
           autoCycle={true}
           slidesToShow={4}
           cycleInterval={3000}
@@ -233,7 +239,7 @@ function Homepage() {
             Support Us
           </h2>
 
-          <p
+          {/* <p
             className={clsx(
               styles["subscribe-form__subtitle"],
               styles["donation-form__subtitle"]
@@ -241,7 +247,7 @@ function Homepage() {
           >
             We are proudly a group of ambitious students who saw a problem and
             decided to come up with a solution.
-          </p>
+          </p> */}
 
           <p
             className={clsx(
