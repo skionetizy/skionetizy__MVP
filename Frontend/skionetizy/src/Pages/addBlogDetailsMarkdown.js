@@ -46,7 +46,6 @@ function MarkDown(props) {
       };
 
       setErrors({});
-
       const blogID = data.blogID;
       let promise;
       if (!blogID) {
@@ -65,7 +64,6 @@ function MarkDown(props) {
       // localStorage.setItem(CURRENT_EDITING_BLOG, JSON.stringify(resBlog));
       const saveStatus = setMarkdownToLocalStorage(mode, resBlog);
       if (saveStatus === false) throw Error("Application Error");
-
       setStatus("success");
       setHasNewChanges(false);
       history.push("/addBlogImage");
@@ -95,6 +93,7 @@ function MarkDown(props) {
       ...data,
       [name]: e.target.value,
     }));
+    console.log(data)
     console.log({ name });
   };
 
@@ -225,9 +224,9 @@ const markdownSchema = yup.object().shape({
       "Blog Description should alleast contain 200 words",
       (value) => value.split(" ").filter(Boolean).length >= 200
     )
-    .test("test-2", "Description must not contain any url", (value) => {
+    .test("test-2", "Description must contain only one url", (value) => {
       const hasUrl = value.split(" ").some((word) => isValidUrl(word));
-      return !hasUrl;
+      return (!hasUrl);
     }),
 });
 
@@ -249,9 +248,28 @@ function characterLike(word) {
 }
 
 function isValidUrl(urlString) {
-  return /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/.test(
-    urlString
-  );
+  var link = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(
+    urlString  );
+  let m;
+  let counter = 0;
+  m = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(
+    urlString  );
+  do {
+    const result = urlString.replace(/http/g, ' $&').split(' ');
+    if (result.length>2){
+      return true;
+    }
+  } while (m);
+  console.log(counter)
+
+  // var data = [];
+  // for(x = 0; x < urlString.length; ++x){
+  //    data.push(location.href.match(new RegExp("(/\?id=)([^\&]*)"))[2]);
+  //    if (data.length >1){
+  //      return true;
+  //    }
+  // }
+
 }
 
 export function getMarkdownFromLocalStorage(mode) {
@@ -269,6 +287,7 @@ export function getMarkdownFromLocalStorage(mode) {
       blogDescription: "",
     };
   }
+
 
   return data;
 }
