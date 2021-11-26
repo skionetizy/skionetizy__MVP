@@ -444,7 +444,10 @@ class GetBlogsAndProfileDetailsPagination(Resource):
         blogs=Blog.objects(blogStatus='PUBLISHED').exclude("comments","likedByUsersList","dislikedByUsersList")
         blogs=[x.to_mongo().to_dict() for x in blogs]
         for i in blogs:
-            p=Profile.objects.get(profileID=i['profileID'])
+            try:
+                p=Profile.objects.get(profileID=i['profileID'])
+            except:
+                continue
             i['profilePicImageURL']=p.profilePicImageURL
             i['profileName']=p.profileName
         blogs_paginated=[]
