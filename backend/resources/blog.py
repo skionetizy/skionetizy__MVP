@@ -364,8 +364,7 @@ class GetFeed(Resource):
                 if len(temp)==9:
                     blogs_paginated.append(temp)
                     temp=[]
-                else:
-                    temp.append(i)
+                temp.append(i)
             blogs_paginated.append(temp)
             if(len(blogs_paginated)<=number or number<0):
                 return make_response(jsonify({'message':'exceeded bounds'}), 404)
@@ -385,8 +384,7 @@ class GetFeed(Resource):
                 if len(temp)==9:
                     blogs_paginated.append(temp)
                     temp=[]
-                else:
-                    temp.append(i)
+                temp.append(i)
             blogs_paginated.append(temp)
             if(len(blogs_paginated)<=number or number<0):
                 return make_response(jsonify({'message':'exceeded bounds'}), 404)
@@ -458,8 +456,7 @@ class GetBlogsAndProfileDetailsPagination(Resource):
             if len(temp)==9:
                 blogs_paginated.append(temp)
                 temp=[]
-            else:
-                temp.append(i)
+            temp.append(i)
         blogs_paginated.append(temp)
         if(len(blogs_paginated)<=number or number<0):
             return make_response(jsonify({'message':'exceeded bounds'}), 404)
