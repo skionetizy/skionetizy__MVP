@@ -364,8 +364,7 @@ class GetFeed(Resource):
                 if len(temp)==9:
                     blogs_paginated.append(temp)
                     temp=[]
-                else:
-                    temp.append(i)
+                temp.append(i)
             blogs_paginated.append(temp)
             if(len(blogs_paginated)<=number or number<0):
                 return make_response(jsonify({'message':'exceeded bounds'}), 404)
@@ -385,8 +384,7 @@ class GetFeed(Resource):
                 if len(temp)==9:
                     blogs_paginated.append(temp)
                     temp=[]
-                else:
-                    temp.append(i)
+                temp.append(i)
             blogs_paginated.append(temp)
             if(len(blogs_paginated)<=number or number<0):
                 return make_response(jsonify({'message':'exceeded bounds'}), 404)
@@ -458,8 +456,7 @@ class GetBlogsAndProfileDetailsPagination(Resource):
             if len(temp)==9:
                 blogs_paginated.append(temp)
                 temp=[]
-            else:
-                temp.append(i)
+            temp.append(i)
         blogs_paginated.append(temp)
         if(len(blogs_paginated)<=number or number<0):
             return make_response(jsonify({'message':'exceeded bounds'}), 404)
@@ -492,12 +489,36 @@ class UpdateBlogStatus(Resource):
             return make_response(jsonify({"status":"Not Authorized"})) 
 
 class SearchBlog(Resource):
-    def post(self):
+    def post(self, number):
         search=request.get_json()['search']
         if(len(search)<5):
             return make_response(jsonify({'Message':'Invalide Search String'}))
-        objects = Blog.objects.search_text(search).order_by('$text_score')
-        return make_response(jsonify({'Queried Data':objects}))
+        #objects = Blog.objects.search_text(search).order_by('$text_score')
+        result_object=[]
+        objects = Blog.objects()
+        for blog in objects:
+            for i in search.split(' '):
+                if (i in blog.blogTitle or i in blog.blogDescription) and blog not in result_object:
+                    result_object.append(blog)
+            metadata=blog.metaData
+            if(metadata!=None):
+                for i in search.split(' '):
+                    if (i in metadata.metaTitle or i in metadata.metaDescription or 
+                    i in metadata.metaKeywords.split(',')) and blog not in result_object:
+                        result_object.append(blog)
+        blogs_paginated=[]
+        i=0
+        temp=[]
+        for i in result_object:
+            if len(temp)==9:
+                blogs_paginated.append(temp)
+                temp=[]
+            temp.append(i)
+        blogs_paginated.append(temp)
+        if(len(blogs_paginated)<=number or number<0):
+            return make_response(jsonify({'message':'exceeded bounds'}), 404)
+        return make_response(jsonify({"Queried Data":json.loads(json_util.dumps(blogs_paginated[number])),"success":True}))
+        # return make_response(jsonify({'Queried Data':objects}))
 
 class AddMetaData(Resource):
     def post(self):
