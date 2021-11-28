@@ -27,17 +27,23 @@ function NavMenuBar(props) {
     e.preventDefault();
     props.saveFilteredBlogs(filteredBlogs);
     closeBlog();
-    // return <Redirect to="/searchpage" />;
-    props.history.push(`/searchpage/${searchInput}`);
+    // return <Redirect to="/searchpage/:searchInput" />;
+    if(searchInput.length>0){
+      props.history.push({
+        pathname: `/searchPage/${searchInput}`,
+        state: {
+          update: true, 
+        },
+      })
+    }
   };
 
   const closeBlog = () => {
     setIsMenuOpen(false);
   };
 
-  const debouncedSearch = useDebounceGeneral(searchInput, 2000);
-
-  useEffect(() => {
+  //const debouncedSearch = useDebounceGeneral(searchInput, 2000);
+  /* useEffect(() => {
     if (debouncedSearch) {
       const loweredDebounceSearch = debouncedSearch.toLowerCase();
       const slicedBlogs = props.slicedBlogs;
@@ -54,7 +60,7 @@ function NavMenuBar(props) {
       console.log({ filteredBlogsInUE: filteredData });
       setFilteredBlogs(filteredData);
     }
-  }, [debouncedSearch]);
+  }, [debouncedSearch]); */
 
   return (
     <>

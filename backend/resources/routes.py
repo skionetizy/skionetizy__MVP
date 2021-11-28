@@ -77,7 +77,7 @@ def initialize_routes(api):
     api.add_resource(GetBlogStatus,'/blog/getBlogStatus/<profileID>/<blogID>')
     #Update Blog Status
     api.add_resource(UpdateBlogStatus,'/blog/updateBlogStatus/<profileID>/<blogID>/<blogStatus>')
-    api.add_resource(SearchBlog,'/blog/searchBlog')
+    api.add_resource(SearchBlog,'/blog/searchBlog/<int:number>')
     api.add_resource(GetProfileandBlogsPaginated,'/profile/getBlogsPaginated/<int:number>')
     api.add_resource(GetHoverDetails,'/profile/getHover/<profileID>')
     api.add_resource(AddMetaData,'/blog/addMeta')
