@@ -494,21 +494,20 @@ class SearchBlog(Resource):
         if(len(search)<5):
             return make_response(jsonify({'message':'Invalide Search String'}),404)
         result_object=[]
-        objects = Blog.objects()
-        for blog in objects:
+        blogObjects = Blog.objects()
+        for blog in blogObjects:
             if((search in blog.blogTitle or search in blog.blogDescription) and blog not in result_object):
                 result_object.append(blog)
-            for i in search.split(' '):
-                if ((i in blog.blogTitle or i in blog.blogDescription)and blog not in result_object):
+            for searchWord in search.split(' '):
+                if ((searchWord in blog.blogTitle or searchWord in blog.blogDescription)and blog not in result_object):
                     result_object.append(blog)
             metadata=blog.metaData
             if(metadata!=None):
-                for i in search.split(' '):
-                    if ((i in metadata.metaTitle or i in metadata.metaDescription or i in metadata.metaKeywords.split(',')) and blog not in result_object):
+                for searchWord in search.split(' '):
+                    if ((searchWord in metadata.metaTitle or searchWord in metadata.metaDescription or searchWord in metadata.metaKeywords.split(',')) and blog not in result_object):
                         result_object.append(blog)
         print(result_object)
         blogs_paginated=[]
-        i=0
         temp=[]
         for i in result_object:
             if len(temp)==9:
