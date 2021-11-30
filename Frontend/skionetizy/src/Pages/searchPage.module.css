@@ -62,6 +62,22 @@
   gap: 4em;
 }
 
+.statusMessage {
+  padding: 2rem 0;
+  text-align: center;
+  color: #fafafa;
+  font-size: 1.25rem;
+}
+
+.spinnerWrapper {
+  display: flex;
+  align-items: center;
+  width: max-content;
+
+  gap: 1rem;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
 
 @media (min-width: 900px) {
   .blog_container{

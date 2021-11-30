@@ -26,6 +26,7 @@ const SearchPage = (props) => {
     setBlogs([]);
     setCurrentBlog(0);
     setHasMoreBlogs(true);
+    setResultsFound(0)
   },[searchInput])
 
   useEffect(() => {

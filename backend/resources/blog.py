@@ -357,7 +357,6 @@ class GetFeed(Resource):
                 blogs.extend(b)
             blogs.sort(key=lambda x:x['timestamp'],reverse=True)
             blogs_paginated=[]
-            index=0
             i=0
             temp=[]
             for i in blogs:
@@ -373,11 +372,13 @@ class GetFeed(Resource):
             blogs=Blog.objects(blogStatus='PUBLISHED').exclude("comments","likedByUsersList","dislikedByUsersList")
             blogs=[x.to_mongo().to_dict() for x in blogs]
             for i in blogs:
-                p=Profile.objects.get(profileID=i['profileID'])
+                try:
+                    p=Profile.objects.get(profileID=i['profileID'])
+                except:
+                    continue
                 i['profilePicImageURL']=p.profilePicImageURL
                 i['profileName']=p.profileName
             blogs_paginated=[]
-            index=0
             i=0
             temp=[]
             for i in blogs:
