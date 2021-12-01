@@ -65,9 +65,9 @@ function App() {
           />
           <Route exact path="/auth/authToken" component={OAuthPage} />
           <Route path="/admin" component={AdminRoutes} />
+          <Route exact path="/privacy" component={Privacy} />
           <Route path="/:profileUserName" component={UserProfile} />
           <Route exact path="/" component={ExploreBlogs} />
-          <Route exact path="privacy" component={Privacy} />
         </Switch>
       </Suspense>
     </Router>
