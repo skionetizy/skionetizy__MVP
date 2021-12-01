@@ -1,9 +1,11 @@
 import React from "react";
 
+import styles from "./Privacy.module.css";
+
 export default function Privacy() {
   // https://www.privacypolicygenerator.info/live.php?token=YybWYi3mQQga6brN9o8s4eoxT8p40Wxo
   return (
-    <>
+    <div className={styles.privacy}>
       <h1>Privacy Policy for papersdrop</h1>
 
       <p>
@@ -218,6 +220,6 @@ export default function Privacy() {
         encourage you to contact us immediately and we will do our best efforts
         to promptly remove such information from our records.
       </p>
-    </>
+    </div>
   );
 }
