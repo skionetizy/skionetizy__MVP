@@ -25,6 +25,7 @@ const Signup = lazy(() => import("./Pages/Signup"));
 const UserNotFound = lazy(() => import("./Pages/UserNotFound"));
 const UserProfile = lazy(() => import("./Pages/UserProfile"));
 const ExploreBlogs = lazy(() => import("./Pages/ExploreBlogs"));
+const Privacy = lazy(() => import("./Pages/Privacy"));
 
 function App() {
   const { saveProfile } = useAuth();
@@ -64,6 +65,7 @@ function App() {
           />
           <Route exact path="/auth/authToken" component={OAuthPage} />
           <Route path="/admin" component={AdminRoutes} />
+          <Route exact path="/privacy" component={Privacy} />
           <Route path="/:profileUserName" component={UserProfile} />
           <Route exact path="/" component={ExploreBlogs} />
         </Switch>

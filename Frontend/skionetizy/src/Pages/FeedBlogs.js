@@ -3,6 +3,7 @@ import { getFeedBlogs } from "../API/blogAPIHandler";
 import BlogCard from "../Components/BlogCard";
 import FrameBorder from "../Components/FrameBorder";
 import Spinner from "../Components/Spinner";
+import ViewMore from "../Components/ViewMore";
 import useAuth from "../hooks/useAuth";
 import style from "./exploreBlogs.module.css";
 
@@ -58,6 +59,7 @@ export default function FeedBlogs() {
   return (
     <>
       {blogs.length > 0 && (
+        <>
         <FrameBorder
           title={
             <h1 style={{ paddingLeft: "4rem", color: "var(--primary-blue)" }}>
@@ -71,6 +73,12 @@ export default function FeedBlogs() {
             {blogs && blogs.map((blog) => <BlogCard blog={blog} />)}
           </div>
         </FrameBorder>
+        {/* Show after initial fetching 9-12 blogs */}
+          <ViewMore
+          className={style.viewMore}
+          onVisiblityChange={(isVisible) => setIsVisible(isVisible)}
+        />
+        </>
       )}
 
       {/* Loading Spinner */}
@@ -83,6 +91,10 @@ export default function FeedBlogs() {
             </span>
           </div>
         </>
+      )}
+      {/* Status Message */}
+      {hasMoreBlogs === false && (
+        <p className={style.statusMessage}>🎉You have reached to end</p>
       )}
     </>
   );
