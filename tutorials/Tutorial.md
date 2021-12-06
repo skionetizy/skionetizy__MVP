@@ -2,7 +2,7 @@
 
 This tutorial will guide you through the complete installation of the project on your local machine. To start with, make sure you have already installed nodeJS and reactJS on your computer. Also, make sure to install python 3.7.4, specifically. We had some epic failures when the setup was tested on Python 3.9.9 and 3.10.0. So try not to install these versions. Make sure to not test any versions lower than Python 3.5.
 
-# Local server setup
+# Backend API server setup
 
 Open a terminal at your desired location and start with cloning the development branch of this repository. Downloading the zip file or not specifying the -b flag will clone the main branch, which we strictly do not recommend.
 
@@ -29,7 +29,7 @@ Install all the required python modules
 
 Rest settings are automatically set using a .env file. Just make sure that you have the **.env** file at the root folder of the cloned repository.
 
-# Start the servers
+# Frontend react server setup
 
 To run the project you will need both backend API server as well as the react server running.
 start the backend server with
