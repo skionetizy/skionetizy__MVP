@@ -29,7 +29,7 @@ Install all the required python modules
 
 Rest settings are automatically set using a .env file. Just make sure that you have the **.env** file at the root folder of the cloned repository.
 
-## Start the servers
+# Start the servers
 
 To run the project you will need both backend API server as well as the react server running.
 start the backend server with
