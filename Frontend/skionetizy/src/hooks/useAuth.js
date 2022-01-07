@@ -12,6 +12,11 @@ import {
   AUTHORIZATION_HEADER,
   LOGGED_IN_PROFILE_ID,
 } from "../utils/localStorageKeys";
+import createFlaskError from "../utils/createFlaskError";
+
+
+
+
 
 function useAuth() {
   const dispatch = useDispatch();
@@ -27,15 +32,17 @@ function useAuth() {
 
   async function login({ emailID, password }) {
     const res = await sendLogin({ emailID, password });
-    console.log("res", res);
+    console.log("res inside useAuth", res);
     const { profileID, token } = res;
-
     axios.defaults.headers["Authorization"] = token;
     setToken(token);
     localStorage.setItem(AUTHORIZATION_HEADER, token);
     localStorage.setItem(LOGGED_IN_PROFILE_ID, profileID);
     saveProfile(profileID);
-
+    dispatch({
+      type: "SAVE_USER_ID",
+      userID: profileID
+    })
     return res;
   }
 

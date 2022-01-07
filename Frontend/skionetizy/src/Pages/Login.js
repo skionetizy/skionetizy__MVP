@@ -26,15 +26,15 @@ function Login(props) {
           <div className={`${style.signin}`}>
             <h1 className={style.header}>Login</h1>
             <LoginForm
-              onLogin={(_user, error) => {
-                console.log("n", _user, error);
-                if (error || _user.statusCode === 500) {
-                  setShowModal("VERIFY_EMAIL");
-                  return;
-                }
-                // after successful login goto `explore-blogs`
-                history.push("/");
-              }}
+            // onLogin={(_user, error) => {
+            //   console.log("n", _user, error);
+            //   if (error || _user.statusCode === 500) {
+            //     setShowModal("VERIFY_EMAIL");
+            //     return;
+            //   }
+            //   // after successful login goto `explore-blogs`
+            //   history.push("/");
+            // }}
             />
           </div>
         </div>

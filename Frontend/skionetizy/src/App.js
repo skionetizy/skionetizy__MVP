@@ -54,7 +54,9 @@ function App() {
           <Route exact path="/searchpage/:searchInput" component={SearchPage} />
           <Route
             exact
-            path="/view-blog/:blogID/:profileID"
+            // path="/:profileNameSlug/:blogTitleSlug/:blogID"
+            // path="/:profileNameSlug/:blogTitleSlugAndblogID"
+            path='/view-blog/:blogID/:profileID'
             component={ViewBlog}
           />
           <Route exact path="/details" component={DetailsPage} />

@@ -50,7 +50,7 @@ function LoginFormModal(props) {
                     );
 
                     props.onLogin?.(null, error);
-                    console.info(error);
+                    console.info("Error ->", error);
                 });
         }
     }, [state]);

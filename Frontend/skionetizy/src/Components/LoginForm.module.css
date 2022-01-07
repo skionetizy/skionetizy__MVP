@@ -15,7 +15,7 @@
 }
 
 .divider {
-  margin: 1rem 0 !important;
+  margin: 0.5rem 0 !important;
 }
 
 .signin_form {
@@ -25,9 +25,10 @@
 }
 
 .email_password {
+  /* margin: 1rem; */
   display: flex;
   flex-direction: column;
-  gap: 2em;
+  gap: 1em;
 }
 
 .email,
@@ -46,15 +47,20 @@
   display: block;
   width: max-content;
   margin-left: auto;
-
+  margin-top: 2%;
   color: #fff;
 }
 
 .signinButton {
-  margin-top: 0.5rem;
-  align-self: center;
-  font-family: "Montserrat", sans-serif;
-  font-size: 1rem !important;
+  display: block;
+  color: #fff;
+  width: 80%;
+  margin: 2rem auto 1rem;
+  padding: 0.75rem;
+  background-color: var(--dark-blue);
+  border: none;
+  border-radius: 1rem;
+  font: inherit;
 }
 
 .signinButton svg {

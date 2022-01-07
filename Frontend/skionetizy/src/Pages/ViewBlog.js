@@ -37,6 +37,9 @@ import ReactMarkdown from "react-markdown";
 import useIntersectionObserver from "../hooks/useIntersectionObserver";
 import TriggerLoginPopup from "./TriggerLoginPopup";
 
+import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
+
+
 const KEYWORDS_LOCAL_KEY = "blogsKeywords";
 
 Moment.globalFormat = "MMM D , YYYY";
@@ -85,8 +88,26 @@ const ModalMaker = ({ showModal, setShowModal }) => {
   }
 };
 
+
 const ViewBlog = () => {
+
+
   const { blogID, profileID } = useParams();
+
+
+  // const { profileNameSlug, blogTitleSlug, blogID, blogTitleSlugAndblogID } = useParams();
+  // const { profileNameSlug, blogTitleSlugAndblogID } = useParams();
+  // const blogTitleSlug = blogTitleSlugAndblogID?.split("--")[0];
+  // const blogID = blogTitleSlugAndblogID?.split("--")[1];
+
+
+
+  // console.log('profileNameSlug->', profileNameSlug)
+  // console.log('blogTitleSlug->', blogTitleSlug)
+  console.log('blogID->', blogID)
+  console.log('profileID->', profileID)
+
+
   const auth = useAuth();
   const { state } = useLocation();
   const loggedInUserProfile = auth.profile?.profileID;
@@ -102,6 +123,9 @@ const ViewBlog = () => {
     scroll: false,
     hasSent: false,
   });
+
+
+
   const [comments, setComments] = useState();
   const addCommentMutation = useMutate({
     mutateFn: (commentDescription) => {
@@ -133,6 +157,7 @@ const ViewBlog = () => {
       setComments(res.data.comments);
     });
   }
+
 
   useEffect(() => {
     const cachedBlogKey = "GOOGLE_OAUTH_CURRENT_BLOG";
@@ -547,7 +572,7 @@ const ViewBlog = () => {
                 <Comments
                   comment={comment}
                   key={comment.commentID}
-                  authorProfileID={profileID}
+                  authorProfileID={blog.profileID}
                   onDelete={(response) => {
                     // re-fetch comments for blog when successful
                     if (response.data.success === true) getComments();

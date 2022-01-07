@@ -23,7 +23,7 @@ const Reducer = (state = initialState, action) => {
       };
 
     case "SAVE_USER_ID":
-      // console.log({ userIDFromReducer: action.userID });
+      console.log("Inside Reduces ->", { userIDFromReducer: action.userID });
       return {
         ...state,
         userID: action.userID,
