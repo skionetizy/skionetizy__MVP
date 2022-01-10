@@ -40,7 +40,7 @@ export default function LoginForm({
   const history = useHistory();
   const dispatch = useDispatch();
   const { login } = useAuth();
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState('');
 
 
   // const loginMutation = useMutate({
@@ -62,51 +62,55 @@ export default function LoginForm({
 
   // const { isLoading } = loginMutation;
   const [isLoading, setIsLoading] = useState(false);
-
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const url = `${baseURL}/login`;
-    try {
-      if (details) {
-        // loginMutation.mutate(details, e);
-        // onLogin(res.profileID, null);
-        // Change here
-        await yup
-          .string()
-          .required("Email is required")
-          .email("Enter a valid email address")
-          .validate(details.emailID);
-        setIsLoading(true)
-        const res = await login(details)
-        setIsLoading(false);
-        console.log("Inside LoginForm res after login()-> ", res)
-
-        if (res.status === 200 || res.statusCode === 200 || res.data.statusCode === 200) {
-          history.push("/")
-        }
-        else if (res.status === 500 || res.statusCode === 500 || res.data.statusCode === 500) {
-          console.log("Throwing Flask error")
-          throw createFlaskError(res.data.message);
-        } else {
-          setShowModal(true)
-        }
-
-      }
-    } catch (error) {
-      let errorMessage;
+    // try {
+    if (details) {
+      // loginMutation.mutate(details, e);
+      // onLogin(res.profileID, null);
+      // Change here
+      await yup
+        .string()
+        .required("Email is required")
+        .email("Enter a valid email address")
+        .validate(details.emailID);
+      setIsLoading(true)
+      const res = await login(details)
       setIsLoading(false);
-      if (error instanceof yup.ValidationError) {
-        errorMessage = error.message;
-        console.log("YUP error ->", errorMessage)
-      } else if (error.isFlaskError) {
-        errorMessage = error.message;
-        console.log("Flask Error ->", errorMessage)
-      } else if (error.isAxiosError) {
-        errorMessage = error?.response.data.message || "Server Error";
-        console.log("Error", error?.response.data.message);
+      console.log("Inside LoginForm res after login()-> ", res)
+      console.log("res.status", res.status)
+
+      if (res.status === 200) {
+        history.push("/")
+        return
+      } else {
+        setError(res.message)
       }
+      // else if (res.status === 500 || res.statusCode === 500 || res.data.statusCode === 500) {
+      //   console.log("Throwing Flask error")
+      //   throw createFlaskError(res.data.message);
+      // } else {
+      //   setShowModal(true)
+      // }
+
     }
+    // } catch (error) {
+    //   let errorMessage;
+    //   setIsLoading(false);
+    //   if (error instanceof yup.ValidationError) {
+    //     errorMessage = error.message;
+    //     console.log("YUP error ->", errorMessage)
+    //   } else if (error.isFlaskError) {
+    //     errorMessage = error.message;
+    //     console.log("Flask Error ->", errorMessage)
+    //   } else if (error.isAxiosError) {
+    //     errorMessage = error?.response.data.message || "Server Error";
+    //     console.log("Error", error?.response.data.message);
+    //   }
+    // }
   };
   return (
     <>
@@ -142,7 +146,8 @@ export default function LoginForm({
               Forgot Password
             </Link>
 
-            {/* <ReverifyEmail emailID={details.emailID} /> */}
+
+            <ReverifyEmail emailID={details.emailID} />
 
             <Button
               className={style.signinButton}
@@ -155,6 +160,8 @@ export default function LoginForm({
               <FontAwesomeIcon icon={faSignInAlt} />
             </Button>
           </form>
+          {!!error && <p className={style.error}>{error}</p>}
+
           <p className={style.signupLink}>
             Don't have an account?{" "}
             <a
@@ -172,11 +179,11 @@ export default function LoginForm({
         </div>
 
       </div>
-      {
-        showModal && (
-          <VerifyEmailModal onClose={() => setShowModal("")} />
+      {/* {
+        showModal === 'VERFY_EMAIL' && (
+          <VerifyEmailModal onClose={() => setShowModal('')} />
         )
-      }
+      } */}
     </>
   );
 }

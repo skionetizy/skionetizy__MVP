@@ -1,15 +1,32 @@
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PasswordInput from "../Components/PasswordInput";
 import styles from "./ForgotPassword.module.css";
 import EmailEnvelopeImage from "../Assets/close_mail_envelope.png";
 import ForgotPasswordSS from "../Assets/forgot_password.png";
+import VerifyEmailModal from "../Components/VerifyEmailModal";
+import useForm from "../hooks/useForm";
+
+
+
 
 function ForgotPassword() {
-  function handleEmailSubmit() {}
+  const [showModal, setShowModal] = useState('');
+  const { data: details, handleChange } = useForm({
+    emailID: "",
+  });
 
-  function handlePasswordSubmit() {}
+  function handleEmailSubmit(e) {
+    e.preventDefault()
+    if (details) {
+      console.log('Details ->', details)
+      setShowModal('VERFY_EMAIL')
+    }
+
+  }
+
+  function handlePasswordSubmit() { }
 
   return (
     <main className={styles.container}>
@@ -24,9 +41,10 @@ function ForgotPassword() {
           />
         </div>
 
+
         <div className={styles.formsFlexItem}>
-          <form className={styles.emailForm} onSubmit={handleEmailSubmit}>
-            <input className={styles.emailInput} placeholder="Enter Email" />
+          <form className={styles.emailForm} onSubmit={handleEmailSubmit}  >
+            <input className={styles.emailInput} onChange={handleChange} value={details.emailID} name="emailID" placeholder="Enter Email" />
             <button className={styles.emailVerifyBtn} type="submit">
               Verify
             </button>
@@ -59,7 +77,13 @@ function ForgotPassword() {
             </button>
           </form>
         </div>
+        {
+          showModal === 'VERFY_EMAIL' && (
+            <VerifyEmailModal onClose={() => setShowModal('')} />
+          )
+        }
       </section>
+
     </main>
   );
 }

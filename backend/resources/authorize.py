@@ -122,10 +122,13 @@ class ReverificationToken(Resource):
     def post(self):
         body=request.get_json()
         email=body['emailID']
+        print("Email ->", email)
         user=User.objects.get_or_404(emailID=email)
         if user.isVerified==1:
+            print("Already Verified ->", email)
             return make_response(jsonify({'Message':'Already Verified','status':200}))
         else:
+            print("Sending Email")
             auth_token=user.encode_auth_token()
             template=env.get_template('emailVerification.html')
             redirect_url = app.config.get('FRONTEND_DOMAIN')+f'emailVerification/{auth_token}'
@@ -159,7 +162,7 @@ class AuthorizeLogin(Resource):
         try:
             User.objects.get(emailID = body["emailID"])
         except:
-            return make_response({"message":"create an account, before you login","status":500})
+            return make_response({"message":"Create an account, before you login","status":500})
         # elif user["isVerified"]==False:
         user = User.objects.get(emailID = body["emailID"])
         if user["isVerified"]==False:
@@ -167,7 +170,7 @@ class AuthorizeLogin(Resource):
         
         isAuthorized = user.check_password(body.get('password'))
         if not isAuthorized:
-            return make_response(jsonify({"message":"password is incorrect,please try again","statusCode":500}))
+            return make_response(jsonify({"message":"Password is incorrect, please try again","status":500}))
         token=user.encode_signin_token()
         profile=Profile.objects.get(userID=user.userID)
         return make_response({"token":token,"profileID":profile.profileID,"message":"Logged in Successfully","status":200})
