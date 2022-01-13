@@ -1,6 +1,11 @@
+import {
+  AUTHORIZATION_HEADER,
+} from "../utils/localStorageKeys";
+
 const initialState = {
   userID: "ab304cc9-1849-48f8-86a0-0ac39ff9929d",
   isLogin: false,
+  jwtToken: localStorage.getItem(AUTHORIZATION_HEADER),
   blogID: "",
   firstName: "rohan",
   lastName: "devaki",
@@ -23,10 +28,17 @@ const Reducer = (state = initialState, action) => {
       };
 
     case "SAVE_USER_ID":
-      console.log("Inside Reduces ->", { userIDFromReducer: action.userID });
+      console.log("Inside Reducer ->", { userIDFromReducer: action.userID });
       return {
         ...state,
         userID: action.userID,
+        isLogin: true,
+      };
+    case "SAVE_JWT_TOKEN_AFTER_LOGIN":
+      console.log("Inside SAVE_JWT_TOKEN_AFTER_LOGIN ->", { jwtTokenFromReducer: action.jwtToken });
+      return {
+        ...state,
+        jwtToken: action.jwtToken,
         isLogin: true,
       };
     case "SAVE_BLOG_ID":

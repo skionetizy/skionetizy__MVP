@@ -34,15 +34,16 @@ function useAuth() {
     const res = await sendLogin({ emailID, password });
     console.log("res inside useAuth", res);
     const { profileID, token } = res;
-    axios.defaults.headers["Authorization"] = token;
+    // axios.defaults.headers["Authorization"] = token;
     setToken(token);
     localStorage.setItem(AUTHORIZATION_HEADER, token);
     localStorage.setItem(LOGGED_IN_PROFILE_ID, profileID);
+    console.log("Inside login before saveProfile ->", profileID);
     saveProfile(profileID);
-    dispatch({
-      type: "SAVE_USER_ID",
-      userID: profileID
-    })
+    // dispatch({
+    //   type: "SAVE_USER_ID",
+    //   userID: profileID
+    // })
     return res;
   }
 
@@ -80,7 +81,7 @@ function useAuth() {
       type: AUTH.SAVE_PROFILE,
       payload: { profileID },
     });
-
+    console.log("Inside saveProfile ->", profileID)
     const { profileUserName } = await getHoverProfileDetails(profileID);
     const profile = await getProfileDetailsAPIHandler(profileUserName).then(
       (r) => r.profile

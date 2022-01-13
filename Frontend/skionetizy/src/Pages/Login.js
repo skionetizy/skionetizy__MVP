@@ -7,7 +7,7 @@ import VerifyEmailModal from "../Components/VerifyEmailModal";
 import style from "../Pages/login.module.css";
 import clsx from "../utils/clsx";
 
-function Login(props) {
+export default function Login(props) {
   const [showModal, setShowModal] = useState("");
   const history = useHistory();
 
@@ -46,17 +46,17 @@ function Login(props) {
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onLogin: (userID) => dispatch({ type: "SAVE_USER_ID", userID: userID }),
-  };
-};
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     onLogin: (userID) => dispatch({ type: "SAVE_USER_ID", userID: userID }),
+//   };
+// };
 
-const mapStateToProps = (state) => {
-  return {
-    isLogin: state.isLogin,
-    userID: state.userID,
-  };
-};
+// const mapStateToProps = (state) => {
+//   return {
+//     isLogin: state.isLogin,
+//     userID: state.userID,
+//   };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+// export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -1,7 +1,7 @@
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
@@ -22,15 +22,16 @@ import baseURL from "../utils/baseURL";
 import * as yup from "yup";
 import createFlaskError from "../utils/createFlaskError";
 import VerifyEmailModal from "../Components/VerifyEmailModal";
+import { connect } from "react-redux";
 
 
 
 
 const defaultGoogleOauthURL = createAuthURL("/auth/authToken");
 
-export default function LoginForm({
+function LoginForm(props, {
   googleOAuthURL = defaultGoogleOauthURL,
-  onLogin = noop,
+  // onLogin = noop,
   onSignupClick,
 }) {
   const { data: details, handleChange } = useForm({
@@ -41,6 +42,8 @@ export default function LoginForm({
   const dispatch = useDispatch();
   const { login } = useAuth();
   const [showModal, setShowModal] = useState('');
+
+
 
 
   // const loginMutation = useMutate({
@@ -63,15 +66,30 @@ export default function LoginForm({
   // const { isLoading } = loginMutation;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  // const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    console.log("useEffect props.isLogin ->", props.isLogin)
+    console.log("useEffect props.jwtToken ->", props.jwtToken)
+
+  }, [props.jwtToken])
+
+  const saveJwtToken = (token) => {
+    console.log("Inside saveJwtToken ->", token)
+    props.onLogin(token)
+  }
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = `${baseURL}/login`;
+
     // try {
     if (details) {
       // loginMutation.mutate(details, e);
       // onLogin(res.profileID, null);
+
       // Change here
+      // const url = `${baseURL}/login`;
       await yup
         .string()
         .required("Email is required")
@@ -79,10 +97,11 @@ export default function LoginForm({
         .validate(details.emailID);
       setIsLoading(true)
       const res = await login(details)
+      saveJwtToken(res.token)
       setIsLoading(false);
       console.log("Inside LoginForm res after login()-> ", res)
-      console.log("res.status", res.status)
-
+      // console.log("isLogin", isLogin)
+      // console.log("res.status", res.status)
       if (res.status === 200) {
         history.push("/")
         return
@@ -187,3 +206,20 @@ export default function LoginForm({
     </>
   );
 }
+
+const mapStateToProps = (state) => {
+  console.log("Inside mapStateToProps", state)
+
+  return {
+    isLogin: state.isLogin,
+    jwtToken: state.jwtToken,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onLogin: (jwtToken) => dispatch({ type: "SAVE_JWT_TOKEN_AFTER_LOGIN", jwtToken: jwtToken }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
