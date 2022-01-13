@@ -1,40 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+  <url>
+    <loc>https://www.papersdrop.com/</loc>
+    <lastmod>2022-01-03T11:06:10+00:00</lastmod>
+  </url>
 
+  <!-- long term pages -->
+  <url>
+    <loc>https://www.papersdrop.com/addBlogDetailsMarkdown</loc>
+    <lastmod>2022-01-03T11:06:10+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.papersdrop.com/landing#about</loc>
+    <lastmod>2022-01-03T11:06:10+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.papersdrop.com/landing#mission</loc>
+    <lastmod>2022-01-03T11:06:10+00:00</lastmod>
+  </url>
 
-<url>
-  <loc>http://www.papersdrop.com/</loc>
-  <lastmod>2021-10-21T17:50:55+00:00</lastmod>
-</url>
+  <!-- Blogs -->
+  <url>
+    <loc>https://www.papersdrop.com/view-blog/475ead68-6448-4354-91af-a9d827defd9c/bb09b244-a47f-49bb-bfe8-e87381006937</loc>
+    <lastmod>2022-01-03T11:06:10+00:00</lastmod>
+  </url>
 
-<url>
-  <loc>http://www.papersdrop.com/view-blog/7fbb97ba-fdb3-4aca-ab82-f8558045375e/3988b9d1-fd0d-4a16-bf01-1fde222b9ed3/</loc>
-  <lastmod>2021-10-09T18:30:00+00:00</lastmod>
-</url>
+  <url>
+    <loc>https://www.papersdrop.com/view-blog/a5f6348d-a1e4-4c4d-8bc5-1cdda816cb51/29eb3185-3df7-49fc-94a1-bf0cf0adbe21</loc>
+    <lastmod>2022-01-03T11:06:10+00:00</lastmod>
+  </url>
 
-<url>
-  <loc>http://www.papersdrop.com/view-blog/38024f46-54c0-4e17-9d19-e071f9884be4/e02bb132-9c12-47d6-a471-f3c8fbd03521/</loc>
-  <lastmod>2021-10-09T18:30:00+00:00</lastmod>
-</url>
+  <url>
+    <loc>https://www.papersdrop.com/view-blog/3ebd5a43-d888-4dd2-928d-cb3cc3c395cf/bb09b244-a47f-49bb-bfe8-e87381006937</loc>
+    <lastmod>2022-01-03T11:06:10+00:00</lastmod>
+  </url>
 
-<url>
-  <loc>http://www.papersdrop.com/view-blog/4ef6162d-e358-4034-91b5-7efb56681e8f/3988b9d1-fd0d-4a16-bf01-1fde222b9ed3/</loc>
-  <lastmod>2021-10-10T18:30:00+00:00</lastmod>
-</url>
+  <url>
+    <loc>https://www.papersdrop.com/view-blog/4d6462f1-8c24-4d6e-83f5-005202a9e821/bb09b244-a47f-49bb-bfe8-e87381006937</loc>
+    <lastmod>2022-01-03T11:06:10+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.papersdrop.com/view-blog/7b12d9c2-7712-4a2f-aeec-bbb54d690421/bb09b244-a47f-49bb-bfe8-e87381006937</loc>
+    <lastmod>2022-01-03T11:06:10+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.papersdrop.com/view-blog/4675cd91-d3d0-4e50-a1f1-039ffffc6436/7eab5d76-002e-4634-9f12-3576deb88f8b</loc>
+    <lastmod>2022-01-03T11:06:10+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.papersdrop.com/view-blog/a90d3c84-c7c2-48e7-a78e-a8b220eab096/5e2e13d5-b180-4028-81f3-7b254c15d89d</loc>
+    <lastmod>2022-01-03T11:06:10+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.papersdrop.com/view-blog/d964c6f1-24dd-45ca-8225-167364869567/d6f25119-4004-41eb-ada2-9d8fc0cacf90</loc>
+    <lastmod>2022-01-03T11:06:10+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.papersdrop.com/view-blog/68e230b2-cc99-49ca-9d52-31e23878517d/a1fc7149-8ff2-42a2-b26e-2010c24230d3</loc>
+    <lastmod>2022-01-03T11:06:10+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.papersdrop.com/view-blog/c22eb7d3-fc57-42ae-a314-18506ef7a3ca/a1fc7149-8ff2-42a2-b26e-2010c24230d3</loc>
+    <lastmod>2022-01-03T11:06:10+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.papersdrop.com/view-blog/62cce294-72c5-4f50-8e72-46c53be3f65c/e02bb132-9c12-47d6-a471-f3c8fbd03521</loc>
+    <lastmod>2022-01-03T11:06:10+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.papersdrop.com/view-blog/4ef6162d-e358-4034-91b5-7efb56681e8f/3988b9d1-fd0d-4a16-bf01-1fde222b9ed3</loc>
+    <lastmod>2022-01-03T11:06:10+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.papersdrop.com/view-blog/38024f46-54c0-4e17-9d19-e071f9884be4/e02bb132-9c12-47d6-a471-f3c8fbd03521</loc>
+    <lastmod>2022-01-03T11:06:10+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.papersdrop.com/view-blog/7fbb97ba-fdb3-4aca-ab82-f8558045375e/3988b9d1-fd0d-4a16-bf01-1fde222b9ed3</loc>
+    <lastmod>2022-01-03T11:06:10+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://www.papersdrop.com/view-blog/e8d1b624-747a-4842-b35b-44abe1fac2e0/2d7d15cf-8985-4a49-8787-93f2407d338c</loc>
+    <lastmod>2022-01-03T11:06:10+00:00</lastmod>
+  </url>
 
-<url>
-  <loc>http://www.papersdrop.com/view-blog/c22eb7d3-fc57-42ae-a314-18506ef7a3ca/a1fc7149-8ff2-42a2-b26e-2010c24230d3/</loc>
-  <lastmod>2021-10-19T18:30:00+00:00</lastmod>
-</url>
-
-<url>
-  <loc>http://www.papersdrop.com/view-blog/e8d1b624-747a-4842-b35b-44abe1fac2e0/2d7d15cf-8985-4a49-8787-93f2407d338c/</loc>
-  <lastmod>2021-10-08T18:30:00+00:00</lastmod>
-</url>
 
 </urlset>
