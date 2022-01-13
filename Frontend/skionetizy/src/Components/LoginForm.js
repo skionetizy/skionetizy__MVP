@@ -66,7 +66,7 @@ function LoginForm(props, {
   // const { isLoading } = loginMutation;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  // const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
     console.log("useEffect props.isLogin ->", props.isLogin)
