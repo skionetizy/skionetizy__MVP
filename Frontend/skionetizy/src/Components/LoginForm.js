@@ -41,7 +41,7 @@ function LoginForm(props, {
   const history = useHistory();
   const dispatch = useDispatch();
   const { login } = useAuth();
-  const [showModal, setShowModal] = useState('');
+  // const [showModal, setShowModal] = useState('');
 
 
 
