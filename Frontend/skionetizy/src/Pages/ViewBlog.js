@@ -94,20 +94,6 @@ const ViewBlog = () => {
 
   const { blogID, profileID } = useParams();
 
-
-  // const { profileNameSlug, blogTitleSlug, blogID, blogTitleSlugAndblogID } = useParams();
-  // const { profileNameSlug, blogTitleSlugAndblogID } = useParams();
-  // const blogTitleSlug = blogTitleSlugAndblogID?.split("--")[0];
-  // const blogID = blogTitleSlugAndblogID?.split("--")[1];
-
-
-
-  // console.log('profileNameSlug->', profileNameSlug)
-  // console.log('blogTitleSlug->', blogTitleSlug)
-  console.log('blogID->', blogID)
-  console.log('profileID->', profileID)
-
-
   const auth = useAuth();
   const { state } = useLocation();
   const loggedInUserProfile = auth.profile?.profileID;

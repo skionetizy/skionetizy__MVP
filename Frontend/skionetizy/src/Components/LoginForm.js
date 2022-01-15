@@ -39,43 +39,20 @@ function LoginForm(props, {
     password: "",
   });
   const history = useHistory();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { login } = useAuth();
-  // const [showModal, setShowModal] = useState('');
 
-
-
-
-  // const loginMutation = useMutate({
-  //   mutateFn: async (data) => {
-  //     console.log("dt", data)
-  //     const response = await login(details);
-  //     //console.log(response);
-  //     return response;
-  //   },
-
-  //   onSuccess: (profileID) => {
-  //     onLogin(profileID, null);
-  //   },
-
-  //   onFailure: (error) => {
-  //     onLogin(null, error);
-  //   },
-  // });
-
-  // const { isLoading } = loginMutation;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [isLogin, setIsLogin] = useState(false);
 
-  useEffect(() => {
-    console.log("useEffect props.isLogin ->", props.isLogin)
-    console.log("useEffect props.jwtToken ->", props.jwtToken)
+  // useEffect(() => {
+  //   console.log("useEffect props.isLogin ->", props.isLogin)
+  //   console.log("useEffect props.jwtToken ->", props.jwtToken)
 
-  }, [props.jwtToken])
+  // }, [props.jwtToken])
 
   const saveJwtToken = (token) => {
-    console.log("Inside saveJwtToken ->", token)
+    // console.log("Inside saveJwtToken ->", token)
     props.onLogin(token)
   }
 
@@ -85,10 +62,6 @@ function LoginForm(props, {
 
     // try {
     if (details) {
-      // loginMutation.mutate(details, e);
-      // onLogin(res.profileID, null);
-
-      // Change here
       // const url = `${baseURL}/login`;
       await yup
         .string()
@@ -99,9 +72,8 @@ function LoginForm(props, {
       const res = await login(details)
       saveJwtToken(res.token)
       setIsLoading(false);
-      console.log("Inside LoginForm res after login()-> ", res)
-      // console.log("isLogin", isLogin)
-      // console.log("res.status", res.status)
+      // console.log("Inside LoginForm res after login()-> ", res)
+
       if (res.status === 200) {
         history.push("/")
         return
@@ -208,7 +180,7 @@ function LoginForm(props, {
 }
 
 const mapStateToProps = (state) => {
-  console.log("Inside mapStateToProps", state)
+  // console.log("Inside mapStateToProps", state)
 
   return {
     isLogin: state.isLogin,

@@ -13,11 +13,11 @@ export default function Signup() {
     <>
       <div className={clsx(styles.container, "center")}>
         <SignupForm
-          onSignup={(_user, error) => {
-            // after success full signup, goto `/details` page
-            if (error) return;
-            setShowModal("VERIFY_EMAIL");
-          }}
+        // onSignup={(_user, error) => {
+        //   // after success full signup, goto `/details` page
+        //   if (error) return;
+        //   setShowModal("VERIFY_EMAIL");
+        // }}
         />
       </div>
       {showModal === "VERIFY_EMAIL" && (
