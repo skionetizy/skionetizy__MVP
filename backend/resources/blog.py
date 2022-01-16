@@ -415,9 +415,19 @@ class GetCommentsByBlogID(Resource):
 
 
 class AddKeywordsBlog(Resource):
-    def get(self,word):
+    decorators=[authorize.token_required]
+    def get(self,current_profile,word):
         l=[]
         l.append(str(word))
+        print(current_profile.isPremium)
+        if not current_profile.isPremium:
+            print("If Loop Executed")
+            if current_profile.keywords_count==5:
+                return make_response(jsonify(({'message':'Daily Limit Reached'})))
+            else:
+                current_profile.increase_keywords_count()
+         
+
         if client=='':
             return make_response(jsonify({'message':'GADS TOKEN EXPIRED'}),500)
         list_keywords= gads(client, "5304812837", ["2840"], "1000",l, None)
