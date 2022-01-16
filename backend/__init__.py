@@ -3,15 +3,13 @@ from flask_restful import Api
 from flask_cors import CORS
 from flask_mail import Mail,Message
 from threading import Thread
-from config import DevelopmentConfig, StagingConfig, ProductionConfig
+import config
 import cloudinary
 import os
 from gingerit.gingerit import GingerIt
 from google.ads.googleads.client import GoogleAdsClient
 from oauthlib.oauth2 import WebApplicationClient
-from apscheduler.schedulers.background import BackgroundScheduler
-import time
-import atexit
+
 app = Flask(__name__,static_folder='../Frontend/skionetizy/build',static_url_path='')
 
 
@@ -21,18 +19,13 @@ cloudinary.config (
     api_secret=os.environ.get('CLOUDINARY_API_SECRET')
 )
 
-env_config = os.environ.get("APP_SETTINGS") or "DevelopmentConfig"
-if env_config=='DevelopmentConfig':
-    app.config.from_object(DevelopmentConfig)
-elif env_config=='StagingConfig':
-    app.config.from_object(StagingConfig)
-else:
-    app.config.from_object(ProductionConfig)
 
 CORS(app)
 api = Api(app)
 
 
+env_config = os.environ.get("APP_SETTINGS") or "DevelopmentConfig"
+app.config.from_object("config."+env_config)
 mail=Mail(app)
 
 
@@ -74,13 +67,3 @@ initialize_db(app)
 
 
 from backend.resources import routes
-from backend.resources import cron
-
-scheduler = BackgroundScheduler()
-scheduler.add_job(func=cron.reset_profile_counts,trigger='interval',seconds=86400)
-scheduler.start()
-
-
-
-# Shut down the scheduler when exiting the app
-atexit.register(lambda: scheduler.shutdown())

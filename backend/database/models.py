@@ -120,13 +120,6 @@ class Profile(db.Document):
     # getBlogs from blog api
     profileWebsiteURL=db.URLField(required=False)
     profileTimestamp=db.DateTimeField(required=False,default=datetime.datetime.utcnow)
-    isPremium = db.BooleanField(default=False)
-    keywords_count = db.IntField(default=0)
-    def increase_keywords_count(self):
-        self.keywords_count+=1
-        self.save()
-    def reset_keywords_count(self):
-        self.keywords_count=0
 # Random photo selector
     def randomize(self):
         banner = ["https://res.cloudinary.com/dd8470vy4/image/upload/v1628924597/default_banner5_vozcng.jpg","https://res.cloudinary.com/dd8470vy4/image/upload/v1628924597/dafault_banner1_t1jtqd.jpg","https://res.cloudinary.com/dd8470vy4/image/upload/v1628924597/default_banner2_cbkpwx.jpg","https://res.cloudinary.com/dd8470vy4/image/upload/v1628924597/default_banner4_fsgrie.jpg","https://res.cloudinary.com/dd8470vy4/image/upload/v1628924597/default_banner6_lxhjrl.jpg","https://res.cloudinary.com/dd8470vy4/image/upload/v1628924597/default_banner3_uyxaii.jpg"]
