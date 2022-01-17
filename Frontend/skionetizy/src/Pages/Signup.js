@@ -20,6 +20,7 @@ export default function Signup() {
         // }}
         />
       </div>
+
       {showModal === "VERIFY_EMAIL" && (
         <VerifyEmailModal
           onClose={() => {
@@ -27,6 +28,7 @@ export default function Signup() {
           }}
         />
       )}
+
     </>
   );
 }
