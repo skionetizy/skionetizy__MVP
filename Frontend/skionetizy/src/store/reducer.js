@@ -3,15 +3,16 @@ import {
 } from "../utils/localStorageKeys";
 
 const initialState = {
-  userID: "ab304cc9-1849-48f8-86a0-0ac39ff9929d",
+  userID: "",
   isLogin: false,
-  jwtToken: localStorage.getItem(AUTHORIZATION_HEADER),
+  jwtToken: "",
   blogID: "",
-  firstName: "rohan",
-  lastName: "devaki",
+  firstName: "",
+  lastName: "",
   slicedBlogs: [],
   filteredBlogs: [],
   profile: null,
+  isGoogleLogin:false,
   markdownMode: "add",
 };
 
@@ -39,6 +40,13 @@ const Reducer = (state = initialState, action) => {
       return {
         ...state,
         jwtToken: action.jwtToken,
+        isLogin: true,
+      };
+    case "SAVE_JWT_PROFILE_AFTER_GLOGIN":
+      return {
+        ...state,
+        jwtToken: action.jwtToken,
+        profile: action.profile,
         isLogin: true,
       };
     case "SAVE_BLOG_ID":
@@ -76,6 +84,17 @@ const Reducer = (state = initialState, action) => {
         profile: action.payload,
       };
     }
+
+    case "LOGOUT": {
+      return {
+        ...state,
+        profile: null,
+        jwtToken: null,
+        isLogin: false,
+        isGoogleLogin:false
+      };
+    }
+
     default:
       return state;
   }

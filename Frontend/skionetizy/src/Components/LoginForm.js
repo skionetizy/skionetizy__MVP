@@ -14,7 +14,6 @@ import useAuth from "../hooks/useAuth";
 import useForm from "../hooks/useForm";
 import useMutate from "../hooks/useMutate";
 import { AUTH } from "../store/reducer";
-import { AUTHORIZATION_HEADER } from "../utils/localStorageKeys";
 import noop from "../utils/noop";
 import style from "./LoginForm.module.css";
 import ReverifyEmail from "./ReverifyEmail";
@@ -23,14 +22,24 @@ import * as yup from "yup";
 import createFlaskError from "../utils/createFlaskError";
 import VerifyEmailModal from "../Components/VerifyEmailModal";
 import { connect } from "react-redux";
+import { sendGoogleLoginResp } from "../API/oauthAPIHandler";
+import {
+  getHoverProfileDetails,
+  getProfileDetailsAPIHandler,
+} from "../API/profileAPIHandler";
+import {
+  AUTHORIZATION_HEADER,
+  LOGGED_IN_PROFILE_ID,
+} from "../utils/localStorageKeys";
+import { GoogleLogin } from "react-google-login";
 
 
+const CLIENT_ID="765275654524-e5fed4uno6flsogkjj3lurlk4l5hoo3p.apps.googleusercontent.com";
 
-
-const defaultGoogleOauthURL = createAuthURL("/auth/authToken");
+//const defaultGoogleOauthURL = createAuthURL("/auth/authToken");
 
 function LoginForm(props, {
-  googleOAuthURL = defaultGoogleOauthURL,
+  // googleOAuthURL = defaultGoogleOauthURL,
   // onLogin = noop,
   onSignupClick,
 }) {
@@ -78,7 +87,6 @@ function LoginForm(props, {
     console.log("Inside saveJwtToken ->", token)
     props.onLogin(token)
   }
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -131,12 +139,52 @@ function LoginForm(props, {
     //   }
     // }
   };
+
+  const responseGoogleError=(error)=>{
+    console.log(error)
+    setError(error.message);
+  }
+  const responseGoogleSuccess=async(response)=>{
+    setIsLoading(true)
+    // send response to the backend and get profile and token
+    const res = await sendGoogleLoginResp(response);
+    const { profile, token } = res;
+    // set them in localstorage
+    localStorage.setItem(AUTHORIZATION_HEADER, token);
+    localStorage.setItem(LOGGED_IN_PROFILE_ID, profile.profileID);
+    const profileID=profile.profileID;
+    // get updated profile from the ID
+    const { profileUserName } = await getHoverProfileDetails(profileID);
+    const profile_get = await getProfileDetailsAPIHandler(profileUserName);
+    // update the store using action
+    props.on_glogin(res.token, profile_get.profile);
+    setIsLoading(false);
+    console.log("Inside LoginForm res after login()-> ", res)
+    if (res.sucess === true || res.success===1) {
+      history.push("/")
+      return
+    } else {
+      setError(res.message)
+    }
+  }
+
   return (
     <>
+      {/* <Divider className={style.divider}>OR</Divider> */}
       <div>
-        <a className={style.googleBtn} href={googleOAuthURL}>
+        {/* <a className={style.googleBtn} href={googleOAuthURL}>
           <FcGoogle fontSize="1.5rem" /> Login with Google
-        </a>
+        </a> */}
+        <div className={style.googleBtn}>
+          <GoogleLogin
+            clientId={CLIENT_ID}
+            buttonText="Login with Google"
+            onSuccess={(response)=>responseGoogleSuccess(response)}
+            onFailure={responseGoogleError}
+            /* isSignedIn={true} */
+            cookiePolicy={"single_host_origin"}
+          />
+        </div>
         <Divider className={style.divider}>OR</Divider>
         <div>
           <form className={style.signin_form} onSubmit={handleSubmit}>
@@ -196,7 +244,6 @@ function LoginForm(props, {
             </a>
           </p>
         </div>
-
       </div>
       {/* {
         showModal === 'VERFY_EMAIL' && (
@@ -219,6 +266,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onLogin: (jwtToken) => dispatch({ type: "SAVE_JWT_TOKEN_AFTER_LOGIN", jwtToken: jwtToken }),
+    on_glogin:(token, profile)=>dispatch({
+        type: "SAVE_JWT_PROFILE_AFTER_GLOGIN", 
+        jwtToken: token,
+        profile: profile
+    })
   };
 };
 

@@ -187,6 +187,49 @@ class getUserDetails(Resource):
         return make_response({"user":user,"message":"fetched user details  Successfully","status":200})
 
 
+class GoogleLoginHandle(Resource):
+    def post(self):
+        body = request.get_json()
+        userinfo_response = body['profileObj']
+        print(userinfo_response)
+        # if userinfo_response.json().get("email_verified"):
+        users_email = userinfo_response["email"]
+        picture = userinfo_response["imageUrl"]
+    
+        if User.objects(emailID=users_email).first():
+            #Existing User
+            user=User.objects(emailID=users_email).first()
+            profile=Profile.objects.get(userID=User.objects(emailID=users_email).first().userID)
+            token=user.encode_signin_token()
+            return make_response(jsonify({'token':token,'user':User.objects.get(emailID=users_email),'profile':profile,'sucess':True}))
+        else:
+            #New User
+            u=User()
+            u.firstName=userinfo_response["givenName"]
+            try:
+                u.lastName=userinfo_response["familyName"]
+            except:
+                u.lastName=''
+            u.emailID=users_email
+            u.password="LOGGEDINWITHGOOGLE"
+            u.hash_password()
+            u.confirmPassword="LOGGEDINWITHGOOGLE"
+            u.userID=uuid.uuid4()
+            u.isVerified=True
+            u.save()
+            p=Profile()
+            p.randomize()
+            p.profileID=uuid.uuid4()
+            p.userID=u.userID
+            p.profilePicImageURL=picture
+            p.profileName=userinfo_response["name"]
+            p.profileUserName=u.emailID.split('@')[0].replace('.','_')
+            p.save()
+            token=u.encode_signin_token()
+            return make_response(jsonify({'token':token,'user':u,'profile':p,'success':1}))
+        """ else:
+            return make_response(jsonify({"Message":"User email not available or not verified by Google."})) """
+
 class GoogleAuth(Resource):
     def post(self,*args,**kwargs):
         body=request.get_json()

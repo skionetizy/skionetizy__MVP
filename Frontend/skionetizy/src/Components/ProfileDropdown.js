@@ -1,16 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
+import axios from "axios";
 import { FaDoorOpen, FaEdit, FaNewspaper, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import DefaultUserAvatar from "../Assets/avtar.png";
 import useAuth from "../hooks/useAuth";
 import Dropdown from "./Dropdown";
 import styles from "./Profiledropdown.module.css";
+import { GoogleLogout } from "react-google-login";
+import { connect } from "react-redux";
+import {
+    AUTHORIZATION_HEADER,
+    LOGGED_IN_PROFILE_ID,
+} from "../utils/localStorageKeys";
+import { useDispatch } from "react-redux";
 
-export default function ProfileDropdown({ className }) {
-    const { isLoggedIn, profile, logout } = useAuth();
+
+const CLIENT_ID="765275654524-e5fed4uno6flsogkjj3lurlk4l5hoo3p.apps.googleusercontent.com";
+
+
+function ProfileDropdown(props, { className }) {
+    const dispatch = useDispatch();
+    const { isLoggedIn, /* logout */ } = useAuth();
+    const profile=props.profile;
+    useEffect(()=>{
+        
+    },[props.profile])
+    console.log("Inside ProfileDropdown->", profile);
     const profileUserName = profile?.profileUserName;
     //console.log("pp", isLoggedIn, profile);
-    return isLoggedIn === false ? (
+    const logout=()=>{
+        localStorage.setItem(LOGGED_IN_PROFILE_ID, "");
+        localStorage.removeItem(LOGGED_IN_PROFILE_ID, "");
+        localStorage.setItem(AUTHORIZATION_HEADER, "");
+        localStorage.removeItem(AUTHORIZATION_HEADER, "");
+        delete axios.defaults.headers["Authorization"];
+        props.onlogout();
+    }
+    return ((isLoggedIn === false && props.isLoginRedux === false) ? (
         <img
             className={className}
             src={DefaultUserAvatar}
@@ -75,5 +101,22 @@ export default function ProfileDropdown({ className }) {
                 </div>
             </Dropdown.Body>
         </Dropdown>
-    );
+    ));
 }
+
+
+const mapStateToProps = (state) => {
+  return {
+    isGoogleLogin: state.isGoogleLogin,
+    isLoginRedux : state.isLogin,
+    profile: state.profile,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+      onlogout : ()=> dispatch({ type: "LOGOUT" })
+    };
+  };
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileDropdown);

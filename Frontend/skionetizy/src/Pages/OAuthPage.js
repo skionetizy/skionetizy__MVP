@@ -10,14 +10,14 @@ export default function OAuthPage() {
   const history = useHistory();
   const { googleOAuth } = useAuth();
 
-  useLayoutEffect(() => {
+  /* useLayoutEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const { utmSource, redirectURL } = JSON.parse(params.get("state") || "{}");
     if (utmSource === "blog") {
       history.push(redirectURL, { callbackURL: window.location.toString() });
     }
-  }, [history]);
-
+  }, [history]); */
+  /* 
   useEffect(() => {
     const callbackURL = window.location.toString();
 
@@ -41,7 +41,7 @@ export default function OAuthPage() {
 
         console.info(error);
       });
-  }, [history]);
+  }, [history]); */
 
   return (
     <>

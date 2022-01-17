@@ -14,14 +14,14 @@ let isVisible;
 function LoginFormModal(props) {
     const [status, setStatus] = useState("idle");
     const [error, setError] = useState("");
-    const googleOAuthURL = createAuthURL("/auth/authToken", {
+    /* const googleOAuthURL = createAuthURL("/auth/authToken", {
         utmSource: "blog",
         redirectURL: window.location.pathname,
-    });
-    const { googleOAuth } = useAuth();
+    }); */
+    /* const { googleOAuth } = useAuth();
     const { state } = useLocation();
 
-    useEffect(() => {
+     useEffect(() => {
         const { callbackURL } = state || {};
         if (callbackURL) {
             // clearing react router state
@@ -53,7 +53,7 @@ function LoginFormModal(props) {
                     console.info("Error ->", error);
                 });
         }
-    }, [state]);
+    }, [state]); */
 
     useEffect(() => {
         if (isVisible) {
@@ -96,7 +96,7 @@ function LoginFormModal(props) {
                             </div>
 
                             <div className={styles.loginForm}>
-                                <LoginForm {...props} googleOAuthURL={googleOAuthURL} />
+                                <LoginForm {...props} /* googleOAuthURL={googleOAuthURL} */ />
                             </div>
                         </div>
                     </>
