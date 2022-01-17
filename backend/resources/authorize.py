@@ -69,7 +69,7 @@ class AuthorizeSignup(Resource):
         body = request.get_json()
         print('Body ->', body)
         if len(body['firstName']) == 0 or len(body['emailID']) == 0:
-            return make_response(jsonify({"message": "all fields are required", "statusCode": 500}))
+            return make_response(jsonify({"message": "All fields are required", "statusCode": 500}))
             # raise FieldsEmpty
         print(body['firstName'])
         existingUser = None
@@ -78,7 +78,7 @@ class AuthorizeSignup(Resource):
         except:
             pass
         if(existingUser):
-            return make_response(jsonify({"message": "user already exists, try to login", "statusCode": 500}))
+            return make_response(jsonify({"message": "User already exists, try to login", "statusCode": 500}))
             # raise UserAlreadyExist
         newUser = User(
             userID=uuid.uuid4(),

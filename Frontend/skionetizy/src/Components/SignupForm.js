@@ -47,13 +47,14 @@ function SignupForm({
       setIsLoading(true);
       const res = await axios.post(`${url}`, payload);
       if (res.data.statusCode === 500) {
-        throw createFlaskError(res.data.message);
-      }
-      if (res.data.statusCode !== 500) {
+        // throw createFlaskError(res.data.message);
+        console.log("Error ->", res.data.message)
+        setError(res.data.message)
+        alert(res.data.message);
+      } else {
         console.log('No error')
         setShowModal("VERIFY_EMAIL");
       }
-
       // onSignup(res.data, null);
       setIsLoading(false);
     } catch (error) {
@@ -147,15 +148,27 @@ function SignupForm({
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    saveUserDetails: (...userDetails) =>
-      // console.log({userDetialsInDispatchSignup:userDetails})
-      dispatch({
-        type: "SAVE_USER_DETAILS_AFTER_SIGNUP",
-        payload: userDetails,
-      }),
-  };
-};
 
-export default connect(null, mapDispatchToProps)(SignupForm);
+// const mapStateToProps = (state) => {
+//   console.log("Inside mapStateToProps", state)
+
+//   return {
+//     userID: state.userID,
+//     firstName: state.firstName,
+//     lastName: state.lastName,
+//   };
+// };
+
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     saveUserDetails: (...userDetails) =>
+//       // console.log({userDetialsInDispatchSignup:userDetails})
+//       dispatch({
+//         type: "SAVE_USER_DETAILS_AFTER_SIGNUP",
+//         payload: userDetails,
+//       }),
+//   };
+// };
+
+// export default connect(mapStateToProps, mapDispatchToProps)(SignupForm);
+export default SignupForm;
