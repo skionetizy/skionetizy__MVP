@@ -136,8 +136,31 @@ class ReverificationToken(Resource):
             send_email("Skionetizy Email Verification for creating account",os.environ.get('MAIL_USERNAME'),recipients=[body["emailID"]],html=rendered_html)
             return make_response(jsonify({'Message':'Reverification Mail Sent','success':True}))
         
-
-class ForgotPassword(Resource):
+class ForgotPasswordResponseSend(Resource):
+    def patch(self, token):
+        body=request.get_json()
+        '''
+        1.Reveice token
+        2.deode token
+        3.if successfull update password
+        '''
+        print('Received token:',token)
+        result=User.decode_auth_token(token)
+        print(result)
+        if result=='Singnature Expired.Please Signup Again' or result == 'Invalid Token':
+            if result=='Signature Expired.Please Signup Again':
+                return make_response(jsonify({"message":result,"status":500}))
+            return make_response(jsonify({"message":result,"status":500}))
+        user= User.objects.get(emailID=result)
+        if user:
+            user.update(password=body['password'])
+            user.update(confirmPassword=body['password'])
+            user.hash_password()
+            user.save()
+            return make_response(jsonify({"user":user,"token":user.encode_signin_token(),"message":"User's Password updated","status":200}))
+        return make_response(jsonify({"message":"User's password updation failed","status":500}))
+        
+class ForgotPasswordRequestReceive(Resource):
     def post(self):
         '''
         1.Read email from json body
@@ -147,12 +170,23 @@ class ForgotPassword(Resource):
         5.encode jwt token
         6.send email
         '''
-    def put(self):
-        '''
-        1.Reveice token
-        2.deode token
-        3.if successfull update password
-        '''
+        body=request.get_json()
+        try:
+            User.objects.get(emailID = body["emailID"])
+        except:
+            return make_response({"message":"No acccount with emailID found!","status":500})
+        # elif user["isVerified"]==False:
+        user = User.objects.get(emailID = body["emailID"])
+        if user["isVerified"]==False:
+            return make_response({"message":"email ID not verified. Please reverify again.","status":500})
+        print("Sending Email")
+        auth_token=user.encode_auth_token()
+        print(f'{auth_token} here')
+        template=env.get_template('emailVerification.html')
+        redirect_url = app.config.get('FRONTEND_DOMAIN')+f'forgotPassword/{auth_token}'
+        rendered_html=template.render(username=user.firstName,link=redirect_url,domain=app.config.get('DOMAIN'))
+        send_email("Skionetizy Password Update Mail",os.environ.get('MAIL_USERNAME'),recipients=[body["emailID"]],html=rendered_html)
+        return make_response(jsonify({'Message':'Password update Mail Sent','success':True}))
 
 
 class AuthorizeLogin(Resource):
