@@ -3,7 +3,6 @@ import axios from "axios";
 import { FaDoorOpen, FaEdit, FaNewspaper, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import DefaultUserAvatar from "../Assets/avtar.png";
-import useAuth from "../hooks/useAuth";
 import Dropdown from "./Dropdown";
 import styles from "./Profiledropdown.module.css";
 import { GoogleLogout } from "react-google-login";
@@ -20,7 +19,6 @@ const CLIENT_ID="765275654524-e5fed4uno6flsogkjj3lurlk4l5hoo3p.apps.googleuserco
 
 function ProfileDropdown(props, { className }) {
     const dispatch = useDispatch();
-    const { isLoggedIn, /* logout */ } = useAuth();
     const profile=props.profile;
     useEffect(()=>{
         
@@ -36,7 +34,7 @@ function ProfileDropdown(props, { className }) {
         delete axios.defaults.headers["Authorization"];
         props.onlogout();
     }
-    return ((isLoggedIn === false && props.isLoginRedux === false) ? (
+    return ((props.isLoginRedux === false) ? (
         <img
             className={className}
             src={DefaultUserAvatar}
@@ -107,7 +105,6 @@ function ProfileDropdown(props, { className }) {
 
 const mapStateToProps = (state) => {
   return {
-    isGoogleLogin: state.isGoogleLogin,
     isLoginRedux : state.isLogin,
     profile: state.profile,
   };

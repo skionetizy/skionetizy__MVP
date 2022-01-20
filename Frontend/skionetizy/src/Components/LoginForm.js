@@ -107,7 +107,6 @@ function LoginForm(props, {
       const res = await login(details)
       saveJwtToken(res.token)
       setIsLoading(false);
-      console.log("Inside LoginForm res after login()-> ", res)
       // console.log("isLogin", isLogin)
       // console.log("res.status", res.status)
       if (res.status === 200) {
@@ -159,7 +158,6 @@ function LoginForm(props, {
     // update the store using action
     props.on_glogin(res.token, profile_get.profile);
     setIsLoading(false);
-    console.log("Inside LoginForm res after login()-> ", res)
     if (res.sucess === true || res.success===1) {
       history.push("/")
       return
@@ -255,8 +253,6 @@ function LoginForm(props, {
 }
 
 const mapStateToProps = (state) => {
-  console.log("Inside mapStateToProps", state)
-
   return {
     isLogin: state.isLogin,
     jwtToken: state.jwtToken,

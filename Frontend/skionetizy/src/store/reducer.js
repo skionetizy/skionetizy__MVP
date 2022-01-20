@@ -12,7 +12,6 @@ const initialState = {
   slicedBlogs: [],
   filteredBlogs: [],
   profile: null,
-  isGoogleLogin:false,
   markdownMode: "add",
 };
 
@@ -91,7 +90,6 @@ const Reducer = (state = initialState, action) => {
         profile: null,
         jwtToken: null,
         isLogin: false,
-        isGoogleLogin:false
       };
     }
 
