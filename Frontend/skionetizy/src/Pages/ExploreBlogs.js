@@ -11,7 +11,6 @@ import Footer from "../Components/Footer";
 import FrameBorder from "../Components/FrameBorder";
 import clsx from "../utils/clsx";
 import FeedBlogs from "./FeedBlogs";
-import useAuth from "../hooks/useAuth";
 
 const url = `${baseURL}/blog/getBlogsPaginated`;
 
@@ -22,7 +21,6 @@ function MyBlogs(props) {
   const [loading, setLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [hasMoreBlogs, setHasMoreBlogs] = useState(true);
-  const auth = useAuth();
 
   const [view, setView] = useState("trending");
 
@@ -81,7 +79,7 @@ function MyBlogs(props) {
             Trending
           </ExploreButton>
 
-          {auth.isLoggedIn && (
+          {props.isLoggedIn && (
             <ExploreButton
               isActive={view === "my_feed"}
               onClick={() => setView("my_feed")}
@@ -149,10 +147,16 @@ function ExploreButton({ isActive, children, ...props }) {
   );
 }
 
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.isLogin
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     saveSlicedBlogs: (blogs) =>
-      dispatch({ type: "SAVE_SLICED_BLOGS", payload: blogs }),
+    dispatch({ type: "SAVE_SLICED_BLOGS", payload: blogs }),
   };
 };
-export default connect(null, mapDispatchToProps)(MyBlogs);
+export default connect(mapStateToProps, mapDispatchToProps)(MyBlogs);

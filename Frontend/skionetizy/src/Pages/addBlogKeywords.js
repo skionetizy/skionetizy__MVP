@@ -15,15 +15,14 @@ import { CURRENT_EDITING_BLOG } from "../utils/localStorageKeys";
 import styles from "./addBlogKeywords.module.css";
 import useAsync from "../hooks/useAsync";
 import * as yup from "yup";
-import useAuth from "../hooks/useAuth";
 import PublishBlogModal from "../Components/PublishBlogModal";
 import {
   getMarkdownFromLocalStorage,
   setMarkdownToLocalStorage,
 } from "./addBlogDetailsMarkdown";
-import { useSelector } from "react-redux";
+import { connect, useSelector } from "react-redux";
 
-function AddBlogKeywords() {
+function AddBlogKeywords(props) {
   const mode = useSelector((store) => store.markdownMode);
   const [blog] = useState(() => getMarkdownFromLocalStorage(mode));
   const [keywords, setKeywords] = useState(
@@ -31,7 +30,8 @@ function AddBlogKeywords() {
   );
   const [keywordValue, setKeywordValue] = useState("");
   const [keywordSearchValue, setKeywordSearchValue] = useState("");
-  const { isLoggedIn, profile } = useAuth();
+  const isLoggedIn = props.isLogin;
+  const profile = props.profile;
   const history = useHistory();
   const [message, setMessage] = useState("");
   const [showLoadingToBtn, setShowLoadingToBtn] = useState("");
@@ -326,4 +326,12 @@ const blogKeywordsSchemaValidate = (data) =>
       context: true,
     });
 
-export default AddBlogKeywords;
+
+const mapStateToProps = (state) => {
+  return {
+    isLogin: state.isLogin,
+    profile: state.profile,
+  };
+};
+
+export default connect(mapStateToProps)(AddBlogKeywords);

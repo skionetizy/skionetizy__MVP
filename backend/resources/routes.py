@@ -1,4 +1,4 @@
-from backend.resources.authorize import ReverificationToken,AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails,GoogleAuth
+from backend.resources.authorize import ReverificationToken,AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails,GoogleAuth, GoogleLoginHandle
 from backend.resources.blog import AddMetaData,SearchBlog,AddKeywordsBlog,AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogsAndProfileDetails,GetBlogByBlogID,GetFeed,AddView,GetCommentsByBlogID,GetBlogsAndProfileDetailsPagination,GetBlogStatus,UpdateBlogStatus
 from backend.resources.profile import AddInterest, GetHoverDetails,AddProfileUsernameBioUserDetails, UpdateProfile, CheckProfileUsernameIsAvailableAPIHandler, GetProfileDetails, AddFollower,GetBlogsAndProfile,RemoveFollower,GetProfileandBlogsPaginated
 from backend.resources.ai_models import GrammarCheck,KeywordsAI
@@ -70,6 +70,8 @@ def initialize_routes(api):
     api.add_resource(AddKeywordsBlog,'/blog/getKeywords/<word>')
 
     api.add_resource(GoogleAuth,'/auth/authToken')
+    api.add_resource(GoogleLoginHandle,'/auth/googleLoginResp')
+
     api.add_resource(KeywordsAI,'/ai/keywords')
 
     api.add_resource(GetBlogsAndProfileDetailsPagination,'/blog/getBlogsPaginated/<int:number>')

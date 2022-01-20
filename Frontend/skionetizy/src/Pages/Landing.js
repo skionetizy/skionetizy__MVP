@@ -11,12 +11,12 @@ import Frame2 from "../Assets/landing-page/frame-2.svg";
 import Frame3 from "../Assets/landing-page/frame-3.svg";
 import Frame4 from "../Assets/landing-page/frame-4.svg";
 import Frame5 from "../Assets/landing-page/frame-5.svg";
-import useAuth from "../hooks/useAuth";
 import FeatureItem from "../Components/FeatureItem";
 import InfiniteCarousel from "react-leaf-carousel";
+import { connect } from "react-redux";
 
-function Homepage() {
-  const { isLoggedIn } = useAuth();
+function Homepage(props) {
+  const isLoggedIn = props.isLogin;
 
   const location = useLocation();
 
@@ -273,4 +273,11 @@ function Homepage() {
   );
 }
 
-export default Homepage;
+
+const mapStateToProps = (state) => {
+  return {
+    isLogin: state.isLogin
+  };
+};
+
+export default connect(mapStateToProps, null)(Homepage);

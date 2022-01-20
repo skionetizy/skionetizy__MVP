@@ -47,7 +47,7 @@ function useAuth() {
     return res;
   }
 
-  async function googleOAuth(body) {
+  /* async function googleOAuth(body) {
     const res = await sendGoogleAuthCode(body);
     const { profile, token } = res;
 
@@ -62,13 +62,13 @@ function useAuth() {
     });
 
     return res;
-  }
+  } */
 
   function logout() {
     setToken("");
     localStorage.setItem(LOGGED_IN_PROFILE_ID, "");
     localStorage.removeItem(AUTHORIZATION_HEADER, "");
-    delete axios.defaults.headers["Authorization"];
+    //delete axios.defaults.headers["Authorization"];
 
     dispatch({
       type: AUTH.SAVE_PROFILE,
@@ -93,9 +93,9 @@ function useAuth() {
     });
     return profile;
   }
-  let isLoggedIn;
+  /* let isLoggedIn;
   if (profile === null || profile.profileID === undefined || profile.profileID === "undefined") isLoggedIn = false;
-  else isLoggedIn = true;
+  else isLoggedIn = true; */
 
   //console.log("profile", profile);
 
@@ -104,9 +104,7 @@ function useAuth() {
     login,
     saveProfile,
     logout,
-    isLoggedIn,
     token,
-    googleOAuth,
   };
 }
 

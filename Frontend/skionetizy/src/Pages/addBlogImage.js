@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import BlogSteps from "../Components/BlogSteps";
 import Spinner from "../Components/Spinner";
-import useAuth from "../hooks/useAuth";
 import baseURL from "../utils/baseURL";
 import { CURRENT_EDITING_BLOG } from "../utils/localStorageKeys";
 import Divider from "../Components/Divider";
@@ -15,9 +14,9 @@ import {
 } from "./addBlogDetailsMarkdown";
 import "./addBlogImage.css";
 import { Center } from "../Components/Layouts";
-import { useSelector } from "react-redux";
+import { connect, useSelector } from "react-redux";
 
-function Upload() {
+function Upload(props) {
   const [uploaded, setUploaded] = useState(false);
   const [proImage, setProImage] = useState();
   const [formData, setFormData] = useState("");
@@ -25,10 +24,9 @@ function Upload() {
   const mode = useSelector((store) => store.markdownMode);
   const [data] = useState(() => getMarkdownFromLocalStorage(mode));
   const [isLoading, setIsLoading] = useState(false);
-  const auth = useAuth();
 
   const history = useHistory();
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = props.isLogin;
 
   const handleProfile = async (e) => {
     e.preventDefault();
@@ -43,7 +41,7 @@ function Upload() {
       formData.append("file", file);
       formData.append("blogID", data.blogID);
       // formData.append("userID", JSON.parse(localStorage.getItem("userID")));
-      formData.append("profileID", auth.profile?.profileID);
+      formData.append("profileID", props.profile?.profileID);
       setFormData(formData);
       console.log(formData);
     }
@@ -184,4 +182,12 @@ function Upload() {
   );
 }
 
-export default Upload;
+
+const mapStateToProps = (state) => {
+  return {
+    isLogin: state.isLogin,
+    profile: state.profile,
+  };
+};
+
+export default connect(mapStateToProps, null)(Upload);

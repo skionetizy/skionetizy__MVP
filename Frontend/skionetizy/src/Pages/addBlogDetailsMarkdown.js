@@ -8,7 +8,6 @@ import BlogStatusBadge from "../Components/BlogStatusBadge";
 import BlogSteps from "../Components/BlogSteps";
 import Button from "../Components/Button";
 import Editor from "../Components/Editor";
-import useAuth from "../hooks/useAuth";
 import useDebounceGeneral from "../hooks/useDebounceGeneral";
 import baseURL from "../utils/baseURL";
 import getYupErrors from "../utils/getYupErrors";
@@ -27,10 +26,9 @@ function MarkDown(props) {
   const [status, setStatus] = useState("idle");
   const history = useHistory();
   const debounce = useDebounceGeneral(data, 4000);
-  const auth = useAuth();
   const [shouldLoadData, setShouldLoadData] = useState(false);
   const isFirstRender = useRef(true);
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = props.isLogin
 
   const handleUpload = async (e) => {
     console.log("handleUpload");
@@ -42,7 +40,7 @@ function MarkDown(props) {
       });
       const payloadData = {
         ...validatedData,
-        profileID: auth.profile?.profileID,
+        profileID: props.profile?.profileID,
       };
 
       setErrors({});
@@ -234,6 +232,8 @@ const mapStateToProps = (state) => {
   console.log(state);
   return {
     userID: state.userID,
+    isLogin: state.isLogin,
+    profile: state.profile
   };
 };
 
