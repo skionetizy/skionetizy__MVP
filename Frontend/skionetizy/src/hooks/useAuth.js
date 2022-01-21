@@ -1,7 +1,5 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { sendGoogleAuthCode } from "../API/oauthAPIHandler";
 import {
   getHoverProfileDetails,
   getProfileDetailsAPIHandler,
@@ -12,10 +10,6 @@ import {
   AUTHORIZATION_HEADER,
   LOGGED_IN_PROFILE_ID,
 } from "../utils/localStorageKeys";
-import createFlaskError from "../utils/createFlaskError";
-
-
-
 
 
 function useAuth() {
@@ -30,7 +24,7 @@ function useAuth() {
     }
   });
 
-  async function login({ emailID, password }) {
+  /* async function login({ emailID, password }) {
     const res = await sendLogin({ emailID, password });
     // console.log("res inside useAuth", res);
     const { profileID, token } = res;
@@ -45,7 +39,7 @@ function useAuth() {
     //   userID: profileID
     // })
     return res;
-  }
+  } */
 
   /* async function googleOAuth(body) {
     const res = await sendGoogleAuthCode(body);
@@ -64,7 +58,7 @@ function useAuth() {
     return res;
   } */
 
-  function logout() {
+  /* function logout() {
     setToken("");
     localStorage.setItem(LOGGED_IN_PROFILE_ID, "");
     localStorage.removeItem(AUTHORIZATION_HEADER, "");
@@ -74,13 +68,9 @@ function useAuth() {
       type: AUTH.SAVE_PROFILE,
       payload: null,
     });
-  }
+  } */
 
   async function saveProfile(profileID) {
-    dispatch({
-      type: AUTH.SAVE_PROFILE,
-      payload: { profileID },
-    });
     // console.log("Inside saveProfile ->", profileID)
     const { profileUserName } = await getHoverProfileDetails(profileID);
     const profile = await getProfileDetailsAPIHandler(profileUserName).then(
@@ -90,6 +80,7 @@ function useAuth() {
     dispatch({
       type: AUTH.SAVE_PROFILE,
       payload: profile,
+      jwtToken: localStorage.getItem(AUTHORIZATION_HEADER)
     });
     return profile;
   }
@@ -101,9 +92,9 @@ function useAuth() {
 
   return {
     profile,
-    login,
+    //login,
     saveProfile,
-    logout,
+    //logout,
     token,
   };
 }

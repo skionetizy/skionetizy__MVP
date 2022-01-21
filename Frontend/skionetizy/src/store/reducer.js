@@ -34,14 +34,7 @@ const Reducer = (state = initialState, action) => {
         userID: action.userID,
         isLogin: true,
       };
-    case "SAVE_JWT_TOKEN_AFTER_LOGIN":
-      // console.log("Inside SAVE_JWT_TOKEN_AFTER_LOGIN ->", { jwtTokenFromReducer: action.jwtToken });
-      return {
-        ...state,
-        jwtToken: action.jwtToken,
-        isLogin: true,
-      };
-    case "SAVE_JWT_PROFILE_AFTER_GLOGIN":
+    case "SAVE_JWT_PROFILE_AFTER_LOGIN":
       return {
         ...state,
         jwtToken: action.jwtToken,
@@ -81,6 +74,8 @@ const Reducer = (state = initialState, action) => {
       return {
         ...state,
         profile: action.payload,
+        jwtToken: action.jwtToken,
+        isLogin: true
       };
     }
 

@@ -10,10 +10,8 @@ import { sendLogin } from "../API/userAPIHandler";
 import { createAuthURL } from "../auth/googleOauth";
 import Button from "../Components/Button";
 import Divider from "../Components/Divider";
-import useAuth from "../hooks/useAuth";
 import useForm from "../hooks/useForm";
 import useMutate from "../hooks/useMutate";
-import { AUTH } from "../store/reducer";
 import noop from "../utils/noop";
 import style from "./LoginForm.module.css";
 import ReverifyEmail from "./ReverifyEmail";
@@ -49,36 +47,50 @@ function LoginForm(props, {
   });
   const history = useHistory();
   // const dispatch = useDispatch();
-  const { login } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // useEffect(() => {
-  //   console.log("useEffect props.isLogin ->", props.isLogin)
-  //   console.log("useEffect props.jwtToken ->", props.jwtToken)
-
-  // }, [props.jwtToken])
-
-  const saveJwtToken = (token) => {
-    // console.log("Inside saveJwtToken ->", token)
-    props.onLogin(token)
-  }
+  /* useEffect(() => {
+     console.log("useEffect props.isLogin ->", props.isLogin)
+     console.log("useEffect props.jwtToken ->", props.jwtToken)
+   }, [props.jwtToken]) */
+   useEffect(()=>{
+     console.log(props)
+    if(props.isLogin===true){
+      history.push("/")
+      return;
+    }
+   },[props])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     // try {
     if (details) {
-      // const url = `${baseURL}/login`;
       await yup
         .string()
         .required("Email is required")
         .email("Enter a valid email address")
         .validate(details.emailID);
       setIsLoading(true)
-      const res = await login(details)
-      saveJwtToken(res.token)
+
+      const res = await sendLogin(details);
+      if (res.status !== 200) {
+        setError(res.message)
+        setIsLoading(false);
+        return
+      }
+      // console.log("res inside useAuth", res);
+      const { profileID, token } = res;
+      // axios.defaults.headers["Authorization"] = token;
+      // set them in localstorage
+      localStorage.setItem(AUTHORIZATION_HEADER, token);
+      localStorage.setItem(LOGGED_IN_PROFILE_ID, profileID);
+      // console.log("Inside login before saveProfile ->", profileID);
+      // get updated profile from the ID
+      const { profileUserName } = await getHoverProfileDetails(profileID);
+      const profile_get = await getProfileDetailsAPIHandler(profileUserName);
+      props.on_login(res.token, profile_get.profile)
       setIsLoading(false);
       if (res.status === 200) {
         history.push("/")
@@ -86,13 +98,13 @@ function LoginForm(props, {
       } else {
         setError(res.message)
       }
+
       // else if (res.status === 500 || res.statusCode === 500 || res.data.statusCode === 500) {
       //   console.log("Throwing Flask error")
       //   throw createFlaskError(res.data.message);
       // } else {
       //   setShowModal(true)
       // }
-
     }
     // } catch (error) {
     //   let errorMessage;
@@ -127,7 +139,7 @@ function LoginForm(props, {
     const { profileUserName } = await getHoverProfileDetails(profileID);
     const profile_get = await getProfileDetailsAPIHandler(profileUserName);
     // update the store using action
-    props.on_glogin(res.token, profile_get.profile);
+    props.on_login(res.token, profile_get.profile);
     setIsLoading(false);
     if (res.sucess === true || res.success===1) {
       history.push("/")
@@ -226,15 +238,13 @@ function LoginForm(props, {
 const mapStateToProps = (state) => {
   return {
     isLogin: state.isLogin,
-    jwtToken: state.jwtToken,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLogin: (jwtToken) => dispatch({ type: "SAVE_JWT_TOKEN_AFTER_LOGIN", jwtToken: jwtToken }),
-    on_glogin:(token, profile)=>dispatch({
-        type: "SAVE_JWT_PROFILE_AFTER_GLOGIN", 
+    on_login:(token, profile)=>dispatch({
+        type: "SAVE_JWT_PROFILE_AFTER_LOGIN", 
         jwtToken: token,
         profile: profile
     })
