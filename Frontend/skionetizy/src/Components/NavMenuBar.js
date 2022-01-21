@@ -3,7 +3,6 @@ import { FaBars, FaSearch } from "react-icons/fa";
 import { connect, useDispatch } from "react-redux";
 import { Link, NavLink, withRouter } from "react-router-dom";
 import LogoIcon from "../Assets/logo-new.svg";
-import useAuth from "../hooks/useAuth";
 import useDebounceGeneral from "../hooks/useDebounceGeneral";
 import clsx from "../utils/clsx";
 import styles from "./NavMenuBar.module.css";
@@ -13,7 +12,7 @@ import ProfileDropdown from "./ProfileDropdown";
 function NavMenuBar(props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = props.isLogin;
 
   const [searchInput, setSearchInput] = useState("");
   const [filteredBlogs, setFilteredBlogs] = useState("");
@@ -167,6 +166,7 @@ function NavMenuBar(props) {
 const mapStateToProps = (state) => {
   return {
     slicedBlogs: state.slicedBlogs,
+    isLogin: state.isLogin
   };
 };
 

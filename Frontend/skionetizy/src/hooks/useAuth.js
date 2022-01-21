@@ -12,6 +12,11 @@ import {
   AUTHORIZATION_HEADER,
   LOGGED_IN_PROFILE_ID,
 } from "../utils/localStorageKeys";
+import createFlaskError from "../utils/createFlaskError";
+
+
+
+
 
 function useAuth() {
   const dispatch = useDispatch();
@@ -27,19 +32,22 @@ function useAuth() {
 
   async function login({ emailID, password }) {
     const res = await sendLogin({ emailID, password });
-    console.log("res", res);
+    // console.log("res inside useAuth", res);
     const { profileID, token } = res;
-
-    axios.defaults.headers["Authorization"] = token;
+    // axios.defaults.headers["Authorization"] = token;
     setToken(token);
     localStorage.setItem(AUTHORIZATION_HEADER, token);
     localStorage.setItem(LOGGED_IN_PROFILE_ID, profileID);
+    // console.log("Inside login before saveProfile ->", profileID);
     saveProfile(profileID);
-
+    // dispatch({
+    //   type: "SAVE_USER_ID",
+    //   userID: profileID
+    // })
     return res;
   }
 
-  async function googleOAuth(body) {
+  /* async function googleOAuth(body) {
     const res = await sendGoogleAuthCode(body);
     const { profile, token } = res;
 
@@ -54,13 +62,13 @@ function useAuth() {
     });
 
     return res;
-  }
+  } */
 
   function logout() {
     setToken("");
     localStorage.setItem(LOGGED_IN_PROFILE_ID, "");
     localStorage.removeItem(AUTHORIZATION_HEADER, "");
-    delete axios.defaults.headers["Authorization"];
+    //delete axios.defaults.headers["Authorization"];
 
     dispatch({
       type: AUTH.SAVE_PROFILE,
@@ -73,7 +81,7 @@ function useAuth() {
       type: AUTH.SAVE_PROFILE,
       payload: { profileID },
     });
-
+    // console.log("Inside saveProfile ->", profileID)
     const { profileUserName } = await getHoverProfileDetails(profileID);
     const profile = await getProfileDetailsAPIHandler(profileUserName).then(
       (r) => r.profile
@@ -85,9 +93,9 @@ function useAuth() {
     });
     return profile;
   }
-  let isLoggedIn;
+  /* let isLoggedIn;
   if (profile === null || profile.profileID === undefined || profile.profileID === "undefined") isLoggedIn = false;
-  else isLoggedIn = true;
+  else isLoggedIn = true; */
 
   //console.log("profile", profile);
 
@@ -96,9 +104,7 @@ function useAuth() {
     login,
     saveProfile,
     logout,
-    isLoggedIn,
     token,
-    googleOAuth,
   };
 }
 

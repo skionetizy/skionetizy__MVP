@@ -2,6 +2,7 @@ aniso8601==8.1.1
 BareNecessities==0.2.8
 bcrypt==3.2.0
 blinker==1.4
+bson==0.5.10
 certifi==2020.12.5
 cffi==1.14.5
 charset-normalizer==2.0.4
@@ -25,7 +26,6 @@ MarkupSafe==1.1.1
 mongoengine==0.22.1
 pycparser==2.20
 PyJWT==2.0.1
-python-dotenv
 pymongo==3.11.4
 python-dateutil==2.8.1
 python-http-client==3.3.2

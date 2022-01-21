@@ -7,7 +7,7 @@ import VerifyEmailModal from "../Components/VerifyEmailModal";
 import style from "../Pages/login.module.css";
 import clsx from "../utils/clsx";
 
-function Login(props) {
+export default function Login(props) {
   const [showModal, setShowModal] = useState("");
   const history = useHistory();
 
@@ -26,15 +26,15 @@ function Login(props) {
           <div className={`${style.signin}`}>
             <h1 className={style.header}>Login</h1>
             <LoginForm
-              onLogin={(_user, error) => {
-                console.log("n", _user, error);
-                if (error || _user.statusCode === 500) {
-                  setShowModal("VERIFY_EMAIL");
-                  return;
-                }
-                // after successful login goto `explore-blogs`
-                history.push("/");
-              }}
+            // onLogin={(_user, error) => {
+            //   console.log("n", _user, error);
+            //   if (error || _user.statusCode === 500) {
+            //     setShowModal("VERIFY_EMAIL");
+            //     return;
+            //   }
+            //   // after successful login goto `explore-blogs`
+            //   history.push("/");
+            // }}
             />
           </div>
         </div>
@@ -46,17 +46,17 @@ function Login(props) {
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onLogin: (userID) => dispatch({ type: "SAVE_USER_ID", userID: userID }),
-  };
-};
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     onLogin: (userID) => dispatch({ type: "SAVE_USER_ID", userID: userID }),
+//   };
+// };
 
-const mapStateToProps = (state) => {
-  return {
-    isLogin: state.isLogin,
-    userID: state.userID,
-  };
-};
+// const mapStateToProps = (state) => {
+//   return {
+//     isLogin: state.isLogin,
+//     userID: state.userID,
+//   };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+// export default connect(mapStateToProps, mapDispatchToProps)(Login);

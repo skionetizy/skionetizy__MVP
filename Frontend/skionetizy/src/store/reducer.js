@@ -1,9 +1,14 @@
+import {
+  AUTHORIZATION_HEADER,
+} from "../utils/localStorageKeys";
+
 const initialState = {
-  userID: "ab304cc9-1849-48f8-86a0-0ac39ff9929d",
+  userID: "",
   isLogin: false,
+  jwtToken: "",
   blogID: "",
-  firstName: "rohan",
-  lastName: "devaki",
+  firstName: "",
+  lastName: "",
   slicedBlogs: [],
   filteredBlogs: [],
   profile: null,
@@ -23,10 +28,24 @@ const Reducer = (state = initialState, action) => {
       };
 
     case "SAVE_USER_ID":
-      // console.log({ userIDFromReducer: action.userID });
+      console.log("Inside Reducer ->", { userIDFromReducer: action.userID });
       return {
         ...state,
         userID: action.userID,
+        isLogin: true,
+      };
+    case "SAVE_JWT_TOKEN_AFTER_LOGIN":
+      // console.log("Inside SAVE_JWT_TOKEN_AFTER_LOGIN ->", { jwtTokenFromReducer: action.jwtToken });
+      return {
+        ...state,
+        jwtToken: action.jwtToken,
+        isLogin: true,
+      };
+    case "SAVE_JWT_PROFILE_AFTER_GLOGIN":
+      return {
+        ...state,
+        jwtToken: action.jwtToken,
+        profile: action.profile,
         isLogin: true,
       };
     case "SAVE_BLOG_ID":
@@ -34,15 +53,15 @@ const Reducer = (state = initialState, action) => {
         ...state,
         blogID: action.blogID,
       };
-    case "SAVE_USER_DETAILS_AFTER_SIGNUP":
-      const userDetails = { ...action.payload };
-      console.log({ userDetailsInReducer: userDetails });
-      return {
-        ...state,
-        userID: userDetails.userID,
-        firstName: userDetails.firstName,
-        lastName: userDetails.lastName,
-      };
+    // case "SAVE_USER_DETAILS_AFTER_SIGNUP":
+    //   const userDetails = { ...action.payload };
+    //   console.log("Inside SAVE_USER_DETAILS_AFTER_SIGNUP: ", { userDetailsInReducer: userDetails });
+    //   return {
+    //     ...state,
+    //     userID: userDetails.userID,
+    //     firstName: userDetails.firstName,
+    //     lastName: userDetails.lastName,
+    //   };
     case "SAVE_SLICED_BLOGS":
       const slicedBlogs = action.payload;
       console.log({ slicedBlogsInReducer: slicedBlogs });
@@ -64,6 +83,16 @@ const Reducer = (state = initialState, action) => {
         profile: action.payload,
       };
     }
+
+    case "LOGOUT": {
+      return {
+        ...state,
+        profile: null,
+        jwtToken: null,
+        isLogin: false,
+      };
+    }
+
     default:
       return state;
   }

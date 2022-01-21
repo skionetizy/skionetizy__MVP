@@ -21,7 +21,7 @@ function VerifyEmailModal({ onClose }) {
         </p>
 
         <button className={styles.btn} type="button" onClick={onClose}>
-          Verified
+          Close
         </button>
       </div>
     </Modal>
