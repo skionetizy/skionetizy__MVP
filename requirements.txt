@@ -95,8 +95,7 @@ sendgrid==6.6.0
 six==1.15.0
 smart-open==5.2.1
 sortedcontainers==2.4.0
-spacy==2.3.5
-spacy-legacy==3.0.8
+spacy
 srsly==1.0.5
 starkbank-ecdsa==1.1.0
 thinc==7.4.5
