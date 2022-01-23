@@ -28,8 +28,7 @@ function MarkDown(props) {
   const debounce = useDebounceGeneral(data, 4000);
   const [shouldLoadData, setShouldLoadData] = useState(false);
   const isFirstRender = useRef(true);
-  const isLoggedIn = props.isLogin
-
+  
   const handleUpload = async (e) => {
     console.log("handleUpload");
     try {
@@ -110,10 +109,14 @@ function MarkDown(props) {
     }
   }, [mode]);
 
-  if (!isLoggedIn) {
-    history.push("/login");
-    return;
-  }
+  useEffect(()=>{
+    const isLoggedIn = props.isLogin;
+    if (!isLoggedIn) {
+      history.push("/login");
+      return;
+    }
+  },[props])
+  
 
   return (
     <>
