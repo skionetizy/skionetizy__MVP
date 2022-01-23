@@ -32,7 +32,7 @@ import {
 import { GoogleLogin } from "react-google-login";
 
 
-const CLIENT_ID="765275654524-e5fed4uno6flsogkjj3lurlk4l5hoo3p.apps.googleusercontent.com";
+const CLIENT_ID = "765275654524-e5fed4uno6flsogkjj3lurlk4l5hoo3p.apps.googleusercontent.com";
 
 //const defaultGoogleOauthURL = createAuthURL("/auth/authToken");
 
@@ -55,13 +55,13 @@ function LoginForm(props, {
      console.log("useEffect props.isLogin ->", props.isLogin)
      console.log("useEffect props.jwtToken ->", props.jwtToken)
    }, [props.jwtToken]) */
-   useEffect(()=>{
-     console.log(props)
-    if(props.isLogin===true){
+  useEffect(() => {
+    console.log(props)
+    if (props.isLogin === true) {
       history.push("/")
       return;
     }
-   },[props])
+  }, [props])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -122,11 +122,11 @@ function LoginForm(props, {
     // }
   };
 
-  const responseGoogleError=(error)=>{
+  const responseGoogleError = (error) => {
     console.log(error)
     setError(error.message);
   }
-  const responseGoogleSuccess=async(response)=>{
+  const responseGoogleSuccess = async (response) => {
     setIsLoading(true)
     // send response to the backend and get profile and token
     const res = await sendGoogleLoginResp(response);
@@ -134,14 +134,14 @@ function LoginForm(props, {
     // set them in localstorage
     localStorage.setItem(AUTHORIZATION_HEADER, token);
     localStorage.setItem(LOGGED_IN_PROFILE_ID, profile.profileID);
-    const profileID=profile.profileID;
+    const profileID = profile.profileID;
     // get updated profile from the ID
     const { profileUserName } = await getHoverProfileDetails(profileID);
     const profile_get = await getProfileDetailsAPIHandler(profileUserName);
     // update the store using action
     props.on_login(res.token, profile_get.profile);
     setIsLoading(false);
-    if (res.sucess === true || res.success===1) {
+    if (res.sucess === true || res.success === 1) {
       history.push("/")
       return
     } else {
@@ -160,7 +160,7 @@ function LoginForm(props, {
           <GoogleLogin
             clientId={CLIENT_ID}
             buttonText="Login with Google"
-            onSuccess={(response)=>responseGoogleSuccess(response)}
+            onSuccess={(response) => responseGoogleSuccess(response)}
             onFailure={responseGoogleError}
             /* isSignedIn={true} */
             cookiePolicy={"single_host_origin"}
@@ -236,6 +236,7 @@ function LoginForm(props, {
 }
 
 const mapStateToProps = (state) => {
+  console.log("State ->", state)
   return {
     isLogin: state.isLogin,
   };
@@ -243,10 +244,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    on_login:(token, profile)=>dispatch({
-        type: "SAVE_JWT_PROFILE_AFTER_LOGIN", 
-        jwtToken: token,
-        profile: profile
+    on_login: (token, profile) => dispatch({
+      type: "SAVE_JWT_PROFILE_AFTER_LOGIN",
+      jwtToken: token,
+      profile: profile
     })
   };
 };
