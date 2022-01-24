@@ -169,11 +169,14 @@ class ForgotPasswordResponseSend(Resource):
             return make_response(jsonify({"message":result,"status":500}))
         user= User.objects.get(emailID=result)
         if user:
-            user.update(password=body['password'])
-            user.update(confirmPassword=body['password'])
-            user.hash_password()
-            user.save()
-            return make_response(jsonify({"user":user,"token":user.encode_signin_token(),"message":"User's Password updated","status":200}))
+            if(body['password']==body['confirmpassword']):
+                if(len(body['password'])<6):
+                    return make_response(jsonify({"message": "Must be atleast 6 characters", "status":500}))
+                user.password=body['password']
+                user.update(confirmPassword=body['confirmpassword'])
+                user.hash_password()
+                user.save()
+                return make_response(jsonify({"user":user,"token":user.encode_signin_token(),"message":"User's Password updated","status":200}))
         return make_response(jsonify({"message":"User's password updation failed","status":500}))
         
 class ForgotPasswordRequestReceive(Resource):
@@ -202,7 +205,7 @@ class ForgotPasswordRequestReceive(Resource):
         redirect_url = app.config.get('FRONTEND_DOMAIN')+f'forgotPassword/{auth_token}'
         rendered_html=template.render(username=user.firstName,link=redirect_url,domain=app.config.get('DOMAIN'))
         send_email("Skionetizy Password Update Mail",os.environ.get('MAIL_USERNAME'),recipients=[body["emailID"]],html=rendered_html)
-        return make_response(jsonify({'Message':'Password update Mail Sent','success':True}))
+        return make_response(jsonify({'Message':'Password update Mail Sent, please check','status':200, 'auth_token': auth_token}), 200)
 
 class AuthorizeLogin(Resource):
     def post(self):
@@ -221,7 +224,7 @@ class AuthorizeLogin(Resource):
             return make_response(jsonify({"message": "Password is incorrect, please try again", "status": 500}))
         token = user.encode_signin_token()
         profile = Profile.objects.get(userID=user.userID)
-        return make_response({"token": token, "profileID": profile.profileID, "message": "Logged in Successfully", "status": 200})
+        return make_response({"token": token, "profileID": profile.profileID,"user":user, "message": "Logged in Successfully", "status": 200})
 
 
 class getUserDetails(Resource):

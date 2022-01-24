@@ -9,6 +9,18 @@ export const addProfileUsernameBioUserDetailsAPIHandler = (data) => {
   });
 };
 
+export const updatePassword=async(data)=>{
+  return await axios.post(`${baseURL}/api/forgotPassword`,{
+    ...data
+  })
+}
+
+export const updatePasswordNow=async(data, token)=>{
+  return await axios.patch(`${baseURL}/api/forgotPassword/${token}`,{
+    ...data
+  })
+}
+
 export const getProfileDetailsAPIHandler = (profileUserName) => {
   console.log({ profileIDinAPI: profileUserName });
   return axios

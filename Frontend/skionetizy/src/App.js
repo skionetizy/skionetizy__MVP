@@ -42,6 +42,7 @@ function App() {
           <Route exact path="/landing" component={LandingPage} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/forgotPassword" component={ForgotPassword} />
+          <Route exact path="/forgotPassword/:token" component={ForgotPassword} />
           <Route
             exact
             path="/addBlogDetailsMarkdown"
