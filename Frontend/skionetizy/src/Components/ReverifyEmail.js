@@ -33,11 +33,30 @@ export default function ReverifyEmail({ emailID }) {
     console.log("Inside handleVerifyEmail")
     console.log("email", emailID)
     if (emailID.length === 0) {
-      throw createFlaskError("Enter Email ID")
+      // throw createFlaskError("Enter Email ID")
+      console.log("Error: Enter Email ID")
+      alert("Error: Enter Email ID")
+    } else {
+
+      const res = sendReverifyEmail({ emailID });
+      res.then((res) => {
+        console.log("Inside res ->", res)
+        console.log("Inside res.data.Message ->", res.data.Message)
+        if (res.data.Message === 'Already Verified') {
+          console.log("You are already verified! Please try logging with your password!")
+          alert("You are already verified! Please try logging with your password!")
+        } else if (res.data.Message === 'Reverification Mail Sent') {
+          console.log("Mail Sent! If you can't find our mail, try finding in spam folder!")
+          setShowModal('VERFY_EMAIL')
+          setIsMailSent(true)
+        }
+      }).catch((err) => {
+        console.log("Error:->", err.message)
+        alert("Seems like you aren't part papersdrop yet! Try singing up! ")
+        setShowModal('')
+      })
     }
-    setShowModal('VERFY_EMAIL')
-    const res = sendReverifyEmail({ emailID });
-    console.log("Inside handleVerifyEmail -> res->", res)
+
   }
 
   useEffect(() => {
