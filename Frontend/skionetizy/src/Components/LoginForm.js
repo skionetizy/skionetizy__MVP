@@ -81,7 +81,7 @@ function LoginForm(props, {
         return
       }
       // console.log("res inside useAuth", res);
-      const { profileID, token } = res;
+      const { profileID, token, user:{userID} } = res;
       // axios.defaults.headers["Authorization"] = token;
       // set them in localstorage
       localStorage.setItem(AUTHORIZATION_HEADER, token);
@@ -90,7 +90,7 @@ function LoginForm(props, {
       // get updated profile from the ID
       const { profileUserName } = await getHoverProfileDetails(profileID);
       const profile_get = await getProfileDetailsAPIHandler(profileUserName);
-      props.on_login(res.token, profile_get.profile)
+      props.on_login(res.token, profile_get.profile, userID)
       setIsLoading(false);
       if (res.status === 200) {
         history.push("/")
@@ -130,7 +130,8 @@ function LoginForm(props, {
     setIsLoading(true)
     // send response to the backend and get profile and token
     const res = await sendGoogleLoginResp(response);
-    const { profile, token } = res;
+    console.log("Inside responseGoogleSuccess-> ",res);
+    const { profile, token, user:{userID} } = res;
     // set them in localstorage
     localStorage.setItem(AUTHORIZATION_HEADER, token);
     localStorage.setItem(LOGGED_IN_PROFILE_ID, profile.profileID);
@@ -139,7 +140,7 @@ function LoginForm(props, {
     const { profileUserName } = await getHoverProfileDetails(profileID);
     const profile_get = await getProfileDetailsAPIHandler(profileUserName);
     // update the store using action
-    props.on_login(res.token, profile_get.profile);
+    props.on_login(res.token, profile_get.profile, userID);
     setIsLoading(false);
     if (res.sucess === true || res.success === 1) {
       history.push("/")
@@ -244,10 +245,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    on_login: (token, profile) => dispatch({
+    on_login: (token, profile, userID) => dispatch({
       type: "SAVE_JWT_PROFILE_AFTER_LOGIN",
       jwtToken: token,
-      profile: profile
+      profile: profile,
+      userID: userID
     })
   };
 };
