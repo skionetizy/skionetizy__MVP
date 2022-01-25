@@ -17,28 +17,7 @@ const BlogCard = ({ blog, isAdmin = false }) => {
   useEffect(async () => {
     const res = await axios.get(`${baseURL}/blog/getComments`);
     console.log("comm", res);
-    console.log("Blog->", blog)
-
   }, []);
-  const blogTitle = blog?.blogTitle
-  const blogTitleSlug = blogTitle.toLowerCase().replace(/ /g, '-')
-    .replace(/[^\w-]+/g, '');
-
-  console.log('blogTitle ->', blogTitle)
-  console.log('blogTitleSlug ->', blogTitleSlug)
-
-  console.log("blog Object->", blog)
-
-  const profileName = blog?.profileName
-  const profileNameSlug = profileName?.toLowerCase().replace(/ /g, '-')
-    .replace(/[^\w-]+/g, '');
-
-  console.log('profileName ->', profileName)
-  console.log('profileNameSlug ->', profileNameSlug)
-
-  // const blogID = blog?.blogID
-
-
 
   return (
     <div>
@@ -54,17 +33,6 @@ const BlogCard = ({ blog, isAdmin = false }) => {
             ? `/admin/view-blog/${blog.blogID}/${blog.profileID}`
             : `/view-blog/${blog.blogID}/${blog.profileID}`
         }
-      // to={
-      //   isAdmin
-      //     ? `/admin/${profileNameSlug}/${blogTitleSlug}/${blogID}`
-      //     : `/${profileNameSlug}/${blogTitleSlug}/${blogID}`
-      // }
-      // to={
-      //   isAdmin
-      //     ? `/admin/${profileNameSlug}/${blogTitleSlug}--${blogID}`
-      //     : `/${profileNameSlug}/${blogTitleSlug}--${blogID}`
-      // }
-
       >
         <div className={style.main}>
           <div className={style.cardBox}>

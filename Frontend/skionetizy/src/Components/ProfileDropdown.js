@@ -11,19 +11,13 @@ import {
     AUTHORIZATION_HEADER,
     LOGGED_IN_PROFILE_ID,
 } from "../utils/localStorageKeys";
-import { useDispatch } from "react-redux";
-
-
-const CLIENT_ID="765275654524-e5fed4uno6flsogkjj3lurlk4l5hoo3p.apps.googleusercontent.com";
 
 
 function ProfileDropdown(props, { className }) {
-    const dispatch = useDispatch();
     const profile=props.profile;
-    useEffect(()=>{
-        
-    },[props.profile])
+    
     console.log("Inside ProfileDropdown->", profile);
+    console.log("Logged in ? ",props.isLoginRedux)
     const profileUserName = profile?.profileUserName;
     //console.log("pp", isLoggedIn, profile);
     const logout=()=>{

@@ -9,6 +9,18 @@ export const addProfileUsernameBioUserDetailsAPIHandler = (data) => {
   });
 };
 
+export const updatePassword=async(data)=>{
+  return await axios.post(`${baseURL}/api/forgotPassword`,{
+    ...data
+  })
+}
+
+export const updatePasswordNow=async(data, token)=>{
+  return await axios.patch(`${baseURL}/api/forgotPassword/${token}`,{
+    ...data
+  })
+}
+
 export const getProfileDetailsAPIHandler = (profileUserName) => {
   console.log({ profileIDinAPI: profileUserName });
   return axios
@@ -35,7 +47,7 @@ export const updateProfileDetails = (profileID, formData) => {
 };
 
 export const getHoverProfileDetails = (profileID) => {
-  console.log("Inside getHoverProfileDetails ->", profileID)
+  // console.log("Inside getHoverProfileDetails ->", profileID)
   return axios
     .get(`/profile/getHover/${profileID}`)
     .then((r) => r.data.details);

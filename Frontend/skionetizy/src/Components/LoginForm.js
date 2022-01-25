@@ -10,10 +10,8 @@ import { sendLogin } from "../API/userAPIHandler";
 import { createAuthURL } from "../auth/googleOauth";
 import Button from "../Components/Button";
 import Divider from "../Components/Divider";
-import useAuth from "../hooks/useAuth";
 import useForm from "../hooks/useForm";
 import useMutate from "../hooks/useMutate";
-import { AUTH } from "../store/reducer";
 import noop from "../utils/noop";
 import style from "./LoginForm.module.css";
 import ReverifyEmail from "./ReverifyEmail";
@@ -34,7 +32,7 @@ import {
 import { GoogleLogin } from "react-google-login";
 
 
-const CLIENT_ID="765275654524-e5fed4uno6flsogkjj3lurlk4l5hoo3p.apps.googleusercontent.com";
+const CLIENT_ID = "765275654524-e5fed4uno6flsogkjj3lurlk4l5hoo3p.apps.googleusercontent.com";
 
 //const defaultGoogleOauthURL = createAuthURL("/auth/authToken");
 
@@ -48,80 +46,65 @@ function LoginForm(props, {
     password: "",
   });
   const history = useHistory();
-  const dispatch = useDispatch();
-  const { login } = useAuth();
-  // const [showModal, setShowModal] = useState('');
+  // const dispatch = useDispatch();
 
-
-
-
-  // const loginMutation = useMutate({
-  //   mutateFn: async (data) => {
-  //     console.log("dt", data)
-  //     const response = await login(details);
-  //     //console.log(response);
-  //     return response;
-  //   },
-
-  //   onSuccess: (profileID) => {
-  //     onLogin(profileID, null);
-  //   },
-
-  //   onFailure: (error) => {
-  //     onLogin(null, error);
-  //   },
-  // });
-
-  // const { isLoading } = loginMutation;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [isLogin, setIsLogin] = useState(false);
 
+  /* useEffect(() => {
+     console.log("useEffect props.isLogin ->", props.isLogin)
+     console.log("useEffect props.jwtToken ->", props.jwtToken)
+   }, [props.jwtToken]) */
   useEffect(() => {
-    console.log("useEffect props.isLogin ->", props.isLogin)
-    console.log("useEffect props.jwtToken ->", props.jwtToken)
-
-  }, [props.jwtToken])
-
-  const saveJwtToken = (token) => {
-    console.log("Inside saveJwtToken ->", token)
-    props.onLogin(token)
-  }
+    console.log(props)
+    if (props.isLogin === true) {
+      history.push("/")
+      return;
+    }
+  }, [props])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     // try {
     if (details) {
-      // loginMutation.mutate(details, e);
-      // onLogin(res.profileID, null);
-
-      // Change here
-      // const url = `${baseURL}/login`;
       await yup
         .string()
         .required("Email is required")
         .email("Enter a valid email address")
         .validate(details.emailID);
       setIsLoading(true)
-      const res = await login(details)
-      saveJwtToken(res.token)
+
+      const res = await sendLogin(details);
+      if (res.status !== 200) {
+        setError(res.message)
+        setIsLoading(false);
+        return
+      }
+      // console.log("res inside useAuth", res);
+      const { profileID, token, user:{userID} } = res;
+      // axios.defaults.headers["Authorization"] = token;
+      // set them in localstorage
+      localStorage.setItem(AUTHORIZATION_HEADER, token);
+      localStorage.setItem(LOGGED_IN_PROFILE_ID, profileID);
+      // console.log("Inside login before saveProfile ->", profileID);
+      // get updated profile from the ID
+      const { profileUserName } = await getHoverProfileDetails(profileID);
+      const profile_get = await getProfileDetailsAPIHandler(profileUserName);
+      props.on_login(res.token, profile_get.profile, userID)
       setIsLoading(false);
-      // console.log("isLogin", isLogin)
-      // console.log("res.status", res.status)
       if (res.status === 200) {
         history.push("/")
         return
       } else {
         setError(res.message)
       }
+
       // else if (res.status === 500 || res.statusCode === 500 || res.data.statusCode === 500) {
       //   console.log("Throwing Flask error")
       //   throw createFlaskError(res.data.message);
       // } else {
       //   setShowModal(true)
       // }
-
     }
     // } catch (error) {
     //   let errorMessage;
@@ -139,26 +122,27 @@ function LoginForm(props, {
     // }
   };
 
-  const responseGoogleError=(error)=>{
+  const responseGoogleError = (error) => {
     console.log(error)
     setError(error.message);
   }
-  const responseGoogleSuccess=async(response)=>{
+  const responseGoogleSuccess = async (response) => {
     setIsLoading(true)
     // send response to the backend and get profile and token
     const res = await sendGoogleLoginResp(response);
-    const { profile, token } = res;
+    console.log("Inside responseGoogleSuccess-> ",res);
+    const { profile, token, user:{userID} } = res;
     // set them in localstorage
     localStorage.setItem(AUTHORIZATION_HEADER, token);
     localStorage.setItem(LOGGED_IN_PROFILE_ID, profile.profileID);
-    const profileID=profile.profileID;
+    const profileID = profile.profileID;
     // get updated profile from the ID
     const { profileUserName } = await getHoverProfileDetails(profileID);
     const profile_get = await getProfileDetailsAPIHandler(profileUserName);
     // update the store using action
-    props.on_glogin(res.token, profile_get.profile);
+    props.on_login(res.token, profile_get.profile, userID);
     setIsLoading(false);
-    if (res.sucess === true || res.success===1) {
+    if (res.sucess === true || res.success === 1) {
       history.push("/")
       return
     } else {
@@ -177,7 +161,7 @@ function LoginForm(props, {
           <GoogleLogin
             clientId={CLIENT_ID}
             buttonText="Login with Google"
-            onSuccess={(response)=>responseGoogleSuccess(response)}
+            onSuccess={(response) => responseGoogleSuccess(response)}
             onFailure={responseGoogleError}
             /* isSignedIn={true} */
             cookiePolicy={"single_host_origin"}
@@ -253,19 +237,19 @@ function LoginForm(props, {
 }
 
 const mapStateToProps = (state) => {
+  console.log("State ->", state)
   return {
     isLogin: state.isLogin,
-    jwtToken: state.jwtToken,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLogin: (jwtToken) => dispatch({ type: "SAVE_JWT_TOKEN_AFTER_LOGIN", jwtToken: jwtToken }),
-    on_glogin:(token, profile)=>dispatch({
-        type: "SAVE_JWT_PROFILE_AFTER_GLOGIN", 
-        jwtToken: token,
-        profile: profile
+    on_login: (token, profile, userID) => dispatch({
+      type: "SAVE_JWT_PROFILE_AFTER_LOGIN",
+      jwtToken: token,
+      profile: profile,
+      userID: userID
     })
   };
 };

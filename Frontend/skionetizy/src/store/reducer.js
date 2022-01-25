@@ -20,6 +20,9 @@ export const AUTH = {
 };
 
 const Reducer = (state = initialState, action) => {
+  if(localStorage.getItem(AUTHORIZATION_HEADER)!==null || !(initialState.profile === null || initialState.profile.profileID === undefined || initialState.profile.profileID === "undefined")){
+    initialState.isLogin=true;
+  }
   switch (action.type) {
     case "MARKDOWN_MODE":
       return {
@@ -34,34 +37,28 @@ const Reducer = (state = initialState, action) => {
         userID: action.userID,
         isLogin: true,
       };
-    case "SAVE_JWT_TOKEN_AFTER_LOGIN":
-      console.log("Inside SAVE_JWT_TOKEN_AFTER_LOGIN ->", { jwtTokenFromReducer: action.jwtToken });
-      return {
-        ...state,
-        jwtToken: action.jwtToken,
-        isLogin: true,
-      };
-    case "SAVE_JWT_PROFILE_AFTER_GLOGIN":
+    case "SAVE_JWT_PROFILE_AFTER_LOGIN":
       return {
         ...state,
         jwtToken: action.jwtToken,
         profile: action.profile,
         isLogin: true,
+        userID: action.userID
       };
     case "SAVE_BLOG_ID":
       return {
         ...state,
         blogID: action.blogID,
       };
-    case "SAVE_USER_DETAILS_AFTER_SIGNUP":
-      const userDetails = { ...action.payload };
-      console.log({ userDetailsInReducer: userDetails });
-      return {
-        ...state,
-        userID: userDetails.userID,
-        firstName: userDetails.firstName,
-        lastName: userDetails.lastName,
-      };
+    // case "SAVE_USER_DETAILS_AFTER_SIGNUP":
+    //   const userDetails = { ...action.payload };
+    //   console.log("Inside SAVE_USER_DETAILS_AFTER_SIGNUP: ", { userDetailsInReducer: userDetails });
+    //   return {
+    //     ...state,
+    //     userID: userDetails.userID,
+    //     firstName: userDetails.firstName,
+    //     lastName: userDetails.lastName,
+    //   };
     case "SAVE_SLICED_BLOGS":
       const slicedBlogs = action.payload;
       console.log({ slicedBlogsInReducer: slicedBlogs });
@@ -81,6 +78,8 @@ const Reducer = (state = initialState, action) => {
       return {
         ...state,
         profile: action.payload,
+        jwtToken: action.jwtToken,
+        isLogin: true
       };
     }
 
