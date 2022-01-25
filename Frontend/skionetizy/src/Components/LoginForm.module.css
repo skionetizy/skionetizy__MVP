@@ -4,9 +4,9 @@
   align-items: center;
   gap: 0.5rem;
 
-  padding: 1rem 0.75rem;
+  /* padding: 1rem 0.75rem; */
 
-  background-color: #fff;
+  /* background-color: var(--primary-blue); */
   border-radius: 1rem;
 
   color: var(--dark-blue);
