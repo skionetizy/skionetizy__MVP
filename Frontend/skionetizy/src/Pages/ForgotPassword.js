@@ -11,22 +11,27 @@ import { updatePassword, updatePasswordNow } from "../API/profileAPIHandler";
 import Button from "../Components/Button";
 import { useParams } from "react-router-dom";
 
-
-
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import clsx from "../utils/clsx";
 
 function ForgotPassword() {
   const [showModal, setShowModal] = useState('');
+  const [isShowPassword, setIsShowPassword] = useState(false);
   const [error, setError]= useState("");
+  const [storage_token, setStorage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { data: details, handleChange } = useForm({
     emailID: "",
     password: "",
     confirmpassword: ""
   });
-
   const {token}=useParams();
-  const storage_token=localStorage.getItem("temp_pass_forgot_auth");
-  console.log(token,storage_token)
+
+  useEffect(()=>{
+    const storage_token=localStorage.getItem("TEMP_AUTH");
+    setStorage(storage_token);
+    console.log(token===storage_token)
+  },[])
 
   async function handleEmailSubmit(e) {
     setIsLoading(true);
@@ -41,9 +46,9 @@ function ForgotPassword() {
       else{
         console.log("Email sent!")
         setShowModal('VERFY_EMAIL')
-        localStorage.removeItem("temp_pass_forgot_auth")
+        localStorage.removeItem("TEMP_AUTH")
         // TODO: localstorage not uppdating.
-        localStorage.setItem("temp_pass_forgot_auth", res.data.auth_token);
+        localStorage.setItem("TEMP_AUTH", res.data.auth_token);
       }
       setIsLoading(false);
     }
@@ -53,16 +58,16 @@ function ForgotPassword() {
     setIsLoading(true);
     e.preventDefault()
     // TODO: if condition.
-    //if(token===storage_token){
+    if(token===storage_token){
       if(details){
         const res=await updatePasswordNow(details, token);
         console.log(res);
         setError(res.data.message);
       }
-    //}
-    /* else{
+    }
+    else{
       setError("Something went wrong!");
-    } */
+    }
     setIsLoading(false);
   }
 
@@ -97,9 +102,9 @@ function ForgotPassword() {
           </form>
           <p className={styles.status}>{error}</p>
           </>
-          //:
+          :
           // TODO: 
-          /* token!==storage_token ? <p>"Something went wrong !"</p> */:
+          token!==storage_token ? <p>"Something went wrong !"</p>:
           <>
           <p className={styles.emailVerified}>
             <img
@@ -119,24 +124,41 @@ function ForgotPassword() {
               wrapperClassName={styles.input}
               placeholder="Confirm New Password"
             /> */}
-            <input
-              type="password"
-              name="password"
-              placeholder="New password"
-              onChange={handleChange}
-              value={details.password}
-              className={styles.input}
-              required
-            /><br></br>
-            <input
-              type="password"
-              name="confirmpassword"
-              placeholder="Confirm password"
-              onChange={handleChange}
-              value={details.confirmPass}
-              className={styles.input}
-              required
-            />
+            <div className={clsx(styles.wrapper, styles.input)}>
+              <input
+                className={clsx(styles.input_pass)}
+                type={isShowPassword ? "text" : "password"}
+                name="password"
+                placeholder="New password"
+                onChange={handleChange}
+                value={details.password}
+              />
+              <button
+                className={styles.btn}
+                onClick={() => setIsShowPassword((p) => !p)}
+                type="button"
+              >
+                <FontAwesomeIcon icon={isShowPassword ? faEyeSlash : faEye} />
+              </button>
+            </div>
+            <div className={clsx(styles.wrapper, styles.input)}>
+              <input
+                className={clsx(styles.input_pass)}
+                type={isShowPassword ? "text" : "password"}
+                name="confirmpassword"
+                placeholder="Confirm password"
+                onChange={handleChange}
+                value={details.confirmpassword}
+              />
+              <button
+                className={styles.btn}
+                onClick={() => setIsShowPassword((p) => !p)}
+                type="button"
+              >
+                <FontAwesomeIcon icon={isShowPassword ? faEyeSlash : faEye} />
+              </button>
+            </div>
+
             <Button
               className={styles.loginBtn}
               variant="dark"
