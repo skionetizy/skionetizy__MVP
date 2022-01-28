@@ -7,7 +7,7 @@ import EmailEnvelopeImage from "../Assets/close_mail_envelope.png";
 import ForgotPasswordSS from "../Assets/forgot_password.png";
 import VerifyEmailModal from "../Components/VerifyEmailModal";
 import useForm from "../hooks/useForm";
-import { updatePassword, updatePasswordNow } from "../API/profileAPIHandler";
+import { updatePassword, updatePasswordToken } from "../API/profileAPIHandler";
 import Button from "../Components/Button";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
@@ -43,7 +43,7 @@ function ForgotPassword() {
       console.log('Details ->', details)
       const res = await updatePassword(details);
       console.log("res inside password update request-> ", res);
-      if (res['data'].status !== 200) {
+      if (res.data.status !== 200) {
         setError(res.data.message);
       }
       else {
@@ -63,7 +63,7 @@ function ForgotPassword() {
     // TODO: if condition.
     if (token === storage_token) {
       if (details) {
-        const res = await updatePasswordNow(details, token);
+        const res = await updatePasswordToken(details, token);
         console.log(res);
         if (res.data.message === "User's Password updated") {
           setError("Password Updated! You can now login with your new Password!");
