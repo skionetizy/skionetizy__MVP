@@ -92,7 +92,13 @@ const ModalMaker = ({ showModal, setShowModal }) => {
 const ViewBlog = () => {
 
 
-  const { blogID, profileID } = useParams();
+  // const { blogID, profileID } = useParams();
+  const { profileNameSlug, blogTitleSlugAndblogID } = useParams();
+  const blogTitleSlug = blogTitleSlugAndblogID?.split("--")[0];
+  const blogID = blogTitleSlugAndblogID?.split("--")[1];
+
+
+
 
   const auth = useAuth();
   const { state } = useLocation();
