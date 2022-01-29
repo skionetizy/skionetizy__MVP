@@ -156,11 +156,6 @@ class ReverificationToken(Resource):
 class ForgotPasswordResponseSend(Resource):
     def patch(self, token):
         body = request.get_json()
-        '''
-        1.Reveice token
-        2.deode token
-        3.if successfull update password
-        '''
         print('Received token:', token)
         result = User.decode_auth_token(token)
         print(result)
@@ -183,14 +178,6 @@ class ForgotPasswordResponseSend(Resource):
 
 class ForgotPasswordRequestReceive(Resource):
     def post(self):
-        '''
-        1.Read email from json body
-        2.Check if user is already registered
-        3.If user not registered redirect return message
-        4.else fetch person object from User
-        5.encode jwt token
-        6.send email
-        '''
         body = request.get_json()
         try:
             User.objects.get(emailID=body["emailID"])

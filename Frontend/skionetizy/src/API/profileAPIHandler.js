@@ -15,7 +15,7 @@ export const updatePassword=async(data)=>{
   })
 }
 
-export const updatePasswordNow=async(data, token)=>{
+export const updatePasswordToken=async(data, token)=>{
   return await axios.patch(`${baseURL}/api/forgotPassword/${token}`,{
     ...data
   })
