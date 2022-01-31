@@ -41,10 +41,11 @@ const placeholderImageSrc =
 
 const UserProfile = () => {
   const { profileUserName } = useParams();
+  console.log("Inside UserProfile ->", profileUserName)
   const [profile, setProfile] = useState({});
-  const { profile: loggedProfile } = useAuth();
+  // const { profile: loggedProfile } = useAuth();
 
-  const profileID = loggedProfile?.profileID;
+  const profileID = profile?.profileID;
   const isOwner = profileID === profile.profileID;
   const { url: userProfileRoute } = useRouteMatch();
 
@@ -119,7 +120,7 @@ const UserProfile = () => {
             className={clsx(
               style.coverImage,
               status === "loading--profileBannerImage" &&
-                style.usersImageLoading
+              style.usersImageLoading
             )}
             src={userCoverSrc}
             alt=""
@@ -245,7 +246,7 @@ const UserProfile = () => {
             <div className={style.userButton}>
               {profile?.profileID == null ? null : isAuthorisedUser() ? (
                 <Button variant="dark" onClick={() => setShowEditModal(true)}>
-                  <EditIcon /> 
+                  <EditIcon />
                   &nbsp;&nbsp;
                   Edit Profile
                 </Button>
@@ -373,7 +374,7 @@ const UserProfile = () => {
 
         <Switch>
           {/* Blogs */}
-          <Route path="/:profileUserName/blogs">
+          <Route path="/:profileUserName">
             <UserProfileBlogs profile={profile} />
           </Route>
 
