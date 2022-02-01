@@ -332,12 +332,15 @@ class GetBlogsByProfile(Resource):
 class GetBlogByBlogID(Resource):
     def get(self,blogID):
         # body=request.get_json()
-        blog = Blog.objects.get(blogID=blogID)
-        profile=Profile.objects.get(profileID=blog['profileID'])
-        blog=blog.to_mongo().to_dict()
-        blog['profilePicImageURL']=profile.profilePicImageURL
-        blog['profileName']=profile.profileName
-        blog['profileUserName']=profile.profileUserName
+        try:
+            blog = Blog.objects.get(blogID=blogID)
+            profile=Profile.objects.get(profileID=blog['profileID'])
+            blog=blog.to_mongo().to_dict()
+            blog['profilePicImageURL']=profile.profilePicImageURL
+            blog['profileName']=profile.profileName
+            blog['profileUserName']=profile.profileUserName
+        except Exception as e:
+            return make_response(jsonify({"message":"not found", "statusCode":500, "success":False}))
         return make_response(jsonify({"blog":json.loads(json_util.dumps(blog)),"statusCode":200,"success":True}))
 
 

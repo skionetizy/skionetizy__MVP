@@ -9,6 +9,21 @@
   color: #fff;
 }
 
+.verifyModalLogo {
+  display: flex;
+  align-items: center;
+  gap: 0 0.5rem;
+
+  margin: 0;
+
+  font-size: 2.75rem;
+  font-weight: bold;
+}
+
+.verifyModalLogoImg {
+  width: 3rem;
+}
+
 .title {
   margin: 0;
   font-size: 3rem;

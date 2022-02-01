@@ -14,6 +14,21 @@ Moment.globalFormat = "MMM D , YYYY";
 const SearchBlogCard = (blogProp) => {
   const { blog } = blogProp;
   const [authorName, setAuthorName] = useState("");
+  const blogTitle = blog?.blogTitle
+  const blogTitleSlug = blogTitle.toLowerCase().replace(/ /g, '-')
+    .replace(/[^\w-]+/g, '');
+
+  console.log('blogTitle ->', blogTitle)
+  console.log('blogTitleSlug ->', blogTitleSlug)
+
+  console.log("blog Object->", blog)
+
+  const profileName = blog?.profileName
+  const profileNameSlug = profileName?.toLowerCase().replace(/ /g, '-')
+    .replace(/[^\w-]+/g, '');
+
+  console.log('profileName ->', profileName)
+  console.log('profileNameSlug ->', profileNameSlug)
 
   useEffect(() => {
     console.log({ blogIDinBlogCard: blog.blogID, blog });
@@ -31,7 +46,7 @@ const SearchBlogCard = (blogProp) => {
       <div>
         <Link
           style={{ textDecoration: "none" }}
-          to={`/view-blog/${blog.blogID}/${blog.userID}`}
+          to={`/${profileNameSlug}/${blogTitleSlug}--${blog.blogID}`}
         >
           <div className={style.blog_container}>
             {console.log({ blogInSBC: blog })}

@@ -151,58 +151,54 @@ class ReverificationToken(Resource):
             send_email("Skionetizy Email Verification for creating account", os.environ.get(
                 'MAIL_USERNAME'), recipients=[body["emailID"]], html=rendered_html)
             return make_response(jsonify({'Message': 'Reverification Mail Sent', 'success': True}))
-        
+
+
 class ForgotPasswordResponseSend(Resource):
     def patch(self, token):
-        body=request.get_json()
-        '''
-        1.Reveice token
-        2.deode token
-        3.if successfull update password
-        '''
-        print('Received token:',token)
-        result=User.decode_auth_token(token)
+        body = request.get_json()
+        print('Received token:', token)
+        result = User.decode_auth_token(token)
         print(result)
-        if result=='Singnature Expired.Please Signup Again' or result == 'Invalid Token':
-            if result=='Signature Expired.Please Signup Again':
-                return make_response(jsonify({"message":result,"status":500}))
-            return make_response(jsonify({"message":result,"status":500}))
-        user= User.objects.get(emailID=result)
+        if result == 'Singnature Expired.Please Signup Again' or result == 'Invalid Token':
+            if result == 'Signature Expired.Please Signup Again':
+                return make_response(jsonify({"message": result, "status": 500}))
+            return make_response(jsonify({"message": result, "status": 500}))
+        user = User.objects.get(emailID=result)
         if user:
-            user.update(password=body['password'])
-            user.update(confirmPassword=body['password'])
-            user.hash_password()
-            user.save()
-            return make_response(jsonify({"user":user,"token":user.encode_signin_token(),"message":"User's Password updated","status":200}))
-        return make_response(jsonify({"message":"User's password updation failed","status":500}))
-        
+            if(body['password'] == body['confirmpassword']):
+                if(len(body['password']) < 6):
+                    return make_response(jsonify({"message": "Must be atleast 6 characters", "status": 500}))
+                user.password = body['password']
+                user.update(confirmPassword=body['confirmpassword'])
+                user.hash_password()
+                user.save()
+                return make_response(jsonify({"user": user, "token": user.encode_signin_token(), "message": "User's Password updated", "status": 200}))
+        return make_response(jsonify({"message": "User's password updation failed", "status": 500}))
+
+
 class ForgotPasswordRequestReceive(Resource):
     def post(self):
-        '''
-        1.Read email from json body
-        2.Check if user is already registered
-        3.If user not registered redirect return message
-        4.else fetch person object from User
-        5.encode jwt token
-        6.send email
-        '''
-        body=request.get_json()
+        body = request.get_json()
         try:
-            User.objects.get(emailID = body["emailID"])
+            User.objects.get(emailID=body["emailID"])
         except:
-            return make_response({"message":"No acccount with emailID found!","status":500})
+            return make_response({"message": "No acccount with emailID found!", "status": 500})
         # elif user["isVerified"]==False:
-        user = User.objects.get(emailID = body["emailID"])
-        if user["isVerified"]==False:
-            return make_response({"message":"email ID not verified. Please reverify again.","status":500})
+        user = User.objects.get(emailID=body["emailID"])
+        if user["isVerified"] == False:
+            return make_response({"message": "email ID not verified. Please reverify again.", "status": 500})
         print("Sending Email")
-        auth_token=user.encode_auth_token()
+        auth_token = user.encode_auth_token()
         print(f'{auth_token} here')
-        template=env.get_template('emailVerification.html')
-        redirect_url = app.config.get('FRONTEND_DOMAIN')+f'forgotPassword/{auth_token}'
-        rendered_html=template.render(username=user.firstName,link=redirect_url,domain=app.config.get('DOMAIN'))
-        send_email("Skionetizy Password Update Mail",os.environ.get('MAIL_USERNAME'),recipients=[body["emailID"]],html=rendered_html)
-        return make_response(jsonify({'Message':'Password update Mail Sent','success':True}))
+        template = env.get_template('forgot_password.html')
+        redirect_url = app.config.get(
+            'FRONTEND_DOMAIN')+f'forgotPassword/{auth_token}'
+        rendered_html = template.render(
+            username=user.firstName, link=redirect_url, domain=app.config.get('DOMAIN'))
+        send_email("Skionetizy Password Update Mail", os.environ.get(
+            'MAIL_USERNAME'), recipients=[body["emailID"]], html=rendered_html)
+        return make_response(jsonify({'Message': 'Password update Mail Sent, please check', 'status': 200, 'auth_token': auth_token}), 200)
+
 
 class AuthorizeLogin(Resource):
     def post(self):
@@ -221,7 +217,7 @@ class AuthorizeLogin(Resource):
             return make_response(jsonify({"message": "Password is incorrect, please try again", "status": 500}))
         token = user.encode_signin_token()
         profile = Profile.objects.get(userID=user.userID)
-        return make_response({"token": token, "profileID": profile.profileID, "message": "Logged in Successfully", "status": 200})
+        return make_response({"token": token, "profileID": profile.profileID, "user": user, "message": "Logged in Successfully", "status": 200})
 
 
 class getUserDetails(Resource):
@@ -243,40 +239,42 @@ class GoogleLoginHandle(Resource):
         # if userinfo_response.json().get("email_verified"):
         users_email = userinfo_response["email"]
         picture = userinfo_response["imageUrl"]
-    
+
         if User.objects(emailID=users_email).first():
-            #Existing User
-            user=User.objects(emailID=users_email).first()
-            profile=Profile.objects.get(userID=User.objects(emailID=users_email).first().userID)
-            token=user.encode_signin_token()
-            return make_response(jsonify({'token':token,'user':User.objects.get(emailID=users_email),'profile':profile,'sucess':True}))
+            # Existing User
+            user = User.objects(emailID=users_email).first()
+            profile = Profile.objects.get(
+                userID=User.objects(emailID=users_email).first().userID)
+            token = user.encode_signin_token()
+            return make_response(jsonify({'token': token, 'user': User.objects.get(emailID=users_email), 'profile': profile, 'sucess': True}))
         else:
-            #New User
-            u=User()
-            u.firstName=userinfo_response["givenName"]
+            # New User
+            u = User()
+            u.firstName = userinfo_response["givenName"]
             try:
-                u.lastName=userinfo_response["familyName"]
+                u.lastName = userinfo_response["familyName"]
             except:
-                u.lastName=''
-            u.emailID=users_email
-            u.password="LOGGEDINWITHGOOGLE"
+                u.lastName = ''
+            u.emailID = users_email
+            u.password = "LOGGEDINWITHGOOGLE"
             u.hash_password()
-            u.confirmPassword="LOGGEDINWITHGOOGLE"
-            u.userID=uuid.uuid4()
-            u.isVerified=True
+            u.confirmPassword = "LOGGEDINWITHGOOGLE"
+            u.userID = uuid.uuid4()
+            u.isVerified = True
             u.save()
-            p=Profile()
+            p = Profile()
             p.randomize()
-            p.profileID=uuid.uuid4()
-            p.userID=u.userID
-            p.profilePicImageURL=picture
-            p.profileName=userinfo_response["name"]
-            p.profileUserName=u.emailID.split('@')[0].replace('.','_')
+            p.profileID = uuid.uuid4()
+            p.userID = u.userID
+            p.profilePicImageURL = picture
+            p.profileName = userinfo_response["name"]
+            p.profileUserName = u.emailID.split('@')[0].replace('.', '_')
             p.save()
-            token=u.encode_signin_token()
-            return make_response(jsonify({'token':token,'user':u,'profile':p,'success':1}))
+            token = u.encode_signin_token()
+            return make_response(jsonify({'token': token, 'user': u, 'profile': p, 'success': 1}))
         """ else:
             return make_response(jsonify({"Message":"User email not available or not verified by Google."})) """
+
 
 class GoogleAuth(Resource):
     def post(self, *args, **kwargs):
