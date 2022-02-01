@@ -64,12 +64,13 @@ function MyBlogs(props) {
   return (
     <>
       <div className={style.main}>
-        <img
+        {/* <img
           className={style.heroBanner}
           src={ExploreHeroBannerSrc}
           width="100%"
           alt="notebook's pages flipping by wind"
-        />
+        /> */}
+        <div id="container-7dc1b9b132f28ffb591f961c61901a2f"></div>
 
         <div className={style.exploreBtnGroup}>
           <ExploreButton
