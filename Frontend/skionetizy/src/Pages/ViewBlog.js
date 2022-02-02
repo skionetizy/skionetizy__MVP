@@ -38,6 +38,7 @@ import useIntersectionObserver from "../hooks/useIntersectionObserver";
 import TriggerLoginPopup from "./TriggerLoginPopup";
 
 import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
+import UserNotFound from "./UserNotFound";
 
 
 const KEYWORDS_LOCAL_KEY = "blogsKeywords";
@@ -149,7 +150,7 @@ const ViewBlog = () => {
     });
   }
 
-  const history=useHistory();
+  const [show404Page, setShow404Page]=useState(false);
   useEffect(() => {
     const cachedBlogKey = "GOOGLE_OAUTH_CURRENT_BLOG";
     const cachedBlog = localStorage.getItem(cachedBlogKey);
@@ -171,7 +172,7 @@ const ViewBlog = () => {
         const response2 = responses[1];
         console.log("Inside Viewblog-> ", response1, response2)
         if(response1.data.statusCode===500 || response1.status===404 || response2.status===404){
-          return history.push("/userNotFound");
+          setShow404Page(true);
         }
         const allKeywords = JSON.parse(
           localStorage.getItem(KEYWORDS_LOCAL_KEY) || "{}"
@@ -183,7 +184,7 @@ const ViewBlog = () => {
         setComments(response2.data.comments);
       })
     )
-    .catch(()=>{return history.push("/userNotFound");})
+    .catch(()=>{setShow404Page(true);})
     ;
 
     const { callbackURL } = state || {};
@@ -376,6 +377,8 @@ const ViewBlog = () => {
     }
   }, [isLoginPopupVisible, auth.profile, showModal, blog.blogDescription]);
 
+  if(show404Page===true)
+    return(<UserNotFound></UserNotFound>)
   return (
     <>
       <div className={`${style.main} ${style.container}`}>
