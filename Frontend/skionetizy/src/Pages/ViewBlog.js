@@ -8,7 +8,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet";
 import Moment from "react-moment";
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import {
   addCommentAPIHandler,
   addViewApiHandler,
@@ -92,7 +92,12 @@ const ModalMaker = ({ showModal, setShowModal }) => {
 const ViewBlog = () => {
 
 
-  const { blogID, profileID } = useParams();
+  // const { blogID, profileID } = useParams();
+  const { profileNameSlug, blogTitleSlugAndblogID } = useParams();
+  const blogTitleSlug = blogTitleSlugAndblogID?.split("--")[0];
+  const blogID = blogTitleSlugAndblogID?.split("--")[1];
+
+
 
   const auth = useAuth();
   const { state } = useLocation();
@@ -144,7 +149,7 @@ const ViewBlog = () => {
     });
   }
 
-
+  const history=useHistory();
   useEffect(() => {
     const cachedBlogKey = "GOOGLE_OAUTH_CURRENT_BLOG";
     const cachedBlog = localStorage.getItem(cachedBlogKey);
@@ -164,7 +169,10 @@ const ViewBlog = () => {
       axios.spread((...responses) => {
         const response1 = responses[0];
         const response2 = responses[1];
-
+        console.log("Inside Viewblog-> ", response1, response2)
+        if(response1.data.statusCode===500 || response1.status===404 || response2.status===404){
+          return history.push("/userNotFound");
+        }
         const allKeywords = JSON.parse(
           localStorage.getItem(KEYWORDS_LOCAL_KEY) || "{}"
         );
@@ -174,7 +182,9 @@ const ViewBlog = () => {
         //promise2
         setComments(response2.data.comments);
       })
-    );
+    )
+    .catch(()=>{return history.push("/userNotFound");})
+    ;
 
     const { callbackURL } = state || {};
     if (callbackURL) {

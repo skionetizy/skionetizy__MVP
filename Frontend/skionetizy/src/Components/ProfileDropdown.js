@@ -14,13 +14,13 @@ import {
 
 
 function ProfileDropdown(props, { className }) {
-    const profile=props.profile;
-    
+    const profile = props.profile;
+
     console.log("Inside ProfileDropdown->", profile);
-    console.log("Logged in ? ",props.isLoginRedux)
+    console.log("Logged in ? ", props.isLoginRedux)
     const profileUserName = profile?.profileUserName;
     //console.log("pp", isLoggedIn, profile);
-    const logout=()=>{
+    const logout = () => {
         localStorage.setItem(LOGGED_IN_PROFILE_ID, "");
         localStorage.removeItem(LOGGED_IN_PROFILE_ID, "");
         localStorage.setItem(AUTHORIZATION_HEADER, "");
@@ -98,16 +98,17 @@ function ProfileDropdown(props, { className }) {
 
 
 const mapStateToProps = (state) => {
-  return {
-    isLoginRedux : state.isLogin,
-    profile: state.profile,
-  };
+    console.log("mapStateToProps state =>", state)
+    return {
+        isLoginRedux: state.isLogin,
+        profile: state.profile,
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      onlogout : ()=> dispatch({ type: "LOGOUT" })
+        onlogout: () => dispatch({ type: "LOGOUT" })
     };
-  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileDropdown);

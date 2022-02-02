@@ -20,6 +20,9 @@ export const AUTH = {
 };
 
 const Reducer = (state = initialState, action) => {
+  if(localStorage.getItem(AUTHORIZATION_HEADER)!==null || !(initialState.profile === null || initialState.profile.profileID === undefined || initialState.profile.profileID === "undefined")){
+    initialState.isLogin=true;
+  }
   switch (action.type) {
     case "MARKDOWN_MODE":
       return {
@@ -40,6 +43,7 @@ const Reducer = (state = initialState, action) => {
         jwtToken: action.jwtToken,
         profile: action.profile,
         isLogin: true,
+        userID: action.userID
       };
     case "SAVE_BLOG_ID":
       return {
