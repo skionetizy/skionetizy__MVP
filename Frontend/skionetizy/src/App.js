@@ -4,6 +4,7 @@ import FullPageSpinner from "./Components/FullPageSpinner";
 import Nav from "./Components/NavMenuBar";
 import useAuth from "./hooks/useAuth";
 import AdminRoutes from "./Pages/admin/routes";
+import DmcaPage from "./Pages/dmcaPage";
 import ViewBlog from "./Pages/ViewBlog";
 import { getLoggedInProfileID } from "./utils/AuthorisationUtils";
 
@@ -52,6 +53,7 @@ function App() {
           <Route exact path="/addBlogImage" component={addBlogImage} />
           <Route exact path="/addBlogKeywords" component={AddBlogKeywords} />
           <Route exact path="/final" component={FinalPage} />
+          <Route exact path="/dmca" component={DmcaPage} />
           <Route exact path="/searchpage/:searchInput" component={SearchPage} />
           <Route
             exact
