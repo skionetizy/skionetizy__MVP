@@ -23,17 +23,16 @@ const BlogCard = ({ blog, isAdmin = false }) => {
   const blogTitleSlug = blogTitle.toLowerCase().replace(/ /g, '-')
     .replace(/[^\w-]+/g, '');
 
-  console.log('blogTitle ->', blogTitle)
-  console.log('blogTitleSlug ->', blogTitleSlug)
+  // console.log('blogTitle ->', blogTitle)
+  // console.log('blogTitleSlug ->', blogTitleSlug)
 
   console.log("blog Object->", blog)
 
   const profileName = blog?.profileName
   const profileNameSlug = profileName?.toLowerCase().replace(/ /g, '-')
     .replace(/[^\w-]+/g, '');
-
-  console.log('profileName ->', profileName)
-  console.log('profileNameSlug ->', profileNameSlug)
+  // console.log('profileName ->', profileName)
+  // console.log('profileNameSlug ->', profileNameSlug)
 
   return (
     <div>
@@ -51,8 +50,8 @@ const BlogCard = ({ blog, isAdmin = false }) => {
         // }
         to={
           isAdmin
-            ? `/admin/${profileNameSlug}/${blogTitleSlug}--${blog.blogID}`
-            : `/${profileNameSlug}/${blogTitleSlug}--${blog.blogID}`
+            ? `/admin/${profileNameSlug}/${blogTitleSlug}/${blog.blogID}`
+            : `/${profileNameSlug}/${blogTitleSlug}/${blog.blogID}`
         }
       >
         <div className={style.main}>

@@ -46,7 +46,7 @@ const SearchBlogCard = (blogProp) => {
       <div>
         <Link
           style={{ textDecoration: "none" }}
-          to={`/${profileNameSlug}/${blogTitleSlug}--${blog.blogID}`}
+          to={`/${profileNameSlug}/${blogTitleSlug}/${blog.blogID}`}
         >
           <div className={style.blog_container}>
             {console.log({ blogInSBC: blog })}

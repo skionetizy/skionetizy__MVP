@@ -1,0 +1,16 @@
+.main {
+  color: white;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+li {
+  font-size: 17px;
+  list-style-type: square;
+  padding: 5px;
+  margin-left: 15px;
+}
+
+a {
+  color: white;
+}

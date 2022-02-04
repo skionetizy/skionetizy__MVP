@@ -17,6 +17,8 @@ const DetailsPage = lazy(() => import("./Pages/detailsPage"));
 const EmailVerification = lazy(() => import("./Pages/EmailVerification"));
 const { FinalPage } = lazy(() => import("./Pages/finalPage"));
 const ForgotPassword = lazy(() => import("./Pages/ForgotPassword"));
+const TermsAndConditions = lazy(() => import("./Pages/TermsAndConditions"));
+const DmcaPage = lazy(() => import("./Pages/dmcaPage"));
 const LandingPage = lazy(() => import("./Pages/Landing"));
 const Login = lazy(() => import("./Pages/Login"));
 const OAuthPage = lazy(() => import("./Pages/OAuthPage"));
@@ -43,6 +45,8 @@ function App() {
           <Route exact path="/login" component={Login} />
           <Route exact path="/forgotPassword" component={ForgotPassword} />
           <Route exact path="/forgotPassword/:token" component={ForgotPassword} />
+          <Route path="/terms-and-conditions" component={TermsAndConditions} />
+          <Route exact path="/dmca" component={DmcaPage} />
           <Route
             exact
             path="/addBlogDetailsMarkdown"
@@ -52,24 +56,25 @@ function App() {
           <Route exact path="/addBlogImage" component={addBlogImage} />
           <Route exact path="/addBlogKeywords" component={AddBlogKeywords} />
           <Route exact path="/final" component={FinalPage} />
+          <Route exact path="/details" component={DetailsPage} />
+          <Route exact path="/auth/authToken" component={OAuthPage} />
+          <Route path="/admin" component={AdminRoutes} />
+          <Route exact path="/privacy" component={Privacy} />
+          <Route exact path="/" component={ExploreBlogs} />
+
           <Route exact path="/searchpage/:searchInput" component={SearchPage} />
           <Route
             exact
             // path='/view-blog/:blogID/:profileID'
-            path="/:profileNameSlug/:blogTitleSlugAndblogID"
+            path="/:profileNameSlug/:blogTitleSlug/:blogID"
             component={ViewBlog}
           />
-          <Route exact path="/details" component={DetailsPage} />
           <Route
             exact
             path="/emailVerification/:token"
             component={EmailVerification}
           />
-          <Route exact path="/auth/authToken" component={OAuthPage} />
-          <Route path="/admin" component={AdminRoutes} />
-          <Route exact path="/privacy" component={Privacy} />
           <Route path="/:profileUserName" component={UserProfile} />
-          <Route exact path="/" component={ExploreBlogs} />
         </Switch>
       </Suspense>
     </Router>
