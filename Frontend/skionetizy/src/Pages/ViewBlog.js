@@ -94,9 +94,11 @@ const ViewBlog = () => {
 
 
   // const { blogID, profileID } = useParams();
-  const { profileNameSlug, blogTitleSlugAndblogID } = useParams();
-  const blogTitleSlug = blogTitleSlugAndblogID?.split("--")[0];
-  const blogID = blogTitleSlugAndblogID?.split("--")[1];
+  // const { profileNameSlug, blogTitleSlugAndblogID } = useParams();
+  const { profileNameSlug, blogTitleSlug, blogID } = useParams();
+
+  // const blogTitleSlug = blogTitleSlugAndblogID?.split("--")[0];
+  // const blogID = blogTitleSlugAndblogID?.split("--")[1];
 
 
 
@@ -150,7 +152,7 @@ const ViewBlog = () => {
     });
   }
 
-  const [show404Page, setShow404Page]=useState(false);
+  const [show404Page, setShow404Page] = useState(false);
   useEffect(() => {
     const cachedBlogKey = "GOOGLE_OAUTH_CURRENT_BLOG";
     const cachedBlog = localStorage.getItem(cachedBlogKey);
@@ -171,7 +173,7 @@ const ViewBlog = () => {
         const response1 = responses[0];
         const response2 = responses[1];
         console.log("Inside Viewblog-> ", response1, response2)
-        if(response1.data.statusCode===500 || response1.status===404 || response2.status===404){
+        if (response1.data.statusCode === 500 || response1.status === 404 || response2.status === 404) {
           setShow404Page(true);
         }
         const allKeywords = JSON.parse(
@@ -184,8 +186,8 @@ const ViewBlog = () => {
         setComments(response2.data.comments);
       })
     )
-    .catch(()=>{setShow404Page(true);})
-    ;
+      .catch(() => { setShow404Page(true); })
+      ;
 
     const { callbackURL } = state || {};
     if (callbackURL) {
@@ -377,8 +379,8 @@ const ViewBlog = () => {
     }
   }, [isLoginPopupVisible, auth.profile, showModal, blog.blogDescription]);
 
-  if(show404Page===true)
-    return(<UserNotFound></UserNotFound>)
+  if (show404Page === true)
+    return (<UserNotFound></UserNotFound>)
   return (
     <>
       <div className={`${style.main} ${style.container}`}>

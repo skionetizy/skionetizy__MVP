@@ -1,9 +1,9 @@
-import style from "../Pages/exploreBlogs.module.css";
+import styles from "./dcmaPage.module.css";
 
 const DmcaPage = () => {
   return (
     <>
-      <div className={style.main}>
+      <div className={styles.main}>
         <h2>
           <strong>DMCA Copyright</strong>
         </h2>
