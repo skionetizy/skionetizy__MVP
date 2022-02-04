@@ -38,6 +38,7 @@ import useIntersectionObserver from "../hooks/useIntersectionObserver";
 import TriggerLoginPopup from "./TriggerLoginPopup";
 
 import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
+import UserNotFound from "./UserNotFound";
 
 
 const KEYWORDS_LOCAL_KEY = "blogsKeywords";
@@ -93,9 +94,11 @@ const ViewBlog = () => {
 
 
   // const { blogID, profileID } = useParams();
-  const { profileNameSlug, blogTitleSlugAndblogID } = useParams();
-  const blogTitleSlug = blogTitleSlugAndblogID?.split("--")[0];
-  const blogID = blogTitleSlugAndblogID?.split("--")[1];
+  // const { profileNameSlug, blogTitleSlugAndblogID } = useParams();
+  const { profileNameSlug, blogTitleSlug, blogID } = useParams();
+
+  // const blogTitleSlug = blogTitleSlugAndblogID?.split("--")[0];
+  // const blogID = blogTitleSlugAndblogID?.split("--")[1];
 
 
 
@@ -149,7 +152,7 @@ const ViewBlog = () => {
     });
   }
 
-  const history=useHistory();
+  const [show404Page, setShow404Page] = useState(false);
   useEffect(() => {
     const cachedBlogKey = "GOOGLE_OAUTH_CURRENT_BLOG";
     const cachedBlog = localStorage.getItem(cachedBlogKey);
@@ -170,8 +173,8 @@ const ViewBlog = () => {
         const response1 = responses[0];
         const response2 = responses[1];
         console.log("Inside Viewblog-> ", response1, response2)
-        if(response1.data.statusCode===500 || response1.status===404 || response2.status===404){
-          return history.push("/userNotFound");
+        if (response1.data.statusCode === 500 || response1.status === 404 || response2.status === 404) {
+          setShow404Page(true);
         }
         const allKeywords = JSON.parse(
           localStorage.getItem(KEYWORDS_LOCAL_KEY) || "{}"
@@ -183,8 +186,8 @@ const ViewBlog = () => {
         setComments(response2.data.comments);
       })
     )
-    .catch(()=>{return history.push("/userNotFound");})
-    ;
+      .catch(() => { setShow404Page(true); })
+      ;
 
     const { callbackURL } = state || {};
     if (callbackURL) {
@@ -376,6 +379,8 @@ const ViewBlog = () => {
     }
   }, [isLoginPopupVisible, auth.profile, showModal, blog.blogDescription]);
 
+  if (show404Page === true)
+    return (<UserNotFound></UserNotFound>)
   return (
     <>
       <div className={`${style.main} ${style.container}`}>
