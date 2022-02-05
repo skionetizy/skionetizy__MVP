@@ -66,7 +66,7 @@
   .bottomDivider,
   .divider {
     --space: -2rem;
-    padding: 3rem 0;
+    /* padding: 3rem 0; */
   }
 
   .divider::before {
