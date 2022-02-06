@@ -147,7 +147,7 @@ body {
 }
 
 .blogCardContainer {
-  margin-top: 5em;
+  margin-top: 2em;
 
   display: grid;
   padding: 0 4rem;
@@ -454,6 +454,11 @@ body {
     padding: 0 1.5rem;
     grid-template-columns: 1fr;
     row-gap: 2.5rem;
+  }
+  .cardBox {
+    margin: auto;
+    max-width: 90%;
+    min-width: 90%;
   }
   .dayLikesDislikes {
     display: flex;
