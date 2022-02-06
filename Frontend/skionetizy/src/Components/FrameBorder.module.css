@@ -69,6 +69,10 @@
     /* padding: 3rem 0; */
   }
 
+  .bottomDivider {
+    padding-bottom: 3rem;
+  }
+
   .divider::before {
     top: 50%;
     right: calc(var(--space) * -1);

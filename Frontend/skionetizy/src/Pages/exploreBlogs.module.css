@@ -455,6 +455,11 @@ body {
     grid-template-columns: 1fr;
     row-gap: 2.5rem;
   }
+  .cardBox {
+    margin: auto;
+    max-width: 90%;
+    min-width: 90%;
+  }
   .dayLikesDislikes {
     display: flex;
     gap: 0.9em;
