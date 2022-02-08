@@ -116,6 +116,17 @@ body {
   text-transform: uppercase;
 }
 
+.bannerad{ /* Banner ad */
+  display: none;
+  height: 72px;
+  text-align: center;
+}
+
+.bannerad iframe{
+  width: 30rem;
+  height: 72px;
+}
+
 .heroBanner {
   display: block;
   width: 100%;
@@ -422,6 +433,14 @@ body {
 @media (max-width: 767px) {
   .container {
     padding: 0;
+  }
+
+  .bannerad{
+    display: block;
+  }
+
+  .ads{
+    display: none;
   }
 
   .heroBanner {

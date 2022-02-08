@@ -70,7 +70,10 @@ function MyBlogs(props) {
           width="100%"
           alt="notebook's pages flipping by wind"
         /> */}
-        <div id="container-7dc1b9b132f28ffb591f961c61901a2f"></div>
+        <div className={style.bannerad}>
+          <iframe title="Banner ad" src="//midgerelativelyhoax.com/watchnew?key=e154eef9929e6c5029f3532b0fae1619" frameborder="0" scrolling="no"></iframe>
+        </div>
+        <div className={style.ads} id="container-7dc1b9b132f28ffb591f961c61901a2f"></div>
 
         <div className={style.exploreBtnGroup}>
           <ExploreButton
