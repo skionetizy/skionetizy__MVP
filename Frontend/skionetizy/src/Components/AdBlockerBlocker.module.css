@@ -1,0 +1,30 @@
+.container {
+  color: #fff;
+  align-items: center;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+
+.content {
+  border: 2px solid #fff;
+  padding: 5%;
+  font-size: 4rem;
+}
+
+.spanContainer {
+  margin-top: -1.6rem;
+}
+
+.spanContent {
+  font-size: 1.2rem;
+}
+
+.buttonContainer {
+  display: block;
+  padding: 1rem;
+}
