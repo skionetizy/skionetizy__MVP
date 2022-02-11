@@ -13,28 +13,28 @@ const SearchPage = (props) => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
   // store the current search keyword
-  const {searchInput} = useParams();
+  const { searchInput } = useParams();
   // store the previous latest search keyword
-  const [prevSearchfor, setprevSearchfor]=useState('');
+  const [prevSearchfor, setprevSearchfor] = useState('');
   const [status, setStatus] = useState("idle");
   const [currentBlog, setCurrentBlog] = useState(0);
   const [hasMoreBlogs, setHasMoreBlogs] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
-  const [resultsFound, setResultsFound]=useState(0);
-  
-  useEffect(()=>{
+  const [resultsFound, setResultsFound] = useState(0);
+
+  useEffect(() => {
     setBlogs([]);
     setCurrentBlog(0);
     setHasMoreBlogs(true);
     setResultsFound(0)
-  },[searchInput])
+  }, [searchInput])
 
   useEffect(() => {
     setprevSearchfor(searchInput)
     const loadBlogs = () => {
       setLoading(true);
       setStatus("loading");
-      if (searchInput.length < 5){
+      if (searchInput.length < 5) {
         setStatus("idle");
         setLoading(false);
         return window.alert("Search length atleast be 5");
@@ -44,8 +44,8 @@ const SearchPage = (props) => {
         .post(`${baseURL}/blog/searchBlog/${currentBlog}`, { search: searchInput })
         .then((res) => {
           if (res.data["Queried Data"]?.length >= 0)
-            setBlogs((prevBlogs)=>[...prevBlogs, ...res.data["Queried Data"]]);
-            setResultsFound(res.data['resultsFound'])
+            setBlogs((prevBlogs) => [...prevBlogs, ...res.data["Queried Data"]]);
+          setResultsFound(res.data['resultsFound'])
         })
         .catch((err) => {
           console.log(err);
@@ -53,12 +53,12 @@ const SearchPage = (props) => {
             setHasMoreBlogs(false);
           }
         })
-        .finally(()=>{
+        .finally(() => {
           setStatus("idle");
           setLoading(false);
         });
     };
-    if (hasMoreBlogs || prevSearchfor!==searchInput) {
+    if (hasMoreBlogs || prevSearchfor !== searchInput) {
       loadBlogs();
     }
   }, [currentBlog, searchInput]);
@@ -83,10 +83,10 @@ const SearchPage = (props) => {
           </div>
           {resultsFound > 0 && (
             <div className={style.blogs}>
-              {blogs && 
-                blogs.map((blog, blogIndex) => 
+              {blogs &&
+                blogs.map((blog, blogIndex) =>
                   <SearchBlogCard blog={blog} key={blogIndex} />
-              )}
+                )}
               {/* Show after initial fetching 9-12 blogs */}
               <ViewMore
                 className={style.viewMore}
@@ -96,14 +96,14 @@ const SearchPage = (props) => {
           )}
           {/* Loading Spinner */}
           {status === "loading" && (
-              <>
-                <div className={style.spinnerWrapper}>
-                  <Spinner color="white" />
-                  <span className={style.statusMessage}>
-                    Loading <span className="ani-typing">...</span>
-                  </span>
-                </div>
-              </>
+            <>
+              <div className={style.spinnerWrapper}>
+                <Spinner color="white" />
+                <span className={style.statusMessage}>
+                  Loading <span className="ani-typing">...</span>
+                </span>
+              </div>
+            </>
           )}
           {/* Status Message */}
           {(hasMoreBlogs === false) && (
