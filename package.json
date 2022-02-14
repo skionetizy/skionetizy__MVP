@@ -7,7 +7,9 @@
     "npm": "6.14.6",
     "yarn": "1.22.x"
   },
-  "dependencies": {},
+  "dependencies": {
+    "adblock-detect-react": "^1.0.5"
+  },
   "scripts": {
     "heroku-postbuild": "bash heroku_postbuild.sh"
   }

@@ -19,21 +19,20 @@ const BlogCard = ({ blog, isAdmin = false }) => {
     console.log("comm", res);
   }, []);
 
-  const blogTitle = blog?.blogTitle
-  const blogTitleSlug = blogTitle.toLowerCase().replace(/ /g, '-')
+  let blogTitle = blog?.blogTitle
+  blogTitle = blogTitle?.replace(/[^a-zA-Z ]/g, "")
+  // console.log("Removing special characters ->", blogTitle)
+  blogTitle = blogTitle?.replace(/\s\s+/g, ' ')
+  // console.log("Replacing multiple spaces with single space ->", blogTitle)
+  const blogTitleSlug = blogTitle?.toLowerCase().replace(/ /g, '-')
     .replace(/[^\w-]+/g, '');
 
-  // console.log('blogTitle ->', blogTitle)
-  // console.log('blogTitleSlug ->', blogTitleSlug)
-
-  console.log("blog Object->", blog)
-
-  const profileName = blog?.profileName
+  const profileName = blog?.profileUserName || blog?.profileName
   const profileNameSlug = profileName?.toLowerCase().replace(/ /g, '-')
     .replace(/[^\w-]+/g, '');
   // console.log('profileName ->', profileName)
   // console.log('profileNameSlug ->', profileNameSlug)
-
+  console.log('Hello from blogCard, blog Object ->', blog)
   return (
     <div>
       <Link
