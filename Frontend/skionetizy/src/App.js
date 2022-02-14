@@ -30,6 +30,7 @@ const UserNotFound = lazy(() => import("./Pages/UserNotFound"));
 const UserProfile = lazy(() => import("./Pages/UserProfile"));
 const ExploreBlogs = lazy(() => import("./Pages/ExploreBlogs"));
 const Privacy = lazy(() => import("./Pages/Privacy"));
+const ContactUs = lazy(()=> import("./Pages/contactUsPage"))
 
 function App() {
   const { saveProfile } = useAuth();
@@ -74,6 +75,7 @@ function App() {
           <Route path="/admin" component={AdminRoutes} />
           <Route exact path="/privacy" component={Privacy} />
           <Route exact path="/" component={ExploreBlogs} />
+          <Route exact path="/contact" component={ContactUs} />
           <Route exact path="/searchpage/:searchInput" component={SearchPage} />
           <Route
             exact
