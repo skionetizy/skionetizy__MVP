@@ -18,6 +18,9 @@
 .title {
   color: var(--primary-blue);
 }
+a {
+  color: #fff;
+}
 .author {
   display: flex;
   align-items: center;
