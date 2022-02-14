@@ -56,11 +56,6 @@ export default function ReverifyEmail({ emailID }) {
         setShowModal('')
       })
     }
-<<<<<<< HEAD
-
-  }
-=======
->>>>>>> 9878254dea68c4b8bb54d47b6cbad7411dcdfb26
 
   }
   useEffect(() => {
