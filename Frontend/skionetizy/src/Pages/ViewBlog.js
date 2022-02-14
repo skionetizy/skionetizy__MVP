@@ -454,6 +454,10 @@ const ViewBlog = () => {
               alt=" "
             />
           </div>
+          {/* Banner ad */}
+          <div className={style.bannerad}>
+            <iframe title="Banner ad" src="//midgerelativelyhoax.com/watchnew?key=e154eef9929e6c5029f3532b0fae1619" width="728" height="90" frameborder="0" scrolling="no"></iframe>
+          </div>
           {/* for now giving inline style because they might accordingly our strategy */}
           <div style={{ position: "relative" }} className={style.blogContent}>
             <ReactMarkdown source={blog.blogDescription} />

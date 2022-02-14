@@ -20,6 +20,7 @@ const EmailVerification = lazy(() => import("./Pages/EmailVerification"));
 const { FinalPage } = lazy(() => import("./Pages/finalPage"));
 const ForgotPassword = lazy(() => import("./Pages/ForgotPassword"));
 const TermsAndConditions = lazy(() => import("./Pages/TermsAndConditions"));
+const PrivacyPolicy = lazy(() => import("./Pages/PrivacyPolicy"));
 const DmcaPage = lazy(() => import("./Pages/dmcaPage"));
 const LandingPage = lazy(() => import("./Pages/Landing"));
 const Login = lazy(() => import("./Pages/Login"));
@@ -60,6 +61,7 @@ function App() {
           <Route exact path="/forgotPassword" component={ForgotPassword} />
           <Route exact path="/forgotPassword/:token" component={ForgotPassword} />
           <Route path="/terms-and-conditions" component={TermsAndConditions} />
+          <Route path="/privacy-policy" component={PrivacyPolicy} />
           <Route exact path="/dmca" component={DmcaPage} />
           <Route
             exact

@@ -18,6 +18,9 @@
 .title {
   color: var(--primary-blue);
 }
+a {
+  color: #fff;
+}
 .author {
   display: flex;
   align-items: center;
@@ -58,6 +61,16 @@
 
 .blogArea {
   margin-top: 2em;
+}
+
+.bannerad{ /* Banner ad */
+  margin-top: 2rem;
+  height: 72px;
+  text-align: center;
+}
+
+.bannerad iframe{
+  width: 728px;
 }
 
 .blogContent {
@@ -288,6 +301,9 @@
   .signupModalWrapper [data-divider] {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
+  }
+  .bannerad iframe{ /* Banner ad width change */
+    width: 30rem;
   }
 }
 
