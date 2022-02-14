@@ -116,6 +116,17 @@ body {
   text-transform: uppercase;
 }
 
+.bannerad{ /* Banner ad */
+  display: none;
+  height: 72px;
+  text-align: center;
+}
+
+.bannerad iframe{
+  width: 30rem;
+  height: 72px;
+}
+
 .heroBanner {
   display: block;
   width: 100%;
@@ -147,7 +158,7 @@ body {
 }
 
 .blogCardContainer {
-  margin-top: 5em;
+  margin-top: 2em;
 
   display: grid;
   padding: 0 4rem;
@@ -424,6 +435,14 @@ body {
     padding: 0;
   }
 
+  .bannerad{
+    display: block;
+  }
+
+  .ads{
+    display: none;
+  }
+
   .heroBanner {
     margin-top: 1rem;
     height: 12rem;
@@ -454,6 +473,11 @@ body {
     padding: 0 1.5rem;
     grid-template-columns: 1fr;
     row-gap: 2.5rem;
+  }
+  .cardBox {
+    margin: auto;
+    max-width: 90%;
+    min-width: 90%;
   }
   .dayLikesDislikes {
     display: flex;

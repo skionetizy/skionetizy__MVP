@@ -6,6 +6,8 @@ import useAuth from "./hooks/useAuth";
 import AdminRoutes from "./Pages/admin/routes";
 import ViewBlog from "./Pages/ViewBlog";
 import { getLoggedInProfileID } from "./utils/AuthorisationUtils";
+import AdBlockerBlocker from "./Components/AdBlockerBlocker";
+import { useDetectAdBlock } from "adblock-detect-react";
 
 // Lazy loading pages
 const addBlogDetailsMarkdown = lazy(() =>
@@ -36,8 +38,19 @@ function App() {
     const profileID = getLoggedInProfileID();
     if (profileID) saveProfile(profileID);
   }, []);
+
+  const adBlockDetected = useDetectAdBlock(); // useDetectAdBlock() comes from a package named adblock-detect-react
+  console.log(adBlockDetected);
+  useEffect(() => {
+    if (adBlockDetected) {
+      console.log("ad block detected");
+    }
+  }, [adBlockDetected]);
+
   return (
     <Router>
+      {!adBlockDetected ? (
+      <>
       <Nav />
       <Suspense fallback={<FullPageSpinner />}>
         <Switch>
@@ -63,7 +76,6 @@ function App() {
           <Route path="/admin" component={AdminRoutes} />
           <Route exact path="/privacy" component={Privacy} />
           <Route exact path="/" component={ExploreBlogs} />
-
           <Route exact path="/searchpage/:searchInput" component={SearchPage} />
           <Route
             exact
@@ -79,6 +91,10 @@ function App() {
           <Route path="/:profileUserName" component={UserProfile} />
         </Switch>
       </Suspense>
+      </>
+      ) : (
+        <AdBlockerBlocker/>
+      )}
     </Router>
   );
 }
