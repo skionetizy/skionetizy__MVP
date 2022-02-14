@@ -14,15 +14,37 @@ Moment.globalFormat = "MMM D , YYYY";
 const SearchBlogCard = (blogProp) => {
   const { blog } = blogProp;
   const [authorName, setAuthorName] = useState("");
+  let blogTitle = blog?.blogTitle
+  blogTitle = blogTitle?.replace(/[^a-zA-Z ]/g, "")
+  // console.log("Removing special characters ->", blogTitle)
+  blogTitle = blogTitle?.replace(/\s\s+/g, ' ')
+  // console.log("Replacing multiple spaces with single space ->", blogTitle)
+
+  const blogTitleSlug = blogTitle?.toLowerCase().replace(/ /g, '-')
+    .replace(/[^\w-]+/g, '');
+  // console.log("BlogTitle ->", blogTitle)
+
+  // console.log('blogTitle ->', blogTitle)
+  // console.log('blogTitleSlug ->', blogTitleSlug)
+
+  console.log("SearchBlogCard, blog Object->", blog)
+  console.log("authorName Object->", authorName)
+
+  const profileName = authorName
+
+  const profileNameSlug = profileName?.toLowerCase().replace(/ /g, '-')
+    .replace(/[^\w-]+/g, '');
+
+  // console.log('profileName ->', profileName)
+  // console.log('profileNameSlug ->', profileNameSlug)
 
   useEffect(() => {
     console.log({ blogIDinBlogCard: blog.blogID, blog });
-    axios
-      .get(`${baseURL}/user/getUserDetails/${blog.userID}`)
-      .then((res) => setAuthorName(res.data.user.firstName))
+    axios.get(`${baseURL}/blog/getBlogByBlogID/${blog.blogID}`)
+      .then((res) => console.log(setAuthorName(res.data.blog.profileUserName || res.data.blog.profileName)))
       .catch((err) => console.log(err));
 
-    console.log({ blog });
+    // console.log("Blog object after axios request", { blog });
     // console.log({ userDetails: user });
   }, []);
 
@@ -31,7 +53,7 @@ const SearchBlogCard = (blogProp) => {
       <div>
         <Link
           style={{ textDecoration: "none" }}
-          to={`/view-blog/${blog.blogID}/${blog.userID}`}
+          to={`/${profileNameSlug}/${blogTitleSlug}/${blog.blogID}`}
         >
           <div className={style.blog_container}>
             {console.log({ blogInSBC: blog })}

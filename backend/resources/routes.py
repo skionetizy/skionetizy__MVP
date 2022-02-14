@@ -1,4 +1,4 @@
-from backend.resources.authorize import ReverificationToken,AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails,GoogleAuth, GoogleLoginHandle
+from backend.resources.authorize import ReverificationToken,AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails,GoogleAuth, GoogleLoginHandle, ForgotPasswordRequestReceive, ForgotPasswordResponseSend
 from backend.resources.blog import AddMetaData,SearchBlog,AddKeywordsBlog,AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogsAndProfileDetails,GetBlogByBlogID,GetFeed,AddView,GetCommentsByBlogID,GetBlogsAndProfileDetailsPagination,GetBlogStatus,UpdateBlogStatus
 from backend.resources.profile import AddInterest, GetHoverDetails,AddProfileUsernameBioUserDetails, UpdateProfile, CheckProfileUsernameIsAvailableAPIHandler, GetProfileDetails, AddFollower,GetBlogsAndProfile,RemoveFollower,GetProfileandBlogsPaginated
 from backend.resources.ai_models import GrammarCheck,KeywordsAI
@@ -16,8 +16,10 @@ def initialize_routes(api):
     api.add_resource(AuthorizeSignup,'/signup')
     api.add_resource(AuthorizeLogin,'/login')
     api.add_resource(ReverificationToken,'/auth/reverify')
+    api.add_resource(ForgotPasswordRequestReceive, '/api/forgotPassword')
     #PATCH
     api.add_resource(AuthorizeEmailVerification,'/api/emailVerification/<token>')
+    api.add_resource(ForgotPasswordResponseSend, '/api/forgotPassword/<token>')
     #GET
     api.add_resource(getUserDetails,'/user/getUserDetails/<userID>')
     

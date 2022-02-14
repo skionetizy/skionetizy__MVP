@@ -28,6 +28,28 @@ function Homepage(props) {
     }
   }, [location]);
 
+  useEffect(()=>{
+    console.log("Chat appended")
+    {/* <!-- code for live chat below --> 
+      <script
+        src="//code.tidio.co/oudm0pv8qtqueppvhbtmdxsqoe24tknh.js"
+        async
+      ></script>
+    */}
+    const script = document.createElement('script');
+    script.src = "//code.tidio.co/oudm0pv8qtqueppvhbtmdxsqoe24tknh.js";
+    script.async = true;
+    document.body.appendChild(script);
+    let chat_div=document.querySelector("#tidio-chat");
+    console.log(chat_div);
+    if(chat_div)chat_div.style.display="block";
+    return () => {
+      chat_div=document.querySelector("#tidio-chat");
+      console.log("Chat removed")
+      document.body.removeChild(script);
+      if(chat_div)chat_div.style.display="none";
+    }
+  },[location])
 
   return (
     <>

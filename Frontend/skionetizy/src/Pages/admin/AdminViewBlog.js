@@ -41,7 +41,12 @@ const KEYWORDS_LOCAL_KEY = "blogsKeywords";
 Moment.globalFormat = "MMM D , YYYY";
 
 const ViewBlog = () => {
-  const { blogID, profileID } = useParams();
+  // const { blogID, profileID } = useParams();
+  // const { profileNameSlug, blogTitleSlugAndblogID } = useParams();
+  const { profileNameSlug, blogTitleSlug, blogID } = useParams();
+
+  // const blogTitleSlug = blogTitleSlugAndblogID?.split("--")[0];
+  // const blogID = blogTitleSlugAndblogID?.split("--")[1];
   const auth = useAuth();
 
   const loggedInUserProfile = auth.profile?.profileID;
@@ -147,11 +152,11 @@ const ViewBlog = () => {
 
         const resultHasLiked = findUserHasLiked(
           response1.data.blog.likedByUsersList,
-          profileID
+          blog.profileID
         );
         const resultHasDisliked = findUserHasDisliked(
           response1.data.blog.dislikedByUsersList,
-          profileID
+          blog.profileID
         );
         setHasLiked(resultHasLiked);
         setHasDisliked(resultHasDisliked);
@@ -552,7 +557,7 @@ const ViewBlog = () => {
                 <Comments
                   comment={comment}
                   key={comment.commentID}
-                  authorProfileID={profileID}
+                  authorProfileID={blog.profileID}
                   onDelete={(response) => {
                     // re-fetch comments for blog when successful
                     if (response.data.success === true) getComments();

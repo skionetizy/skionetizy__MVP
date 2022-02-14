@@ -60,6 +60,16 @@
   margin-top: 2em;
 }
 
+.bannerad{ /* Banner ad */
+  margin-top: 2rem;
+  height: 72px;
+  text-align: center;
+}
+
+.bannerad iframe{
+  width: 728px;
+}
+
 .blogContent {
   margin-top: 4em;
   color: #fff;
@@ -288,6 +298,9 @@
   .signupModalWrapper [data-divider] {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
+  }
+  .bannerad iframe{ /* Banner ad width change */
+    width: 30rem;
   }
 }
 

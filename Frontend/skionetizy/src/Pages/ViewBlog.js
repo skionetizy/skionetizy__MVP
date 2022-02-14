@@ -8,7 +8,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet";
 import Moment from "react-moment";
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import {
   addCommentAPIHandler,
   addViewApiHandler,
@@ -38,6 +38,7 @@ import useIntersectionObserver from "../hooks/useIntersectionObserver";
 import TriggerLoginPopup from "./TriggerLoginPopup";
 
 import { getLoggedInProfileID } from "../utils/AuthorisationUtils";
+import UserNotFound from "./UserNotFound";
 
 
 const KEYWORDS_LOCAL_KEY = "blogsKeywords";
@@ -92,7 +93,14 @@ const ModalMaker = ({ showModal, setShowModal }) => {
 const ViewBlog = () => {
 
 
-  const { blogID, profileID } = useParams();
+  // const { blogID, profileID } = useParams();
+  // const { profileNameSlug, blogTitleSlugAndblogID } = useParams();
+  const { profileNameSlug, blogTitleSlug, blogID } = useParams();
+
+  // const blogTitleSlug = blogTitleSlugAndblogID?.split("--")[0];
+  // const blogID = blogTitleSlugAndblogID?.split("--")[1];
+
+
 
   const auth = useAuth();
   const { state } = useLocation();
@@ -144,7 +152,7 @@ const ViewBlog = () => {
     });
   }
 
-
+  const [show404Page, setShow404Page] = useState(false);
   useEffect(() => {
     const cachedBlogKey = "GOOGLE_OAUTH_CURRENT_BLOG";
     const cachedBlog = localStorage.getItem(cachedBlogKey);
@@ -164,7 +172,10 @@ const ViewBlog = () => {
       axios.spread((...responses) => {
         const response1 = responses[0];
         const response2 = responses[1];
-
+        console.log("Inside Viewblog-> ", response1, response2)
+        if (response1.data.statusCode === 500 || response1.status === 404 || response2.status === 404) {
+          setShow404Page(true);
+        }
         const allKeywords = JSON.parse(
           localStorage.getItem(KEYWORDS_LOCAL_KEY) || "{}"
         );
@@ -174,7 +185,9 @@ const ViewBlog = () => {
         //promise2
         setComments(response2.data.comments);
       })
-    );
+    )
+      .catch(() => { setShow404Page(true); })
+      ;
 
     const { callbackURL } = state || {};
     if (callbackURL) {
@@ -366,6 +379,8 @@ const ViewBlog = () => {
     }
   }, [isLoginPopupVisible, auth.profile, showModal, blog.blogDescription]);
 
+  if (show404Page === true)
+    return (<UserNotFound></UserNotFound>)
   return (
     <>
       <div className={`${style.main} ${style.container}`}>
@@ -438,6 +453,10 @@ const ViewBlog = () => {
               src={`${blog.blogImageURL}`}
               alt=" "
             />
+          </div>
+          {/* Banner ad */}
+          <div className={style.bannerad}>
+            <iframe title="Banner ad" src="//midgerelativelyhoax.com/watchnew?key=e154eef9929e6c5029f3532b0fae1619" width="728" height="90" frameborder="0" scrolling="no"></iframe>
           </div>
           {/* for now giving inline style because they might accordingly our strategy */}
           <div style={{ position: "relative" }} className={style.blogContent}>
