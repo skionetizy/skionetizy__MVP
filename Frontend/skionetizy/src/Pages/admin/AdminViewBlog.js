@@ -41,12 +41,7 @@ const KEYWORDS_LOCAL_KEY = "blogsKeywords";
 Moment.globalFormat = "MMM D , YYYY";
 
 const ViewBlog = () => {
-  // const { blogID, profileID } = useParams();
-  // const { profileNameSlug, blogTitleSlugAndblogID } = useParams();
-  const { profileNameSlug, blogTitleSlug, blogID } = useParams();
-
-  // const blogTitleSlug = blogTitleSlugAndblogID?.split("--")[0];
-  // const blogID = blogTitleSlugAndblogID?.split("--")[1];
+  const { profileUserNameSlug, blogTitleSlug, blogID } = useParams();
   const auth = useAuth();
 
   const loggedInUserProfile = auth.profile?.profileID;

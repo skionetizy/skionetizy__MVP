@@ -50,50 +50,50 @@ function App() {
   return (
     <Router>
       {!adBlockDetected ? (
-      <>
-      <Nav />
-      <Suspense fallback={<FullPageSpinner />}>
-        <Switch>
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/landing" component={LandingPage} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/forgotPassword" component={ForgotPassword} />
-          <Route exact path="/forgotPassword/:token" component={ForgotPassword} />
-          <Route path="/terms-and-conditions" component={TermsAndConditions} />
-          <Route path="/privacy-policy" component={PrivacyPolicy} />
-          <Route exact path="/dmca" component={DmcaPage} />
-          <Route
-            exact
-            path="/addBlogDetailsMarkdown"
-            component={addBlogDetailsMarkdown}
-          />
-          <Route exact path="/userNotFound" component={UserNotFound} />
-          <Route exact path="/addBlogImage" component={addBlogImage} />
-          <Route exact path="/addBlogKeywords" component={AddBlogKeywords} />
-          <Route exact path="/final" component={FinalPage} />
-          <Route exact path="/details" component={DetailsPage} />
-          <Route exact path="/auth/authToken" component={OAuthPage} />
-          <Route path="/admin" component={AdminRoutes} />
-          <Route exact path="/privacy" component={Privacy} />
-          <Route exact path="/" component={ExploreBlogs} />
-          <Route exact path="/searchpage/:searchInput" component={SearchPage} />
-          <Route
-            exact
-            // path='/view-blog/:blogID/:profileID'
-            path="/:profileNameSlug/:blogTitleSlug/:blogID"
-            component={ViewBlog}
-          />
-          <Route
-            exact
-            path="/emailVerification/:token"
-            component={EmailVerification}
-          />
-          <Route path="/:profileUserName" component={UserProfile} />
-        </Switch>
-      </Suspense>
-      </>
+        <>
+          <Nav />
+          <Suspense fallback={<FullPageSpinner />}>
+            <Switch>
+              <Route exact path="/signup" component={Signup} />
+              <Route exact path="/landing" component={LandingPage} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/forgotPassword" component={ForgotPassword} />
+              <Route exact path="/forgotPassword/:token" component={ForgotPassword} />
+              <Route path="/terms-and-conditions" component={TermsAndConditions} />
+              <Route path="/privacy-policy" component={PrivacyPolicy} />
+              <Route exact path="/dmca" component={DmcaPage} />
+              <Route
+                exact
+                path="/addBlogDetailsMarkdown"
+                component={addBlogDetailsMarkdown}
+              />
+              <Route exact path="/userNotFound" component={UserNotFound} />
+              <Route exact path="/addBlogImage" component={addBlogImage} />
+              <Route exact path="/addBlogKeywords" component={AddBlogKeywords} />
+              <Route exact path="/final" component={FinalPage} />
+              <Route exact path="/details" component={DetailsPage} />
+              <Route exact path="/auth/authToken" component={OAuthPage} />
+              <Route path="/admin" component={AdminRoutes} />
+              <Route exact path="/privacy" component={Privacy} />
+              <Route exact path="/" component={ExploreBlogs} />
+              <Route exact path="/searchpage/:searchInput" component={SearchPage} />
+              <Route
+                exact
+                // path='/view-blog/:blogID/:profileID'
+                path="/:profileUserNameSlug/:blogTitleSlug/:blogID"
+                component={ViewBlog}
+              />
+              <Route
+                exact
+                path="/emailVerification/:token"
+                component={EmailVerification}
+              />
+              <Route path="/:profileUserName" component={UserProfile} />
+            </Switch>
+          </Suspense>
+        </>
       ) : (
-        <AdBlockerBlocker/>
+        <AdBlockerBlocker />
       )}
     </Router>
   );
