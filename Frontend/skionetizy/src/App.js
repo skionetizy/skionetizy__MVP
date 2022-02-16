@@ -31,6 +31,7 @@ const UserNotFound = lazy(() => import("./Pages/UserNotFound"));
 const UserProfile = lazy(() => import("./Pages/UserProfile"));
 const ExploreBlogs = lazy(() => import("./Pages/ExploreBlogs"));
 const Privacy = lazy(() => import("./Pages/Privacy"));
+const ContactUs = lazy(() => import("./Pages/contactUsPage"))
 
 function App() {
   const { saveProfile } = useAuth();

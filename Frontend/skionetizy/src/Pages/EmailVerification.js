@@ -48,7 +48,13 @@ export default function EmailVerification() {
         localStorage.setItem(AUTHORIZATION_HEADER, token);
         localStorage.setItem(LOGGED_IN_PROFILE_ID, profile.profileID);
         console.log("success", res);
-        history.push("/");
+        let params = new URLSearchParams(window.location.search)
+        if (params.get('redirect_to')){
+          history.push(params.get('redirect_to'));
+        }
+        else{
+          history.push("/");
+        }
       }
       else {
         alert(res.message)
