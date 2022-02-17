@@ -43,6 +43,7 @@ function SignupForm({
         emailID: emailID,
         firstName: emailID.replace(/\./g, "_").split("@")[0],
         lastName: "",
+        redirect_to:"/"
       };
       setIsLoading(true);
       const res = await axios.post(`${url}`, payload);

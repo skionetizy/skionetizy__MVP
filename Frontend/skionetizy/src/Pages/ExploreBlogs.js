@@ -160,7 +160,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     saveSlicedBlogs: (blogs) =>
-    dispatch({ type: "SAVE_SLICED_BLOGS", payload: blogs }),
+      dispatch({ type: "SAVE_SLICED_BLOGS", payload: blogs }),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MyBlogs);

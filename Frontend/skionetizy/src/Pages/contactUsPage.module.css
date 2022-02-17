@@ -1,0 +1,28 @@
+.whitecolor {
+  color: #fff;
+}
+
+.input {
+  font-size: 1.6rem;
+}
+
+.btn {
+  margin-left: 1rem;
+  font-size: 1.6rem;
+  padding: 0rem 0.5rem;
+}
+
+.btn1 {
+  font-size: 1.6rem;
+  padding: 0 1rem;
+}
+
+.fsize {
+  font-size: 3rem;
+  color: #dedede;
+}
+
+hr {
+  margin-bottom: 3rem;
+  margin-top: 1.6rem;
+}

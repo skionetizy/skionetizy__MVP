@@ -22,26 +22,20 @@ const SearchBlogCard = (blogProp) => {
 
   const blogTitleSlug = blogTitle?.toLowerCase().replace(/ /g, '-')
     .replace(/[^\w-]+/g, '');
-  // console.log("BlogTitle ->", blogTitle)
 
-  // console.log('blogTitle ->', blogTitle)
-  // console.log('blogTitleSlug ->', blogTitleSlug)
 
   console.log("SearchBlogCard, blog Object->", blog)
   console.log("authorName Object->", authorName)
 
-  const profileName = authorName
-
-  const profileNameSlug = profileName?.toLowerCase().replace(/ /g, '-')
+  const profileUserName = authorName
+  // In case if the profileUserName has " " in it then, convert it to slug
+  const profileUserNameSlug = profileUserName?.toLowerCase().replace(/ /g, '-')
     .replace(/[^\w-]+/g, '');
-
-  // console.log('profileName ->', profileName)
-  // console.log('profileNameSlug ->', profileNameSlug)
 
   useEffect(() => {
     console.log({ blogIDinBlogCard: blog.blogID, blog });
     axios.get(`${baseURL}/blog/getBlogByBlogID/${blog.blogID}`)
-      .then((res) => console.log(setAuthorName(res.data.blog.profileUserName || res.data.blog.profileName)))
+      .then((res) => setAuthorName(res.data.blog.profileUserName))
       .catch((err) => console.log(err));
 
     // console.log("Blog object after axios request", { blog });
@@ -53,7 +47,7 @@ const SearchBlogCard = (blogProp) => {
       <div>
         <Link
           style={{ textDecoration: "none" }}
-          to={`/${profileNameSlug}/${blogTitleSlug}/${blog.blogID}`}
+          to={`/${profileUserNameSlug}/${blogTitleSlug}/${blog.blogID}`}
         >
           <div className={style.blog_container}>
             {console.log({ blogInSBC: blog })}

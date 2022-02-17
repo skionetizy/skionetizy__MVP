@@ -88,11 +88,12 @@ class AuthorizeSignup(Resource):
         )
 
         emailID = body['emailID']
+        redirect_to = body['redirect_to'] 
 
         auth_token = newUser.encode_auth_token()
         print(f'{auth_token} here')
         redirect_url = app.config.get(
-            'FRONTEND_DOMAIN')+f'emailVerification/{auth_token}'
+            'FRONTEND_DOMAIN')+f'emailVerification/{auth_token}?redirect_to={redirect_to}'
         template = env.get_template('emailVerification.html')
         x = newUser.generate_password()
         newUser.save()
