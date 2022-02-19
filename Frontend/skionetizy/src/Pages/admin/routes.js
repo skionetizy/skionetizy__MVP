@@ -17,7 +17,7 @@ function AdminRoutes() {
         <>
           <Route path={`${prefix}/dashboard`} component={DashBoard} />
           <Route
-            path={`${prefix}/:profileNameSlug/:blogTitleSlugAndblogID`}
+            path={`${prefix}/:profileUserNameSlug/:blogTitleSlug/:blogID`}
             component={AdminViewBlog}
           />
           <Redirect from="/admin" to={prefix + "/dashboard"} exact />

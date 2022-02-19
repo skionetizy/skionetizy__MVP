@@ -1,4 +1,4 @@
-from flask import make_response,jsonify
+from flask import make_response, jsonify
 from flask.globals import request
 from flask_restful import Resource
 import json
@@ -6,7 +6,7 @@ from bson import json_util
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 import pandas as pd
-from backend.database.models import Blog,Comment,Profile,User,MetaData
+from backend.database.models import Blog, Comment, Profile, User, MetaData
 from backend import client
 from backend.resources import authorize
 from backend.resources.gads import gads
@@ -14,21 +14,24 @@ from datetime import datetime
 import uuid
 import random
 
+
 class AddBlogDescriptionAndTitle(Resource):
-    decorators=[authorize.token_required]
-    def post(self,current_profile):
+    decorators = [authorize.token_required]
+
+    def post(self, current_profile):
         body = request.get_json()
         print(f"body: {body}")
-        if len(body["blogTitle"])<=6:
-            return make_response(jsonify({"message":"blog title must be more than 6 characters long","statusCode":500,"success":False}))
-        elif len(body["blogDescription"])<=200:
-            return make_response(jsonify({"message":"blog description must be more than 200 characters long","statusCode":500,"success":False}))
-        banners=["https://res.cloudinary.com/duqnxcc4l/image/upload/v1630574985/jason-leung-Xaanw0s0pMk-unsplash_maapht.jpg","https://res.cloudinary.com/duqnxcc4l/image/upload/v1630574972/keith-misner-h0Vxgz5tyXA-unsplash_by5add.jpg","https://res.cloudinary.com/dd8470vy4/image/upload/tedyg2kmtgw7dkrhcq9r"]
-        i=random.randint(0,2)
-        blogImageURL=banners[i]
-        type_blog='DRAFTED'
-        newBlog= Blog(
-            blogID = uuid.uuid4(),
+        if len(body["blogTitle"]) <= 6:
+            return make_response(jsonify({"message": "blog title must be more than 6 characters long", "statusCode": 500, "success": False}))
+        elif len(body["blogDescription"]) <= 200:
+            return make_response(jsonify({"message": "blog description must be more than 200 characters long", "statusCode": 500, "success": False}))
+        banners = ["https://res.cloudinary.com/duqnxcc4l/image/upload/v1630574985/jason-leung-Xaanw0s0pMk-unsplash_maapht.jpg",
+                   "https://res.cloudinary.com/duqnxcc4l/image/upload/v1630574972/keith-misner-h0Vxgz5tyXA-unsplash_by5add.jpg", "https://res.cloudinary.com/dd8470vy4/image/upload/tedyg2kmtgw7dkrhcq9r"]
+        i = random.randint(0, 2)
+        blogImageURL = banners[i]
+        type_blog = 'DRAFTED'
+        newBlog = Blog(
+            blogID=uuid.uuid4(),
             blogTitle=body["blogTitle"],
             blogDescription=body["blogDescription"],
             profileID=current_profile.profileID,
@@ -36,19 +39,21 @@ class AddBlogDescriptionAndTitle(Resource):
             blogStatus=type_blog
         )
         newBlog.save()
-        return make_response(jsonify({"blog":newBlog,"statusCode":201,"success":True}))
+        return make_response(jsonify({"blog": newBlog, "statusCode": 201, "success": True}))
+
 
 class UpdateBlogDescriptionAndText(Resource):
-    decorators=[authorize.token_required]
-    def patch(self,current_profile):
+    decorators = [authorize.token_required]
+
+    def patch(self, current_profile):
         body = request.get_json()
 
         blogID = body["blogID"]
         blog = Blog.objects.get(blogID=blogID)
-       
-        profileID=current_profile.profileID
-        if blog.profileID!=profileID:
-            return make_response(jsonify({"Message":"Permission Denied"}),403)
+
+        profileID = current_profile.profileID
+        if blog.profileID != profileID:
+            return make_response(jsonify({"Message": "Permission Denied"}), 403)
         # if(userID!= blog['userID']):
         #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
         try:
@@ -57,30 +62,30 @@ class UpdateBlogDescriptionAndText(Resource):
                 blogDescription=body["blogDescription"]
             )
             blog.save()
-            blog=Blog.objects.get(blogID=blog.blogID)
-            return make_response(jsonify({"blog":blog,"statusCode":200,"success":True}))
+            blog = Blog.objects.get(blogID=blog.blogID)
+            return make_response(jsonify({"blog": blog, "statusCode": 200, "success": True}))
         except:
             blog.update(
                 blogTitle=body["blogTitle"],
                 blogDescription=body["blogDescription"]
             )
             blog.save()
-            blog=Blog.objects.get(blogID=blog.blogID)
-            return make_response(jsonify({"blog":blog,"statusCode":200,"success":True}))
+            blog = Blog.objects.get(blogID=blog.blogID)
+            return make_response(jsonify({"blog": blog, "statusCode": 200, "success": True}))
 
-    
+
 class AddBlogImage(Resource):
     def patch(self):
         blogID = request.form['blogID']
-        profileID=request.form['profileID']
+        profileID = request.form['profileID']
         # print(blogID)
-        blog = Blog.objects.get(blogID= blogID)
+        blog = Blog.objects.get(blogID=blogID)
         photo = request.files["file"]
         # if(userID!= blog['userID']):
         #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
 
         upload_result = upload(photo)
-        photo_url,options=cloudinary_url(
+        photo_url, options = cloudinary_url(
             upload_result['public_id']
         )
 
@@ -88,26 +93,25 @@ class AddBlogImage(Resource):
         # print(type(photo_url))
         # print(photo_url)
         # print(current_datetime)
-        
+
         blog.update(
             blogImageURL=photo_url,
-            timestamp= current_datetime
+            timestamp=current_datetime
         )
-        blog=Blog.objects.get(blogID= blogID)
+        blog = Blog.objects.get(blogID=blogID)
         # return make_response(jsonify(upload_result,photo_url,options))
-        return make_response(jsonify({"blog":blog,"statusCode":200,"success":True}))
+        return make_response(jsonify({"blog": blog, "statusCode": 200, "success": True}))
 
-        
+
 class LikeOnBlog(Resource):
-    def patch(self,blogID,profileID):
+    def patch(self, blogID, profileID):
         # body = request.get_json()
         # userID=body["userID"]
         # blogID=body["blogID"]
         print(f"blogID : {blogID}")
         print(f"userID: {profileID}")
 
-        
-        blog=Blog.objects.get(blogID=blogID)
+        blog = Blog.objects.get(blogID=blogID)
 
         # if(userID!= blog['userID']):
         #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
@@ -115,9 +119,9 @@ class LikeOnBlog(Resource):
         # print(blog["likedByUsersList"])
         print(blog['likedByUsersList'])
         if uuid.UUID(profileID) in blog['likedByUsersList']:
-            return make_response(jsonify({"message":"Already Liked or disliked"}),200)
+            return make_response(jsonify({"message": "Already Liked or disliked"}), 200)
         if uuid.UUID(profileID) in blog['dislikedByUsersList']:
-            dislikedByUsersList=blog['dislikedByUsersList']
+            dislikedByUsersList = blog['dislikedByUsersList']
             for user in dislikedByUsersList:
                 newUser = changeUUIDtoString2(user)
             # print(f"user {user}")
@@ -128,39 +132,41 @@ class LikeOnBlog(Resource):
             if(newUser == profileID):
                 print(f"newUser {newUser}")
                 blog.dislikedByUsersList.remove(user)
-                print(f"dislikedByUsersList after removing {dislikedByUsersList} ")
-                blog.dislikesCount-=1
+                print(
+                    f"dislikedByUsersList after removing {dislikedByUsersList} ")
+                blog.dislikesCount -= 1
 
         # print(blog['likesCount'])
-        newLikesCount=blog['likesCount']+1
+        newLikesCount = blog['likesCount']+1
         # print(newLikesCount)
         # newUserWhoLiked  = body['userID']
-        newUserWhoLiked  = profileID
-        newLikedByUsersList= blog['likedByUsersList'].append(newUserWhoLiked)
+        newUserWhoLiked = profileID
+        newLikedByUsersList = blog['likedByUsersList'].append(newUserWhoLiked)
         blog.update(
-            likesCount= newLikesCount,
+            likesCount=newLikesCount,
             likedByUsersList=newLikedByUsersList,
             # hasLiked = True
         )
         blog.save()
-        blog=Blog.objects.get(blogID=blogID)
-        return make_response(jsonify({"message":"you have successfully liked the blog","statusCode":"200","blog":blog,"success":True}))
+        blog = Blog.objects.get(blogID=blogID)
+        return make_response(jsonify({"message": "you have successfully liked the blog", "statusCode": "200", "blog": blog, "success": True}))
 
 
 def changeUUIDtoString(uuidVar):
-    newUUIDVar=uuidVar.hex
+    newUUIDVar = uuidVar.hex
     return newUUIDVar
+
 
 def changeUUIDtoString2(uuidVar):
     newUUIDStr = str(uuidVar)
     return newUUIDStr
 
-    
+
 class RemoveLikeOnBlog(Resource):
-    def patch(self,blogID,profileID):
-        blog =Blog.objects.get(blogID=blogID)
+    def patch(self, blogID, profileID):
+        blog = Blog.objects.get(blogID=blogID)
         if uuid.UUID(profileID) not in blog['likedByUsersList']:
-            return make_response(jsonify({'message':'User Hasnt Liked the blog to dislike'}),200)
+            return make_response(jsonify({'message': 'User Hasnt Liked the blog to dislike'}), 200)
 
         likedByUsersList = blog['likedByUsersList']
         # print(likedByUsersList)
@@ -176,34 +182,34 @@ class RemoveLikeOnBlog(Resource):
                 # print("entered")
                 print(newUser)
                 likedByUsersList.remove(user)
-                blog.likesCount=blog.likesCount-1
-        
+                blog.likesCount = blog.likesCount-1
+
         blog.save()
-        
-        return make_response(jsonify({"message":"you have successfully removed your  like on the blog","statusCode":"200","blog":blog,"success":True}))
+
+        return make_response(jsonify({"message": "you have successfully removed your  like on the blog", "statusCode": "200", "blog": blog, "success": True}))
 
 
 class DislikeOnBlog(Resource):
-    def patch(self,blogID,profileID):
+    def patch(self, blogID, profileID):
         # body = request.get_json()
         # userID=body["userID"]
         # blogID=body["blogID"]
         # print(blogID)
-        blog=Blog.objects.get(blogID=blogID)
+        blog = Blog.objects.get(blogID=blogID)
 
         # if(userID!= blog['userID']):
         #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
-        
-        if(len(blog['dislikedByUsersList'])==0):
+
+        if(len(blog['dislikedByUsersList']) == 0):
             blog.update(
                 dislikedByUsersList=[]
             )
         if uuid.UUID(profileID) in blog['dislikedByUsersList']:
-            return make_response(jsonify({'message':'Already Disliked or liked'}),200)
+            return make_response(jsonify({'message': 'Already Disliked or liked'}), 200)
         # print(blog['likesCount'])
         # print(newLikesCount)
         # newUserWhoDisliked  = body['userID']
-        if  uuid.UUID(profileID) in blog['likedByUsersList']:
+        if uuid.UUID(profileID) in blog['likedByUsersList']:
             likedByUsersList = blog['likedByUsersList']
         # print(likedByUsersList)
             for user in likedByUsersList:
@@ -218,23 +224,24 @@ class DislikeOnBlog(Resource):
                     # print("entered")
                     print(newUser)
                     likedByUsersList.remove(user)
-                    blog.likesCount=blog.likesCount-1
+                    blog.likesCount = blog.likesCount-1
         newUserWhoDisliked = profileID
         blog['dislikedByUsersList'].append(newUserWhoDisliked)
-        blog.dislikesCount+=1
+        blog.dislikesCount += 1
         blog.save()
-        blog=Blog.objects.get(blogID=blogID)
-        return make_response(jsonify({"message":"you have successfully dis liked the blog","statusCode":"200","blog":blog,"success":True}))
+        blog = Blog.objects.get(blogID=blogID)
+        return make_response(jsonify({"message": "you have successfully dis liked the blog", "statusCode": "200", "blog": blog, "success": True}))
+
 
 class RemoveDislikeOnBlog(Resource):
-    def patch(self,blogID,profileID):
+    def patch(self, blogID, profileID):
         # body=request.get_json()
         # blogID = body['blogID']
         # userID=body['userID']
-        blog =Blog.objects.get(blogID=blogID)
+        blog = Blog.objects.get(blogID=blogID)
         print(f"blog {blog}")
         if uuid.UUID(profileID) not in blog['dislikedByUsersList']:
-            return make_response(jsonify({'message':'User hasnt disliked to remove dislike'}),200)
+            return make_response(jsonify({'message': 'User hasnt disliked to remove dislike'}), 200)
         dislikedByUsersList = blog['dislikedByUsersList']
         print(f"dislikedByUsersList {dislikedByUsersList}")
         for user in dislikedByUsersList:
@@ -247,183 +254,194 @@ class RemoveDislikeOnBlog(Resource):
             if(newUser == profileID):
                 print(f"newUser {newUser}")
                 blog.dislikedByUsersList.remove(user)
-                print(f"dislikedByUsersList after removing {dislikedByUsersList} ")
-                blog.dislikesCount-=1
+                print(
+                    f"dislikedByUsersList after removing {dislikedByUsersList} ")
+                blog.dislikesCount -= 1
         blog.save()
-        
-        return make_response(jsonify({"message":"you have successfully removed your dis like on the blog","statusCode":"200","blog":blog,"success":True}))
+
+        return make_response(jsonify({"message": "you have successfully removed your dis like on the blog", "statusCode": "200", "blog": blog, "success": True}))
+
 
 class AddCommentToBlog(Resource):
     def patch(self):
-        body=request.get_json()
-        commentID=uuid.uuid4()
-        profileID=body['profileID']
-        blogID=body['blogID']
-        commentDescription=body['commentDescription']
-        blog=Blog.objects.get(blogID=blogID)
+        body = request.get_json()
+        commentID = uuid.uuid4()
+        profileID = body['profileID']
+        blogID = body['blogID']
+        commentDescription = body['commentDescription']
+        blog = Blog.objects.get(blogID=blogID)
         # if(userID!= blog['userID']):
         #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
-        if(len(commentDescription)>=300 or len(commentDescription)<6):
-            return make_response(jsonify({"message":"comment must be more than 6 characters and less than 300 characters"}))
-        comment=Comment(
+        if(len(commentDescription) >= 300 or len(commentDescription) < 6):
+            return make_response(jsonify({"message": "comment must be more than 6 characters and less than 300 characters"}))
+        comment = Comment(
             commentID=commentID,
             commentDescription=commentDescription,
             blogID=blogID,
             profileID=profileID
         )
         # comment.save()
-        comments=blog['comments']
-        newComments=comments.append(comment)
+        comments = blog['comments']
+        newComments = comments.append(comment)
         blog.update(
             comments=newComments
         )
         blog.save()
-        return make_response(jsonify({"message":"you have successfully added comment on the    blog","statusCode":"200","comment":comment,"success":True}))
+        return make_response(jsonify({"message": "you have successfully added comment on the    blog", "statusCode": "200", "comment": comment, "success": True}))
+
 
 class RemoveCommentonBlog(Resource):
     def patch(self):
-        body=request.get_json()
+        body = request.get_json()
         print(f"body {body}")
-        commentID=body['commentID']
-        profileID=body['profileID']
-        blogID=body['blogID']
-    
-        blog=Blog.objects.get(blogID=blogID)
+        commentID = body['commentID']
+        profileID = body['profileID']
+        blogID = body['blogID']
+
+        blog = Blog.objects.get(blogID=blogID)
 
         # if(userID!= blog['userID']):
         #     return make_response(jsonify({"message":"you are not authorised to update this blog","statusCode":500}))
 
         # comment.save()
-        
-        comments=blog['comments']
-        
+
+        comments = blog['comments']
+
         for comment in comments:
             print(comment)
             # newComment = changeUUIDtoString(comment['commentID'])
             newComment = changeUUIDtoString2(comment['commentID'])
             if(commentID == newComment):
                 comments.remove(comment)
-            
+
         blog.save()
-        return make_response(jsonify({"message":"you have successfully removed comment on the blog","statusCode":"200","blog":blog,"success":True}),200)
+        return make_response(jsonify({"message": "you have successfully removed comment on the blog", "statusCode": "200", "blog": blog, "success": True}), 200)
+
 
 class GetBlogsAndProfileDetails(Resource):
     def get(self):
         # blogs=Blog.objects().exclude("blogDescription","comments","likedByUsersList","dislikedByUsersList")
-        blogs=Blog.objects(blogStatus='PUBLISHED').exclude("comments","likedByUsersList","dislikedByUsersList","blogDescription")
-        blogs=[x.to_mongo().to_dict() for x in blogs]
+        blogs = Blog.objects(blogStatus='PUBLISHED').exclude(
+            "comments", "likedByUsersList", "dislikedByUsersList", "blogDescription")
+        blogs = [x.to_mongo().to_dict() for x in blogs]
         for i in blogs:
-            p=Profile.objects.get(profileID=i['profileID'])
-            i['profilePicImageURL']=p.profilePicImageURL
-            i['profileName']=p.profileName
-        return make_response(jsonify({"blogs":json.loads(json_util.dumps(blogs)),"success":True}))
+            p = Profile.objects.get(profileID=i['profileID'])
+            i['profilePicImageURL'] = p.profilePicImageURL
+            i['profileName'] = p.profileName
+        return make_response(jsonify({"blogs": json.loads(json_util.dumps(blogs)), "success": True}))
+
 
 class GetBlogsByProfile(Resource):
     # def get(self,profileID):
-    def get(self,profileUserName):
+    def get(self, profileUserName):
         # body=request.get_json()
         # userID=body['userID']
         # profile = Profile.objects.get(profileID=profileID)
         profile = Profile.objects.get(profileUserName=profileUserName)
-        blogsByUser=Blog.objects(profileID=profile["profileID"])
+        blogsByUser = Blog.objects(profileID=profile["profileID"])
         # blogsByUser=Blog.objects(userID=userID)
-        return make_response(jsonify({"blogs":blogsByUser,"statusCode":200,"success":True}))
+        return make_response(jsonify({"blogs": blogsByUser, "statusCode": 200, "success": True}))
+
 
 class GetBlogByBlogID(Resource):
-    def get(self,blogID):
+    def get(self, blogID):
         # body=request.get_json()
         try:
             blog = Blog.objects.get(blogID=blogID)
-            profile=Profile.objects.get(profileID=blog['profileID'])
-            blog=blog.to_mongo().to_dict()
-            blog['profilePicImageURL']=profile.profilePicImageURL
-            blog['profileName']=profile.profileName
-            blog['profileUserName']=profile.profileUserName
+            profile = Profile.objects.get(profileID=blog['profileID'])
+            blog = blog.to_mongo().to_dict()
+            blog['profilePicImageURL'] = profile.profilePicImageURL
+            blog['profileName'] = profile.profileName
+            blog['profileUserName'] = profile.profileUserName
+            print("blog['profileUserName'] ->>", profile.profileUserName)
         except Exception as e:
-            return make_response(jsonify({"message":"not found", "statusCode":500, "success":False}))
-        return make_response(jsonify({"blog":json.loads(json_util.dumps(blog)),"statusCode":200,"success":True}))
+            return make_response(jsonify({"message": "not found", "statusCode": 500, "success": False}))
+        return make_response(jsonify({"blog": json.loads(json_util.dumps(blog)), "statusCode": 200, "success": True}))
 
 
 class GetFeed(Resource):
-    def get(self,profileID,number):
-        profile=Profile.objects.get_or_404(profileID=profileID)
-        profile_following=profile.Following
-        blogs=[]
+    def get(self, profileID, number):
+        profile = Profile.objects.get_or_404(profileID=profileID)
+        profile_following = profile.Following
+        blogs = []
         if(len(profile_following)):
             for i in list(profile_following):
-                p=Profile.objects.get_or_404(profileID=i)
-                b=Blog.objects().filter(profileID=p.profileID).filter(blogStatus='PUBLISHED').exclude("comments","likedByUsersList","dislikedByUsersList")
-                b=[x.to_mongo().to_dict() for x in b]
+                p = Profile.objects.get_or_404(profileID=i)
+                b = Blog.objects().filter(profileID=p.profileID).filter(
+                    blogStatus='PUBLISHED').exclude("comments", "likedByUsersList", "dislikedByUsersList")
+                b = [x.to_mongo().to_dict() for x in b]
                 for k in b:
-                    k['profilePicImageURL']=p.profilePicImageURL
-                    k['profileName']=p.profileName
+                    k['profilePicImageURL'] = p.profilePicImageURL
+                    k['profileName'] = p.profileName
                 blogs.extend(b)
-            blogs.sort(key=lambda x:x['timestamp'],reverse=True)
-            blogs_paginated=[]
-            i=0
-            temp=[]
+            blogs.sort(key=lambda x: x['timestamp'], reverse=True)
+            blogs_paginated = []
+            i = 0
+            temp = []
             for i in blogs:
-                if len(temp)==9:
+                if len(temp) == 9:
                     blogs_paginated.append(temp)
-                    temp=[]
+                    temp = []
                 temp.append(i)
             blogs_paginated.append(temp)
-            if(len(blogs_paginated)<=number or number<0):
-                return make_response(jsonify({'message':'exceeded bounds'}), 404)
-            return make_response(jsonify({"blogs":json.loads(json_util.dumps(blogs_paginated[number])),"success":True}))
+            if(len(blogs_paginated) <= number or number < 0):
+                return make_response(jsonify({'message': 'exceeded bounds'}), 404)
+            return make_response(jsonify({"blogs": json.loads(json_util.dumps(blogs_paginated[number])), "success": True}))
         else:
-            blogs=Blog.objects(blogStatus='PUBLISHED').exclude("comments","likedByUsersList","dislikedByUsersList")
-            blogs=[x.to_mongo().to_dict() for x in blogs]
+            blogs = Blog.objects(blogStatus='PUBLISHED').exclude(
+                "comments", "likedByUsersList", "dislikedByUsersList")
+            blogs = [x.to_mongo().to_dict() for x in blogs]
             for i in blogs:
                 try:
-                    p=Profile.objects.get(profileID=i['profileID'])
+                    p = Profile.objects.get(profileID=i['profileID'])
                 except:
                     continue
-                i['profilePicImageURL']=p.profilePicImageURL
-                i['profileName']=p.profileName
-            blogs_paginated=[]
-            i=0
-            temp=[]
+                i['profilePicImageURL'] = p.profilePicImageURL
+                i['profileName'] = p.profileName
+            blogs_paginated = []
+            i = 0
+            temp = []
             for i in blogs:
-                if len(temp)==9:
+                if len(temp) == 9:
                     blogs_paginated.append(temp)
-                    temp=[]
+                    temp = []
                 temp.append(i)
             blogs_paginated.append(temp)
-            if(len(blogs_paginated)<=number or number<0):
-                return make_response(jsonify({'message':'exceeded bounds'}), 404)
-            return make_response(jsonify({"blogs":json.loads(json_util.dumps(blogs_paginated[number])),"success":True}))
-                
+            if(len(blogs_paginated) <= number or number < 0):
+                return make_response(jsonify({'message': 'exceeded bounds'}), 404)
+            return make_response(jsonify({"blogs": json.loads(json_util.dumps(blogs_paginated[number])), "success": True}))
+
 
 class AddView(Resource):
-    def patch(self,blogID):
-        blog=Blog.objects.get_or_404(blogID=blogID)
-        blog.viewCount+=1
+    def patch(self, blogID):
+        blog = Blog.objects.get_or_404(blogID=blogID)
+        blog.viewCount += 1
         blog.save()
-        return jsonify({"status_code":200,"success":True})
-        
+        return jsonify({"status_code": 200, "success": True})
+
+
 class GetCommentsByBlogID(Resource):
-    def get(self,blogID):
-        blog=Blog.objects.get_or_404(blogID=blogID)
-        p=Profile.objects.get_or_404(profileID=blog.profileID)
-        comments=blog.comments
-        comments=[x.to_mongo().to_dict() for x in comments]
-        comments.sort(key=lambda x:x['timestamp'],reverse=True)
+    def get(self, blogID):
+        blog = Blog.objects.get_or_404(blogID=blogID)
+        p = Profile.objects.get_or_404(profileID=blog.profileID)
+        comments = blog.comments
+        comments = [x.to_mongo().to_dict() for x in comments]
+        comments.sort(key=lambda x: x['timestamp'], reverse=True)
         for x in comments:
-            p=Profile.objects.get_or_404(profileID=x['profileID'])
-            x['profilePicImageURL']=p.profilePicImageURL
-            x['profileName']=p.profileName
-            x['profileUserName']=p.profileUserName
-        return jsonify({'comments':json.loads(json_util.dumps(comments)),'status_code':200,'success':'true'})
+            p = Profile.objects.get_or_404(profileID=x['profileID'])
+            x['profilePicImageURL'] = p.profilePicImageURL
+            x['profileName'] = p.profileName
+            x['profileUserName'] = p.profileUserName
+        return jsonify({'comments': json.loads(json_util.dumps(comments)), 'status_code': 200, 'success': 'true'})
 
 
 class AddKeywordsBlog(Resource):
-    def get(self,word):
-        l=[]
+    def get(self, word):
+        l = []
         l.append(str(word))
-        if client=='':
-            return make_response(jsonify({'message':'GADS TOKEN EXPIRED'}),500)
-        list_keywords= gads(client, "5304812837", ["2840"], "1000",l, None)
+        if client == '':
+            return make_response(jsonify({'message': 'GADS TOKEN EXPIRED'}), 500)
+        list_keywords = gads(client, "5304812837", ["2840"], "1000", l, None)
         list_to_excel = []
         for x in range(len(list_keywords)):
             list_months = []
@@ -432,118 +450,126 @@ class AddKeywordsBlog(Resource):
             for y in list_keywords[x].keyword_idea_metrics.monthly_search_volumes:
                 list_months.append(str(y.month)[12::] + " - " + str(y.year))
                 list_searches.append(y.monthly_searches)
-                
+
             for y in list_keywords[x].keyword_annotations.concepts:
                 list_annotations.append(y.concept_group.name)
-            list_to_excel.append([list_keywords[x].text, list_keywords[x].keyword_idea_metrics.avg_monthly_searches, str(list_keywords[x].keyword_idea_metrics.competition)[28::], list_keywords[x].keyword_idea_metrics.competition_index, list_searches, list_months, list_annotations ])
-        data=pd.DataFrame(list_to_excel, columns = ["Keyword", "Average Searches", "Competition Level", "Competition Index", "Searches Past Months", "Past Months", "List Annotations"])
+            list_to_excel.append([list_keywords[x].text, list_keywords[x].keyword_idea_metrics.avg_monthly_searches, str(list_keywords[x].keyword_idea_metrics.competition)[
+                                 28::], list_keywords[x].keyword_idea_metrics.competition_index, list_searches, list_months, list_annotations])
+        data = pd.DataFrame(list_to_excel, columns=["Keyword", "Average Searches", "Competition Level",
+                            "Competition Index", "Searches Past Months", "Past Months", "List Annotations"])
         # print(data)
-        return make_response(jsonify({'data':data.head().to_dict()}))
+        return make_response(jsonify({'data': data.head().to_dict()}))
 
 
 class GetBlogsAndProfileDetailsPagination(Resource):
-    def get(self,number):
-        blogs=Blog.objects(blogStatus='PUBLISHED').exclude("comments","likedByUsersList","dislikedByUsersList")
-        blogs=[x.to_mongo().to_dict() for x in blogs]
+    def get(self, number):
+        blogs = Blog.objects(blogStatus='PUBLISHED').exclude(
+            "comments", "likedByUsersList", "dislikedByUsersList")
+        blogs = [x.to_mongo().to_dict() for x in blogs]
         for i in blogs:
             try:
-                p=Profile.objects.get(profileID=i['profileID'])
+                p = Profile.objects.get(profileID=i['profileID'])
             except:
                 continue
-            i['profilePicImageURL']=p.profilePicImageURL
-            i['profileName']=p.profileName
-        blogs_paginated=[]
-        i=0
-        temp=[]
+            i['profilePicImageURL'] = p.profilePicImageURL
+            i['profileName'] = p.profileName
+            i['profileUserName'] = p.profileUserName
+        blogs_paginated = []
+        i = 0
+        temp = []
         for i in blogs:
-            if len(temp)==9:
+            if len(temp) == 9:
                 blogs_paginated.append(temp)
-                temp=[]
+                temp = []
             temp.append(i)
         blogs_paginated.append(temp)
-        if(len(blogs_paginated)<=number or number<0):
-            return make_response(jsonify({'message':'exceeded bounds'}), 404)
-        return make_response(jsonify({"blogs":json.loads(json_util.dumps(blogs_paginated[number])),"success":True}))
+        if(len(blogs_paginated) <= number or number < 0):
+            return make_response(jsonify({'message': 'exceeded bounds'}), 404)
+        return make_response(jsonify({"blogs": json.loads(json_util.dumps(blogs_paginated[number])), "success": True}))
+
 
 class GetBlogStatus(Resource):
-    def get(self,profileID,blogID):
-        p=Profile.objects.get_or_404(profileID=profileID)
-        u=User.objects.get_or_404(userID=p.userID)
+    def get(self, profileID, blogID):
+        p = Profile.objects.get_or_404(profileID=profileID)
+        u = User.objects.get_or_404(userID=p.userID)
         if(u.role == 1):
-            b=Blog.objects.get_or_404(blogID=blogID)
+            b = Blog.objects.get_or_404(blogID=blogID)
             status = b.blogStatus
-            return make_response(jsonify({"status":json.loads(json_util.dumps(status))}))
+            return make_response(jsonify({"status": json.loads(json_util.dumps(status))}))
         else:
-            return make_response(jsonify({"status":"Not Authorized"}))
+            return make_response(jsonify({"status": "Not Authorized"}))
+
+
 class UpdateBlogStatus(Resource):
-    def patch(self,profileID,blogID,blogStatus):
-        statusList = ["CANCELLED","PUBLISHED","IN_REVIEW","MODERATOR_MODIFYING","DRAFTED"]
-        p=Profile.objects.get_or_404(profileID=profileID)
-        u=User.objects.get_or_404(userID=p.userID)
+    def patch(self, profileID, blogID, blogStatus):
+        statusList = ["CANCELLED", "PUBLISHED",
+                      "IN_REVIEW", "MODERATOR_MODIFYING", "DRAFTED"]
+        p = Profile.objects.get_or_404(profileID=profileID)
+        u = User.objects.get_or_404(userID=p.userID)
         if(u.role == 1):
-            blog=Blog.objects.get_or_404(blogID=blogID)
+            blog = Blog.objects.get_or_404(blogID=blogID)
             if(blogStatus in statusList):
-                blog.blogStatus=blogStatus
+                blog.blogStatus = blogStatus
                 blog.save()
-                return make_response(jsonify({"message":"Status updated successfully","status":blogStatus}))
+                return make_response(jsonify({"message": "Status updated successfully", "status": blogStatus}))
             else:
-                return make_response(jsonify({"message":"STATUS FORMAT NOT ACCEPTED"}))
+                return make_response(jsonify({"message": "STATUS FORMAT NOT ACCEPTED"}))
         else:
-            return make_response(jsonify({"status":"Not Authorized"})) 
+            return make_response(jsonify({"status": "Not Authorized"}))
+
 
 class SearchBlog(Resource):
     def post(self, number):
-        search=request.get_json()['search']
+        search = request.get_json()['search']
         print(search)
-        if(len(search)<5):
-            return make_response(jsonify({'message':'Invalide Search String'}),404)
-        result_object=[]
+        if(len(search) < 5):
+            return make_response(jsonify({'message': 'Invalide Search String'}), 404)
+        result_object = []
         blogObjects = Blog.objects()
         for blog in blogObjects:
             if((search in blog.blogTitle or search in blog.blogDescription) and blog not in result_object):
                 result_object.append(blog)
             for searchWord in search.split(' '):
-                if ((searchWord in blog.blogTitle or searchWord in blog.blogDescription)and blog not in result_object):
+                if ((searchWord in blog.blogTitle or searchWord in blog.blogDescription) and blog not in result_object):
                     result_object.append(blog)
-            metadata=blog.metaData
-            if(metadata!=None):
+            metadata = blog.metaData
+            if(metadata != None):
                 for searchWord in search.split(' '):
                     if ((searchWord in metadata.metaTitle or searchWord in metadata.metaDescription or searchWord in metadata.metaKeywords.split(',')) and blog not in result_object):
                         result_object.append(blog)
         print(result_object)
-        blogs_paginated=[]
-        temp=[]
+        blogs_paginated = []
+        temp = []
         for i in result_object:
-            if len(temp)==9:
+            if len(temp) == 9:
                 blogs_paginated.append(temp)
-                temp=[]
+                temp = []
             temp.append(i)
         blogs_paginated.append(temp)
         print(blogs_paginated)
-        if(len(blogs_paginated)<=number or number<0):
-            return make_response(jsonify({'message':'exceeded bounds'}), 404)
-        return make_response(jsonify({'Queried Data':blogs_paginated[number], "success":True, "resultsFound":len(result_object)}))
+        if(len(blogs_paginated) <= number or number < 0):
+            return make_response(jsonify({'message': 'exceeded bounds'}), 404)
+        return make_response(jsonify({'Queried Data': blogs_paginated[number], "success": True, "resultsFound": len(result_object)}))
+
 
 class AddMetaData(Resource):
     def post(self):
-        body=request.get_json()
-        blogID=body['blogID']
-        type_=body['type']
-        blog=Blog.objects.get_or_404(blogID=blogID)
-        m=MetaData()
-        m.metaID=uuid.uuid4()
-        if len(body['metaTitle'])<6:
-            return make_response(jsonify({'Message':'Invalid Length of Title','status':'failed'}))
-        if len(body['metaDescription'])<50:
-            return make_response(jsonify({'Message':'Invalid length for description','status':'failed'}))
-        if len(body['metaKeywords'])<20:
-            return make_response(jsonify({'Message':'Invalid length for description','status':'failed'}))
-        m.metaTitle=body['metaTitle']
-        m.metaDescription=body['metaDescription']
-        m.metaKeywords=body['metaKeywords']
-        blog.metaData=m
-        blog.blogStatus=type_
+        body = request.get_json()
+        blogID = body['blogID']
+        type_ = body['type']
+        blog = Blog.objects.get_or_404(blogID=blogID)
+        m = MetaData()
+        m.metaID = uuid.uuid4()
+        if len(body['metaTitle']) < 6:
+            return make_response(jsonify({'Message': 'Invalid Length of Title', 'status': 'failed'}))
+        if len(body['metaDescription']) < 50:
+            return make_response(jsonify({'Message': 'Invalid length for description', 'status': 'failed'}))
+        if len(body['metaKeywords']) < 20:
+            return make_response(jsonify({'Message': 'Invalid length for description', 'status': 'failed'}))
+        m.metaTitle = body['metaTitle']
+        m.metaDescription = body['metaDescription']
+        m.metaKeywords = body['metaKeywords']
+        blog.metaData = m
+        blog.blogStatus = type_
         blog.save()
-        return make_response(jsonify({'Message':"Successfull"}),200)
-    
-            
+        return make_response(jsonify({'Message': "Successfull"}), 200)

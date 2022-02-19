@@ -20,19 +20,18 @@ const BlogCard = ({ blog, isAdmin = false }) => {
   }, []);
 
   let blogTitle = blog?.blogTitle
-  blogTitle = blogTitle?.replace(/[^a-zA-Z ]/g, "")
+  // blogTitle = blogTitle?.replace(/[^a-zA-Z ]/g, "")
+  blogTitle = blogTitle?.replace(/[^a-zA-Z0-9 ]/g, "");
   // console.log("Removing special characters ->", blogTitle)
   blogTitle = blogTitle?.replace(/\s\s+/g, ' ')
   // console.log("Replacing multiple spaces with single space ->", blogTitle)
   const blogTitleSlug = blogTitle?.toLowerCase().replace(/ /g, '-')
     .replace(/[^\w-]+/g, '');
 
-  const profileName = blog?.profileUserName || blog?.profileName
-  const profileNameSlug = profileName?.toLowerCase().replace(/ /g, '-')
+  const profileUserName = blog?.profileUserName
+  // In case if the profileUserName has " " in it then, convert it to slug
+  const profileUserNameSlug = profileUserName?.toLowerCase().replace(/ /g, '-')
     .replace(/[^\w-]+/g, '');
-  // console.log('profileName ->', profileName)
-  // console.log('profileNameSlug ->', profileNameSlug)
-  console.log('Hello from blogCard, blog Object ->', blog)
   return (
     <div>
       <Link
@@ -49,8 +48,8 @@ const BlogCard = ({ blog, isAdmin = false }) => {
         // }
         to={
           isAdmin
-            ? `/admin/${profileNameSlug}/${blogTitleSlug}/${blog.blogID}`
-            : `/${profileNameSlug}/${blogTitleSlug}/${blog.blogID}`
+            ? `/admin/${profileUserNameSlug}/${blogTitleSlug}/${blog.blogID}`
+            : `/${profileUserNameSlug}/${blogTitleSlug}/${blog.blogID}`
         }
       >
         <div className={style.main}>
