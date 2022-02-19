@@ -454,7 +454,7 @@ const ViewBlog = () => {
               alt=" "
             />
           </div>
-          {/* Banner ad */}
+          {/* Banner ad after profile */}
           <div className={style.bannerad}>
             <iframe title="Banner ad" src="//midgerelativelyhoax.com/watchnew?key=e154eef9929e6c5029f3532b0fae1619" width="728" height="90" frameborder="0" scrolling="no"></iframe>
           </div>
@@ -495,6 +495,10 @@ const ViewBlog = () => {
               />
             )}
           </div>
+        </div>
+        {/* Banner ad before comments */}
+        <div className={style.bannerad}>
+          <iframe title="Banner ad" src="//midgerelativelyhoax.com/watchnew?key=e154eef9929e6c5029f3532b0fae1619" width="728" height="90" frameborder="0" scrolling="no"></iframe>
         </div>
         <div className={style.meta}>
           <div className={style.metaContent}>
