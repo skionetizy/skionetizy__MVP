@@ -214,8 +214,7 @@ function Homepage(props) {
                 Just like you, we are also finding our way to enter the
                 competitive world and create something of our own. You should be
                 a part of this journey because we understand the challenges that
-                you may face to get your content out there. We are here and
-                willing to make it easier for you to get your skills monetised.
+                you may face to get your content out there.
               </p>
             </div>
           </div>
