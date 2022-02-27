@@ -22,11 +22,14 @@ function Footer() {
             />
             Papersdrop
           </p>
-          <h2>~Tagline~</h2>
+          <h2>Place where intuitiveness begins</h2>
           <p className={styles.footerFlexText}>
-            GurugramLorem ipsum,<br />
-            is simple dummy,<br />
-            text of the printing.
+          We at Papersdrop, strive towards one goal 
+          which is to bring awareness on timeless content 
+          to everyone, right in the palm of the hands. 
+          The doors are open to every enthusiast out there 
+          who are willing to join and play a part in our 
+          enlightening journey.
           </p>
         </section>
 
