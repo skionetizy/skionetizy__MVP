@@ -11,53 +11,136 @@ import LogoIcon from "../Assets/logo-new.svg";
 
 function Footer() {
   return (
-    <footer className={styles.footerWrapper}>
-      <section className={styles.socials}>
-        <span className={styles.socialsLead}>Follow us</span>
+    <footer>
+      <div id={styles.lFooter} className={styles.footerWrapper}>
+        <section className={styles.footerFlex}>
+          <p className={styles.footerLogo}>
+            <img
+              className={styles.footerLogoImg}
+              src={LogoIcon}
+              alt="fountain pen's tip camera closeup"
+            />
+            Papersdrop
+          </p>
+          <h2>~Tagline~</h2>
+          <p className={styles.footerFlexText}>
+            GurugramLorem ipsum,<br />
+            is simple dummy,<br />
+            text of the printing.
+          </p>
+        </section>
 
-        <Link>
-          <RiTwitterFill />
-        </Link>
-        <Link>
-          <RiFacebookFill />
-        </Link>
-        <Link>
-          <RiInstagramLine />
-        </Link>
-        <Link>
-          <RiLinkedinFill />
-        </Link>
-      </section>
+        <section className={styles.siteLinks}>
+          <h2>Support</h2>
+          {supportLinks.map((links) => (
+            <ul>
+              {Object.entries(links).map(([name, value]) => (
+                <li>
+                  <Link to={value}>{name}</Link>
+                </li>
+              ))}
+            </ul>
+          ))}
+        </section>
 
-      <section className={styles.siteLinks}>
-        {siteLinks.map((links) => (
-          <ul>
-            {Object.entries(links).map(([name, value]) => (
-              <li>
-                <Link to={value}>{name}</Link>
-              </li>
-            ))}
-          </ul>
-        ))}
-      </section>
+        <section className={styles.siteLinks}>
+          <h2>Company</h2>
+          {companyLinks.map((links) => (
+            <ul>
+              {Object.entries(links).map(([name, value]) => (
+                <li>
+                  <Link to={value}>{name}</Link>
+                </li>
+              ))}
+            </ul>
+          ))}
+        </section>
 
-      <section className={styles.footerFlex}>
-        <p className={styles.footerLogo}>
-          <img
-            className={styles.footerLogoImg}
-            src={LogoIcon}
-            alt="fountain pen's tip camera closeup"
-          />
-          Papersdrop
-        </p>
+        <section className={styles.socials}>
+          <span className={styles.socialsLead}>Follow us on:</span>
+          <div className={styles.socialmedias}>
+            <Link>
+              <RiTwitterFill />
+            </Link>
+            <Link>
+              <RiFacebookFill />
+            </Link>
+            <Link>
+              <RiInstagramLine />
+            </Link>
+            <Link>
+              <RiLinkedinFill />
+            </Link>
+          </div>
+          <button className={styles.hireme}>Hire me</button>
+        </section>
+      </div>
 
-        <p className={styles.footerCopyright}>
-          Copyright &copy; Papersdrop 2021
-        </p>
-      </section>
+      <div id={styles.sFooter} className={styles.footerWrapper}>
+        <section className={styles.socials}>
+          <span className={styles.socialsLead}>Follow us</span>
+
+          <Link>
+            <RiTwitterFill />
+          </Link>
+          <Link>
+            <RiFacebookFill />
+          </Link>
+          <Link>
+            <RiInstagramLine />
+          </Link>
+          <Link>
+            <RiLinkedinFill />
+          </Link>
+        </section>
+
+        <section className={styles.siteLinks}>
+          {siteLinks.map((links) => (
+            <ul>
+              {Object.entries(links).map(([name, value]) => (
+                <li>
+                  <Link to={value}>{name}</Link>
+                </li>
+              ))}
+            </ul>
+          ))}
+        </section>
+
+        <section className={styles.footerFlex}>
+          <p className={styles.footerLogo}>
+            <img
+              className={styles.footerLogoImg}
+              src={LogoIcon}
+              alt="fountain pen's tip camera closeup"
+            />
+            Papersdrop
+          </p>
+
+          <p className={styles.footerCopyright}>
+            Copyright &copy; Papersdrop 2021
+          </p>
+        </section>
+      </div>
     </footer>
   );
 }
+
+const supportLinks = [
+  {
+    "Home": "/",
+    "Login": "/login",
+    "About Us": "/landing#about"
+  }
+]
+
+const companyLinks = [
+  {
+    "Contact Us": "/contact",
+    "Privacy Policy": "/privacy-policy",
+    "Terms and condition": "/terms-and-conditions",
+    "DMCA": "/dmca"
+  }
+]
 
 const siteLinks = [
   {

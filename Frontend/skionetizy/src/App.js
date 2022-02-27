@@ -68,6 +68,7 @@ function App() {
                 path="/addBlogDetailsMarkdown"
                 component={addBlogDetailsMarkdown}
               />
+              <Route path="/contact" component={ContactUs} />
               <Route exact path="/userNotFound" component={UserNotFound} />
               <Route exact path="/addBlogImage" component={addBlogImage} />
               <Route exact path="/addBlogKeywords" component={AddBlogKeywords} />
