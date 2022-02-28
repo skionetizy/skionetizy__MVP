@@ -166,6 +166,7 @@ function LoginForm(props, {
             /* isSignedIn={true} */
             cookiePolicy={"single_host_origin"}
           />
+          <p>It just takes 3 seconds to login!</p>
         </div>
         <Divider className={style.divider}>OR</Divider>
         <div>

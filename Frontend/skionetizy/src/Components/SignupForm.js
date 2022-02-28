@@ -103,6 +103,7 @@ function SignupForm({
         <a className={styles.googleBtn} href={googleOAuthURL}>
           <FcGoogle fontSize="1.5em" /> Signup With Google
         </a>
+        <p className={styles.login_p}>It just takes 3 seconds to login!</p>
 
         <Divider className={styles.divider}>OR SIGNUP WITH</Divider>
 
