@@ -10,6 +10,7 @@ import axios from "axios";
 import baseURL from "../utils/baseURL";
 import style from "../Pages/exploreBlogs.module.css";
 import Moment from "react-moment";
+import { REDIRECTED_FROM } from "../utils/localStorageKeys";
 
 Moment.globalFormat = "MMM D , YYY ";
 
@@ -18,6 +19,12 @@ const BlogCard = ({ blog, isAdmin = false }) => {
     const res = await axios.get(`${baseURL}/blog/getComments`);
     console.log("comm", res);
   }, []);
+
+  const redirecting = () => {
+    localStorage.setItem(REDIRECTED_FROM, isAdmin
+      ? `/admin/${profileUserNameSlug}/${blogTitleSlug}/${blog.blogID}`
+      : `/${profileUserNameSlug}/${blogTitleSlug}/${blog.blogID}`);
+  }
 
   let blogTitle = blog?.blogTitle
   // blogTitle = blogTitle?.replace(/[^a-zA-Z ]/g, "")
@@ -46,6 +53,7 @@ const BlogCard = ({ blog, isAdmin = false }) => {
         //     ? `/admin/view-blog/${blog.blogID}/${blog.profileID}`
         //     : `/view-blog/${blog.blogID}/${blog.profileID}`
         // }
+        onClick={redirecting}
         to={
           isAdmin
             ? `/admin/${profileUserNameSlug}/${blogTitleSlug}/${blog.blogID}`

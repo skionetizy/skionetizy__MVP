@@ -28,6 +28,7 @@ import {
 import {
   AUTHORIZATION_HEADER,
   LOGGED_IN_PROFILE_ID,
+  REDIRECTED_FROM,
 } from "../utils/localStorageKeys";
 import { GoogleLogin } from "react-google-login";
 
@@ -143,7 +144,7 @@ function LoginForm(props, {
     props.on_login(res.token, profile_get.profile, userID);
     setIsLoading(false);
     if (res.sucess === true || res.success === 1) {
-      history.push("/")
+      history.push(localStorage.getItem(REDIRECTED_FROM))
       return
     } else {
       setError(res.message)
