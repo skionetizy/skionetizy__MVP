@@ -71,9 +71,9 @@ class Contact(Resource):
         input = [[C.name, C.email, C.description, C.created_date, C.created_time, C.ticket_status]]
         service = build('sheets', 'v4', credentials=creds)
         # Call the Sheets API to append data in sheet
-        # As to append data from row A and column 1, A1 range is used
+        # As to append data from column A and row 2, A2 range is used
         req = service.spreadsheets().values().append(
-            spreadsheetId=SPREADSHEET_ID, range="Sheet1!A1", valueInputOption="USER_ENTERED", body={"values": input})
+            spreadsheetId=SPREADSHEET_ID, range="Sheet1!A2", valueInputOption="USER_ENTERED", body={"values": input})
         resp = req.execute()
 
         return {'id':str(C.contactID)}, 200
