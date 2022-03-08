@@ -11,7 +11,11 @@
   margin: 0;
   font-size: 1.5rem;
 }
-
+.login_p{
+  color: white;
+  margin: 0;
+  text-decoration: underline;
+}
 .heroImage {
   display: block;
   margin: 0 auto;
