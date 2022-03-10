@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import {
     AUTHORIZATION_HEADER,
     LOGGED_IN_PROFILE_ID,
+    REDIRECTED_FROM,
 } from "../utils/localStorageKeys";
 
 
@@ -25,6 +26,7 @@ function ProfileDropdown(props, { className }) {
         localStorage.removeItem(LOGGED_IN_PROFILE_ID, "");
         localStorage.setItem(AUTHORIZATION_HEADER, "");
         localStorage.removeItem(AUTHORIZATION_HEADER, "");
+        localStorage.setItem(REDIRECTED_FROM, "/");
         delete axios.defaults.headers["Authorization"];
         props.onlogout();
     }
