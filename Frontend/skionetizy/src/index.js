@@ -16,14 +16,36 @@ const store = createStore(Reducer);
 
 console.log(process.env.REACT_APP_DOMAIN);
 
-ReactDOM.render(
+/* ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
-);
+); */
+
+const rootElement = document.getElementById("root");
+
+if (rootElement.hasChildNodes()) {
+  ReactDOM.hydrate(
+    <React.StrictMode>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </React.StrictMode>,
+    rootElement
+  );
+} else {
+  ReactDOM.render(
+    <React.StrictMode>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </React.StrictMode>,
+    rootElement
+  );
+}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
