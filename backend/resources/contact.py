@@ -68,7 +68,7 @@ class Contact(Resource):
         C.save()        
         
         # Storing data
-        input = [[C.name, C.email, C.description, C.created_date, C.created_time, C.ticket_status]]
+        input = [[str(C.contactID), C.name, C.email, C.description, C.created_date, C.created_time, C.ticket_status]]
         service = build('sheets', 'v4', credentials=creds)
         # Call the Sheets API to append data in sheet
         # As to append data from column A and row 2, A2 range is used
