@@ -136,4 +136,6 @@ class contact(db.Document):
     name=db.StringField(required=True)
     email=db.EmailField(required=True)
     description=db.StringField(required=True)
-    created_at=db.DateTimeField(default=datetime.datetime.utcnow)
+    created_date=db.DateTimeField(default=datetime.datetime.utcnow)
+    created_time=db.DateTimeField(default=datetime.datetime.utcnow)
+    ticket_status=db.StringField()

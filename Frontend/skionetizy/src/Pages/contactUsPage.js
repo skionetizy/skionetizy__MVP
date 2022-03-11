@@ -8,6 +8,10 @@ import baseURL from "../utils/baseURL";
 import * as yup from "yup";
 import Spinner from "../Components/Spinner";
 import VerifyEmailModal from "../Components/VerifyEmailModal";
+import {
+  REDIRECTED_FROM
+} from "../utils/localStorageKeys";
+import { PostOnContactAPIHandler } from "../API/contactAPIHandler";
 
 const jwt = require("jsonwebtoken");
 
@@ -45,26 +49,22 @@ const ContactUsPage = (props) => {
   const submitDetails = (event) => {
     event.preventDefault();
     const data = {
-      Name: name,
-      Description: description,
-      Email: email,
+      name: name,
+      description: description,
+      email: email,
     };
-    axios
-      .post(`${process.env.REACT_APP_SUPPORT_QUERY}`, data)
-      .then((res) => {
-        console.log(res.data);
-        console.log(res.status);
-        setContactdetails({
-          name: name,
-          description: "",
-          email: email,
-          isSubmit: true,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        setContactdetails({ isSubmit: false });
+    const submitStatus = PostOnContactAPIHandler(data);
+    if(submitStatus){
+      setContactdetails({
+        name: name,
+        description: "",
+        email: email,
+        isSubmit: true,
       });
+    }
+    else{
+      setContactdetails({ isSubmit: false });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -117,6 +117,10 @@ const ContactUsPage = (props) => {
     }
   };
 
+  const redirecting = () => {
+    localStorage.setItem(REDIRECTED_FROM, "/contact");
+  }
+
   useEffect(() => {
     setContactdetails({ name: profileName, email: emailId });
   }, [profileName, emailId]);
@@ -128,7 +132,7 @@ const ContactUsPage = (props) => {
           For support either login to this platform or enter your email to
           generate a token
         </p>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} method="POST">
           <label htmlFor="email" className={styles.fsize}>
             Email
           </label>
@@ -154,7 +158,8 @@ const ContactUsPage = (props) => {
           />
         )}
         <hr />
-        <Link to="/login">
+        {/* From contact page it is redirected to login page with a data stating the previous page */}
+        <Link to='/login' onClick={redirecting}>
           <button style={btnStyle}>Login For Support</button>
         </Link>
       </div>
@@ -167,7 +172,7 @@ const ContactUsPage = (props) => {
             Your Query is submitted, we will contact you soon.
           </h1>
         )}
-        <form action="">
+        <form>
           <label htmlFor="name" className={styles.fsize}>
             Name
           </label>
