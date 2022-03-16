@@ -1,28 +1,184 @@
 .whitecolor {
   color: #fff;
+  font-weight: bold;
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 
-.input {
-  font-size: 1.6rem;
+.loginForSupport{
+  width: max-content;
+  margin: 0 auto;
 }
 
-.btn {
-  margin-left: 1rem;
-  font-size: 1.6rem;
-  padding: 0rem 0.5rem;
+.btnStyle{
+  color: #fff;
+  background: #3498DB;
+  border: none;
+  padding: 10px 40px;
+  border-radius: 3rem;
+  font-size: 1.3rem;
 }
 
-.btn1 {
-  font-size: 1.6rem;
-  padding: 0 1rem;
+.divForOr{
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  margin: 1.3rem 0;
 }
 
-.fsize {
-  font-size: 3rem;
-  color: #dedede;
+.divForOr::before, 
+.divForOr::after{
+  content: "";
+  flex: 1 1;
+  border-bottom: 0.1rem solid #fff;
+  margin: auto;
 }
 
-hr {
-  margin-bottom: 3rem;
+.divForOr::before{
+  margin-right: 10px;
+}
+
+.divForOr::after{
+  margin-left: 10px;
+}
+
+.headStyle{
+  font-size: 2rem;
+  color: #fff;
+}
+
+.form{
   margin-top: 1.6rem;
+}
+
+.formDiv{
+  background: #fff;
+  border-radius: 3rem;
+  width: 90%;
+  position: relative;
+}
+
+.logoMessageDiv{
+  height: 100%;
+  position: absolute;
+  left: -0.4rem;
+  border-radius: 3rem 0 0 3rem;
+  border-right: 2px solid #848484;
+  background: #fff;
+  padding: 10px 10px 10px 40px;
+}
+
+.logoMessage{
+  margin-top: 0.2rem;
+}
+
+.input{
+  border: none;
+  border-left: 1px solid #848484;
+  margin: 10px 90px;
+  padding: 5px;
+  font-size: 1.5rem;
+}
+
+.logoPen{
+  width: 2.2rem;
+  position: absolute;
+  right: 3rem;
+  top: 1rem;
+}
+
+.btnStyle2{
+  display: block;
+  margin: auto;
+  color: #fff;
+  background: #3498DB;
+  border: none;
+  padding: 10px 70px;
+  border-radius: 3rem;
+  font-size: 1.3rem;
+}
+
+.descForm label{
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.descDiv{
+  display: flex;
+  align-items: center;
+  width: 90%;
+  padding: 5px 15px;
+  box-shadow: 0 0 8px 5px #242442;
+  margin: 1.5rem 0 1.5rem 1.5rem;
+  padding: 1.2rem 0 1.3rem 1rem;
+  border-radius: 1.2rem;
+}
+
+.descFormInput{
+  width: 80%;
+  font-size: 1.2rem;
+  border: none;
+  background: none;
+  color: #fff;
+  padding-left: 5px;
+  resize: none;
+}
+
+.img{
+  height: 80%;
+  margin: auto;
+}
+
+.logos{
+  width: 2rem;
+  margin: 0 10px;
+}
+
+.breaker{
+  padding-bottom: 2px;
+  width: 0.35rem;
+  height: max-content;
+  font-size: 2rem;
+  color: #fff;
+  overflow: hidden;
+  margin-right: 5px;
+}
+
+.descDivText{
+  position: relative;
+  width: 90%;
+  padding: 5px 15px;
+  box-shadow: 0 0 8px 5px #242442;
+  margin: 1.2rem 0 1.2rem 1.5rem;
+  padding: 1.3rem 0 1.3rem 1rem;
+  border-radius: 1.2rem;
+}
+
+.textBreaker{
+  position: absolute;
+  top: 10px;
+  width: 0.35rem;
+  height: max-content;
+  font-size: 2rem;
+  color: #fff;
+  overflow: hidden;
+}
+
+.descDivText .descFormInput{
+  margin-left: 10px;
+}
+
+.require::after{
+  content: '*';
+  color: #FF0000;
+  margin-left: 3px;
+}
+
+.captcha{
+  width: max-content;
+  margin: 0 auto 1.2rem;
+  padding: 5px 15px;
+  box-shadow: 0 0 8px 5px #242442;
+  padding: 1.2rem 1rem 1.3rem;
+  border-radius: 1.2rem;
 }

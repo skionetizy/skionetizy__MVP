@@ -12,11 +12,21 @@ import {
   REDIRECTED_FROM
 } from "../utils/localStorageKeys";
 import { PostOnContactAPIHandler } from "../API/contactAPIHandler";
+import Vector1 from "../Assets/undraw_login_re_4vu2.png";
+import Vector2 from "../Assets/undraw_authentication_re_svpt.svg";
+import MessageIcon from "../Assets/Group 7101.png";
+import PenIcon from "../Assets/Group 7209.png";
+import Message from "../Assets/Message.png";
+import ProfileIcon from "../Assets/Profile.png";
+import ReCaptcha from "reaptcha";
 
 const jwt = require("jsonwebtoken");
 
-const btnStyle = { width: "16rem", height: "3.6rem" };
-const divContainer = { width: "70%", margin: "auto", marginTop: "8rem" };
+const divContainer = { width: "80%", margin: "auto", marginTop: "4rem", display: "flex" };
+const divContainer1 = { width: "80%", margin: "4rem auto 3rem auto", display: "flex" };
+const leftContainer = { width: "60%", padding: "0 4rem" };
+const rightContainer = { display: "grid", height: "100%", width: "100%" };
+const commonStyleContainer = { width: "100%", textAlign: "center", marginTop: "3rem" };
 
 const ContactUsPage = (props) => {
   const profile = props.profile;
@@ -128,91 +138,144 @@ const ContactUsPage = (props) => {
   return !isAuthenticated() ? (
     <>
       <div style={divContainer}>
-        <p className={styles.whitecolor}>
-          For support either login to this platform or enter your email to
-          generate a token
-        </p>
-        <form onSubmit={handleSubmit} method="POST">
-          <label htmlFor="email" className={styles.fsize}>
-            Email
-          </label>
-          <br />
-          <input
-            className={styles.input}
-            placeholder="Enter Email ID"
-            name="emailID"
-            value={emailID}
-            onChange={(ev) => setEmailID(ev.target.value)}
-          />
+        <div style={leftContainer}>
+          <p className={styles.whitecolor}>
+            For support either login to this platform or enter your email to
+              generate a token
+          </p>
+        {/* <div style={divContainer}>
+          <p className={styles.whitecolor}>
+            For support either login to this platform or enter your email to
+            generate a token
+          </p>
+          <form>
+            <label htmlFor="email" className={styles.fsize}>
+              Email
+            </label>
+            <br />
+          </form> */}
+          {!!error && <p className={styles.error}>{error}</p>}
+          {showModal === "VERIFY_EMAIL" && (
+            <VerifyEmailModal
+              onClose={() => {
+                history.push("/login");
+              }}
+            />
+          )}
+          <div style={commonStyleContainer}>
+            {/* From contact page it is redirected to login page with a data stating the previous page */}
+            <Link to='/login' onClick={redirecting} className={styles.loginForSupport}>
+              <button className={styles.btnStyle}>Login for Support</button>
+            </Link>
+          </div>
+          <div className={styles.divForOr}>
+            <span className={styles.whitecolor}>Or</span>
+          </div>
 
-          <button className={styles.btn}>
-            {isLoading ? <Spinner /> : <span>Submit</span>}
-          </button>
-        </form>
-        {!!error && <p className={styles.error}>{error}</p>}
-        {showModal === "VERIFY_EMAIL" && (
-          <VerifyEmailModal
-            onClose={() => {
-              history.push("/login");
-            }}
-          />
-        )}
-        <hr />
-        {/* From contact page it is redirected to login page with a data stating the previous page */}
-        <Link to='/login' onClick={redirecting}>
-          <button style={btnStyle}>Login For Support</button>
-        </Link>
+          <div className={styles.divForm}>
+            <span className={styles.headStyle}>Enter your email id</span>
+            <form className={styles.form} onSubmit={handleSubmit} method="POST">
+              <div className={styles.formDiv}>
+                <div className={styles.logoMessageDiv}>
+                  <img className={styles.logoMessage} alt="" src={MessageIcon} />
+                </div>
+                <input
+                  className={styles.input}
+                  placeholder="abc@gmail.com"
+                  name="emailID"
+                  value={emailID}
+                  onChange={(ev) => setEmailID(ev.target.value)}
+                />
+                <img className={styles.logoPen} alt="" src={PenIcon} />
+              </div>
+              <br/>
+              <div style={commonStyleContainer}>
+                <button className={styles.btnStyle2}>
+                  {isLoading ? <Spinner /> : <span>Send code</span>}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+        {/* Right side image */}
+        <div>
+          <img height="80%" alt="" src={Vector1} />
+        </div>
+        
       </div>
     </>
   ) : (
     <>
-      <div style={divContainer}>
-        {isSubmit && (
-          <h1 style={{ color: "white" }}>
-            Your Query is submitted, we will contact you soon.
-          </h1>
-        )}
-        <form>
-          <label htmlFor="name" className={styles.fsize}>
-            Name
-          </label>
-          <br />
-          <input
-            type="text"
-            className={styles.input}
-            name="name"
-            onChange={handleChange("name")}
-            value={name}
-          />
-          <br />
-          <label htmlFor="email" className={styles.fsize}>
-            Email
-          </label>
-          <br />
-          <input
-            type="email"
-            className={styles.input}
-            name="email"
-            onChange={handleChange("email")}
-            value={email}
-          />
-          <br />
-          <label htmlFor="description" className={styles.fsize}>
-            Description
-          </label>
-          <br />
-          <textarea
-            className={styles.input}
-            rows={8}
-            name="description"
-            onChange={handleChange("description")}
-            value={description}
-          ></textarea>
-          <br />
-          <button className={styles.btn1} onClick={submitDetails}>
-            Submit
-          </button>
-        </form>
+      <div style={divContainer1}>
+        <div style={leftContainer}>
+          {isSubmit && (
+            <h1 style={{ color: "white" }}>
+              Your Query is submitted, we will contact you soon.
+            </h1>
+          )}
+          <form className={styles.descForm}>
+            <label htmlFor="name" className={styles.require}>
+              Name
+            </label>
+            <div className={styles.descDiv}>
+              <img className={styles.logos} alt="" src={ProfileIcon} />
+              <span className={styles.breaker}>|</span>
+              <input
+                type="text"
+                className={styles.descFormInput}
+                name="name"
+                onChange={handleChange("name")}
+                required="true"
+                value={name}
+              />
+            </div>
+            <br />
+            <label htmlFor="email" className={styles.require}>
+              Email
+            </label>
+            <br />
+            <div className={styles.descDiv}>
+              <img className={styles.logos} alt="" src={Message} />
+              <span className={styles.breaker}>|</span>
+              <input
+                type="email"
+                className={styles.descFormInput}
+                name="email"
+                onChange={handleChange("email")}
+                required="true"
+                value={email}
+              />
+            </div>
+            <br />
+            <label htmlFor="description">
+              Description
+            </label>
+            <br />
+            <div className={styles.descDivText}>
+              <span className={styles.textBreaker}>|</span>
+              <textarea
+                className={styles.descFormInput}
+                rows={8}
+                name="description"
+                onChange={handleChange("description")}
+                value={description}
+              ></textarea>
+            </div>
+            <br />
+            { console.log("Hello", process.env.REACT_APP_SITE_KEY) }
+            <ReCaptcha className={styles.captcha} sitekey="6LfIMeIeAAAAAJHcmGvf7oclsbRZpb-nBcxz0bKN" />
+            <br />
+            <button className={styles.btnStyle2} onClick={submitDetails}>
+              Submit
+            </button>
+          </form>
+        </div>
+        {/* Right side image */}
+        <div style={rightContainer}>
+          <img className={styles.img} alt="" src={Vector2} />
+        </div>
+
       </div>
     </>
   );
