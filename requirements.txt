@@ -106,6 +106,7 @@ typer==0.3.2
 typing-extensions==3.10.0.2
 tzdata==2021.5
 tzlocal==4.1
+reaptcha==1.9.0
 urllib3==1.26.4
 virtualenv==20.8.1
 wasabi==0.8.2
