@@ -8,6 +8,7 @@ import ViewBlog from "./Pages/ViewBlog";
 import { getLoggedInProfileID } from "./utils/AuthorisationUtils";
 import AdBlockerBlocker from "./Components/AdBlockerBlocker";
 import { useDetectAdBlock } from "adblock-detect-react";
+// import { Careers } from "./Pages/Careers";
 
 // Lazy loading pages
 const addBlogDetailsMarkdown = lazy(() =>
@@ -31,7 +32,8 @@ const UserNotFound = lazy(() => import("./Pages/UserNotFound"));
 const UserProfile = lazy(() => import("./Pages/UserProfile"));
 const ExploreBlogs = lazy(() => import("./Pages/ExploreBlogs"));
 const Privacy = lazy(() => import("./Pages/Privacy"));
-const ContactUs = lazy(() => import("./Pages/contactUsPage"))
+const ContactUs = lazy(() => import("./Pages/contactUsPage"));
+const Careers = lazy(() => import("./Pages/Careers"));
 
 function App() {
   const { saveProfile } = useAuth();
@@ -69,6 +71,7 @@ function App() {
                 component={addBlogDetailsMarkdown}
               />
               <Route path="/contact" component={ContactUs} />
+              <Route path="/careers" component={Careers} />
               <Route exact path="/userNotFound" component={UserNotFound} />
               <Route exact path="/addBlogImage" component={addBlogImage} />
               <Route exact path="/addBlogKeywords" component={AddBlogKeywords} />

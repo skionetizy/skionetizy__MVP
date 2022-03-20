@@ -22,12 +22,6 @@ import ReCaptcha from "reaptcha";
 
 const jwt = require("jsonwebtoken");
 
-const divContainer = { width: "80%", margin: "auto", marginTop: "4rem", display: "flex" };
-const divContainer1 = { width: "80%", margin: "4rem auto 3rem auto", display: "flex" };
-const leftContainer = { width: "60%", padding: "0 4rem" };
-const rightContainer = { display: "grid", height: "100%", width: "100%" };
-const commonStyleContainer = { width: "100%", textAlign: "center", marginTop: "3rem" };
-
 const ContactUsPage = (props) => {
   const profile = props.profile;
   const profileName = profile?.profileName;
@@ -137,8 +131,8 @@ const ContactUsPage = (props) => {
 
   return !isAuthenticated() ? (
     <>
-      <div style={divContainer}>
-        <div style={leftContainer}>
+      <div className={styles.divContainer}>
+        <div className={styles.leftContainer}>
           <p className={styles.whitecolor}>
             For support either login to this platform or enter your email to
               generate a token
@@ -162,7 +156,7 @@ const ContactUsPage = (props) => {
               }}
             />
           )}
-          <div style={commonStyleContainer}>
+          <div className={styles.commonStyleContainer}>
             {/* From contact page it is redirected to login page with a data stating the previous page */}
             <Link to='/login' onClick={redirecting} className={styles.loginForSupport}>
               <button className={styles.btnStyle}>Login for Support</button>
@@ -189,7 +183,7 @@ const ContactUsPage = (props) => {
                 <img className={styles.logoPen} alt="" src={PenIcon} />
               </div>
               <br/>
-              <div style={commonStyleContainer}>
+              <div className={styles.commonStyleContainer}>
                 <button className={styles.btnStyle2}>
                   {isLoading ? <Spinner /> : <span>Send code</span>}
                 </button>
@@ -199,7 +193,7 @@ const ContactUsPage = (props) => {
         </div>
         
         {/* Right side image */}
-        <div>
+        <div className={styles.rightContainer1}>
           <img height="80%" alt="" src={Vector1} />
         </div>
         
@@ -207,8 +201,8 @@ const ContactUsPage = (props) => {
     </>
   ) : (
     <>
-      <div style={divContainer1}>
-        <div style={leftContainer}>
+      <div className={styles.divContainer1}>
+        <div className={styles.leftContainer}>
           {isSubmit && (
             <h1 style={{ color: "white" }}>
               Your Query is submitted, we will contact you soon.
@@ -263,7 +257,6 @@ const ContactUsPage = (props) => {
               ></textarea>
             </div>
             <br />
-            { console.log("Hello", process.env.REACT_APP_SITE_KEY) }
             <ReCaptcha className={styles.captcha} sitekey="6LfIMeIeAAAAAJHcmGvf7oclsbRZpb-nBcxz0bKN" />
             <br />
             <button className={styles.btnStyle2} onClick={submitDetails}>
@@ -272,7 +265,7 @@ const ContactUsPage = (props) => {
           </form>
         </div>
         {/* Right side image */}
-        <div style={rightContainer}>
+        <div className={styles.rightContainer}>
           <img className={styles.img} alt="" src={Vector2} />
         </div>
 

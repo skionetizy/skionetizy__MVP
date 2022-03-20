@@ -8,6 +8,7 @@ import clsx from "../utils/clsx";
 import styles from "./NavMenuBar.module.css";
 import DonateButton from "../Components/DonateButton";
 import ProfileDropdown from "./ProfileDropdown";
+import Speaker from "../Assets/icons8-speaker-48.png";
 
 function NavMenuBar(props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -142,6 +143,16 @@ function NavMenuBar(props) {
               onClick={closeBlog}
             >
               Mission
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={{ pathname: "/careers", hash: "#careers" }}
+              className={styles.careers}
+            >
+              <img alt="speakericon" src={Speaker}/>
+              <p>Papersdrop is hiring!Apply now</p>
+              <img alt="speakericon" src={Speaker}/>
             </Link>
           </li>
           <li>

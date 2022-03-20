@@ -75,7 +75,7 @@ function Footer() {
               <RiLinkedinFill />
             </Link>
           </div>
-          <button className={styles.hireme}>Hire me</button>
+          <button className={styles.hireme}><a href="/careers">Hire me</a></button>
         </section>
       </div>
 

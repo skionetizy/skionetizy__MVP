@@ -146,6 +146,27 @@
   margin-left: 1rem;
 }
 
+.careers{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+  background: #1b2a4b;
+  border-radius: 2rem;
+  padding: 0 10px;
+}
+
+.careers img{
+  width: 20px;
+  height: 20px;
+}
+
+.careers p{
+  margin: 0 10px;
+  font-size: 1.1rem;
+}
+
+
 @media (hover: hover) {
   .link:hover {
     background-color: var(--primary-blue);
