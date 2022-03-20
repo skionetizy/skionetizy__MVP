@@ -1,3 +1,40 @@
+.divContainer {
+   width: 80%;
+   margin: auto;
+   margin-top: 4rem;
+   display: flex;
+}
+
+.divContainer1 {
+   width: 80%;
+   margin: 4rem auto 3rem auto;
+   display: flex;
+}
+
+.leftContainer {
+   width: 60%;
+   padding: 0 2rem;
+}
+
+.rightContainer {
+   display: grid;
+   height: 100%;
+   width: 100%;
+}
+
+.commonStyleContainer {
+   width: 100%;
+   text-align: center;
+   margin-top: 3rem;
+}
+
+.rightContainer1 {
+  margin: auto;
+  text-align: center;
+  height: 100%;
+  width: 50%;
+}
+
 .whitecolor {
   color: #fff;
   font-weight: bold;
@@ -73,6 +110,7 @@
 }
 
 .input{
+  width: 50%;
   border: none;
   border-left: 1px solid #848484;
   margin: 10px 90px;
@@ -181,4 +219,37 @@
   box-shadow: 0 0 8px 5px #242442;
   padding: 1.2rem 1rem 1.3rem;
   border-radius: 1.2rem;
+}
+
+@media only screen and (max-width: 1200px) {
+  .leftContainer{
+    width: 80%;
+    margin: auto;
+  }
+
+  .rightContainer{
+    display: none;
+  }
+
+  .rightContainer1{
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .divContainer1{
+    width: 100%;
+  }
+
+  .leftContainer{
+    padding: 0 1rem;
+  }
+
+  .logoPen{
+    right: 0.5rem;
+  }
+
+  .logoMessageDiv{
+    padding-right: 10px;
+  }
 }

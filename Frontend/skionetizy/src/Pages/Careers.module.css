@@ -1,0 +1,56 @@
+.divContainer {
+  width: 100%;
+  margin: auto;
+  margin-top: 4rem;
+  display: flex;
+}
+
+.leftContainer {
+  width: 60%;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.rightContainer {
+  text-align: center;
+  height: 100%;
+  width: 60%;
+}
+
+.commonStyleContainer {
+  width: 100%;
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.rightContainer1 {
+ margin: auto;
+ text-align: center;
+ height: 100%;
+ width: 50%;
+}
+
+@media only screen and (max-width: 1200px) {
+  .leftContainer{
+    width: 80%;
+    margin: auto;
+  }
+
+  .rightContainer{
+    display: none;
+  }
+
+  .rightContainer1{
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .divContainer1{
+    width: 100%;
+  }
+
+  .leftContainer{
+    padding: 0 1rem;
+  }
+}
