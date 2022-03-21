@@ -18,7 +18,7 @@ import MessageIcon from "../Assets/Group 7101.png";
 import PenIcon from "../Assets/Group 7209.png";
 import Message from "../Assets/Message.png";
 import ProfileIcon from "../Assets/Profile.png";
-import ReCaptcha from "reaptcha";
+import Reaptcha from 'reaptcha';
 
 const jwt = require("jsonwebtoken");
 
@@ -257,7 +257,7 @@ const ContactUsPage = (props) => {
               ></textarea>
             </div>
             <br />
-            <ReCaptcha className={styles.captcha} sitekey="6LfIMeIeAAAAAJHcmGvf7oclsbRZpb-nBcxz0bKN" />
+            <Reaptcha className={styles.captcha} sitekey="6LfIMeIeAAAAAJHcmGvf7oclsbRZpb-nBcxz0bKN" />
             <br />
             <button className={styles.btnStyle2} onClick={submitDetails}>
               Submit
