@@ -488,11 +488,10 @@ const ViewBlog = () => {
             )}
           </div>
         </div>
-        {/* Removed banner ad */}
-        {/* Banner ad before comments */}
-        {/* <div className={style.bannerad}>
+        {/* Banner ad above comments */}
+        <div className={style.bannerad}>
           <iframe title="Banner ad" src="//midgerelativelyhoax.com/watchnew?key=e154eef9929e6c5029f3532b0fae1619" width="728" height="90" frameborder="0" scrolling="no"></iframe>
-        </div> */}
+        </div>
         <div className={style.meta}>
           <div className={style.metaContent}>
             <div className={style.views}>
