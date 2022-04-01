@@ -61,7 +61,7 @@ export default function UserBlogsCard({ blog, profile, isOwner }) {
           }}
           className={styles.editDraftBtn}
         >
-          <FiEdit2 width="1em" />
+          <FiEdit2 className={styles.edit_icon} width="1em" />
         </Link>
         :<></>}
     </div>

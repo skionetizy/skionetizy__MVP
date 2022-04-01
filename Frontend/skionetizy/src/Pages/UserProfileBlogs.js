@@ -12,7 +12,7 @@ import { Center } from "../Components/Layouts";
 import Button from "../Components/Button";
 import { useDispatch } from "react-redux";
 
-export default function UserProfileDrafts({ profile, isOwner }) {
+export default function UserProfileBlogs({ profile, isOwner }) {
   const [status, setStatus] = useState("idle");
   const [blogs, setBlogs] = useState([]);
   const [page, setPage] = useState(0);
@@ -20,22 +20,23 @@ export default function UserProfileDrafts({ profile, isOwner }) {
   const [isVisible, setIsVisible] = useState(false);
   const { profileUserName } = useParams();
   const dispatch = useDispatch();
-  useEffect(async () => {
+
+  useEffect(() => {
       if (!profileUserName) return;
-      /* setStatus("loading");
-      try{
-        const blogs=await axios.get(`${baseURL}/profile/getBlogsAndProfile/${page}/${profileUserName}/NON_DRAFTS`);
-        const res=blogs.data.blogs;
-        console.log("Loading. blogs inside try")
-        console.log(res);
-        if(res.length>0)setBlogs((prev)=>[...prev, ...res]);
-        else setHasMoreBlog(false)
-        setStatus("idle");
-      }
-      catch(e){
-        setStatus("idle");
-        setHasMoreBlog(false);
-      } */
+    /* setStatus("loading");
+    try{
+      const blogs=await axios.get(`${baseURL}/profile/getBlogsAndProfile/${page}/${profileUserName}/NON_DRAFTS`);
+      const res=blogs.data.blogs;
+      console.log("Loading. blogs inside try")
+      console.log(res);
+      if(res.length>0)setBlogs((prev)=>[...prev, ...res]);
+      else setHasMoreBlog(false)
+      setStatus("idle");
+    }
+    catch(e){
+      setStatus("idle");
+      setHasMoreBlog(false);
+    } */
     setStatus("loading");
     Promise.all([
       [],
