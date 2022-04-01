@@ -5,6 +5,10 @@
   position: relative;
 }
 
+.edit_icon{
+  color: #3498DB;
+}
+
 .blogImage {
   flex: 1;
   max-width: 26rem;

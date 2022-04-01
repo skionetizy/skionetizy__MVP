@@ -33,20 +33,28 @@ import validateImage from "../utils/validateImage";
 import style from "./UserProfile.module.css";
 import UserProfileBlogs from "./UserProfileBlogs";
 import UserProfileDrafts from "./UserProfileDrafts";
+import { connect } from "react-redux";
+import { LOGGED_IN_PROFILE_ID } from "../utils/localStorageKeys";
 
 Moment.globalFormat = "MMM D , YYYY";
 
 const placeholderImageSrc =
   "https://lh3.googleusercontent.com/zidTLyBQ7Z46uLdcPFTSYdxsGMNzjdLOJ6jG4xGbqXVfrHkEm2nsa3Q_nZYqp51RfeApLHTgCMX6UkJFqiAJKIpZDa65SCPy7WZQzd6fmb-7JMIeoA76t1bY44wCErusB2V3H5cqTNVCATDWziU63fUdTDzLCGHNQV-0iPoHUyAMACtbB27r-kqGTlZ5RzPHg4JFhPfWxEXi0VL-PnVpMRCRLsGhThf90C0BYhzwKfHCB2iXVpWsSFWLtESgTCsxNGn3LAXm34LxN9B0PrigHjIUzY75GYxjRIvUEU69tNhQcYx5zbWKcRV-roL6iK0qGy1snILuRWqma4SWZeb7ZKAVk8kXFq0PqXGRGNqVZc7-bi_5i7sSkr6bzVbSn_7XHJMhOZKatdYen__DOdSt84iRjkUT4IuMa1JiTVhwjecPqJMKOrRfMh110BPuiHcHzDcaanP-s0Q56c95ONYVJxq4IKE6nA1jT_ZQ0qVUMlgeZU5_J_FFEPmJRMBoSxqLTVfacuIoZr4wlHzy6gv2jBULjTetV4Ee6gGgE1BO7P-ZYZirwBOD0fe9QYprPjkeUA-80fX_ceWN6peVBUzqFNObZfZgHFTbnbhzdZXB1SNw-BqcyGdXkC4dUJuZOT3XQn3s-mAHQaJ9GCA0R4Twp_jBGNCzO37azvoIQPqqXgVdJwPbm3Fh5uhBzB_wr4AlwjtgqGCp1r_wEF2zNymj5aw=w1588-h893-no?authuser=0";
 
-const UserProfile = () => {
+// profileUserName: profile on the webpage
+// from the props(redux state), the logged in user details come
+// if 1 same as 2, edit options, else no editing
+
+const UserProfile = (props) => {
+  const logged_in_profile=props.logged_in_profile;
   const { profileUserName } = useParams();
-  console.log("Inside UserProfile ->", profileUserName)
+  console.log("Inside UserProfile ->");
+  console.log(logged_in_profile)
   const [profile, setProfile] = useState({});
   // const { profile: loggedProfile } = useAuth();
 
-  const profileID = profile?.profileID;
-  const isOwner = profileID === profile.profileID;
+  // const profileID = profile?.profileID;
+  const [isOwner, setIsOwner] = useState(false);
   const { url: userProfileRoute } = useRouteMatch();
 
   const [userProfileImage, setUserProfileImage] = useState(null);
@@ -61,12 +69,11 @@ const UserProfile = () => {
 
   const [showEditModal, setShowEditModal] = useState(false);
   const history = useHistory();
-  const auth = useAuth();
 
-  const isAuthorisedUser = () => {
-    return profileID === profile.profileID;
-  };
-  const isFollowing = profile.Followers?.includes(profileID);
+  /* const isAuthorisedUser = () => {
+    return logged_in_profile.profileID === profile?.profileID;
+  }; */
+  // const isFollowing = profile.Followers?.includes(profileID);
 
   useEffect(() => {
     setStatus("loading");
@@ -78,14 +85,14 @@ const UserProfile = () => {
 
         const profileData = resProfile.profile;
         setProfile(profileData);
-
+        setIsOwner(logged_in_profile?.profileID===profileData.profileID);
         setUserProfileImage(profileData.profilePicImageURL);
         setUserCoverImage(profileData.profileBannerImageURL);
       })
       .finally(() => {
-        setStatus("idle");
+        setStatus('idle');
       });
-  }, [profileUserName]);
+  }, [profileUserName, props]);
 
   function handleClose() {
     setShowEditModal(false);
@@ -125,37 +132,39 @@ const UserProfile = () => {
             src={userCoverSrc}
             alt=""
           />
-
-          <input
-            id="profileBannerImage"
-            name="profileBannerImage"
-            className={style.editImageInput}
-            onChange={(ev) => {
-              setCoverImageStatus("loading");
-              handleProfileUpload(ev, { maxWidth: 2000, maxHeight: 600 })
-                .then((res) => {
-                  console.log("updating", { res });
-                  if (res?.success === true) {
-                    setUserCoverImage(ev.target.files[0]);
-                  }
-                })
-                .finally(() => {
-                  setCoverImageStatus("idle");
-                });
-            }}
-            type="file"
-            accept=".jpg,.jpeg,.png,.svg"
-            disabled={coverImageStatus === "loading"}
-          />
-          <label
-            htmlFor="profileBannerImage"
-            className={clsx(
-              style.editImageLabel,
-              coverImageStatus === "loading" && style.editImageLabelDisabled
-            )}
-          >
-            <EditOutlinedIcon className={style.bannerEditIcon} />
-          </label>
+          {isOwner?
+            (<><input
+              id="profileBannerImage"
+              name="profileBannerImage"
+              className={style.editImageInput}
+              onChange={(ev) => {
+                setCoverImageStatus("loading");
+                handleProfileUpload(ev, { maxWidth: 2000, maxHeight: 600 })
+                  .then((res) => {
+                    console.log("updating", { res });
+                    if (res?.success === true) {
+                      setUserCoverImage(ev.target.files[0]);
+                    }
+                  })
+                  .finally(() => {
+                    setCoverImageStatus("idle");
+                  });
+              }}
+              type="file"
+              accept=".jpg,.jpeg,.png,.svg"
+              disabled={coverImageStatus === "loading"}
+            />
+            <label
+              htmlFor="profileBannerImage"
+              className={clsx(
+                style.editImageLabel,
+                coverImageStatus === "loading" && style.editImageLabelDisabled
+              )}
+            >
+              <EditOutlinedIcon className={style.bannerEditIcon} />
+            </label></>)
+            :<></>
+              }
 
           {coverImageStatus === "loading" && (
             <div className={style.usersImageSpinner}>
@@ -169,33 +178,36 @@ const UserProfile = () => {
           {/* User Image */}
           <div className={style.col1}>
             <img className={style.profileImage} src={userProfileSrc} alt="" />
-
-            <input
-              id="profilePicImage"
-              name="profilePicImage"
-              className={style.editImageInput}
-              onChange={(ev) => {
-                setProfileImageStatus("loading");
-                handleProfileUpload(ev, {
-                  onlyAspectRatio: true,
-                  aspectRatio: [1, 1],
-                })
-                  .then((res) => {
-                    if (res?.success === true) {
-                      setUserProfileImage(ev.target.files[0]);
-                    }
+            {isOwner?
+              <>
+              <input
+                id="profilePicImage"
+                name="profilePicImage"
+                className={style.editImageInput}
+                onChange={(ev) => {
+                  setProfileImageStatus("loading");
+                  handleProfileUpload(ev, {
+                    onlyAspectRatio: true,
+                    aspectRatio: [1, 1],
                   })
-                  .finally(() => {
-                    setProfileImageStatus("idle");
-                  });
-              }}
-              type="file"
-              disabled={profileImageStatus === "loading"}
-              accept=".jpg,.jpeg,.png,.svg"
-            />
-            <label htmlFor="profilePicImage" className={style.editImageLabel}>
-              <FiCamera className={style.profileEditIcon} />
-            </label>
+                    .then((res) => {
+                      if (res?.success === true) {
+                        setUserProfileImage(ev.target.files[0]);
+                      }
+                    })
+                    .finally(() => {
+                      setProfileImageStatus("idle");
+                    });
+                }}
+                type="file"
+                disabled={profileImageStatus === "loading"}
+                accept=".jpg,.jpeg,.png,.svg"
+              />
+              <label htmlFor="profilePicImage" className={style.editImageLabel}>
+                <FiCamera className={style.profileEditIcon} />
+              </label>
+              </>
+              :<></>}
 
             {profileImageStatus === "loading" && (
               <div className={style.usersImageSpinner}>
@@ -218,7 +230,7 @@ const UserProfile = () => {
                 onUpdate={(res, err) => {
                   if (err) return;
 
-                  const profileID = auth.profile?.profileID;
+                  const profileID = profile.profileID;
                   const Followers = res.isFollowing
                     ? profile.Followers.filter((_id) => _id === profileID)
                     : [...profile.Followers, profileID];
@@ -244,7 +256,7 @@ const UserProfile = () => {
 
             {/* Action Btns Group */}
             <div className={style.userButton}>
-              {profile?.profileID == null ? null : isAuthorisedUser() ? (
+              {profile?.profileID == null ? null : isOwner ? (
                 <Button variant="dark" onClick={() => setShowEditModal(true)}>
                   <EditIcon />
                   &nbsp;&nbsp;
@@ -374,19 +386,22 @@ const UserProfile = () => {
 
         <Switch>
           {/* Blogs */}
-          <Route path="/:profileUserName">
-            <UserProfileBlogs profile={profile} />
+          <Route exact path="/:profileUserName">
+            <UserProfileBlogs profile={profile} isOwner={isOwner} />
+          </Route>
+          <Route exact path="/:profileUserName/blogs">
+            <UserProfileBlogs profile={profile} isOwner={isOwner} />
           </Route>
 
-          <Route path="/:profileUserName/drafts">
-            <UserProfileDrafts profile={profile} />
+          <Route exact path="/:profileUserName/drafts">
+            <UserProfileDrafts profile={profile} isOwner={isOwner}/>
           </Route>
 
-          <Route path="*">
+          {/* <Route path="*">
             {({ location, history }) => (
               <Redirect to={`${location.pathname}/blogs`} from="../.." />
             )}
-          </Route>
+          </Route> */}
           {/* Drafts */}
         </Switch>
       </div>
@@ -396,4 +411,11 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+const mapStateToProps = (state) => {
+  console.log("mapStateToProps state =>", state)
+  return {
+      logged_in_profile: state.profile,
+  };
+};
+
+export default connect(mapStateToProps)(UserProfile);
