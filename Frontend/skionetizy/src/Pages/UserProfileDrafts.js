@@ -13,7 +13,7 @@ import { Center } from "../Components/Layouts";
 import Button from "../Components/Button";
 import { useDispatch } from "react-redux";
 
-export default function UserProfileBlogs({ profile }) {
+export default function UserProfileDrafts({ profile, isOwner }) {
   const [status, setStatus] = useState("idle");
   const [drafts, setDrafts] = useState([]);
   const [page, setPage] = useState(0);
@@ -21,8 +21,7 @@ export default function UserProfileBlogs({ profile }) {
   const [isVisible, setIsVisible] = useState(false);
   const { profileUserName } = useParams();
   const dispatch = useDispatch();
-
-  useEffect(() => {
+  useEffect(async () => {
     if (!profileUserName) return;
 
     setStatus("loading");
@@ -40,6 +39,24 @@ export default function UserProfileBlogs({ profile }) {
       .finally(() => {
         setStatus("idle");
       });
+
+    /* if (!profileUserName) return;
+    console.log("Loading. drafts");
+    setStatus("loading");
+    try{
+      const blogs=await axios.get(`${baseURL}/profile/getBlogsAndProfile/${page}/${profileUserName}/DRAFTS`);
+      const res=blogs.data.blogs;
+      console.log("Loading. blogs inside try")
+      console.log(res);
+      if(res.length>0)setDrafts((prev)=>[...prev, ...res]);
+      else setHasMoreBlog(false)
+      setStatus("idle");
+    }
+    catch(e){
+      setStatus("idle");
+      setHasMoreBlog(false)
+    } */
+
   }, [profileUserName, page]);
 
   useEffect(() => {
@@ -69,6 +86,9 @@ export default function UserProfileBlogs({ profile }) {
             alt="user taking a holographical post summary card by hand and pasting on blog feed holographic wall"
           />
 
+          {isOwner?
+          <>
+
           <p className="center">Start creating. click on the button</p>
 
           <Center>
@@ -82,12 +102,13 @@ export default function UserProfileBlogs({ profile }) {
               Add Blog
             </Button>
           </Center>
+          </>:<></>}
         </div>
       ) : (
         <div className={style.userBlogs}>
           {drafts.map((blog, index) => (
             <div className={style.draftWrapper}>
-              <UserBlogsCard key={index} blog={blog} profile={profile} />
+              <UserBlogsCard key={index} blog={blog} profile={profile} isOwner={isOwner} />
 
               {/* <Link
               to="/addBlogDetailsMarkdown"

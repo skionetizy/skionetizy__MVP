@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import BlogStatusBadge from "../Components/BlogStatusBadge";
 import styles from "./UserBlogsCard.module.css";
 
-export default function UserBlogsCard({ blog, profile }) {
+export default function UserBlogsCard({ blog, profile, isOwner }) {
   const dispatch = useDispatch();
   const { blogImageURL, blogTitle, blogDescription, blogStatus, timestamp } =
     blog;
@@ -41,28 +41,29 @@ export default function UserBlogsCard({ blog, profile }) {
             <p className={styles.profileName}>{profileName}</p>
           </div>
 
-          {blogStatus && (
+          {isOwner ? blogStatus && (
             <BlogStatusBadge variant={blogStatus} className={styles.blogStatus}>
               {blogStatus}
             </BlogStatusBadge>
-          )}
+          ):<></>}
         </div>
 
         <p className={styles.blogDescription}>
           {blogDescription.substr(0, 200)}...
         </p>
       </div>
-
-      <Link
-        to="/addBlogDetailsMarkdown"
-        onClick={() => {
-          dispatch({ type: "MARKDOWN_MODE", payload: "update" });
-          localStorage.setItem("CURRENT_EDITING_BLOG", JSON.stringify(blog));
-        }}
-        className={styles.editDraftBtn}
-      >
-        <FiEdit2 width="1em" />
-      </Link>
+      {isOwner?
+        <Link
+          to="/addBlogDetailsMarkdown"
+          onClick={() => {
+            dispatch({ type: "MARKDOWN_MODE", payload: "update" });
+            localStorage.setItem("CURRENT_EDITING_BLOG", JSON.stringify(blog));
+          }}
+          className={styles.editDraftBtn}
+        >
+          <FiEdit2 width="1em" />
+        </Link>
+        :<></>}
     </div>
   );
 }

@@ -377,19 +377,19 @@ const ViewBlog = () => {
       <div className={`${style.main} ${style.container}`}>
         {blog.blogID && (
           <Helmet>
-            <meta name="description" content={blog.blogDescription.slice(0,150)} />
+            <meta name="description" content={blog.metaData.metaDescription} />
             <title>{blog.blogTitle}</title>
             <meta property="og:title" content={blog.blogTitle} data-react-helmet="true"/>
-            <meta property="og:description" content={blog.blogDescription.slice(0,150)+ "..."} data-react-helmet="true"/>
+            <meta property="og:description" content={blog.metaData.metaDescription+ "..."} data-react-helmet="true"/>
             <meta property="og:type" content="article" />
             <meta property="og:image" content={blog.blogImageURL} data-react-helmet="true"/>
-            <meta name="description" content={blog.blogDescription.slice(0,50)+ "..."} />
+            <meta name="description" content={blog.metaData.metaDescription+ "..."} />
             <meta name="twitter:image" content={blog.blogImageURL} />
             <meta name="twitter:title" content={blog.blogTitle} />
             <meta name="twitter:card" content="summary_large_image"></meta>
             <meta
               name="twitter:description"
-              content={blog.blogDescription.substr(0, 70) + "..."}
+              content={blog.metaData.metaDescription + "..."}
             />
             <meta name="twitter:site" content={window.location.href} />
           </Helmet>

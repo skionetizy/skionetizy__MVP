@@ -12,7 +12,7 @@ import { Center } from "../Components/Layouts";
 import Button from "../Components/Button";
 import { useDispatch } from "react-redux";
 
-export default function UserProfileDrafts({ profile }) {
+export default function UserProfileDrafts({ profile, isOwner }) {
   const [status, setStatus] = useState("idle");
   const [blogs, setBlogs] = useState([]);
   const [page, setPage] = useState(0);
@@ -20,11 +20,22 @@ export default function UserProfileDrafts({ profile }) {
   const [isVisible, setIsVisible] = useState(false);
   const { profileUserName } = useParams();
   const dispatch = useDispatch();
-  console.log("hellow");
-
-  useEffect(() => {
-    if (!profileUserName) return;
-
+  useEffect(async () => {
+      if (!profileUserName) return;
+      /* setStatus("loading");
+      try{
+        const blogs=await axios.get(`${baseURL}/profile/getBlogsAndProfile/${page}/${profileUserName}/NON_DRAFTS`);
+        const res=blogs.data.blogs;
+        console.log("Loading. blogs inside try")
+        console.log(res);
+        if(res.length>0)setBlogs((prev)=>[...prev, ...res]);
+        else setHasMoreBlog(false)
+        setStatus("idle");
+      }
+      catch(e){
+        setStatus("idle");
+        setHasMoreBlog(false);
+      } */
     setStatus("loading");
     Promise.all([
       [],
@@ -70,7 +81,8 @@ export default function UserProfileDrafts({ profile }) {
             className={style.noBlogIllustration}
             alt="user taking a holographical post summary card by hand and pasting on blog feed holographic wall"
           />
-
+          {isOwner?
+          <>
           <p className="center">Start creating. click on the button</p>
 
           <Center>
@@ -84,11 +96,12 @@ export default function UserProfileDrafts({ profile }) {
               Add Blog
             </Button>
           </Center>
+          </>:<></>}
         </div>
       ) : (
         <div className={style.userBlogs}>
           {blogs.map((blog, index) => (
-            <UserBlogsCard key={index} blog={blog} profile={profile} />
+            <UserBlogsCard key={index} blog={blog} profile={profile} isOwner={isOwner} />
           ))}
         </div>
       )}
