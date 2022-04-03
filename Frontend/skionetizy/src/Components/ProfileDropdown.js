@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import DefaultUserAvatar from "../Assets/avtar.png";
 import Dropdown from "./Dropdown";
 import styles from "./Profiledropdown.module.css";
-import { GoogleLogout } from "react-google-login";
 import { connect } from "react-redux";
 import {
     AUTHORIZATION_HEADER,

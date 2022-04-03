@@ -66,7 +66,8 @@ function LoginFormModal(props) {
         <Modal>
             <div className={styles.wrapper}>
                 <div className={styles.closeBtnHolder} aria-roledescription={"button"}>
-                    <FaTimes width="1em" fontSize="1.5rem" onClick={props.onClose} />
+                    {/* Commented cancel button to acquire more users */}
+                    {/* <FaTimes width="1em" fontSize="1.5rem" onClick={props.onClose} /> */}
                 </div>
                 {status === "loading" ? (
                     <div>
