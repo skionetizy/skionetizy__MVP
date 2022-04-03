@@ -67,6 +67,8 @@ a {
   margin-top: 2rem;
   height: 72px;
   text-align: center;
+  overflow-x: hidden;
+  height: max-content;
 }
 
 .bannerad iframe{

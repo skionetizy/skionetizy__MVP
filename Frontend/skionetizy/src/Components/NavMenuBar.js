@@ -147,7 +147,7 @@ function NavMenuBar(props) {
           </li>
           <li>
             <Link
-              to={{ pathname: "/careers", hash: "#careers" }}
+              to={{ pathname: "/careers" }}
               className={styles.careers}
             >
               <img alt="speakericon" src={Speaker}/>
