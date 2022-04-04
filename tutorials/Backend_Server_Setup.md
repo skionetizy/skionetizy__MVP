@@ -18,3 +18,5 @@
 
 
 -> For M1 Mac users Use all the commands by using Terminal and make sure U have  installed Rosetta 2 
+
+11. get ENV FILE from rohan devaki or respective devs in the team
