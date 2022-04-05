@@ -56,13 +56,15 @@ function LoginForm(props, {
      console.log("useEffect props.isLogin ->", props.isLogin)
      console.log("useEffect props.jwtToken ->", props.jwtToken)
    }, [props.jwtToken]) */
-  useEffect(() => {
+
+  // Commenting as, access routes are made.
+  /* useEffect(() => {
     console.log(props)
     if (props.isLogin === true) {
       history.push("/")
       return;
     }
-  }, [props])
+  }, [props]) */
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -144,7 +146,7 @@ function LoginForm(props, {
     props.on_login(res.token, profile_get.profile, userID);
     setIsLoading(false);
     if (res.sucess === true || res.success === 1) {
-      history.push(localStorage.getItem(REDIRECTED_FROM))
+      history.push(localStorage.getItem(REDIRECTED_FROM) || REDIRECTED_FROM)
       return
     } else {
       setError(res.message)
