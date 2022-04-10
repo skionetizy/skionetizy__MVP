@@ -1,4 +1,4 @@
-from flask import make_response, jsonify
+from flask import make_response, jsonify, render_template
 from flask.globals import request
 from flask_restful import Resource
 import json
@@ -13,6 +13,7 @@ from backend.resources.gads import gads
 from datetime import datetime
 import uuid
 import random
+import re
 
 
 class AddBlogDescriptionAndTitle(Resource):
@@ -573,3 +574,34 @@ class AddMetaData(Resource):
         blog.blogStatus = type_
         blog.save()
         return make_response(jsonify({'Message': "Successfull"}), 200)
+
+
+class GenerateSitemap(Resource):
+    def get(self):
+        blogs = Blog.objects(blogStatus='PUBLISHED').only('blogID', 'blogTitle', 'profileID', 'timestamp').exclude('id')
+        blog_urls = list()
+        for blog in blogs:
+            # try fetching profile, if not found go to next blog url.
+            try:
+                profileUserName = Profile.objects(profileID=blog.profileID).first().profileUserName
+            except AttributeError:
+                continue
+            blog_urls.append({
+                "loc": self.generate_url(profileUserName, blog.blogTitle, blog.blogID),
+                "lastmod": blog.timestamp
+            })
+
+        response = make_response(render_template("sitemap_template.xml", urls=blog_urls))
+        response.headers["Content-Type"] = "application/xml"
+        return response
+
+    def generate_url(self, profileUserName, blogTitle, blogID):
+        # base_url = app.config["SERVER_NAME"]
+        base_url = "https://papersdrop.com"  # app.config['SERVER_NAME'] has not set yet so using this
+        profileUserName = profileUserName.lower()
+        blogTitle = re.sub("[^a-z0-9 ]", "", blogTitle.lower())  # removing special characters
+        blogTitle = '-'.join(blogTitle.split(" "))   # removing spaces and adding `-` instead of space
+
+        # base_url = "https://papersdrop.com"
+        url = f"{base_url}/{profileUserName}/{blogTitle}/{blogID}"
+        return url
