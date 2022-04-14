@@ -47,7 +47,7 @@ def initialize_routes(api):
     api.add_resource(GetBlogByBlogID,'/blog/getBlogByBlogID/<blogID>')
     # api.add_resource(GetBlogsByProfile,'/blog/getBlogsByProfile/<profileID>')
     api.add_resource(GetBlogsByProfile,'/blog/getBlogsByProfile/<profileUserName>')
-    api.add_resource(GenerateSitemap,'/sitemap.xml')
+    api.add_resource(GenerateSitemap,'/GenerateSitemap')
     #_______profile-routes_____
     #post
     api.add_resource(AddProfileUsernameBioUserDetails,'/profile/addProfileUsernameBioUserDetails/')

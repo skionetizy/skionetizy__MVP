@@ -1,4 +1,4 @@
-from flask import make_response, jsonify, render_template
+from flask import make_response, jsonify
 from flask.globals import request
 from flask_restful import Resource
 import json
@@ -7,13 +7,21 @@ from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 import pandas as pd
 from backend.database.models import Blog, Comment, Profile, User, MetaData
-from backend import client
+from backend import client, app, mail
 from backend.resources import authorize
 from backend.resources.gads import gads
 from datetime import datetime
 import uuid
 import random
 import re
+from jinja2 import Environment, FileSystemLoader
+from flask_mail import Message
+from flask_apscheduler.scheduler import BackgroundScheduler
+from flask_apscheduler.utils import CronTrigger
+import requests
+import os
+
+env = Environment(loader=FileSystemLoader('backend//resources//templates'))
 
 
 class AddBlogDescriptionAndTitle(Resource):
@@ -591,7 +599,8 @@ class GenerateSitemap(Resource):
                 "lastmod": blog.timestamp
             })
 
-        response = make_response(render_template("sitemap_template.xml", urls=blog_urls))
+        sitemap = env.get_template('sitemap_template.xml')
+        response = make_response(sitemap.render(urls=blog_urls))
         response.headers["Content-Type"] = "application/xml"
         return response
 
@@ -602,6 +611,39 @@ class GenerateSitemap(Resource):
         blogTitle = re.sub("[^a-z0-9 ]", "", blogTitle.lower())  # removing special characters
         blogTitle = '-'.join(blogTitle.split(" "))   # removing spaces and adding `-` instead of space
 
-        # base_url = "https://papersdrop.com"
         url = f"{base_url}/{profileUserName}/{blogTitle}/{blogID}"
         return url
+
+
+# Scheduler
+cron = BackgroundScheduler()
+
+def send_new_sitemap():
+    """
+    generate a fresh sitemap and sends email,
+    if it is not equal to previous one  else 'No Update' will be sent
+    """
+    sender = os.environ.get('MAIL_USERNAME')  # sender email
+    receiver = ['jagandevaki1@gmail.com']  # receiver email (must be list) , ['sample@gmail.com']
+    msg = Message("Sitemap Update", recipients=receiver, sender=sender)
+    new_sitemap = False
+    base_url = os.environ.get("DOMAIN")
+    resp = requests.get(f'{base_url}/GenerateSitemap')
+    with open('sitemap.xml', 'rb') as sitemap:
+        if resp.content == sitemap.read():
+            msg.body = 'No New Update'
+        else:
+            new_sitemap = True
+            msg.body = 'New Sitemap Generated'
+            msg.attach('sitemap.xml', 'application/xml', resp.content)
+
+    if new_sitemap:
+        with open('sitemap.xml', 'wb') as file:
+            file.write(resp.content)
+
+    with app.app_context():
+        mail.send(msg)
+
+
+# CRON job: `send_new_sitemap()` function will run every sunday 7:30PM IST
+cron.add_job(send_new_sitemap, CronTrigger(day_of_week='sun', hour='19', minute='30', timezone='Asia/Kolkata'))
