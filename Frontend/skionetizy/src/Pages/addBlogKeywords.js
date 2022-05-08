@@ -105,10 +105,11 @@ function AddBlogKeywords(props) {
         </div>
       </div>
     );
-
-  if (isLoggedIn === false) {
+  
+  // Commenting as, access routes are made.
+  /* if (isLoggedIn === false) {
     history.push("/login");
-  }
+  } */
 
   return (
     <>

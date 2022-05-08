@@ -109,13 +109,14 @@ function MarkDown(props) {
     }
   }, [mode]);
 
-  useEffect(()=>{
+  // Commenting as, access routes are made.
+  /* useEffect(()=>{
     const isLoggedIn = props.isLogin;
     if (!isLoggedIn) {
       history.push("/login");
       return;
     }
-  },[props])
+  },[props]) */
   
 
   return (

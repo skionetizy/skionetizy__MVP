@@ -8,6 +8,8 @@ import ViewBlog from "./Pages/ViewBlog";
 import { getLoggedInProfileID } from "./utils/AuthorisationUtils";
 import AdBlockerBlocker from "./Components/AdBlockerBlocker";
 import { useDetectAdBlock } from "adblock-detect-react";
+import PublicRoute from "./auth/PublicRoute";
+import PrivateRoute from "./auth/PrivateRoute";
 // import { Careers } from "./Pages/Careers";
 
 // Lazy loading pages
@@ -57,15 +59,15 @@ function App() {
           <Nav />
           <Suspense fallback={<FullPageSpinner />}>
             <Switch>
-              <Route exact path="/signup" component={Signup} />
+              <PublicRoute restricted={true} exact path="/signup" component={Signup} />
               <Route exact path="/landing" component={LandingPage} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/forgotPassword" component={ForgotPassword} />
-              <Route exact path="/forgotPassword/:token" component={ForgotPassword} />
+              <PublicRoute restricted={true} exact path="/login" component={Login} />
+              <PublicRoute restricted={true} exact path="/forgotPassword" component={ForgotPassword} />
+              <PublicRoute restricted={true} exact path="/forgotPassword/:token" component={ForgotPassword} />
               <Route path="/terms-and-conditions" component={TermsAndConditions} />
               <Route path="/privacy-policy" component={PrivacyPolicy} />
               <Route exact path="/dmca" component={DmcaPage} />
-              <Route
+              <PrivateRoute
                 exact
                 path="/addBlogDetailsMarkdown"
                 component={addBlogDetailsMarkdown}
@@ -73,12 +75,12 @@ function App() {
               <Route path="/contact" component={ContactUs} />
               <Route path="/careers" component={Careers} />
               <Route exact path="/userNotFound" component={UserNotFound} />
-              <Route exact path="/addBlogImage" component={addBlogImage} />
-              <Route exact path="/addBlogKeywords" component={AddBlogKeywords} />
+              <PrivateRoute exact path="/addBlogImage" component={addBlogImage} />
+              <PrivateRoute exact path="/addBlogKeywords" component={AddBlogKeywords} />
               <Route exact path="/final" component={FinalPage} />
               <Route exact path="/details" component={DetailsPage} />
-              <Route exact path="/auth/authToken" component={OAuthPage} />
-              <Route path="/admin" component={AdminRoutes} />
+              {/* <Route exact path="/auth/authToken" component={OAuthPage} /> */}
+              <PrivateRoute path="/admin" component={AdminRoutes} />
               <Route exact path="/privacy" component={Privacy} />
               <Route exact path="/" component={ExploreBlogs} />
               <Route exact path="/searchpage/:searchInput" component={SearchPage} />
