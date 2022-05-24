@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://papersdrop.com/</loc>
+        <lastmod>2022-04-08</lastmod>
+    </url>
+    <url>
+        <loc>https://papersdrop.com/login</loc>
+        <lastmod>2022-04-08</lastmod>
+    </url>
+    <url>
+        <loc>https://papersdrop.com/landing</loc>
+        <lastmod>2022-04-08</lastmod>
+    </url>
+    <url>
+        <loc>https://papersdrop.com/landing#about</loc>
+        <lastmod>2022-04-08</lastmod>
+    </url>
+    <url>
+        <loc>https://papersdrop.com/landing#mission</loc>
+        <lastmod>2022-04-08</lastmod>
+    </url>
+    <url>
+        <loc>https://papersdrop.com/contact</loc>
+        <lastmod>2022-04-08</lastmod>
+    </url>
+    <url>
+        <loc>https://papersdrop.com/privacy-policy</loc>
+        <lastmod>2022-04-08</lastmod>
+    </url>
+    <url>
+        <loc>https://papersdrop.com/terms-and-conditions</loc>
+        <lastmod>2022-04-08</lastmod>
+    </url>
+    <url>
+        <loc>https://papersdrop.com/dmca</loc>
+        <lastmod>2022-04-08</lastmod>
+    </url>
+    <url>
+        <loc>https://papersdrop.com/careers</loc>
+        <lastmod>2022-04-08</lastmod>
+    </url>
+    {% for url in urls %}
+    <url>
+        <loc>{{url.loc}}</loc>
+        <lastmod>{{url.lastmod}}</lastmod>
+    </url>
+    {% endfor %}
+</urlset>

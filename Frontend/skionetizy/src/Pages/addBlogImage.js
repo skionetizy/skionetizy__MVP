@@ -88,10 +88,11 @@ function Upload(props) {
       setIsLoading(false);
     }
   };
-
-  if (!isLoggedIn) {
+  
+  // Commenting as, access routes are made.
+  /* if (!isLoggedIn) {
     history.push("/login");
-  }
+  } */
 
   return (
     <div className="upload_page white">
