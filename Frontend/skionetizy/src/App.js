@@ -8,6 +8,7 @@ import ViewBlog from "./Pages/ViewBlog";
 import { getLoggedInProfileID } from "./utils/AuthorisationUtils";
 import AdBlockerBlocker from "./Components/AdBlockerBlocker";
 import { useDetectAdBlock } from "adblock-detect-react";
+import UserInterest from "./Components/UserInterest";
 // import { Careers } from "./Pages/Careers";
 
 // Lazy loading pages
@@ -55,6 +56,7 @@ function App() {
       {!adBlockDetected ? (
         <>
           <Nav />
+          <UserInterest />
           <Suspense fallback={<FullPageSpinner />}>
             <Switch>
               <Route exact path="/signup" component={Signup} />

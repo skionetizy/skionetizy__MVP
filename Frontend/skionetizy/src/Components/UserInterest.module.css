@@ -1,0 +1,72 @@
+.floatWindow{
+    position: absolute;
+    text-align: center;
+    width: 80%;
+    left: 0;
+    right: 0;
+    margin: 40px auto 0;
+    padding: 20px 40px;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 4px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 1.5rem;
+    z-index: 1;
+}
+
+.shadow{
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    width: 267px;
+    height: 302px;
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    z-index: 1;
+}
+
+.headingText{
+    color: #142850;
+    font-size: 2.4rem;
+    margin: 0 0 20px;
+    font-weight: bolder;
+}
+
+.categoryText{
+    color: #142850;
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.container{
+    margin: 0 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.content{
+    position: relative;
+    margin: 30px 20px 0;
+}
+
+.interestImage{
+    cursor: pointer;
+}
+
+.contentText{
+    margin: 0;
+    color: #142850;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.btn{
+    cursor: pointer;
+    color: #FFFFFF;
+    font-size: 1.8rem;
+    padding: 10px 50px;
+    background: #142850;
+    border-radius: 2rem;
+    box-shadow: 0px 10px 45px rgba(0, 0, 0, 0.25);
+    border: none;
+}
