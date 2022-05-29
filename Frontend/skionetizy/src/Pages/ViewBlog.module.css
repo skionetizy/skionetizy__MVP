@@ -80,6 +80,15 @@ a {
   color: #fff;
 }
 
+.blogContent ul li, .blogContent ol li{
+  font-size: 1.2rem;
+  margin: 4px 0;
+}
+
+.blogContent ul li:only-child, .blogContent ol li:only-child{
+  font-size: 1.3rem;
+}
+
 .meta {
   margin-bottom: 2em;
 }
