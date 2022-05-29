@@ -20,6 +20,7 @@ from flask_apscheduler.scheduler import BackgroundScheduler
 from flask_apscheduler.utils import CronTrigger
 import requests
 import os
+import datetime
 
 env = Environment(loader=FileSystemLoader('backend//resources//templates'))
 
@@ -596,7 +597,7 @@ class GenerateSitemap(Resource):
                 continue
             blog_urls.append({
                 "loc": self.generate_url(profileUserName, blog.blogTitle, blog.blogID),
-                "lastmod": blog.timestamp
+                "lastmod": (blog.timestamp).astimezone().isoformat(timespec='seconds')
             })
 
         sitemap = env.get_template('sitemap_template.xml')
