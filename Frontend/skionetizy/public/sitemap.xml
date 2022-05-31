@@ -5,10 +5,26 @@
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 			
-	<url>
-		<loc>https://www.papersdrop.com/</loc>
-		<lastmod>2021-12-13T12:51:16+00:00</lastmod>
-	</url>
+    <url>
+        <loc>https://papersdrop.com/</loc>
+        <lastmod>2022-05-31T00:00:00+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://papersdrop.com/login</loc>
+        <lastmod>2022-05-31T00:00:00+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://papersdrop.com/landing</loc>
+        <lastmod>2022-05-31T00:00:00+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://papersdrop.com/contact</loc>
+        <lastmod>2022-05-31T00:00:00+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://papersdrop.com/careers</loc>
+        <lastmod>2022-05-31T00:00:00+00:00</lastmod>
+    </url>
 	<url>
 		<loc>https://papersdrop.com/suhasini_srivastava162002/the-rudimentary-recipe-for-accomplishment-in-startups/7fbb97ba-fdb3-4aca-ab82-f8558045375e</loc>
 		<lastmod>2021-10-10T15:32:12+00:00</lastmod>
