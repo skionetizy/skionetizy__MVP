@@ -7,7 +7,8 @@ import * as yup from "yup";
 import BlogStatusBadge from "../Components/BlogStatusBadge";
 import BlogSteps from "../Components/BlogSteps";
 import Button from "../Components/Button";
-import Editor from "../Components/Editor";
+import Editor from "../Components/BlogEditor";
+import { draftjsToMd, mdToDraftjs } from "draftjs-md-converter";
 import useDebounceGeneral from "../hooks/useDebounceGeneral";
 import baseURL from "../utils/baseURL";
 import getYupErrors from "../utils/getYupErrors";
@@ -16,6 +17,7 @@ import {
   CURRENT_NEW_ADD_BLOG,
 } from "../utils/localStorageKeys";
 import styles from "./addBlogDetailsMarkdown.module.css";
+import { convertFromRaw, convertToRaw } from "draft-js";
 
 function MarkDown(props) {
   const mode = useSelector((store) => store.markdownMode);
@@ -158,9 +160,11 @@ function MarkDown(props) {
             <p className={styles.label}>Blog Description</p>
             <Editor
               className={styles.input}
-              initialData={data.blogDescription}
-              onChange={(text) =>
-                handleChange("blogDescription")({ target: { value: text } })
+              initialDataprop={convertFromRaw(mdToDraftjs(data.blogDescription))}
+              onChange={(content) =>{
+                  const text=draftjsToMd(convertToRaw(content))
+                  handleChange("blogDescription")({ target: { value: text } })
+                }
               }
               onGrammarCheck={(error, _prediction) =>
                 setIsGrammarVisible(!error)
