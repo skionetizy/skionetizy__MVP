@@ -535,7 +535,7 @@ class SearchBlog(Resource):
         if(len(search) < 5):
             return make_response(jsonify({'message': 'Invalide Search String'}), 404)
         result_object = []
-        blogObjects = Blog.objects()
+        blogObjects = Blog.objects(blogStatus='PUBLISHED')
         for blog in blogObjects:
             if((search in blog.blogTitle or search in blog.blogDescription) and blog not in result_object):
                 result_object.append(blog)
