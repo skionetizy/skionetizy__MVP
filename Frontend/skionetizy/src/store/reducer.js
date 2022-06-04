@@ -84,6 +84,10 @@ const Reducer = (state = initialState, action) => {
     }
 
     case "LOGOUT": {
+      localStorage.removeItem("CURRENT_NEW_ADD_BLOG");
+      localStorage.removeItem("content");
+      localStorage.removeItem("CURRENT_EDITING_BLOG");
+      localStorage.removeItem("/");
       return {
         ...state,
         profile: null,

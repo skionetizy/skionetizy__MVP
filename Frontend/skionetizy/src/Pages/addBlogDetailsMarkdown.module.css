@@ -11,6 +11,46 @@
     "actions";
 }
 
+.toggle{
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.heading{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sliderbefore {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+.slider {
+  border-radius: 34px;
+}
+
 .title {
   padding-top: 2rem;
   padding-bottom: 4rem;
@@ -144,7 +184,7 @@
   .wrapper {
     padding: 3.5rem 8.5rem;
     gap: 6.75rem 4rem;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     grid-template-areas:
       "header .."
       "footer preview"

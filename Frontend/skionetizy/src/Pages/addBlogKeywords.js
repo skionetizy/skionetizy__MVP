@@ -287,6 +287,7 @@ function AddBlogKeywords(props) {
             onClick={() => {
               setShowLoadingToBtn("IN_REVIEW");
               blogMutate.mutate("IN_REVIEW");
+              localStorage.removeItem("content");
             }}
             className={styles.button}
           >
@@ -302,6 +303,7 @@ function AddBlogKeywords(props) {
             onClick={() => {
               setShowLoadingToBtn("DRAFTED");
               blogMutate.mutate("DRAFTED");
+              localStorage.removeItem("content");
             }}
           >
             Publish for Draft

@@ -1,9 +1,12 @@
+import { convertFromRaw, convertToRaw } from "draft-js";
 import React from "react";
 import { FiEdit2 } from "react-icons/fi";
+import ReactMarkdown from "react-markdown";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import BlogStatusBadge from "../Components/BlogStatusBadge";
 import styles from "./UserBlogsCard.module.css";
+import { mdToDraftjs } from "draftjs-md-converter";
 
 export default function UserBlogsCard({ blog, profile, isOwner }) {
   const dispatch = useDispatch();
@@ -14,7 +17,8 @@ export default function UserBlogsCard({ blog, profile, isOwner }) {
     month: "short",
     day: "numeric",
   });
-
+  // https://stackoverflow.com/questions/44227270/regex-to-parse-image-link-in-markdown
+  var regex=/!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/g
   return (
     <div className={styles.wrapper}>
       <img
@@ -48,9 +52,10 @@ export default function UserBlogsCard({ blog, profile, isOwner }) {
           ):<></>}
         </div>
 
-        <p className={styles.blogDescription}>
+        {/* <p className={styles.blogDescription}>
           {blogDescription.substr(0, 200)}...
-        </p>
+        </p> */}
+        <ReactMarkdown className={styles.blogDescription} source={blogDescription.substr(0,100).replace(regex, '')} />
       </div>
       {isOwner?
         <Link
@@ -58,6 +63,8 @@ export default function UserBlogsCard({ blog, profile, isOwner }) {
           onClick={() => {
             dispatch({ type: "MARKDOWN_MODE", payload: "update" });
             localStorage.setItem("CURRENT_EDITING_BLOG", JSON.stringify(blog));
+            let contentState = convertFromRaw(mdToDraftjs(blog.blogDescription));
+            localStorage.setItem("content",JSON.stringify(convertToRaw(contentState)));
           }}
           className={styles.editDraftBtn}
         >
