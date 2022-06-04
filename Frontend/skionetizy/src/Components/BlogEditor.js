@@ -8,10 +8,11 @@ import {
   Modifier,
   SelectionState,
 } from "draft-js";
+import PropTypes from "prop-types";
 import { draftjsToMd, mdToDraftjs } from "draftjs-md-converter";
 import "draft-js/dist/Draft.css";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import React, { useEffect, useRef, useState } from "react";
+import React, { Component, Fragment, useEffect, useRef, useState } from "react";
 import { NEW_useDebounceGeneral as useDebounce } from "../hooks/useDebounceGeneral";
 import noop from "../utils/noop";
 import { Editor } from "react-draft-wysiwyg";
@@ -40,7 +41,6 @@ function uploadImageCallBack(file) {
       const body = new FormData();
       body.append("image", event.target.result.split(",").pop());
       body.append("name", file.name.split(".")[0]);
-      console.log(body);
       const res = await fetch(
         `https://api.imgbb.com/1/upload?expiration=600&key=${process.env.REACT_APP_API_IMAGES}`,
         {
@@ -49,7 +49,6 @@ function uploadImageCallBack(file) {
         }
       );
       const response = await res.json();
-      console.log(response);
       resolve({ data: { link: response.data.image.url } });
     };
   });
@@ -61,17 +60,21 @@ export default function MyEditor({
   onChange,
   onGrammarCheck = noop,
   className,
-  initialDataprop
+  initialDataprop,
+  toggleState
 }) {
   // get initial data from localstorage, if any there.
   const initialData = !initialDataprop
     ? convertFromRaw(JSON.parse(window.localStorage.getItem("content")))
-    : (initialDataprop);
+    : initialDataprop;
   const [editorState, setEditorState] = useState(() => {
     initialData
       ? EditorState.createWithContent(initialData, decorators)
       : EditorState.createEmpty(decorators);
   });
+  /* const [togglededitorState, setToggledEditorState] = useState(
+    EditorState.createEmpty()
+  ); */
   // for storing markdown for grammer API purposes
   const [text, setText] = useState(null);
   const isFirstRender = useRef(true);
@@ -155,11 +158,10 @@ export default function MyEditor({
   useEffect(() => {
     //if (shouldLoadData === true) {
     isFirstRender.current = true;
-    if(initialData){
-      setEditorState(EditorState.createWithContent(initialData, decorators))
-      setText(draftjsToMd(convertToRaw(initialData)))
-    }
-    else{
+    if (initialData) {
+      setEditorState(EditorState.createWithContent(initialData, decorators));
+      setText(draftjsToMd(convertToRaw(initialData)));
+    } else {
       EditorState.createEmpty(decorators);
     }
 
@@ -178,7 +180,6 @@ export default function MyEditor({
       "content",
       JSON.stringify(convertToRaw(content))
     );
-    console.log(content);
     setText(draftjsToMd(convertToRaw(content)));
     onChange(content);
     editorStateRef.current = editorState;
@@ -186,12 +187,22 @@ export default function MyEditor({
     debounce(editorState);
   };
   ///
-
+  /*const [toggleState, setToggleState] = useState(false);
+  const handleToggleState = () => {
+    setToggleState(!toggleState);
+    // https://stackoverflow.com/questions/35884112/draftjs-how-to-initiate-an-editor-with-content
+     setToggledEditorState(
+      EditorState.createWithContent(ContentState.createFromText(text))
+    ); 
+  }; */
   return (
+    <Fragment>
     <div className={className}>
       <Editor
-        editorState={editorState}
+        editorState={editorState/* toggleState === false ? editorState : togglededitorState */}
         onEditorStateChange={onEditorStateChange}
+        readOnly={toggleState === true ? true : false}
+        toolbarHidden={toggleState===true ? true:false}
         onBlur={() => {
           isInFocus.current = false;
         }}
@@ -209,7 +220,10 @@ export default function MyEditor({
             "emoji",
           ],
           blockType: { inDropdown: true },
-          inline: { inDropdown: true, options: ["bold", "italic"] },
+          inline: {
+            inDropdown: true,
+            options: ["bold", "italic"],
+          },
           list: { inDropdown: true, options: ["unordered", "ordered"] },
           link: { inDropdown: true },
           emoji: { inDropdown: true },
@@ -222,8 +236,12 @@ export default function MyEditor({
           },
           history: { inDropdown: true },
         }}
+        /* toolbarCustomButtons={[
+          <ToggleButton handleToggleState={handleToggleState} />,
+        ]} */
       />
     </div>
+    </Fragment>
   );
 }
 
