@@ -33,7 +33,7 @@ import {
 import { GoogleLogin } from "react-google-login";
 
 
-const CLIENT_ID = "765275654524-e5fed4uno6flsogkjj3lurlk4l5hoo3p.apps.googleusercontent.com";
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 
 //const defaultGoogleOauthURL = createAuthURL("/auth/authToken");
 
