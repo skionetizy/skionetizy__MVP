@@ -7,7 +7,8 @@ import * as yup from "yup";
 import BlogStatusBadge from "../Components/BlogStatusBadge";
 import BlogSteps from "../Components/BlogSteps";
 import Button from "../Components/Button";
-import Editor from "../Components/Editor";
+import MyEditor from "../Components/BlogEditor";
+import { draftjsToMd, mdToDraftjs } from "draftjs-md-converter";
 import useDebounceGeneral from "../hooks/useDebounceGeneral";
 import baseURL from "../utils/baseURL";
 import getYupErrors from "../utils/getYupErrors";
@@ -16,6 +17,7 @@ import {
   CURRENT_NEW_ADD_BLOG,
 } from "../utils/localStorageKeys";
 import styles from "./addBlogDetailsMarkdown.module.css";
+import { convertFromRaw, convertToRaw } from "draft-js";
 
 function MarkDown(props) {
   const mode = useSelector((store) => store.markdownMode);
@@ -118,7 +120,18 @@ function MarkDown(props) {
     }
   },[props]) */
   
+  const [toggleState, setToggleState] = useState(false);
+  const handleToggleState = () => {
+    setToggleState(!toggleState);
+  };
 
+  const mystyle={
+    transform: "translateX(26px)",
+    boxShadow: "0 0 1px #2196F3",
+    }
+    const outstyle={
+      boxShadow: "0 0 1px #2196F3",
+      backgroundColor: "#2196F3",}
   return (
     <>
       <Prompt
@@ -155,12 +168,22 @@ function MarkDown(props) {
 
         <div className={styles.footer}>
           <label>
+            <div className={styles.heading}>
             <p className={styles.label}>Blog Description</p>
-            <Editor
+            <p className={styles.toggle} onClick={handleToggleState}>
+              <span className={styles.slider} style={toggleState?outstyle:{}} >
+                <span className={styles.sliderbefore} style={toggleState?mystyle:{}}></span>
+              </span>
+            </p>
+            </div>
+            <MyEditor
+              toggleState={toggleState}
               className={styles.input}
-              initialData={data.blogDescription}
-              onChange={(text) =>
-                handleChange("blogDescription")({ target: { value: text } })
+              initialDataprop={convertFromRaw(mdToDraftjs(data.blogDescription))}
+              onChange={(content) =>{
+                  const text=draftjsToMd(convertToRaw(content))
+                  handleChange("blogDescription")({ target: { value: text } })
+                }
               }
               onGrammarCheck={(error, _prediction) =>
                 setIsGrammarVisible(!error)
@@ -193,13 +216,13 @@ function MarkDown(props) {
           </Button>
         </div>
 
-        <div className={styles.blogPreview}>
+        {/* <div className={styles.blogPreview}>
           <p className={styles.label}>Preview</p>
           <ReactMarkdown
             source={data.blogDescription}
             className={styles.input}
           />
-        </div>
+        </div> */}
       </div>
     </>
   );
