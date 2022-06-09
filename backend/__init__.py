@@ -46,7 +46,7 @@ try:
     if(os.environ.get('USE_GADS')):
         client = GoogleAdsClient.load_from_storage("backend/skio.yaml")
 except:
-    send_email("CRITICAL ISSUE: GADS EXPIRED",os.environ.get('MAIL_USERNAME'),recipients=["adithyanarayan1234@gmail.com","jagandevaki1@gmail.com"],html="<strong>GADS TOKEN EXPIRED</strong>")
+    # send_email("CRITICAL ISSUE: GADS EXPIRED",os.environ.get('MAIL_USERNAME'),recipients=["adithyanarayan1234@gmail.com","jagandevaki1@gmail.com"],html="<strong>GADS TOKEN EXPIRED</strong>")
     os.environ['USE_GADS']='0'
     client=''
     print("GADS TOKEN EXPIRED")

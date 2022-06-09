@@ -20,6 +20,7 @@ from flask_apscheduler.scheduler import BackgroundScheduler
 from flask_apscheduler.utils import CronTrigger
 import requests
 import os
+import datetime
 
 env = Environment(loader=FileSystemLoader('backend//resources//templates'))
 
@@ -529,22 +530,32 @@ class UpdateBlogStatus(Resource):
 
 class SearchBlog(Resource):
     def post(self, number):
-        search = request.get_json()['search']
+        search = request.get_json()['search'].lower()
         print(search)
         if(len(search) < 5):
             return make_response(jsonify({'message': 'Invalide Search String'}), 404)
         result_object = []
-        blogObjects = Blog.objects()
+        blogObjects = Blog.objects(blogStatus='PUBLISHED')
+
+        prepositions = {"as", "at", "by", "for", "from", "in", "of", "on", "per", "than", "to", "upon", "via", "with", "without", "within" }
+        
+        searchWords = search.split(" ")
+        searchWordsFiltered = set(searchWords) - prepositions
+
         for blog in blogObjects:
-            if((search in blog.blogTitle or search in blog.blogDescription) and blog not in result_object):
+            if((search in (blog.blogTitle).lower() or search in (blog.blogDescription).lower()) and blog not in result_object):
                 result_object.append(blog)
-            for searchWord in search.split(' '):
-                if ((searchWord in blog.blogTitle or searchWord in blog.blogDescription) and blog not in result_object):
+
+            if blog not in result_object and all((
+                (searchWord in blog.blogTitle.lower())
+                or (searchWord in blog.blogDescription.lower().split(" "))
+                ) for searchWord in searchWordsFiltered):
                     result_object.append(blog)
+
             metadata = blog.metaData
             if(metadata != None):
-                for searchWord in search.split(' '):
-                    if ((searchWord in metadata.metaTitle or searchWord in metadata.metaDescription or searchWord in metadata.metaKeywords.split(',')) and blog not in result_object):
+                for searchWord in searchWordsFiltered:
+                    if ((searchWord in metadata.metaTitle.split(" ") or searchWord in metadata.metaDescription.split(" ") or searchWord in metadata.metaKeywords.split(',')) and blog not in result_object):
                         result_object.append(blog)
         print(result_object)
         blogs_paginated = []
@@ -596,7 +607,7 @@ class GenerateSitemap(Resource):
                 continue
             blog_urls.append({
                 "loc": self.generate_url(profileUserName, blog.blogTitle, blog.blogID),
-                "lastmod": blog.timestamp
+                "lastmod": (blog.timestamp).astimezone().isoformat(timespec='seconds')
             })
 
         sitemap = env.get_template('sitemap_template.xml')
