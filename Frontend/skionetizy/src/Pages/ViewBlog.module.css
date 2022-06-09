@@ -80,13 +80,26 @@ a {
   color: #fff;
 }
 
-.blogContent ul li, .blogContent ol li{
-  font-size: 1.2rem;
-  margin: 4px 0;
+.blogContent ol li:not(:last-child), 
+.blogContent ol li + li, 
+.blogContent ul li:not(:last-child), 
+.blogContent ul li + li {
+    font-size: 1.2rem;
+    line-height: 40.37px;
+    font-weight: normal;
 }
 
 .blogContent ul li:only-child, .blogContent ol li:only-child{
   font-size: 1.3rem;
+}
+
+.blogContent ul li h4{
+  margin: 0;
+}
+
+.blogContent p img{
+  width: auto;
+  max-width: 100%;
 }
 
 .meta {
