@@ -170,11 +170,14 @@ function MarkDown(props) {
           <label>
             <div className={styles.heading}>
             <p className={styles.label}>Blog Description</p>
-            <p className={styles.toggle} onClick={handleToggleState}>
-              <span className={styles.slider} style={toggleState?outstyle:{}} >
-                <span className={styles.sliderbefore} style={toggleState?mystyle:{}}></span>
-              </span>
-            </p>
+            <div style={{"display":"flex","alignItems":"center","width":"20%","justifyContent":"space-between"}}>
+              <p className={styles.label}>{!toggleState?"Editor":"Preview"}</p>
+              <p className={styles.toggle} onClick={handleToggleState}>
+                <span className={styles.slider} style={toggleState?outstyle:{}} >
+                  <span className={styles.sliderbefore} style={toggleState?mystyle:{}}></span>
+                </span>
+              </p>
+            </div>
             </div>
             <MyEditor
               toggleState={toggleState}
@@ -249,10 +252,10 @@ const markdownSchema = yup.object().shape({
       "Blog Description should alleast contain 200 words",
       (value) => value.split(" ").filter(Boolean).length >= 200
     )
-    .test("test-2", "Description must contain only one url", (value) => {
+    /* .test("test-2", "Description must contain only one url", (value) => {
       const hasUrl = value.split(" ").some((word) => isValidUrl(word));
       return (!hasUrl);
-    }),
+    }), */
 });
 
 const mapStateToProps = (state) => {

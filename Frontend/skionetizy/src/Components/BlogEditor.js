@@ -8,6 +8,7 @@ import {
   Modifier,
   SelectionState,
 } from "draft-js";
+import style from "./BlogEditor.module.css";
 import PropTypes from "prop-types";
 import { draftjsToMd, mdToDraftjs } from "draftjs-md-converter";
 import "draft-js/dist/Draft.css";
@@ -42,7 +43,7 @@ function uploadImageCallBack(file) {
       body.append("image", event.target.result.split(",").pop());
       body.append("name", file.name.split(".")[0]);
       const res = await fetch(
-        `https://api.imgbb.com/1/upload?expiration=600&key=${process.env.REACT_APP_API_IMAGES}`,
+        `https://api.imgbb.com/1/upload&key=${process.env.REACT_APP_API_IMAGES}`,
         {
           method: "POST",
           body: body,
@@ -203,6 +204,7 @@ export default function MyEditor({
         onEditorStateChange={onEditorStateChange}
         readOnly={toggleState === true ? true : false}
         toolbarHidden={toggleState===true ? true:false}
+        toolbarClassName={style.toolbar}
         onBlur={() => {
           isInFocus.current = false;
         }}
