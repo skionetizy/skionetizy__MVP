@@ -1,0 +1,7 @@
+.toolbar{
+    color: black !important;
+}
+a.rdw-dropdown-selectedtext > span{
+    all:initial;
+    color: black !important;
+}

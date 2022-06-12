@@ -183,7 +183,7 @@
 @media (min-width: 1000px) {
   .wrapper {
     padding: 3.5rem 8.5rem;
-    gap: 6.75rem 4rem;
+    gap: 1.75rem 4rem;
     grid-template-columns: 1fr;
     grid-template-areas:
       "header .."
