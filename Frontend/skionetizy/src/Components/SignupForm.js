@@ -15,13 +15,26 @@ import Divider from "./Divider";
 import clsx from "../utils/clsx";
 import noop from "../utils/noop";
 import VerifyEmailModal from "../Components/VerifyEmailModal";
+import { GoogleLogin } from "react-google-login";
+import { sendGoogleLoginResp } from "../API/oauthAPIHandler";
+import {
+  getHoverProfileDetails,
+  getProfileDetailsAPIHandler,
+} from "../API/profileAPIHandler";
+import {
+  AUTHORIZATION_HEADER,
+  LOGGED_IN_PROFILE_ID,
+  REDIRECTED_FROM,
+} from "../utils/localStorageKeys";
 
 const googleOAuthURL = createAuthURL("/auth/authToken");
-function SignupForm({
+function SignupForm(props, {
   className,
   onLoginClick = noop,
   // onSignup = noop 
 }) {
+  const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
+
   const [emailID, setEmailID] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -79,6 +92,34 @@ function SignupForm({
     }
   };
 
+  const responseGoogleError = (error) => {
+    console.log(error)
+    setError(error.message);
+  }
+  const responseGoogleSuccess = async (response) => {
+    setIsLoading(true)
+    // send response to the backend and get profile and token
+    const res = await sendGoogleLoginResp(response);
+    console.log("Inside responseGoogleSuccess-> ",res);
+    const { profile, token, user:{userID} } = res;
+    // set them in localstorage
+    localStorage.setItem(AUTHORIZATION_HEADER, token);
+    localStorage.setItem(LOGGED_IN_PROFILE_ID, profile.profileID);
+    const profileID = profile.profileID;
+    // get updated profile from the ID
+    const { profileUserName } = await getHoverProfileDetails(profileID);
+    const profile_get = await getProfileDetailsAPIHandler(profileUserName);
+    // update the store using action
+    props.on_signup(res.token, profile_get.profile, userID);
+    setIsLoading(false);
+    if (res.sucess === true || res.success === 1) {
+      history.push(localStorage.getItem(REDIRECTED_FROM) || REDIRECTED_FROM)
+      return
+    } else {
+      setError(res.message)
+    }
+  }
+
   return (
     <>
       <div className={clsx(className, styles.wrapper)}>
@@ -100,9 +141,17 @@ function SignupForm({
           you need to create seo friendly content. Join us to read what the world
           is writing.
         </p>
-        <a className={styles.googleBtn} href={googleOAuthURL}>
+        <GoogleLogin
+            clientId={CLIENT_ID}
+            buttonText="Signup with Google"
+            onSuccess={(response) => responseGoogleSuccess(response)}
+            onFailure={responseGoogleError}
+            /* isSignedIn={true} */
+            cookiePolicy={"single_host_origin"}
+        />
+        {/* <a className={styles.googleBtn} href={googleOAuthURL}>
           <FcGoogle fontSize="1.5em" /> Signup With Google
-        </a>
+        </a> */}
         <p className={styles.login_p}>It just takes 3 seconds to login!</p>
 
         <Divider className={styles.divider}>OR SIGNUP WITH</Divider>
@@ -151,26 +200,34 @@ function SignupForm({
 }
 
 
-// const mapStateToProps = (state) => {
-//   console.log("Inside mapStateToProps", state)
+const mapStateToProps = (state) => {
+  console.log("Inside mapStateToProps", state)
 
-//   return {
-//     userID: state.userID,
-//     firstName: state.firstName,
-//     lastName: state.lastName,
-//   };
-// };
+  return {
+    userID: state.userID,
+    firstName: state.firstName,
+    lastName: state.lastName,
+  };
+};
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     saveUserDetails: (...userDetails) =>
-//       // console.log({userDetialsInDispatchSignup:userDetails})
-//       dispatch({
-//         type: "SAVE_USER_DETAILS_AFTER_SIGNUP",
-//         payload: userDetails,
-//       }),
-//   };
-// };
+const mapDispatchToProps = (dispatch) => {
+  return {
+    on_signup: (token, profile, userID) => dispatch({
+      type: "SAVE_JWT_PROFILE_AFTER_LOGIN",
+      jwtToken: token,
+      profile: profile,
+      userID: userID
+    })
+  };
+  // return {
+  //   saveUserDetails: (...userDetails) =>
+  //     // console.log({userDetialsInDispatchSignup:userDetails})
+  //     dispatch({
+  //       type: "SAVE_USER_DETAILS_AFTER_SIGNUP",
+  //       payload: userDetails,
+  //     }),
+  // };
+};
 
-// export default connect(mapStateToProps, mapDispatchToProps)(SignupForm);
-export default SignupForm;
+export default connect(mapStateToProps, mapDispatchToProps)(SignupForm);
+// export default SignupForm;
