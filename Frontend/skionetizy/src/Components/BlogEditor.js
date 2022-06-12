@@ -43,7 +43,7 @@ function uploadImageCallBack(file) {
       body.append("image", event.target.result.split(",").pop());
       body.append("name", file.name.split(".")[0]);
       const res = await fetch(
-        `https://api.imgbb.com/1/upload&key=${process.env.REACT_APP_API_IMAGES}`,
+        `https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_API_IMAGES}`,
         {
           method: "POST",
           body: body,
