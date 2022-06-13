@@ -48,7 +48,7 @@ function UserInterest(props) {
 
   const handleSubmit = async() => {
     const data = {
-      'interest': interests
+      'interests': interests
     }
     console.log("Data is: ", data);
     await profileInterest(JSON.stringify(data));
