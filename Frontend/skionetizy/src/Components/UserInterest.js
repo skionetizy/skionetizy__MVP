@@ -51,7 +51,7 @@ function UserInterest(props) {
       'interests': interests
     }
     console.log("Data is: ", data);
-    await profileInterest(JSON.stringify(data));
+    await profileInterest(data);
   }
 
   return (

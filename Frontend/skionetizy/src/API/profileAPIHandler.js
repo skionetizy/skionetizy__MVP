@@ -54,9 +54,9 @@ export const getHoverProfileDetails = (profileID) => {
 };
 
 export const profileInterest = (data) => {
-  console.log("Got it", data);
+  console.log("Got it", data.interests);
   return axios
     .post(`${baseURL}/profile/addInterest`, {
-      interests: data.interest
+      interests: data.interests
     });
 }
