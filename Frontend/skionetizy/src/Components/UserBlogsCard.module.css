@@ -1,3 +1,7 @@
+.blogLink{
+  text-decoration: none;
+}
+
 .wrapper {
   display: flex;
   flex-wrap: wrap;
