@@ -4,8 +4,8 @@
   min-height: 40em;
   width: 100vw;
   max-width: 60em;
-  border-radius: 10px;
-  padding: 1em 3em;
+  border-radius: 30px;
+  padding: 1em 0;
   color: white;
   border: 1px solid black;
   position: relative;
@@ -30,17 +30,70 @@
 
   outline: none;
   border: none;
-  left: 3.5vh;
-  bottom: 25px;
-  font-size: 60px;
-  font-weight: bold;
+  right: 1vh;
+  bottom: 10px;
+  font-size: 40px;
+  font-weight: lighter;
+  /* font-weight: bold; */
   background: transparent;
   transition: all 0.5s ease;
   z-index: 1;
 }
 
-.closeBtn:hover {
+/* .closeBtn:hover {
   transform: rotate(90deg);
+} */
+
+.heading{
+  font-size: 26px;
+  margin-left: 30px;
+  font-weight: normal;
+}
+
+.formSection{
+  display: flex;
+  margin: 60px 20px 0;
+  flex-direction: column;
+}
+
+.topSection{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+label{
+  margin-right: 10px;
+}
+
+input{
+  background: none;
+  border: none;
+  border-bottom: 1px solid #CCF7FF;
+  color: #CCF7FF;
+  width: 60%;
+}
+
+.nameSection {
+  display: flex;
+  justify-content: space-between;
+}
+
+.topSection div:not(.nameSection){
+  width: 40%;
+}
+
+.nameSection div:nth-of-type(2){
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nameSection #firstName {
+  margin-left: 10px;
+}
+
+.url {
+  width: 40%;
 }
 
 .inputs {
@@ -57,6 +110,8 @@
 
 .horizontalLine {
   width: 100%;
+  border: none;
+  border-top: 1px solid #CCF7FF;
 }
 
 .bio {
@@ -92,6 +147,11 @@
   position: relative;
   left: 50%;
   top: 10px;
+}
+
+.saveBtn{
+  padding: 0.5rem 2.75rem;
+  border-radius: 12px;
 }
 
 .inputError {
