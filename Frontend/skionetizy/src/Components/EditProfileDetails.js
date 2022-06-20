@@ -62,19 +62,41 @@ function EditProfileDetails({ onClose, profileUserName }) {
         <FiArrowLeft width="1em" />
       </button>
 
-      <h1>Edit Profile</h1>
+      <h1 className={style.heading}>Edit Profile</h1>
 
-      <form onSubmit={(e) => profileMutation.mutate(data, e)}>
+      <form className={style.formSection} onSubmit={(e) => profileMutation.mutate(data, e)}>
         <Stack spacing="3rem">
-          <div>
-            <label htmlFor="firstName">First Name</label>
-            <input
-              type="text"
-              name="firstName"
-              id="firstName"
-              value={profileAsync.data.profileName}
-              disabled
-            />
+          <div className={style.topSection}>
+            <div className={style.nameSection}>
+              <div>
+                <label htmlFor="firstName">First Name</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  id="firstName"
+                  value={profileAsync.data.profileName}
+                  style={{marginLeft: "10px"}}
+                  // disabled
+                />
+              </div>
+              <div>
+                <label htmlFor="lastName">Last Name</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="DateOfBirth">Date of birth</label>
+              <input
+                type="text"
+                name="DateOfBirth"
+                id="DateOfBirth"
+                placeholder="DD/MM/YY"
+              />
+            </div>
           </div>
 
           <hr className={style.horizontalLine} />
@@ -97,7 +119,7 @@ function EditProfileDetails({ onClose, profileUserName }) {
           </div>
 
           <Center>
-            <Button isLoading={profileMutation.isLoading} type="submit">
+            <Button className={style.saveBtn} isLoading={profileMutation.isLoading} type="submit">
               Save
             </Button>
           </Center>
