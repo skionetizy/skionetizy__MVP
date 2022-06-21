@@ -209,6 +209,8 @@ class AddInterest(Resource):
     def post(self,current_profile):
         body=request.get_json()
         interests=body['interests']
+        if len(interests) > 5:
+            return make_response(jsonify({'Message': 'Interests should not more than 5 '}), 500)
         current_profile.interests.extend(interests)
         current_profile.save()
         return make_response(jsonify({'Message':'Successfully Added Interests'}),200)
