@@ -32,10 +32,8 @@ function UserInterest(props) {
       }))
     }
     else{
-      if(interests.length < 3){
-        setInterests((prev) => [ ...prev, id ]);
-        document.getElementById(id).appendChild(createShade());
-      }
+      setInterests((prev) => [ ...prev, id ]);
+      document.getElementById(id).appendChild(createShade());
     }
   }
 
@@ -50,8 +48,14 @@ function UserInterest(props) {
     const data = {
       'interests': interests
     }
-    console.log("Data is: ", data);
-    await profileInterest(data);
+    await profileInterest(data)
+      .then((res) => {
+        // console.log( "messageHere->>", res.data.Message );
+        alert(res.data.Message);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 
   return (
