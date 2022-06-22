@@ -29,7 +29,7 @@ body {
   width: 100%;
   height: 50%;
   display: flex;
-  padding: 2rem 8rem 2rem 4rem;
+  padding: 0rem 8rem 2rem 4rem;
   justify-content: space-around;
   align-items: flex-start;
   flex-wrap: wrap;
@@ -40,7 +40,7 @@ body {
 
 .profileTimestamp {
   color: var(--primary-blue);
-
+  font-size: 1.2rem;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -68,13 +68,17 @@ body {
 
 .profileImage {
   width: 250px;
+  position: absolute;
+  top: -230px;
+  left: 0;
   /* height: auto; */
   border-radius: 100%;
-  border: 3px solid var(--primary-blue);
+  /* border: 3px solid var(--primary-blue); */
   object-fit: cover;
 }
 
 .col1 {
+  width: 250px;
   align-self: center;
   position: relative;
 }
@@ -101,11 +105,13 @@ body {
 }
 
 .col2 h1 {
-  margin: 10px 0;
+  margin: 0 20px 0;
   /* font-family: "Cera Pro"; */
   font-style: normal;
   font-weight: bold;
-  font-size: 24px;
+  font-family: 'Satoshi';
+  font-size: 32px;
+  /* font-size: 24px; */
   text-align: center;
 }
 
@@ -126,13 +132,14 @@ col3 {
 .profileFollow {
   display: flex;
   align-items: center;
-  padding: 1rem 0;
+  /* padding: 1rem 0; */
   flex-wrap: wrap;
   gap: 1.5rem;
 }
 
 .followIcon {
-  --size: 2.5rem;
+  --size: 3.5rem;
+  margin-left: 25px;
   padding: 0.25rem;
   width: var(--size) !important;
   height: var(--size) !important;
@@ -149,33 +156,51 @@ col3 {
 
 .follow small {
   margin: 0 !important;
+  font-size: 16px;
 }
 
 .follow h1 {
   margin: 0 !important;
-  font-weight: 500;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .follow small {
   color: #0065cf;
 }
 
+.profileFollow button{
+  max-width: max-content;
+  color: #003D7D;
+  font-size: 20px;
+  border-radius: 2rem;
+  padding: 1rem 2rem;
+}
+
+.social h3{
+  font-size: 24px;
+  color: #56585A;
+  margin: 0;
+}
+
 .socialItem {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
   gap: 0.75rem;
 
   list-style: none;
-  font-weight: 500;
-  font-size: 1.2rem;
+  font-weight: bold;
+  font-size: 1.3rem;
 }
 
 .socialItem + .socialItem {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 .socialIcons {
+  width: 32px;
+  height: 32px;
   font-size: 1.75em;
   color: var(--primary-blue);
 }
@@ -183,13 +208,17 @@ col3 {
 .userButton {
   display: flex;
   gap: 3rem;
-  padding-top: 1rem;
+  /* padding-top: 1rem; */
   flex-wrap: wrap;
   align-items: center;
+  margin-left: 20px;
 }
 
 .userButton button {
-  font-size: 12px;
+  font-size: 14px;
+  padding: 1rem 2rem;
+  border-radius: 1.2rem;
+  /* font-size: 12px; */
   flex: 1 0;
 }
 
@@ -412,12 +441,15 @@ col3 {
   display: inline-block;
 
   margin: 0 0.5rem;
-  padding: 0.3rem 1.5rem;
+  /* padding: 0.3rem 1.5rem; */
   border: 0.1rem solid var(--primary-blue);
   border-radius: 0.75rem;
 
   color: white;
   text-decoration: none;
+
+  padding: 0.3rem 4rem 0.3rem 2rem;
+  font-size: 1.2rem;
 }
 
 .navBtnActive {
@@ -434,6 +466,53 @@ col3 {
     right: 0;
     transform: translate(0, 0);
   }
+
+  .col1 {
+    width: 180px;
+  }
+
+  .col2 {
+    max-width: max-content;
+  }
+
+  .profileImage {
+    width: 180px;
+    top: -180px;
+    left: 10%;
+  }
+
+  .userProfile {
+    padding: 0 0 1rem;
+  }
+
+  .social {
+    margin-left: 10px;
+  }
+
+  .socialContainer {
+    display: flex;
+    column-gap: 10px;
+    justify-content: center;
+  }
+
+  .blogNav {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 5rem;
+  }
+
+  .navBtn {
+    width: 45%;
+    border-radius: 1.5rem;
+    padding: 1rem 0;
+    text-align: center;
+  }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 1300px) {
+  .divider:before,.divider:after {
+      height: 0;
+  }
 }
 
 @media (min-width: 1000px) {
@@ -444,7 +523,7 @@ col3 {
   }
 
   .col2 {
-    padding: 0 2rem;
+    padding: 0 5rem;
   }
 
   .coverImage {
@@ -453,7 +532,7 @@ col3 {
     object-fit: cover;
   }
   .profileImage {
-    left: 15.5em;
+    /* left: 15.5em; */
   }
 
   .col2 h1 {
@@ -516,7 +595,7 @@ col3 {
     align-self: center;
   }
 
-  .divider::before {
+  /* .divider::before {
     content: "";
     height: 3px;
     background-color: currentColor;
@@ -533,10 +612,14 @@ col3 {
     position: absolute;
     right: 10%;
     margin-top: 0.5em;
-  }
+  } */
 
   .blogDraftWrapper {
-    padding-left: 5rem;
-    padding-right: 5rem;
+    padding-left: 9rem;
+    padding-right: 9rem;
+  }
+
+  .userProfileBlog{
+    margin: 0 3rem;
   }
 }

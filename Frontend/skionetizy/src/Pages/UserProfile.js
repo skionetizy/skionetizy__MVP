@@ -35,6 +35,11 @@ import UserProfileBlogs from "./UserProfileBlogs";
 import UserProfileDrafts from "./UserProfileDrafts";
 import { connect } from "react-redux";
 import { LOGGED_IN_PROFILE_ID } from "../utils/localStorageKeys";
+import PencilIcon from "../Assets/PencilLine.svg";
+import InstagramBlue from "../Assets/InstagramBlue.svg";
+import LinkedInBlue from "../Assets/LinkedInBlue.svg";
+import TwitterSquared from "../Assets/TwitterSquared.svg";
+import Web from "../Assets/Web.svg"
 
 Moment.globalFormat = "MMM D , YYYY";
 
@@ -224,6 +229,12 @@ const UserProfile = (props) => {
             </div>
 
             <div className={style.profileFollow}>
+              <PeopleOutlineIcon className={style.followIcon} />
+              <div className={style.follow}>
+                <small>Subscribers</small>
+                <h1>{profile.FollowersCount}</h1>
+              </div>
+
               <FollowButton
                 othersProfileID={profile.profileID}
                 outline
@@ -246,19 +257,14 @@ const UserProfile = (props) => {
                   }));
                 }}
               />
-
-              <PeopleOutlineIcon className={style.followIcon} />
-              <div className={style.follow}>
-                <small>Subscribers</small>
-                <h1>{profile.FollowersCount}</h1>
-              </div>
             </div>
 
             {/* Action Btns Group */}
             <div className={style.userButton}>
               {profile?.profileID == null ? null : isOwner ? (
                 <Button variant="dark" onClick={() => setShowEditModal(true)}>
-                  <EditIcon />
+                  <img src={PencilIcon} alt="edit"/>
+                  {/* <EditIcon /> */}
                   &nbsp;&nbsp;
                   Edit Profile
                 </Button>
@@ -274,13 +280,18 @@ const UserProfile = (props) => {
           {/* Socials */}
           <div className={style.social}>
             <h3>Social</h3>
-            <ul>
+            <ul className={style.socialContainer}>
               <li className={style.socialItem}>
-                <LinkedInIcon className={style.socialIcons} /> LinkedIn
+                <img src={InstagramBlue} alt="Instagram" className={style.socilaIcons}/> Instagram
               </li>
               <li className={style.socialItem}>
-                <GitHubIcon className={style.socialIcons} />
-                Website
+                <img src={TwitterSquared} alt="Twitter" className={style.socilaIcons}/> Twitter
+              </li>
+              <li className={style.socialItem}>
+                <img src={LinkedInBlue} alt="LinkedIn" className={style.socilaIcons}/> LinkedIn
+              </li>
+              <li className={style.socialItem}>
+                <img src={Web} alt="Website" className={style.socilaIcons}/> Website
               </li>
             </ul>
           </div>
@@ -364,7 +375,7 @@ const UserProfile = (props) => {
 
       <div className={style.blogDraftWrapper}>
         {/* Blogs Draft Nav */}
-        <nav>
+        <nav className={style.blogNav}>
           <NavLink
             activeClassName={style.navBtnActive}
             to={`${userProfileRoute}/blogs`}
@@ -387,14 +398,13 @@ const UserProfile = (props) => {
         <Switch>
           {/* Blogs */}
           <Route exact path="/:profileUserName">
-            <UserProfileBlogs profile={profile} isOwner={isOwner} />
+            <UserProfileBlogs className={style.userProfileBlog} profile={profile} isOwner={isOwner} />
           </Route>
           <Route exact path="/:profileUserName/blogs">
-            <UserProfileBlogs profile={profile} isOwner={isOwner} />
+            <UserProfileBlogs className={style.userProfileBlog} profile={profile} isOwner={isOwner} />
           </Route>
-
           <Route exact path="/:profileUserName/drafts">
-            <UserProfileDrafts profile={profile} isOwner={isOwner}/>
+            <UserProfileDrafts className={style.userProfileBlog} profile={profile} isOwner={isOwner}/>
           </Route>
 
           {/* <Route path="*">

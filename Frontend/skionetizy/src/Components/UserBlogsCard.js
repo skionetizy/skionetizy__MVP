@@ -8,6 +8,7 @@ import BlogStatusBadge from "../Components/BlogStatusBadge";
 import styles from "./UserBlogsCard.module.css";
 import { mdToDraftjs } from "draftjs-md-converter";
 import { REDIRECTED_FROM } from "../utils/localStorageKeys";
+import EditIcon from "../Assets/EditIcon.svg";
 
 export default function UserBlogsCard({ blog, profile, isOwner }) {
   const dispatch = useDispatch();
@@ -38,7 +39,7 @@ export default function UserBlogsCard({ blog, profile, isOwner }) {
         <div className={styles.detailsWrapper}>
           <div className={styles.titleWrapper}>
             <p className={styles.blogTitle}>{blogTitle}</p>
-            <p>{blogPublishDate}</p>
+            <p className={styles.blogDate}>{blogPublishDate}</p>
           </div>
 
           <div className={styles.profileDetailsWrapper}>
@@ -75,7 +76,7 @@ export default function UserBlogsCard({ blog, profile, isOwner }) {
             }}
             className={styles.editDraftBtn}
           >
-            <FiEdit2 className={styles.edit_icon} width="1em" />
+            <img src={EditIcon} alt="edit" className={styles.edit_icon} width="1em" />
           </Link>
           :<></>}
       </div>

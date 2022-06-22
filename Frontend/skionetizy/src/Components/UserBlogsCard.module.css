@@ -5,7 +5,7 @@
 .wrapper {
   display: flex;
   flex-wrap: wrap;
-
+  margin: 0 3rem 5rem;
   position: relative;
 }
 
@@ -30,6 +30,7 @@
 }
 
 .titleWrapper {
+  width: 95%;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -38,12 +39,18 @@
 .blogTitle {
   margin: 0;
   flex: 1;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: bold;
 }
 
+.blogDate{
+  font-size: 1.8rem;
+  margin: 5px 0;
+}
+
 .profileDetailsWrapper {
-  padding-top: 1.5rem;
+  /* padding-top: 1.5rem; */
+  padding: 1rem 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -56,17 +63,20 @@
 }
 
 .profileImage {
-  width: 3rem;
-  height: 3rem;
+  width: 5.5rem;
+  height: 5.5rem;
   object-fit: cover;
   border-radius: 999px;
 }
 
 .profileName {
+  font-size: 20px;
+  margin: 0;
   flex: 1;
 }
 
 .blogStatus {
+  font-size: 15px;
   display: inline-block;
   padding: 0.25rem 0.75rem;
   border-radius: 999px;
@@ -75,12 +85,16 @@
 }
 
 .blogDescription {
-  padding-top: 1.5rem;
-
+  /* padding-top: 1rem; */
   line-clamp: 5;
   overflow-y: hidden;
   text-overflow: ellipsis;
   word-break: break-word;
+}
+
+.blogDescription p{
+  margin: 0;
+  font-size: 24px;
 }
 
 .editDraftBtn {
@@ -92,8 +106,8 @@
   justify-content: center;
   align-items: center;
 
-  width: 2rem;
-  height: 2rem;
+  width: 5rem;
+  height: 5rem;
 
   background-color: #f1f1f3;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
@@ -101,9 +115,26 @@
   transform: translate(25%, -25%);
 }
 
+.edit_icon {
+  width: 3rem;
+  height: 3rem;
+}
+
 @media screen and (max-width: 1000px) {
   .titleWrapper {
-    display: block;
+    /* display: block; */
+    width: 100%;
+    align-items: center;
+    display: flex;
+  }
+
+  .blogTitle {
+    width: max-content;
+  }
+
+  .blogDate {
+    width: max-content;
+    margin: 0;
   }
 
   .blogStatus {
@@ -113,9 +144,28 @@
 
   .detailsWrapper {
     padding: 1rem;
+    border-radius: 0 0 1rem 1rem;
   }
 
   .profileDetailsWrapper {
-    display: block;
+    /* display: block; */
+    position: relative;
+    display: flex;
+    width: 100%;
+  }
+
+  .profileWrapper {
+    padding: 1rem 0 0;
+    max-width: max-content;
+  }
+
+  .blogImage {
+    border-radius: 1rem 0 0 0;
+    width: 100%;
+    max-width: none;
+  }
+
+  .blogDescription {
+    display: none;
   }
 }
