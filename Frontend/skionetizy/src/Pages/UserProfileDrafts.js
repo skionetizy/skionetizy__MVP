@@ -68,7 +68,7 @@ export default function UserProfileDrafts({ profile, isOwner }) {
   return (
     <>
       <div className={clsx(style.divider, drafts.length === 0 && style.hidden)}>
-        <h2>My Drafts</h2>
+        {/* <h2>My Drafts</h2> */}
       </div>
 
       {status === "loading" && drafts.length === 0 ? (

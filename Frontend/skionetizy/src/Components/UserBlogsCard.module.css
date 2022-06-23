@@ -5,7 +5,7 @@
 .wrapper {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 3rem 5rem;
+  margin: 0 2rem 5rem;
   position: relative;
 }
 
@@ -50,7 +50,7 @@
 
 .profileDetailsWrapper {
   /* padding-top: 1.5rem; */
-  padding: 1rem 0;
+  padding: 0.5rem 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -94,7 +94,8 @@
 
 .blogDescription p{
   margin: 0;
-  font-size: 24px;
+  font-size: 18px;
+  line-height: 30px;
 }
 
 .editDraftBtn {

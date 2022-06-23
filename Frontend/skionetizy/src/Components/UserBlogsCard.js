@@ -39,9 +39,10 @@ export default function UserBlogsCard({ blog, profile, isOwner }) {
         <div className={styles.detailsWrapper}>
           <div className={styles.titleWrapper}>
             <p className={styles.blogTitle}>{blogTitle}</p>
-            <p className={styles.blogDate}>{blogPublishDate}</p>
+            <p className={styles.blogDate}>Published on {blogPublishDate}</p>
           </div>
-
+          
+          <ReactMarkdown className={styles.blogDescription} source={blogDescription.substr(0,100).replace(regex, '')} />
           <div className={styles.profileDetailsWrapper}>
             <div className={styles.profileWrapper}>
               <img
@@ -63,7 +64,6 @@ export default function UserBlogsCard({ blog, profile, isOwner }) {
           {/* <p className={styles.blogDescription}>
             {blogDescription.substr(0, 200)}...
           </p> */}
-          <ReactMarkdown className={styles.blogDescription} source={blogDescription.substr(0,100).replace(regex, '')} />
         </div>
         {isOwner?
           <Link

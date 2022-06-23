@@ -1,4 +1,4 @@
-.bottomDivider,
+/* .bottomDivider,
 .divider {
   --space: 1rem;
   --width: 0.1em;
@@ -44,21 +44,21 @@
   align-self: flex-start;
 
   background-color: currentColor;
-}
+} */
 
 .hidden.divider::before,
 .hidden.bottomDivider::after {
   display: none;
 }
 
-.divider::before {
+/* .divider::before {
   top: 1.9rem;
   right: calc(var(--space) * -1);
 }
 .bottomDivider::after {
   bottom: 1rem;
   left: calc(var(--space) * -1);
-}
+} */
 
 .noBlogWrapper {
   color: #fff;
@@ -107,7 +107,7 @@
 
 /* desktop */
 @media (min-width: 1000px) {
-  .bottomDivider,
+  /* .bottomDivider,
   .divider {
     --space: 3rem;
     padding: 3rem 0;
@@ -120,7 +120,7 @@
   .bottomDivider::after {
     bottom: 3rem;
     left: calc(var(--space) * -1);
-  }
+  } */
   .noBlogIllustration {
     display: block;
     margin: 0 auto;

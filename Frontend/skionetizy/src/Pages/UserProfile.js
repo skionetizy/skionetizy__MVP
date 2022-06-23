@@ -377,6 +377,7 @@ const UserProfile = (props) => {
         {/* Blogs Draft Nav */}
         <nav className={style.blogNav}>
           <NavLink
+            exact
             activeClassName={style.navBtnActive}
             to={`${userProfileRoute}/blogs`}
             className={style.navBtn}
