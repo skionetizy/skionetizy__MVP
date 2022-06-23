@@ -9,6 +9,8 @@ import styles from "./UserBlogsCard.module.css";
 import { mdToDraftjs } from "draftjs-md-converter";
 import { REDIRECTED_FROM } from "../utils/localStorageKeys";
 import EditIcon from "../Assets/EditIcon.svg";
+import ShareIcon from "../Assets/ShareIcon.svg";
+import BookmarkIcon from "../Assets/BookmarkIcon.svg";
 
 export default function UserBlogsCard({ blog, profile, isOwner }) {
   const dispatch = useDispatch();
@@ -59,6 +61,13 @@ export default function UserBlogsCard({ blog, profile, isOwner }) {
                 {blogStatus}
               </BlogStatusBadge>
             ):<></>}
+
+            {!isOwner && (
+              <div className={styles.blogOption}>
+                <img className={styles.blogOptionIcon} src={ShareIcon} alt="share"/>
+                <img className={styles.blogOptionIcon} src={BookmarkIcon} alt="bookmark"/>
+              </div>
+            )}
           </div>
 
           {/* <p className={styles.blogDescription}>

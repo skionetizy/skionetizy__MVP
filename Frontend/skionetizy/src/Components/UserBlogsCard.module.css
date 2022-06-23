@@ -121,6 +121,14 @@
   height: 3rem;
 }
 
+.blogOption {
+  display: flex;
+}
+
+.blogOptionIcon {
+  margin: 0 5px;
+}
+
 @media screen and (max-width: 1000px) {
   .titleWrapper {
     /* display: block; */

@@ -39,7 +39,7 @@ import PencilIcon from "../Assets/PencilLine.svg";
 import InstagramBlue from "../Assets/InstagramBlue.svg";
 import LinkedInBlue from "../Assets/LinkedInBlue.svg";
 import TwitterSquared from "../Assets/TwitterSquared.svg";
-import Web from "../Assets/Web.svg"
+import Web from "../Assets/Web.svg";
 
 Moment.globalFormat = "MMM D , YYYY";
 
@@ -375,26 +375,28 @@ const UserProfile = (props) => {
 
       <div className={style.blogDraftWrapper}>
         {/* Blogs Draft Nav */}
-        <nav className={style.blogNav}>
-          <NavLink
-            exact
-            activeClassName={style.navBtnActive}
-            to={`${userProfileRoute}/blogs`}
-            className={style.navBtn}
-          >
-            {isOwner ? "My Blogs" : "Blogs"}
-          </NavLink>
-
-          {isOwner && (
+        { isOwner && (
+          <nav className={style.blogNav}>
             <NavLink
+              exact
               activeClassName={style.navBtnActive}
-              to={`${userProfileRoute}/drafts`}
+              to={`${userProfileRoute}/blogs`}
               className={style.navBtn}
             >
-              My Drafts
+              {isOwner ? "My Blogs" : "Blogs"}
             </NavLink>
-          )}
-        </nav>
+
+            {isOwner && (
+              <NavLink
+                activeClassName={style.navBtnActive}
+                to={`${userProfileRoute}/drafts`}
+                className={style.navBtn}
+              >
+                My Drafts
+              </NavLink>
+            )}
+          </nav>
+        )}
 
         <Switch>
           {/* Blogs */}
