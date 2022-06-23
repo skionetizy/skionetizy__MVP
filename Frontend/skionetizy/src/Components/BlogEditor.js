@@ -17,6 +17,7 @@ import React, { Component, Fragment, useEffect, useRef, useState } from "react";
 import { NEW_useDebounceGeneral as useDebounce } from "../hooks/useDebounceGeneral";
 import noop from "../utils/noop";
 import { Editor } from "react-draft-wysiwyg";
+import ReactMarkdown from "react-markdown";
 const FormData = require("form-data");
 
 const decorators = new CompositeDecorator([
@@ -62,7 +63,7 @@ export default function MyEditor({
   onGrammarCheck = noop,
   className,
   initialDataprop,
-  toggleState
+  toggleState,
 }) {
   // get initial data from localstorage, if any there.
   const initialData = !initialDataprop
@@ -198,51 +199,59 @@ export default function MyEditor({
   }; */
   return (
     <Fragment>
-    <div className={className}>
-      <Editor
-        editorState={editorState/* toggleState === false ? editorState : togglededitorState */}
-        onEditorStateChange={onEditorStateChange}
-        readOnly={toggleState === true ? true : false}
-        toolbarHidden={toggleState===true ? true:false}
-        toolbarClassName={style.toolbar}
-        onBlur={() => {
-          isInFocus.current = false;
-        }}
-        onFocus={() => {
-          isInFocus.current = true;
-        }}
-        toolbar={{
-          options: [
-            "inline",
-            "blockType",
-            "list",
-            "image",
-            "history",
-            "link",
-            "emoji",
-          ],
-          blockType: { inDropdown: true },
-          inline: {
-            inDropdown: true,
-            options: ["bold", "italic"],
-          },
-          list: { inDropdown: true, options: ["unordered", "ordered"] },
-          link: { inDropdown: true },
-          emoji: { inDropdown: true },
-          history: { inDropdown: true },
-          image: {
-            uploadCallback: uploadImageCallBack,
-            fileUpload: true,
-            url: true,
-            alt: { present: true, mandatory: true },
-          },
-          history: { inDropdown: true },
-        }}
-        /* toolbarCustomButtons={[
+      <div className={className}>
+        {toggleState === true ? (
+            <ReactMarkdown
+              source={text}
+            />
+        ) : (
+          <Editor
+            editorState={
+              editorState /* toggleState === false ? editorState : togglededitorState */
+            }
+            onEditorStateChange={onEditorStateChange}
+            readOnly={toggleState === true ? true : false}
+            toolbarHidden={toggleState === true ? true : false}
+            toolbarClassName={style.toolbar}
+            onBlur={() => {
+              isInFocus.current = false;
+            }}
+            onFocus={() => {
+              isInFocus.current = true;
+            }}
+            toolbar={{
+              options: [
+                "inline",
+                "blockType",
+                "list",
+                "image",
+                "history",
+                "link",
+                "emoji",
+              ],
+              blockType: { inDropdown: true },
+              inline: {
+                inDropdown: true,
+                options: ["bold", "italic"],
+              },
+              list: { inDropdown: true, options: ["unordered", "ordered"] },
+              link: { inDropdown: true },
+              emoji: { inDropdown: true },
+              history: { inDropdown: true },
+              image: {
+                uploadCallback: uploadImageCallBack,
+                fileUpload: true,
+                url: true,
+                alt: { present: true, mandatory: true },
+              },
+              history: { inDropdown: true },
+            }}
+            /* toolbarCustomButtons={[
           <ToggleButton handleToggleState={handleToggleState} />,
         ]} */
-      />
-    </div>
+          />
+        )}
+      </div>
     </Fragment>
   );
 }

@@ -459,7 +459,7 @@ const ViewBlog = () => {
           </div> */}
           {/* for now giving inline style because they might accordingly our strategy */}
           <div style={{ position: "relative" }} className={style.blogContent}>
-            <ReactMarkdown source={blog.blogDescription} />
+            <ReactMarkdown className={style.markdownblog} source={blog.blogDescription} />
             {/* when this span comes into view then after `x`
            minutes we will send view count patch request to backend */}
             {blog.blogDescription && (

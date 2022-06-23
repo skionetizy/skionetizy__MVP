@@ -1,5 +1,5 @@
 import {
-  AUTHORIZATION_HEADER,
+  AUTHORIZATION_HEADER,CURRENT_EDITING_BLOG, CURRENT_NEW_ADD_BLOG
 } from "../utils/localStorageKeys";
 
 const initialState = {
@@ -23,8 +23,17 @@ const Reducer = (state = initialState, action) => {
   if(localStorage.getItem(AUTHORIZATION_HEADER)!==null || !(initialState.profile === null || initialState.profile.profileID === undefined || initialState.profile.profileID === "undefined")){
     initialState.isLogin=true;
   }
+  if(localStorage.getItem(CURRENT_EDITING_BLOG)!=null){
+    initialState.markdownMode="update";
+  }
   switch (action.type) {
     case "MARKDOWN_MODE":
+      if(action.payload=="add"){
+        localStorage.removeItem(CURRENT_EDITING_BLOG);
+      }
+      else if(action.payload=="update"){
+        localStorage.removeItem(CURRENT_NEW_ADD_BLOG);
+      }
       return {
         ...state,
         markdownMode: action.payload,
