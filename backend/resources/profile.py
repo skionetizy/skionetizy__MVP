@@ -210,14 +210,14 @@ class AddInterest(Resource):
         body=request.get_json()
         interests=body['interests']
         if len(interests) > 5:
-            return make_response(jsonify({'Message': 'Interests should not more than 5 '}), 500)
+            return make_response(jsonify({'message': 'Interests should not more than 5 ','success': False,'statusCode':500}))
         current_profile.interests.extend(interests)
         current_profile.save()
-        return make_response(jsonify({'Message':'Successfully Added Interests'}), 200)
+        return make_response(jsonify({'message':'Successfully Added Interests','success': True,'statusCode':200}))
     
     def patch(self,current_profile):
         body=request.get_json()
         interests=body['interests']
         current_profile.interests.extend(interests)
         current_profile.save()
-        return make_response(jsonify({'Message':'Successfully Modified Interests'}),200)
+        return make_response(jsonify({'message':'Successfully Modified Interests','success': True,'statusCode':200}))

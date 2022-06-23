@@ -51,7 +51,7 @@ function UserInterest(props) {
     await profileInterest(data)
       .then((res) => {
         // console.log( "messageHere->>", res.data.Message );
-        alert(res.data.Message);
+        alert(res.data.message);
       })
       .catch((error) => {
         console.error("Error:", error);
