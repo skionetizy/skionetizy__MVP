@@ -8,6 +8,9 @@ import BlogStatusBadge from "../Components/BlogStatusBadge";
 import styles from "./UserBlogsCard.module.css";
 import { mdToDraftjs } from "draftjs-md-converter";
 import { REDIRECTED_FROM } from "../utils/localStorageKeys";
+import EditIcon from "../Assets/EditIcon.svg";
+import ShareIcon from "../Assets/ShareIcon.svg";
+import BookmarkIcon from "../Assets/BookmarkIcon.svg";
 
 export default function UserBlogsCard({ blog, profile, isOwner }) {
   const dispatch = useDispatch();
@@ -38,9 +41,10 @@ export default function UserBlogsCard({ blog, profile, isOwner }) {
         <div className={styles.detailsWrapper}>
           <div className={styles.titleWrapper}>
             <p className={styles.blogTitle}>{blogTitle}</p>
-            <p>{blogPublishDate}</p>
+            <p className={styles.blogDate}>Published on {blogPublishDate}</p>
           </div>
-
+          
+          <ReactMarkdown className={styles.blogDescription} source={blogDescription.substr(0,100).replace(regex, '')} />
           <div className={styles.profileDetailsWrapper}>
             <div className={styles.profileWrapper}>
               <img
@@ -57,12 +61,18 @@ export default function UserBlogsCard({ blog, profile, isOwner }) {
                 {blogStatus}
               </BlogStatusBadge>
             ):<></>}
+
+            {!isOwner && (
+              <div className={styles.blogOption}>
+                <img className={styles.blogOptionIcon} src={ShareIcon} alt="share"/>
+                <img className={styles.blogOptionIcon} src={BookmarkIcon} alt="bookmark"/>
+              </div>
+            )}
           </div>
 
           {/* <p className={styles.blogDescription}>
             {blogDescription.substr(0, 200)}...
           </p> */}
-          <ReactMarkdown className={styles.blogDescription} source={blogDescription.substr(0,100).replace(regex, '')} />
         </div>
         {isOwner?
           <Link
@@ -75,7 +85,7 @@ export default function UserBlogsCard({ blog, profile, isOwner }) {
             }}
             className={styles.editDraftBtn}
           >
-            <FiEdit2 className={styles.edit_icon} width="1em" />
+            <img src={EditIcon} alt="edit" className={styles.edit_icon} width="1em" />
           </Link>
           :<></>}
       </div>
