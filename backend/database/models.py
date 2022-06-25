@@ -139,3 +139,9 @@ class contact(db.Document):
     created_date=db.DateTimeField(default=datetime.datetime.utcnow)
     created_time=db.DateTimeField(default=datetime.datetime.utcnow)
     ticket_status=db.StringField()
+
+
+class Sitemap(db.Document):
+    blogID=db.UUIDField(required=True, binary=False)
+    blogUrl=db.StringField(required=True)
+    lastMod=db.DateTimeField(required=True)

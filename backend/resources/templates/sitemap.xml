@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <!-- static pages -->
+    <url>
+        <loc>https://papersdrop.com/</loc>
+        <lastmod>2022-05-31T00:00:00+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://papersdrop.com/login</loc>
+        <lastmod>2022-05-31T00:00:00+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://papersdrop.com/landing</loc>
+        <lastmod>2022-05-31T00:00:00+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://papersdrop.com/landing#about</loc>
+        <lastmod>2022-05-31T00:00:00+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://papersdrop.com/landing#mission</loc>
+        <lastmod>2022-05-31T00:00:00+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://papersdrop.com/contact</loc>
+        <lastmod>2022-05-31T00:00:00+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://papersdrop.com/careers</loc>
+        <lastmod>2022-05-31T00:00:00+00:00</lastmod>
+    </url>
+
+    <!-- dynamic-pages -->
+
+    {% for blog in sitemap %}
+    <url>
+        <loc>{{ blog.blogUrl }}</loc>
+        <lastmod>{{ blog.lastMod.astimezone().strftime('%Y-%m-%dT%H:%M:%S%z') }}</lastmod>
+    </url>
+    {% endfor %}
+</urlset>

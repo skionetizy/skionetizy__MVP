@@ -6,7 +6,7 @@ from bson import json_util
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 import pandas as pd
-from backend.database.models import Blog, Comment, Profile, User, MetaData
+from backend.database.models import Blog, Comment, Profile, Sitemap, User, MetaData
 from backend import client, app, mail
 from backend.resources import authorize
 from backend.resources.gads import gads
@@ -658,3 +658,75 @@ def send_new_sitemap():
 
 # CRON job: `send_new_sitemap()` function will run every sunday 7:30PM IST
 cron.add_job(send_new_sitemap, CronTrigger(day_of_week='sun', hour='19', minute='30', timezone='Asia/Kolkata'))
+
+
+class UpdateSitemap(Resource):
+    def post(self, blogID):
+        # check if blog present in sitemap
+        sitemap = Sitemap.objects(blogID=blogID).first()
+        if sitemap:
+            return make_response({'message': 'blog already added in  sitemap, use PATCH method to update'}, 404)
+        
+        blog = Blog.objects(blogID=blogID).only('blogID', 'profileID', 'blogTitle', 'blogStatus', 'timestamp').exclude('id').first()
+        # not used get_or_404 for custom error message and also to only get needed data
+        
+        if not blog:
+            return make_response({'message': 'invalid BlogID'}, 400)
+        
+        if blog.blogStatus != "PUBLISHED":
+            return make_response({'message': 'blog is not published'}, 400)
+        
+        profile = Profile.objects(profileID=blog.profileID).only('profileUserName').first()
+
+        if not profile:
+            return make_response({'message': "invalid profile"}, 400)
+        
+        # adding new blog to sitemap
+        sitemap = Sitemap()
+        sitemap.blogID = blog.blogID
+        sitemap.blogUrl = self.blog_url(profile.profileUserName, blog.blogTitle, blog.blogID)
+        sitemap.lastMod = blog.timestamp
+        sitemap.save()
+        return make_response({'message': 'sitemap updated: blog added to sitemap'}, 200)
+
+    def patch(self, blogID):
+        sitemap = Sitemap.objects(blogID=blogID).first() # blog in sitemap
+        if not sitemap:
+            return make_response({'message': 'blog not added in  sitemap, use POST method to add'}, 404)
+
+        blog = Blog.objects(blogID=blogID).only('blogID', 'profileID', 'blogTitle', 'blogStatus', 'timestamp').exclude('id').first()
+
+        # if blog is deleted or not published
+        if not blog or blog.blogStatus != 'PUBLISHED':
+            sitemap.delete()
+            return make_response({'message': 'sitemap update: blog removed from sitemap'}, 200)
+        
+        profile = Profile.objects(profileID=blog.profileID).first()
+        if not profile:
+            return make_response({'message': 'invalid profile'}, 400)
+        
+        
+        # update blog url/lastmod in sitemap
+        update = {
+            'blogUrl': self.blog_url(profile.profileUserName, blog.blogTitle, blog.blogID),
+            'lastMod': blog.timestamp
+        }
+        sitemap.update(**update)
+        
+        return make_response({'message': 'sitemap update: updated blogUrl and lastMod'}, 200)
+
+        
+    @staticmethod
+    def blog_url(username, title, id):
+        title= "-".join(re.sub("[^a-z0-9 ]", "", title.lower()).split(" "))
+        return f'https://www.papersdrop.com/{username.lower()}/{title}/{id}'
+
+
+class GetSitemap(Resource):
+    def get(self):
+        sitemap=Sitemap.objects()
+        sitemap_temp = env.get_template('sitemap.xml')
+        resp = make_response(sitemap_temp.render(sitemap=sitemap))
+        resp.headers['Content-Type'] = 'application/xml'
+        return resp
+    

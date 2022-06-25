@@ -1,5 +1,5 @@
 from backend.resources.authorize import ReverificationToken,AuthorizeEmailVerification, AuthorizeLogin, AuthorizeSignup, getUserDetails,GoogleAuth, GoogleLoginHandle, ForgotPasswordRequestReceive, ForgotPasswordResponseSend
-from backend.resources.blog import AddMetaData,SearchBlog,AddKeywordsBlog,AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogsAndProfileDetails,GetBlogByBlogID,GetFeed,AddView,GetCommentsByBlogID,GetBlogsAndProfileDetailsPagination,GetBlogStatus,UpdateBlogStatus,GenerateSitemap
+from backend.resources.blog import AddMetaData, GetSitemap,SearchBlog,AddKeywordsBlog,AddBlogDescriptionAndTitle,AddBlogImage, GetBlogsByProfile, UpdateBlogDescriptionAndText,RemoveLikeOnBlog,DislikeOnBlog,RemoveDislikeOnBlog,AddCommentToBlog, LikeOnBlog,RemoveCommentonBlog,GetBlogsAndProfileDetails,GetBlogByBlogID,GetFeed,AddView,GetCommentsByBlogID,GetBlogsAndProfileDetailsPagination,GetBlogStatus,UpdateBlogStatus,GenerateSitemap, UpdateSitemap
 from backend.resources.profile import AddInterest, GetHoverDetails,AddProfileUsernameBioUserDetails, UpdateProfile, CheckProfileUsernameIsAvailableAPIHandler, GetProfileDetails, AddFollower,GetBlogsAndProfile,RemoveFollower,GetProfileandBlogsPaginated
 from backend.resources.ai_models import GrammarCheck,KeywordsAI
 from backend.resources.contact import Contact
@@ -30,7 +30,7 @@ def initialize_routes(api):
     
     #POST
     api.add_resource(AddBlogDescriptionAndTitle,'/blog/addBlogDescriptionAndTitle')
-   
+    api.add_resource(UpdateSitemap, '/blog/updateSitemap/<blogID>')
     
     #PATCH
     api.add_resource(UpdateBlogDescriptionAndText,'/blog/updateBlogDescriptionAndTitle')
@@ -48,6 +48,7 @@ def initialize_routes(api):
     # api.add_resource(GetBlogsByProfile,'/blog/getBlogsByProfile/<profileID>')
     api.add_resource(GetBlogsByProfile,'/blog/getBlogsByProfile/<profileUserName>')
     api.add_resource(GenerateSitemap,'/GenerateSitemap')
+    api.add_resource(GetSitemap, '/sitemap.xml')
     #_______profile-routes_____
     #post
     api.add_resource(AddProfileUsernameBioUserDetails,'/profile/addProfileUsernameBioUserDetails/')
