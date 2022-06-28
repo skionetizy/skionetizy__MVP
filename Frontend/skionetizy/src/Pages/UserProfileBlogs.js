@@ -64,9 +64,11 @@ export default function UserProfileBlogs({ profile, isOwner }) {
 
   return (
     <>
-      <div className={clsx(style.divider, blogs.length === 0 && style.hidden)}>
-        {/* <h2>My Blogs</h2> */}
-      </div>
+      {!isOwner && 
+        <div className={clsx(style.authorBlog, blogs.length === 0 && style.hidden)}>
+          <h2>Author's Blogs</h2>
+        </div>
+      }
 
       {status === "loading" && blogs.length === 0 ? (
         <p className={style.loadingStatus}>

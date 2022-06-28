@@ -64,6 +64,21 @@
   color: #fff;
 }
 
+.authorBlog{
+  width: max-content;
+  color: #142850;
+  background-color: #fff;
+  border-radius: 4rem;
+  margin: 0 0 2rem 2rem;
+}
+
+.authorBlog h2{
+  margin: 0;
+  padding: 0.5rem 2rem;
+  font-size: 1.6rem;
+  font-weight: bolder;
+}
+
 .noBlogWrapper > * + * {
   margin-top: 2rem;
 }
