@@ -391,6 +391,8 @@ const ViewBlog = () => {
               name="twitter:description"
               content={blog.metaData.metaDescription + "..."}
             />
+            {/* Canonical */}
+            <link rel="canonical" href={window.location.href} />
             <meta name="twitter:site" content={window.location.href} />
           </Helmet>
         )}

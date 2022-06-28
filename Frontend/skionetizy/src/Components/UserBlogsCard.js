@@ -41,7 +41,7 @@ export default function UserBlogsCard({ blog, profile, isOwner }) {
         <div className={styles.detailsWrapper}>
           <div className={styles.titleWrapper}>
             <p className={styles.blogTitle}>{blogTitle}</p>
-            <p className={styles.blogDate}>Published on {blogPublishDate}</p>
+            <p className={styles.blogDate}>{window.innerWidth>1100 ? "Published on" : ""} {blogPublishDate}</p>
           </div>
           
           <ReactMarkdown className={styles.blogDescription} source={blogDescription.substr(0,100).replace(regex, '')} />
