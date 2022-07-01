@@ -30,7 +30,7 @@ function MarkDown(props) {
   const debounce = useDebounceGeneral(data, 4000);
   const [shouldLoadData, setShouldLoadData] = useState(false);
   const isFirstRender = useRef(true);
-  
+
   const handleUpload = async (e) => {
     console.log("handleUpload");
     try {
@@ -119,19 +119,20 @@ function MarkDown(props) {
       return;
     }
   },[props]) */
-  
+
   const [toggleState, setToggleState] = useState(false);
   const handleToggleState = () => {
     setToggleState(!toggleState);
   };
 
-  const mystyle={
+  const mystyle = {
     transform: "translateX(26px)",
     boxShadow: "0 0 1px #2196F3",
-    }
-    const outstyle={
-      boxShadow: "0 0 1px #2196F3",
-      backgroundColor: "#2196F3",}
+  }
+  const outstyle = {
+    boxShadow: "0 0 1px #2196F3",
+    backgroundColor: "#2196F3",
+  }
   return (
     <>
       <Prompt
@@ -146,13 +147,15 @@ function MarkDown(props) {
 
       <div className={styles.wrapper}>
         <div className={styles.header}>
-          <p>
-            <BlogStatusBadge variant={data.blogID ? data.blogStatus : "LOCAL"}>
-              {data.blogStatus || "LOCAL"}
-            </BlogStatusBadge>
-          </p>
-          <p>{hasNewChanges ? "unsaved changes" : <>&nbsp;</>}</p>
-          <h1 className={styles.title}>Blog Details</h1>
+          <p style={{ "margin": 0 }} >{hasNewChanges ? "unsaved changes" : <>&nbsp;</>}</p>
+          <div className={styles.title}>
+            <h3>Blog Details</h3>
+            <p style={{ "margin": 0 }}>
+              <BlogStatusBadge variant={data.blogID ? data.blogStatus : "LOCAL"}>
+                {data.blogStatus || "LOCAL"}
+              </BlogStatusBadge>
+            </p>
+          </div>
 
           <label>
             <p className={styles.label}> Blog Title</p>
@@ -169,24 +172,24 @@ function MarkDown(props) {
         <div className={styles.footer}>
           <label>
             <div className={styles.heading}>
-            <p className={styles.label}>Blog Description</p>
-            <div style={{"display":"flex","alignItems":"center","width":"20%","justifyContent":"space-between"}}>
-              <p className={styles.label}>{!toggleState?"Editor":"Preview"}</p>
-              <p className={styles.toggle} onClick={handleToggleState}>
-                <span className={styles.slider} style={toggleState?outstyle:{}} >
-                  <span className={styles.sliderbefore} style={toggleState?mystyle:{}}></span>
-                </span>
-              </p>
-            </div>
+              <p className={styles.label}>Blog Description</p>
+              <div style={{ "display": "flex", "alignItems": "center", "width": "20%", "justifyContent": "space-between" }}>
+                <p className={styles.label}>{!toggleState ? "Editor" : "Preview"}</p>
+                <p className={styles.toggle} onClick={handleToggleState}>
+                  <span className={styles.slider} style={toggleState ? outstyle : {}} >
+                    <span className={styles.sliderbefore} style={toggleState ? mystyle : {}}></span>
+                  </span>
+                </p>
+              </div>
             </div>
             <MyEditor
               toggleState={toggleState}
               className={styles.input}
               initialDataprop={convertFromRaw(mdToDraftjs(data.blogDescription))}
-              onChange={(content) =>{
-                  const text=draftjsToMd(convertToRaw(content))
-                  handleChange("blogDescription")({ target: { value: text } })
-                }
+              onChange={(content) => {
+                const text = draftjsToMd(convertToRaw(content))
+                handleChange("blogDescription")({ target: { value: text } })
+              }
               }
               onGrammarCheck={(error, _prediction) =>
                 setIsGrammarVisible(!error)
@@ -252,10 +255,10 @@ const markdownSchema = yup.object().shape({
       "Blog Description should alleast contain 200 words",
       (value) => value.split(" ").filter(Boolean).length >= 200
     )
-    /* .test("test-2", "Description must contain only one url", (value) => {
-      const hasUrl = value.split(" ").some((word) => isValidUrl(word));
-      return (!hasUrl);
-    }), */
+  /* .test("test-2", "Description must contain only one url", (value) => {
+    const hasUrl = value.split(" ").some((word) => isValidUrl(word));
+    return (!hasUrl);
+  }), */
 });
 
 const mapStateToProps = (state) => {
@@ -279,14 +282,14 @@ function characterLike(word) {
 
 function isValidUrl(urlString) {
   var link = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(
-    urlString  );
+    urlString);
   let m;
   let counter = 0;
   m = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(
-    urlString  );
+    urlString);
   do {
     const result = urlString.replace(/http/g, ' $&').split(' ');
-    if (result.length>2){
+    if (result.length > 2) {
       return true;
     }
   } while (m);

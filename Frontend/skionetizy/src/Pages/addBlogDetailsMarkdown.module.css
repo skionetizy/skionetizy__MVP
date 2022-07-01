@@ -52,18 +52,25 @@
 }
 
 .title {
-  padding-top: 2rem;
-  padding-bottom: 4rem;
+  padding-top: 0.5rem;
 
   border-bottom: 0.1rem solid;
   color: var(--primary-blue);
   font-size: 3rem;
   font-weight: bold;
+  margin-bottom: 3rem;
+  margin-top: 0;
+ 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 8rem;
 }
 
 .label {
   font-size: 1.875rem;
   font-weight: bold;
+  margin: 0.2rem 0;
 }
 
 .input {
@@ -182,7 +189,7 @@
 /* desktop */
 @media (min-width: 1000px) {
   .wrapper {
-    padding: 3.5rem 8.5rem;
+    padding: 0rem 20.5rem;
     gap: 1.75rem 4rem;
     grid-template-columns: 1fr;
     grid-template-areas:
