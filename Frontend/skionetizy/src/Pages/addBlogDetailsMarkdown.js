@@ -89,6 +89,7 @@ function MarkDown(props) {
 
   const handleChange = (name) => (e) => {
     // e.preventDefault();
+    setCategory(e.target.value);
     setHasNewChanges(true);
     setData((data) => ({
       ...data,
@@ -113,11 +114,6 @@ function MarkDown(props) {
     }
   }, [mode]);
 
-
-  const handleCategories = (event) => {
-    setCategory(event.target.value)
-  }
-
   // Commenting as, access routes are made.
   /* useEffect(()=>{
     const isLoggedIn = props.isLogin;
@@ -140,6 +136,7 @@ function MarkDown(props) {
     boxShadow: "0 0 1px #2196F3",
     backgroundColor: "#2196F3",
   }
+
   return (
     <>
       <Prompt
@@ -175,8 +172,8 @@ function MarkDown(props) {
           </label>
           <p className={styles.error}>{errors.blogTitle}</p>
 
-          <label style={{ "fontWeight": "normal" }} className={styles.label}>Category</label>
-          <select className={styles.categories} value={category} onChange={handleCategories}>
+          <label className={styles.categoriesTitle}>Category</label>
+          <select className={styles.categories} value={category} onChange={handleChange()}>
             <option value="Gaming">Gaming</option>
             <option value="Technology">Technology</option>
             <option value="Culture">Culture</option>

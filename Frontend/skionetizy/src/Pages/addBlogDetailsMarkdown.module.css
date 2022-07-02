@@ -201,6 +201,11 @@
   margin: 10px 0;
 }
 
+.categoriesTitle {
+  font-size: 1.875rem;
+  margin: 0.2rem 0;
+}
+
 /* desktop */
 @media (min-width: 1000px) {
   .wrapper {
