@@ -31,6 +31,8 @@ function MarkDown(props) {
   const [shouldLoadData, setShouldLoadData] = useState(false);
   const isFirstRender = useRef(true);
 
+  const [category, setCategory] = useState("Gaming");
+
   const handleUpload = async (e) => {
     console.log("handleUpload");
     try {
@@ -111,6 +113,11 @@ function MarkDown(props) {
     }
   }, [mode]);
 
+
+  const handleCategories = (event) => {
+    setCategory(event.target.value)
+  }
+
   // Commenting as, access routes are made.
   /* useEffect(()=>{
     const isLoggedIn = props.isLogin;
@@ -167,7 +174,18 @@ function MarkDown(props) {
             />
           </label>
           <p className={styles.error}>{errors.blogTitle}</p>
+
+          <label style={{ "fontWeight": "normal" }} className={styles.label}>Category</label>
+          <select className={styles.categories} value={category} onChange={handleCategories}>
+            <option value="Gaming">Gaming</option>
+            <option value="Technology">Technology</option>
+            <option value="Culture">Culture</option>
+            <option value="Bussiness">Bussiness</option>
+            <option value="Lifestyle">Lifestyle</option>
+          </select>
+
         </div>
+
 
         <div className={styles.footer}>
           <label>
