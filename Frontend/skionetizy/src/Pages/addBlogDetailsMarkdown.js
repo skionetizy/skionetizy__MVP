@@ -31,7 +31,6 @@ function MarkDown(props) {
   const [shouldLoadData, setShouldLoadData] = useState(false);
   const isFirstRender = useRef(true);
 
-  const [category, setCategory] = useState("Gaming");
 
   const handleUpload = async (e) => {
     console.log("handleUpload");
@@ -89,11 +88,11 @@ function MarkDown(props) {
 
   const handleChange = (name) => (e) => {
     // e.preventDefault();
-    setCategory(e.target.value);
     setHasNewChanges(true);
     setData((data) => ({
       ...data,
       [name]: e.target.value,
+      category: e.target.value,
     }));
     console.log(data)
     console.log({ name });
@@ -173,7 +172,7 @@ function MarkDown(props) {
           <p className={styles.error}>{errors.blogTitle}</p>
 
           <label className={styles.categoriesTitle}>Category</label>
-          <select className={styles.categories} value={category} onChange={handleChange()}>
+          <select className={styles.categories} value={data.category}  onChange={handleChange()}>
             <option value="Gaming">Gaming</option>
             <option value="Technology">Technology</option>
             <option value="Culture">Culture</option>
