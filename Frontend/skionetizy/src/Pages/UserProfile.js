@@ -282,16 +282,16 @@ const UserProfile = (props) => {
             <h3>Social</h3>
             <ul className={style.socialContainer}>
               <li className={style.socialItem}>
-                <img src={InstagramBlue} alt="Instagram" className={style.socilaIcons}/> Instagram
+                <img src={InstagramBlue} alt="Instagram" className={style.socialIcons}/> Instagram
               </li>
               <li className={style.socialItem}>
-                <img src={TwitterSquared} alt="Twitter" className={style.socilaIcons}/> Twitter
+                <img src={TwitterSquared} alt="Twitter" className={style.socialIcons}/> Twitter
               </li>
               <li className={style.socialItem}>
-                <img src={LinkedInBlue} alt="LinkedIn" className={style.socilaIcons}/> LinkedIn
+                <img src={LinkedInBlue} alt="LinkedIn" className={style.socialIcons}/> LinkedIn
               </li>
               <li className={style.socialItem}>
-                <img src={Web} alt="Website" className={style.socilaIcons}/> Website
+                <img src={Web} alt="Website" className={style.socialIcons}/> Website
               </li>
             </ul>
           </div>
@@ -378,7 +378,7 @@ const UserProfile = (props) => {
         { isOwner && (
           <nav className={style.blogNav}>
             <NavLink
-              exact
+              exact={true}
               activeClassName={style.navBtnActive}
               to={`${userProfileRoute}/blogs`}
               className={style.navBtn}

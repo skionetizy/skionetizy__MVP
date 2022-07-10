@@ -37,7 +37,7 @@
 }
 
 .blogTitle {
-  margin: 0;
+  margin: 0 0 0 0.5rem;
   flex: 1;
   font-size: 2.5rem;
   font-weight: bold;
@@ -60,6 +60,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  padding: 1rem 0 0;
 }
 
 .profileImage {
@@ -70,7 +71,7 @@
 }
 
 .profileName {
-  font-size: 20px;
+  font-size: 1.3rem;
   margin: 0;
   flex: 1;
 }
@@ -79,6 +80,7 @@
   font-size: 15px;
   display: inline-block;
   padding: 0.25rem 0.75rem;
+  margin-top: 1rem;
   border-radius: 999px;
   background-color: #fafafa;
   color: #666;
@@ -86,10 +88,17 @@
 
 .blogDescription {
   /* padding-top: 1rem; */
+  margin: 0 0 0 0.5rem;
   line-clamp: 5;
   overflow-y: hidden;
   text-overflow: ellipsis;
   word-break: break-word;
+}
+
+.blogDescription h1{
+  margin: 0;
+  font-size: 24px;
+  font-weight: 400;
 }
 
 .blogDescription p{
@@ -129,6 +138,22 @@
   margin: 0 5px;
 }
 
+@media screen and (max-width:1300px) {
+  .wrapper {
+    padding: 0;
+    margin: 0 2rem 1rem;
+  }
+
+  .editDraftBtn {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .edit_icon {
+    width: 2rem;
+  }
+}
+
 @media screen and (max-width: 1000px) {
   .titleWrapper {
     /* display: block; */
@@ -139,21 +164,26 @@
 
   .blogTitle {
     width: max-content;
+    font-size: 100%;
   }
 
   .blogDate {
     width: max-content;
-    margin: 0;
+    top: -10px;
+    right: 10px;
+    position: absolute;
+    /* margin: 0; */
+    font-size: 0.8rem;
+    /* margin: 0 10% 0 0; */
   }
 
   .blogStatus {
-    margin-top: 1rem;
+    margin-top: 0;
     width: max-content;
   }
 
   .detailsWrapper {
-    padding: 1rem;
-    border-radius: 0 0 1rem 1rem;
+    padding: 0.5rem;
   }
 
   .profileDetailsWrapper {
@@ -164,17 +194,37 @@
   }
 
   .profileWrapper {
-    padding: 1rem 0 0;
+    padding: 0;
     max-width: max-content;
   }
 
   .blogImage {
-    border-radius: 1rem 0 0 0;
-    width: 100%;
-    max-width: none;
+    /* border-radius: 1rem 0 0 0; */
+    width: 30%;
   }
 
-  .blogDescription {
-    display: none;
+  .blogOptionIcon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .profileImage {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .profileName {
+    font-size: 0.8rem;
+    line-height: 1rem;
+  }
+
+  .blogDescription h1 {
+    width: max-content;
+    font-size: 100%;
+  }
+
+  .blogDescription p {
+    font-size: 0.9rem;
+    line-height: 1.4rem;
   }
 }
