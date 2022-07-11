@@ -1,4 +1,4 @@
-import { convertFromRaw, convertToRaw } from "draft-js";
+import { ContentState, convertFromRaw, convertToRaw } from "draft-js";
 import React from "react";
 import { FiEdit2 } from "react-icons/fi";
 import ReactMarkdown from "react-markdown";
@@ -80,7 +80,8 @@ export default function UserBlogsCard({ blog, profile, isOwner }) {
             onClick={() => {
               dispatch({ type: "MARKDOWN_MODE", payload: "update" });
               localStorage.setItem("CURRENT_EDITING_BLOG", JSON.stringify(blog));
-              let contentState = convertFromRaw(mdToDraftjs(blog.blogDescription));
+              // (mdToDraftjs(blog.blogDescription))
+              let contentState = ContentState.createFromText(blog.blogDescription, "\\n");
               localStorage.setItem("content",JSON.stringify(convertToRaw(contentState)));
             }}
             className={styles.editDraftBtn}
