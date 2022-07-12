@@ -34,12 +34,14 @@ function MarkDown(props) {
 
   const handleUpload = async (e) => {
     console.log("handleUpload");
+    console.log(markdownSchema);
     try {
       setStatus("loading");
       const validatedData = await markdownSchema.validate(data, {
         abortEarly: false,
         context: true,
       });
+      
       const payloadData = {
         ...validatedData,
         profileID: props.profile?.profileID,
@@ -92,7 +94,7 @@ function MarkDown(props) {
     setData((data) => ({
       ...data,
       [name]: e.target.value,
-      category: e.target.value,
+      blogCategory: e.target.value,
     }));
     console.log(data)
     console.log({ name });
@@ -135,7 +137,8 @@ function MarkDown(props) {
     boxShadow: "0 0 1px #2196F3",
     backgroundColor: "#2196F3",
   }
-
+  
+  console.log(data)
   return (
     <>
       <Prompt
@@ -171,14 +174,17 @@ function MarkDown(props) {
           </label>
           <p className={styles.error}>{errors.blogTitle}</p>
 
+          {/* Category Section */}
           <label className={styles.categoriesTitle}>Category</label>
-          <select className={styles.categories} value={data.category}  onChange={handleChange()}>
+          <select className={styles.categories} value={data.blogCategory} onChange={handleChange()}>
+            <option value="">--Select--</option>
             <option value="Gaming">Gaming</option>
             <option value="Technology">Technology</option>
             <option value="Culture">Culture</option>
             <option value="Bussiness">Bussiness</option>
             <option value="Lifestyle">Lifestyle</option>
           </select>
+          <p className={styles.error}>{errors.blogCategory}</p>
 
         </div>
 
@@ -268,7 +274,11 @@ const markdownSchema = yup.object().shape({
       "test-blog-words",
       "Blog Description should alleast contain 200 words",
       (value) => value.split(" ").filter(Boolean).length >= 200
-    )
+    ),
+  blogCategory: yup
+    .string()
+    .required("Blog Category is required")
+    
   /* .test("test-2", "Description must contain only one url", (value) => {
     const hasUrl = value.split(" ").some((word) => isValidUrl(word));
     return (!hasUrl);
@@ -327,11 +337,13 @@ export function getMarkdownFromLocalStorage(mode) {
     data = JSON.parse(localStorage.getItem(key)) ?? {
       blogTitle: "",
       blogDescription: "",
+      blogCategory: "",
     };
   } catch (error) {
     data = {
       blogTitle: "",
       blogDescription: "",
+      blogCategory: "",
     };
   }
 
