@@ -17,7 +17,7 @@ import {
   CURRENT_NEW_ADD_BLOG,
 } from "../utils/localStorageKeys";
 import styles from "./addBlogDetailsMarkdown.module.css";
-import { convertFromRaw, convertToRaw } from "draft-js";
+import { ContentState, convertFromRaw, convertToRaw } from "draft-js";
 
 function MarkDown(props) {
   const mode = useSelector((store) => store.markdownMode);
@@ -182,7 +182,8 @@ function MarkDown(props) {
             <MyEditor
               toggleState={toggleState}
               className={styles.input}
-              initialDataprop={convertFromRaw(mdToDraftjs(data.blogDescription))}
+              initialDataprop={ContentState.createFromText(data.blogDescription, "\\n")}
+              //initialDataprop={convertFromRaw(mdToDraftjs(data.blogDescription))}
               onChange={(content) =>{
                   const text=draftjsToMd(convertToRaw(content))
                   handleChange("blogDescription")({ target: { value: text } })
