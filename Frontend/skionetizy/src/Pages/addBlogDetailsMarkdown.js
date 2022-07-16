@@ -94,7 +94,6 @@ function MarkDown(props) {
     setData((data) => ({
       ...data,
       [name]: e.target.value,
-      blogCategory: e.target.value,
     }));
     console.log(data)
     console.log({ name });
@@ -176,7 +175,7 @@ function MarkDown(props) {
 
           {/* Category Section */}
           <label className={styles.categoriesTitle}>Category</label>
-          <select className={styles.categories} value={data.blogCategory} onChange={handleChange()}>
+          <select className={styles.categories} value={data.blogCategory} onChange={handleChange("blogCategory")}>
             <option value="">--Select--</option>
             <option value="Gaming">Gaming</option>
             <option value="Technology">Technology</option>
