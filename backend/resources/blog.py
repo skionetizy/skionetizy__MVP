@@ -44,6 +44,7 @@ class AddBlogDescriptionAndTitle(Resource):
             blogID=uuid.uuid4(),
             blogTitle=body["blogTitle"],
             blogDescription=body["blogDescription"],
+            category=body["blogCategory"],
             profileID=current_profile.profileID,
             blogImageURL=blogImageURL,
             blogStatus=type_blog
