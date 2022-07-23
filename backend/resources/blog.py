@@ -1,3 +1,4 @@
+from unicodedata import category
 from flask import make_response, jsonify
 from flask.globals import request
 from flask_restful import Resource
@@ -52,6 +53,14 @@ class AddBlogDescriptionAndTitle(Resource):
         newBlog.save()
         return make_response(jsonify({"blog": newBlog, "statusCode": 201, "success": True}))
 
+class UpdateAllBlogCategories(Resource):
+    def get(self):
+        blogs=Blog.objects()
+        blogs=Blog.objects()
+        for blog in blogs:
+            blog.update(category="")
+            blog.save()
+        return make_response(jsonify({"blogs":json.loads(json_util.dumps(blogs)),"success":True}))
 
 class UpdateBlogDescriptionAndText(Resource):
     decorators = [authorize.token_required]
