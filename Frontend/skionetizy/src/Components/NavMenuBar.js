@@ -124,7 +124,7 @@ function NavMenuBar(props) {
                 dispatch({ type: "MARKDOWN_MODE", payload: "add" });
               }}
             >
-              Add Blog
+              Write A Blog
             </NavLink>
           </li>
           <li>
