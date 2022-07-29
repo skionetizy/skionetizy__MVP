@@ -31,11 +31,14 @@ class AddBlogDescriptionAndTitle(Resource):
 
     def post(self, current_profile):
         body = request.get_json()
+        categories = ["Gaming", "Technology", "Culture", "Bussiness", "Lifestyle"]
         print(f"body: {body}")
         if len(body["blogTitle"]) <= 6:
             return make_response(jsonify({"message": "blog title must be more than 6 characters long", "statusCode": 500, "success": False}))
         elif len(body["blogDescription"]) <= 200:
             return make_response(jsonify({"message": "blog description must be more than 200 characters long", "statusCode": 500, "success": False}))
+        elif body["blogCategory"] not in categories:
+            return make_response(jsonify({"message": "Please select an appropriate category", "statusCode": 500, "success": False}))
         banners = ["https://res.cloudinary.com/duqnxcc4l/image/upload/v1630574985/jason-leung-Xaanw0s0pMk-unsplash_maapht.jpg",
                    "https://res.cloudinary.com/duqnxcc4l/image/upload/v1630574972/keith-misner-h0Vxgz5tyXA-unsplash_by5add.jpg", "https://res.cloudinary.com/dd8470vy4/image/upload/tedyg2kmtgw7dkrhcq9r"]
         i = random.randint(0, 2)
