@@ -617,7 +617,7 @@ class GenerateSitemap(Resource):
 
     def generate_url(self, profileUserName, blogTitle, blogID):
         # base_url = app.config["SERVER_NAME"]
-        base_url = "https://papersdrop.com"  # app.config['SERVER_NAME'] has not set yet so using this
+        base_url = "https://www.papersdrop.com"  # app.config['SERVER_NAME'] has not set yet so using this
         profileUserName = profileUserName.lower()
         blogTitle = re.sub("[^a-z0-9 ]", "", blogTitle.lower())  # removing special characters
         blogTitle = '-'.join(blogTitle.split(" "))   # removing spaces and adding `-` instead of space
