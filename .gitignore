@@ -14,3 +14,5 @@ my_setup.exe
 /backend/database/__pycache__
 
 .pytest_cache
+
+node_modules/
